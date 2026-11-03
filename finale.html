@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Light Up Deepavali · Story Quest</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&display=swap">
+<style>
+/* Layout: one Amavasya night sky. Diya's story scenes open the page, a row of 24 clay diyas is the scoreboard, games sit below in tabs. Diya the mascot pops up to cheer. */
+:root{
+  --night:#1c1442; --night-2:#2a1f5c; --night-3:#362a72;
+  --ink:#fdf3dc; --muted:#c7bce6; --line:rgba(253,243,220,.14);
+  --marigold:#f6a723; --flame:#ffd35a; --kumkum:#e0405a; --leaf:#46b882; --clay:#b8643a; --clay-dark:#7a3b22;
+  --display:"Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --body:"Mukta", "Segoe UI", system-ui, sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 120px;
+  background-image:radial-gradient(1px 1px at 12% 18%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 72% 9%,#fff6 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 30%,#fff7 50%,transparent 51%),radial-gradient(1px 1px at 40% 6%,#fff5 50%,transparent 51%),radial-gradient(1px 1px at 22% 40%,#fff4 50%,transparent 51%),radial-gradient(1px 1px at 60% 55%,#fff4 50%,transparent 51%);
+  background-attachment:fixed}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.brand{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-weight:700}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(34px,7vw,56px);line-height:1;margin:4px 0 6px;text-wrap:balance}
+h1 span{color:var(--flame);display:inline-block;animation:glow 2.6s ease-in-out infinite alternate}
+@keyframes glow{from{text-shadow:0 0 8px #ffb84a55}to{text-shadow:0 0 22px #ffb84acc}}
+.lede{color:var(--muted);margin:0;max-width:60ch}
+h2{font-family:var(--display);font-size:28px;margin:0;line-height:1.1;text-wrap:balance}
+.music{font:700 14px var(--body);color:var(--ink);background:var(--night-2);border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer;display:flex;gap:8px;align-items:center}
+.music .bars{display:flex;gap:2px;align-items:flex-end;height:14px}
+.music .bars i{width:3px;background:var(--marigold);height:4px;border-radius:2px}
+.music.on .bars i{animation:eq .9s ease-in-out infinite alternate}
+.music.on .bars i:nth-child(2){animation-delay:.3s}.music.on .bars i:nth-child(3){animation-delay:.6s}
+@keyframes eq{to{height:14px}}
+
+/* Story carousel */
+.story{position:relative;border-radius:20px;overflow:hidden;background:#000;aspect-ratio:960/564;max-width:100%;box-shadow:0 18px 50px -20px #000}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1s}
+.slide.on{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.02)}
+.slide.on img{animation:kb 7s ease-out forwards}
+@keyframes kb{to{transform:scale(1.12) translate(-1.5%,-1%)}}
+.cap{position:absolute;left:0;right:0;bottom:0;padding:40px 18px 14px;background:linear-gradient(transparent,#0c0820e6);display:flex;flex-direction:column;gap:2px}
+.cap .eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--flame);font-weight:700}
+.cap p{margin:0;font-family:var(--display);font-size:clamp(17px,3vw,22px);line-height:1.2;max-width:46ch}
+.slide.on .cap p{animation:up .7s .3s both}
+@keyframes up{from{opacity:0;transform:translateY(12px)}}
+.snav{position:absolute;top:12px;right:12px;display:flex;gap:6px}
+.dot{width:10px;height:10px;border-radius:50%;border:0;background:#fff6;cursor:pointer;padding:0}
+.dot[aria-current="true"]{background:var(--flame);width:24px;border-radius:6px}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);width:38px;height:38px;border-radius:50%;border:0;background:#0008;color:var(--ink);font-size:20px;cursor:pointer}
+.arrow.prev{left:10px}.arrow.next{right:10px}
+.watch{font-size:14px;color:var(--muted);margin:-10px 0 0}
+.watch a{color:var(--flame)}
+
+.board{background:var(--night-2);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.board-top{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.count{font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
+.count b{color:var(--flame);display:inline-block}
+.count b.pop{animation:pop .5s}
+@keyframes pop{40%{transform:scale(1.6)}}
+.diyas{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
+.diya svg{width:100%;height:auto;display:block}
+.diya .flame{fill:var(--flame);opacity:0;transform-origin:20px 22px;transform:scale(.3);transition:opacity .4s,transform .5s cubic-bezier(.3,1.6,.5,1)}
+.diya .bowl{fill:var(--clay-dark)}
+.diya .rim{fill:var(--clay)}
+.diya.lit .flame{opacity:1;transform:scale(1);animation:flick 1.6s ease-in-out infinite alternate}
+.diya.lit svg{filter:drop-shadow(0 0 6px #ffb84a)}
+@keyframes flick{from{transform:scale(1) rotate(-3deg)}to{transform:scale(.92,1.06) rotate(3deg)}}
+.tabs{display:flex;gap:8px;flex-wrap:wrap}
+.tab{font:600 16px var(--body);color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer;transition:transform .2s}
+.tab:hover{transform:translateY(-2px)}
+.tab[aria-selected="true"]{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.tab small{opacity:.75;font-weight:400}
+button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+.panel{display:flex;flex-direction:column;gap:16px;animation:up .45s both}
+.hint{color:var(--muted);margin:0}
+.card{background:var(--night-2);border:1px solid var(--line);border-radius:18px;padding:20px;display:flex;flex-direction:column;gap:14px}
+.qmeta{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums}
+.qtext{font-family:var(--display);font-size:24px;line-height:1.2;margin:0;text-wrap:balance;animation:up .4s both}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.opts{grid-template-columns:1fr}.diyas{grid-template-columns:repeat(8,1fr)}}
+.opt{font:600 17px var(--body);text-align:left;color:var(--ink);background:var(--night-3);border:2px solid transparent;border-radius:12px;padding:12px 14px;cursor:pointer;min-width:0;transition:transform .15s,border-color .15s}
+.opts .opt{animation:up .4s both}
+.opts .opt:nth-child(2){animation-delay:.06s}.opts .opt:nth-child(3){animation-delay:.12s}.opts .opt:nth-child(4){animation-delay:.18s}
+.opt:hover:not(:disabled){border-color:var(--marigold);transform:translateY(-2px)}
+.opt.right{background:var(--leaf);color:#0d2a1d;animation:pop .45s}
+.opt.wrong{background:var(--kumkum)}
+.opt:disabled{cursor:default}
+.explain{background:rgba(246,167,35,.12);border-left:4px solid var(--marigold);padding:10px 14px;border-radius:6px;margin:0;animation:up .4s both}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{font:700 16px var(--body);background:var(--marigold);color:var(--night);border:0;border-radius:999px;padding:10px 20px;cursor:pointer;transition:transform .15s}
+.btn:hover{transform:scale(1.05)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.match{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.col{display:flex;flex-direction:column;gap:8px;min-width:0}
+.col .opt{font-size:15px}
+.opt.sel{border-color:var(--flame);box-shadow:0 0 14px #ffd35a66}
+.opt.done{background:transparent;border:2px dashed var(--leaf);color:var(--muted)}
+.days{display:flex;flex-wrap:wrap;gap:10px}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.timeline li{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start;animation:up .4s both}
+.timeline .n{font-family:var(--display);font-size:22px;width:44px;height:44px;border-radius:50%;background:var(--marigold);color:var(--night);display:grid;place-items:center}
+.timeline strong{display:block;font-size:18px}
+.timeline span{color:var(--muted)}
+.rang{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:16px;align-items:start}
+@media (max-width:640px){.rang{grid-template-columns:1fr}}
+canvas#cv{width:100%;max-width:520px;aspect-ratio:1;border-radius:16px;background:#3b2a1e;touch-action:none;cursor:crosshair;display:block}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}
+.sw{width:36px;height:36px;border-radius:50%;border:3px solid transparent;cursor:pointer}
+.sw[aria-pressed="true"]{border-color:var(--ink);transform:scale(1.1)}
+.facts{margin:0;padding-left:18px;color:var(--muted);font-size:15px}
+.facts b{color:var(--ink)}
+footer{color:var(--muted);font-size:13px;text-align:center}
+
+/* Effects layer, Diya popup, fly-by, modals */
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
+.pal{position:fixed;left:max(12px,env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:45;display:flex;align-items:flex-end;gap:4px;pointer-events:none;transform:translateY(160%);transition:transform .55s cubic-bezier(.3,1.5,.5,1)}
+.pal.show{transform:none}
+.pal img{width:110px;height:auto;filter:drop-shadow(0 0 18px #ffb84a99);animation:bob 1.4s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translateY(-8px) rotate(3deg)}}
+.bubble{background:var(--ink);color:var(--night);border-radius:18px 18px 18px 4px;padding:10px 14px;max-width:min(300px,60vw);margin-bottom:70px;font-weight:600;line-height:1.3;box-shadow:0 8px 24px #0006}
+.bubble b{font-family:var(--display);font-size:20px;display:block;color:var(--clay-dark)}
+.pal.sad img{filter:grayscale(.3) drop-shadow(0 0 8px #0008)}
+.fly{position:fixed;top:0;left:0;width:120px;z-index:44;pointer-events:none;opacity:0;filter:drop-shadow(0 0 22px #ffb84a)}
+.modal{position:fixed;inset:0;z-index:60;background:#0c0820d9;display:grid;place-items:center;padding:20px max(16px,env(safe-area-inset-left,0px));backdrop-filter:blur(4px)}
+.modal[hidden]{display:none!important}
+.mbox{background:var(--night-2);border:1px solid var(--line);border-radius:24px;padding:24px;max-width:440px;width:100%;text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center;animation:zoom .5s cubic-bezier(.3,1.5,.5,1)}
+@keyframes zoom{from{transform:scale(.6);opacity:0}}
+.mbox img{width:170px;animation:bob 1.4s ease-in-out infinite alternate;filter:drop-shadow(0 0 24px #ffb84a99)}
+.mbox h2{font-size:34px}
+.mbox p{margin:0;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head><body>
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <div class="brand"><a href="index.html#deepavali" style="color:inherit;text-decoration:none">← Story Quest · Deepavali</a></div>
+      <h1>Light Up <span>Deepavali</span></h1>
+      <p class="lede">Fly across India with Diya, then play four mini-games. Every right answer lights one diya. Can you light all 24 before Lakshmi Puja night?</p>
+    </div>
+    <button class="music" id="music" type="button" aria-pressed="false"><span class="bars"><i></i><i></i><i></i></span><span id="mlabel">Music off</span></button>
+  </header>
+
+  <section class="story" id="story" aria-label="Diya's journey">
+    <button class="arrow prev" id="sprev" aria-label="Previous scene">‹</button>
+    <button class="arrow next" id="snext" aria-label="Next scene">›</button>
+    <div class="snav" id="sdots"></div>
+  </section>
+  <p class="watch">Scenes from <b>Diya ki Bharat Yatra</b>. Watch the full series on <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders Studio</a>.</p>
+
+  <section class="board" aria-label="Your diyas">
+    <div class="board-top">
+      <div class="count"><b id="lit">0</b> / 24 diyas lit</div>
+      <button class="btn ghost" id="reset" type="button">Start over</button>
+    </div>
+    <div class="diyas" id="diyas"></div>
+  </section>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" data-t="quiz" aria-selected="true">Quiz <small>12</small></button>
+    <button class="tab" role="tab" data-t="days" aria-selected="false">Five Days <small>5</small></button>
+    <button class="tab" role="tab" data-t="match" aria-selected="false">Across India <small>6</small></button>
+    <button class="tab" role="tab" data-t="rangoli" aria-selected="false">Rangoli <small>1</small></button>
+  </nav>
+
+  <section class="panel" id="quiz"></section>
+  <section class="panel" id="days" hidden></section>
+  <section class="panel" id="match" hidden></section>
+  <section class="panel" id="rangoli" hidden></section>
+
+  <footer>Story Quest by World of Wonders · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · Have a safe, green Deepavali</footer>
+</div>
+
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="pal" id="pal" aria-live="polite"><img src="img/diya_wave.png" alt="Diya"><div class="bubble" id="bubble"></div></div>
+<img class="fly" id="fly" src="img/diya_fly.png" alt="">
+
+<div class="modal" id="intro">
+  <div class="mbox">
+    <img src="img/diya_wave.png" alt="Diya the little lamp waving">
+    <h2>Namaste! I'm Diya</h2>
+    <p>I travel all over India at Deepavali. Help me light 24 lamps by playing my games!</p>
+    <div class="row" style="justify-content:center">
+      <button class="btn" id="go-music">Let's play, with music</button>
+      <button class="btn ghost" id="go-quiet">Play quietly</button>
+    </div>
+  </div>
+</div>
+<div class="modal" id="win" hidden>
+  <div class="mbox">
+    <img src="img/diya_fly.png" alt="Diya flying happily">
+    <h2>Shubh Deepavali!</h2>
+    <p>You lit all 24 diyas. Now you know the stories, the five days and how all of India celebrates.</p>
+    <div class="row" style="justify-content:center">
+      <button class="btn" id="win-close">Keep exploring</button>
+      <button class="btn ghost" id="win-again">Play again</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const TOTAL=24, RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $=id=>document.getElementById(id);
+
+/* ================= Sound: BGM + effects (Web Audio, all synthesized) ================= */
+let AC=null, master, musicOn=false, sched=null, nextT=0, step=0, mGain;
+// Raag Bhupali on Sa = D: Sa Re Ga Pa Dha
+const SA=293.66, SC=[0,2,4,7,9];
+const hz=(deg)=>{const o=Math.floor(deg/5),i=((deg%5)+5)%5;return SA*Math.pow(2,o+SC[i]/12)};
+function initAudio(){
+  if(AC) return; AC=new (window.AudioContext||window.webkitAudioContext)();
+  master=AC.createGain(); master.gain.value=.9; master.connect(AC.destination);
+  mGain=AC.createGain(); mGain.gain.value=0; mGain.connect(master);
+  // soft room reverb
+  const conv=AC.createConvolver(),len=AC.sampleRate*2.2,b=AC.createBuffer(2,len,AC.sampleRate);
+  for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6)}
+  conv.buffer=b; window.REV=AC.createGain(); REV.gain.value=.35; REV.connect(conv); conv.connect(mGain);
+  // tanpura-like drone: Pa (low) and Sa
+  [[SA/2,.05],[SA*3/4/2*2*0.5*2,.035],[SA,.025]].forEach(([f,g],k)=>{
+    const o=AC.createOscillator(),o2=AC.createOscillator(),lp=AC.createBiquadFilter(),gn=AC.createGain(),lfo=AC.createOscillator(),lg=AC.createGain();
+    o.type='sawtooth';o2.type='sawtooth';o.frequency.value=f;o2.frequency.value=f*1.003;
+    lp.type='lowpass';lp.frequency.value=700;lfo.frequency.value=.12+k*.05;lg.gain.value=350;lfo.connect(lg);lg.connect(lp.frequency);
+    gn.gain.value=g;o.connect(lp);o2.connect(lp);lp.connect(gn);gn.connect(mGain);gn.connect(REV);
+    o.start();o2.start();lfo.start();
+  });
+}
+function flute(f,t,dur,vol){
+  const o=AC.createOscillator(),o2=AC.createOscillator(),g=AC.createGain(),v=AC.createOscillator(),vg=AC.createGain();
+  o.type='sine';o2.type='triangle';o.frequency.value=f;o2.frequency.value=f*2;
+  v.frequency.value=5.2;vg.gain.value=f*.006;v.connect(vg);vg.connect(o.frequency);
+  const g2=AC.createGain();g2.gain.value=.12;o2.connect(g2);g2.connect(g);o.connect(g);
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.07);g.gain.setValueAtTime(vol,t+dur*.6);g.gain.exponentialRampToValueAtTime(.0005,t+dur+.4);
+  g.connect(mGain);g.connect(REV);[o,o2,v].forEach(x=>{x.start(t);x.stop(t+dur+.5)});
+}
+function bell(f,t,vol,dest){
+  [1,2.76,5.4].forEach((m,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.type='sine';o.frequency.value=f*m;
+    g.gain.setValueAtTime(vol/(i+1),t);g.gain.exponentialRampToValueAtTime(.0004,t+1.8/(i+1));o.connect(g);g.connect(dest||master);g.connect(REV);o.start(t);o.stop(t+2)});
+}
+function drum(t,low,vol){
+  const o=AC.createOscillator(),g=AC.createGain();o.type='sine';
+  o.frequency.setValueAtTime(low?120:420,t);o.frequency.exponentialRampToValueAtTime(low?55:300,t+.18);
+  g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0005,t+(low?.4:.12));o.connect(g);g.connect(mGain);o.start(t);o.stop(t+.45);
+}
+// melody: gentle random walk in Bhupali, phrases resolve to Sa
+let deg=5, beat=60/76;
+const THEKA=[1,0,.5,0,1,0,.5,.5]; // soft keherwa-like pattern
+function tick(){
+  while(nextT<AC.currentTime+.25){
+    const s=step%8;
+    if(THEKA[s])drum(nextT,s===0||s===4,THEKA[s]===1?.10:.05);
+    if(s%2===0){
+      const phraseEnd=(step%32)>=28;
+      if(phraseEnd){ if(step%32===28){deg=Math.random()<.5?5:8;flute(hz(deg),nextT,beat*3,.07)} }
+      else if(Math.random()<.72){deg=Math.max(3,Math.min(10,deg+[-2,-1,-1,1,1,2][Math.floor(Math.random()*6)]));flute(hz(deg),nextT,beat*(Math.random()<.3?2:1),.065)}
+    }
+    if(step%32===0)bell(hz(10),nextT,.05,mGain);
+    nextT+=beat/2;step++;
+  }
+}
+function setMusic(on){
+  initAudio(); AC.resume(); musicOn=on;
+  const t=AC.currentTime; mGain.gain.cancelScheduledValues(t); mGain.gain.setValueAtTime(mGain.gain.value,t); mGain.gain.linearRampToValueAtTime(on?.55:0,t+1.2);
+  if(on&&!sched){nextT=AC.currentTime+.1;sched=setInterval(tick,90)}
+  if(!on&&sched){setTimeout(()=>{if(!musicOn){clearInterval(sched);sched=null}},1300)}
+  $('music').classList.toggle('on',on);$('music').setAttribute('aria-pressed',on);$('mlabel').textContent=on?'Music on':'Music off';
+  try{localStorage.setItem('deepavali-osh-music',on?'1':'0')}catch(e){}
+}
+$('music').onclick=()=>setMusic(!musicOn);
+const sfx={
+  right(){if(!AC)return;const t=AC.currentTime;[5,7,8,10].forEach((d,i)=>bell(hz(d),t+i*.09,.12))},
+  wrong(){if(!AC)return;const t=AC.currentTime;flute(hz(4),t,.18,.12);flute(hz(2),t+.18,.3,.12)},
+  win(){if(!AC)return;const t=AC.currentTime;[5,6,7,8,9,10,12,15].forEach((d,i)=>bell(hz(d),t+i*.12,.13));for(let i=0;i<6;i++)pop(t+1+i*.35)},
+  swoosh(){if(!AC)return;const t=AC.currentTime,n=AC.createBufferSource(),b=AC.createBuffer(1,AC.sampleRate,AC.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1;
+    n.buffer=b;const f=AC.createBiquadFilter();f.type='bandpass';f.Q.value=2;f.frequency.setValueAtTime(400,t);f.frequency.exponentialRampToValueAtTime(3000,t+.8);const g=AC.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.12,t+.3);g.gain.linearRampToValueAtTime(0,t+1);n.connect(f);f.connect(g);g.connect(master);n.start(t);n.stop(t+1)}
+};
+function pop(t){const n=AC.createBufferSource(),b=AC.createBuffer(1,AC.sampleRate*.4,AC.sampleRate),d=b.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3);
+  n.buffer=b;const f=AC.createBiquadFilter();f.type='lowpass';f.frequency.value=900;const g=AC.createGain();g.gain.value=.25;n.connect(f);f.connect(g);g.connect(master);n.start(t);for(let k=0;k<5;k++)bell(1800+Math.random()*1600,t+.08+k*.05,.02)}
+
+/* ================= Effects canvas: sparkles, petals, fireworks ================= */
+const fx=$('fx'),fc=fx.getContext('2d');let P=[];
+function fsize(){fx.width=innerWidth*devicePixelRatio;fx.height=innerHeight*devicePixelRatio;fc.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
+fsize();addEventListener('resize',fsize);
+const PCOL=['#ffd35a','#f6a723','#e0405a','#ff8a3d','#fff1c1','#46b882'];
+function burst(x,y,kind='spark',n=28){
+  if(RM)return;
+  for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,s=kind==='fire'?2+Math.random()*4:1+Math.random()*4;
+    P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-(kind==='petal'?3:1.5),life:1,decay:.012+Math.random()*.015,kind,
+      c:PCOL[Math.floor(Math.random()*PCOL.length)],r:kind==='petal'?5+Math.random()*4:1.5+Math.random()*2.5,rot:Math.random()*6,vr:(Math.random()-.5)*.3})}
+  if(!loopOn){loopOn=true;requestAnimationFrame(loop)}
+}
+function firework(){const x=innerWidth*(.15+Math.random()*.7),y=innerHeight*(.15+Math.random()*.35);burst(x,y,'fire',60)}
+let loopOn=false;
+function loop(){
+  fc.clearRect(0,0,innerWidth,innerHeight);
+  P=P.filter(p=>p.life>0);
+  for(const p of P){p.x+=p.vx;p.y+=p.vy;p.vy+=p.kind==='petal'?.08:.06;p.vx*=.98;p.life-=p.decay;p.rot+=p.vr;
+    fc.globalAlpha=Math.max(p.life,0);fc.fillStyle=p.c;
+    if(p.kind==='petal'){fc.save();fc.translate(p.x,p.y);fc.rotate(p.rot);fc.beginPath();fc.ellipse(0,0,p.r,p.r*.45,0,0,7);fc.fill();fc.restore()}
+    else{fc.shadowColor=p.c;fc.shadowBlur=8;fc.beginPath();fc.arc(p.x,p.y,p.r,0,7);fc.fill();fc.shadowBlur=0}}
+  fc.globalAlpha=1;
+  if(P.length)requestAnimationFrame(loop);else{loopOn=false;fc.clearRect(0,0,innerWidth,innerHeight)}
+}
+const center=el=>{const r=el.getBoundingClientRect();return[r.left+r.width/2,r.top+r.height/2]};
+
+/* ================= Diya popup + fly-by ================= */
+const CHEERS=['Shabash!','Wah, well done!','You lit me up!','Bahut badhiya!','Super star!','Jagmag, jagmag!'];
+let palT;
+function say(title,text,sad){
+  const pal=$('pal');$('bubble').innerHTML=`<b>${title}</b>${text||''}`;pal.classList.toggle('sad',!!sad);
+  pal.classList.add('show');clearTimeout(palT);palT=setTimeout(()=>pal.classList.remove('show'),sad?2000:2600);
+}
+function cheer(el,text){sfx.right();if(el){const[x,y]=center(el);burst(x,y,'spark',30);burst(x,y,'petal',14)}
+  say(CHEERS[Math.floor(Math.random()*CHEERS.length)],text||'A diya is lit!')}
+function oops(el,text){sfx.wrong();if(el){el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')}say('Oops!',text||'Try again. You can do it!',true)}
+// Diya flies right to left (her flame leans back, so she faces the way she moves)
+function flyBy(){
+  if(RM)return;const f=$('fly');sfx.swoosh();const W=innerWidth,H=innerHeight,t0=performance.now(),D=2600;
+  function fr(t){const k=Math.min((t-t0)/D,1),x=W+60-(W+240)*k,y=H*.22+Math.sin(k*Math.PI*2)*H*.08;
+    f.style.opacity=k<.05?k*20:k>.95?(1-k)*20:1;f.style.transform=`translate(${x}px,${y}px) rotate(${Math.sin(k*12)*6}deg)`;
+    if(Math.random()<.5)P.push({x:x+90,y:y+30,vx:1+Math.random(),vy:Math.random()-.5,life:1,decay:.025,kind:'spark',c:'#ffd35a',r:1.5+Math.random()*2,rot:0,vr:0});
+    if(!loopOn){loopOn=true;requestAnimationFrame(loop)}
+    if(k<1)requestAnimationFrame(fr);else f.style.opacity=0}
+  requestAnimationFrame(fr);
+}
+
+/* ================= Story carousel ================= */
+const SLIDES=[
+ ['img/S21_diya_night_fly.jpg','Amavasya night','On the darkest night of the year, whole towns glow with rows of lamps. That is what Deepavali means.'],
+ ['img/S03_diya_desert.jpg','Rajasthan','Diya flies over the golden desert, where Dadi told her a secret about the festival of lights.'],
+ ['img/S19_thalai_deepavali.jpg','Tamil Nadu','A newly married couple\'s first Deepavali is Thalai Deepavali, celebrated at the bride\'s home with blessings.'],
+ ['img/S23_diya_to_sea.jpg','Onward to the sea','Under the moon, Diya flies on. Every state has its own Deepavali story to tell.']
+];
+const story=$('story');let sIdx=0,sTimer;
+SLIDES.forEach((s,i)=>{const d=document.createElement('div');d.className='slide'+(i?'':' on');
+  d.innerHTML=`<img src="${s[0]}" alt="${s[1]}: Diya the lamp in the scene" ${i?'loading="lazy"':''}><div class="cap"><span class="eyebrow">${s[1]}</span><p>${s[2]}</p></div>`;
+  story.insertBefore(d,story.firstChild);
+  const b=document.createElement('button');b.className='dot';b.setAttribute('aria-label','Scene '+(i+1));b.onclick=()=>showSlide(i,true);$('sdots').appendChild(b)});
+const slides=[...story.querySelectorAll('.slide')].reverse();
+function showSlide(i,user){sIdx=(i+SLIDES.length)%SLIDES.length;slides.forEach((s,k)=>s.classList.toggle('on',k===sIdx));
+  [...$('sdots').children].forEach((d,k)=>d.setAttribute('aria-current',k===sIdx));
+  clearInterval(sTimer);sTimer=setInterval(()=>showSlide(sIdx+1),6500)}
+$('sprev').onclick=()=>showSlide(sIdx-1,true);$('snext').onclick=()=>showSlide(sIdx+1,true);showSlide(0);
+
+/* ================= Game state ================= */
+const DIYA='<svg viewBox="0 0 40 40" aria-hidden="true"><path class="flame" d="M20 3C24 11 26 15 20 21C14 15 16 11 20 3Z"/><path class="bowl" d="M3 22Q20 42 37 22Z"/><ellipse class="rim" cx="20" cy="22" rx="17" ry="3"/></svg>';
+let state={quiz:{i:0,done:[]},days:[],match:[],rangoli:false,won:false};
+try{const s=JSON.parse(localStorage.getItem('deepavali-osh')||'null');if(s)state=Object.assign(state,s)}catch(e){}
+function save(){try{localStorage.setItem('deepavali-osh',JSON.stringify(state))}catch(e){}}
+function litCount(){return state.quiz.done.filter(Boolean).length+state.days.length+state.match.length+(state.rangoli?1:0)}
+const diyasEl=$('diyas');
+for(let i=0;i<TOTAL;i++){const d=document.createElement('div');d.className='diya';d.innerHTML=DIYA;diyasEl.appendChild(d)}
+let shown=litCount();
+function paint(){
+  const n=litCount();[...diyasEl.children].forEach((d,i)=>d.classList.toggle('lit',i<n));
+  const b=$('lit');b.textContent=n;
+  if(n>shown){const el=diyasEl.children[n-1];const[x,y]=center(el);setTimeout(()=>burst(x,y,'spark',22),250);b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');
+    if(n%6===0&&n<TOTAL)setTimeout(flyBy,700)}
+  shown=n;
+  if(n===TOTAL&&!state.won){state.won=true;save();setTimeout(celebrate,900)}
+}
+function celebrate(){sfx.win();$('win').hidden=false;let k=0;const iv=setInterval(()=>{firework();if(++k>8)clearInterval(iv)},350);flyBy()}
+$('win-close').onclick=()=>$('win').hidden=true;
+$('win-again').onclick=()=>{$('win').hidden=true;resetAll()};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.setAttribute('aria-selected',x===b));
+  document.querySelectorAll('.panel').forEach(p=>p.hidden=p.id!==b.dataset.t);
+  if(b.dataset.t==='rangoli')sizeCanvas();
+});
+
+/* ---------- Quiz ---------- */
+const Q=[
+ ["What does the word “Deepavali” mean?",["A row of lamps","A sweet festival","The new moon","A big bang"],0,"Deepa means lamp and avali means row. So Deepavali is a row of lamps."],
+ ["In the Ramayana, the people of Ayodhya lit lamps to welcome Rama home. How many years was he away?",["7 years","10 years","14 years","21 years"],2,"Rama, Sita and Lakshmana returned to Ayodhya after 14 years in the forest."],
+ ["Which demon did Krishna and Satyabhama defeat? We remember this on Naraka Chaturdashi.",["Ravana","Narakasura","Kamsa","Mahishasura"],1,"Narakasura was defeated, and the thousands of people he had locked up were set free."],
+ ["Lakshmi Puja happens on which night of the month?",["Full moon (Purnima)","New moon (Amavasya)","Ekadashi","Ashtami"],1,"It is the darkest night of the month, which is why all the lamps matter so much."],
+ ["On Dhanteras, many families buy something new. What is it usually?",["School books","Metal utensils, silver or gold","New shoes","A pet"],1,"Dhanteras also honours Dhanvantari, the healer who came out of the churning of the ocean."],
+ ["In West Bengal, the Deepavali night is also celebrated as…",["Durga Puja","Onam","Kali Puja","Pongal"],2,"Families in Bengal worship Goddess Kali on this new moon night."],
+ ["Sikhs celebrate Bandi Chhor Divas on Deepavali. Whose release from Gwalior Fort do they remember?",["Guru Nanak","Guru Hargobind","Guru Gobind Singh","Guru Arjan"],1,"Guru Hargobind was freed along with 52 kings, and the Golden Temple was lit up."],
+ ["For Jains, Deepavali marks the day when…",["Mahavira attained nirvana","Buddha was born","Ashoka became king","the monsoon ends"],0,"Lord Mahavira, the 24th Tirthankara, attained moksha on this day at Pavapuri in Bihar."],
+ ["In Karnataka the day after Lakshmi Puja is Bali Padyami. Which king is welcomed home?",["King Ashoka","King Bali","King Vikramaditya","King Krishnadevaraya"],1,"Mahabali, the kind king sent to the underworld by Vamana, is believed to visit his people on this day."],
+ ["Krishna lifted a whole hill on his little finger to shelter people from rain. Which hill?",["Govardhan","Kailash","Mandara","Arunachala"],0,"Govardhan Puja and Annakut, a mountain of food offerings, remember this story."],
+ ["On Bhai Dooj, Yama the god of death visited his sister. What was her name?",["Ganga","Saraswati","Yamuna","Kaveri"],2,"Yamuna put a tilak on Yama's forehead and fed him. Sisters do the same for brothers today."],
+ ["Which is the kindest way to celebrate a green Deepavali?",["Burst crackers late at night","Light clay diyas and use fewer crackers","Throw plastic rangoli powder in drains","Leave lamps burning alone"],1,"Clay diyas are earth-friendly, and fewer crackers keep the air clean and pets and birds calm."]
+];
+const quizEl=$('quiz');
+function renderQuiz(){
+  const i=state.quiz.i;
+  if(i>=Q.length){const n=state.quiz.done.filter(Boolean).length;
+    quizEl.innerHTML=`<div class="card"><h2>Quiz complete!</h2><p class="hint">You answered ${n} of 12 right on the first try and lit ${n} diyas.</p><div class="row"><button class="btn" id="qr">Play again</button></div></div>`;
+    $('qr').onclick=()=>{state.quiz={i:0,done:[]};state.won=false;save();paint();renderQuiz()};return}
+  const [q,opts,ans,ex]=Q[i];
+  quizEl.innerHTML=`<p class="hint">Get it right on the first try to light a diya.</p><div class="card"><div class="qmeta">Question ${i+1} of ${Q.length}</div><p class="qtext">${q}</p><div class="opts">${opts.map((o,k)=>`<button class="opt" data-k="${k}">${o}</button>`).join('')}</div><div id="qf"></div></div>`;
+  quizEl.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    const k=+b.dataset.k,ok=k===ans;
+    quizEl.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===ans)x.classList.add('right')});
+    if(!ok)b.classList.add('wrong');
+    state.quiz.done[i]=ok;save();paint();
+    ok?cheer(b):oops(b,'Read the answer below. You will remember it next time!');
+    $('qf').innerHTML=`<p class="explain"><b>${ok?'Correct!':'Not quite.'}</b> ${ex}</p><div class="row"><button class="btn" id="qn">${i+1<Q.length?'Next question':'See result'}</button></div>`;
+    $('qn').onclick=()=>{state.quiz.i++;save();renderQuiz()};
+  });
+}
+
+/* ---------- Five Days ---------- */
+const DAYS=[
+ ["Dhanteras","Clean the house, buy new utensils and pray to Dhanvantari for good health."],
+ ["Naraka Chaturdashi","Wake early for an oil bath. Krishna and Satyabhama defeated Narakasura."],
+ ["Lakshmi Puja","The new moon night. Diyas everywhere to welcome Goddess Lakshmi."],
+ ["Govardhan Puja / Bali Padyami","Krishna lifted Govardhan hill. In Karnataka, King Bali comes home."],
+ ["Bhai Dooj","Sisters put tilak on their brothers, just as Yamuna did for Yama."]
+];
+const daysEl=$('days');let dayOrder=shuffle(DAYS.map((_,i)=>i));
+function renderDays(){
+  const n=state.days.length;
+  daysEl.innerHTML=`<p class="hint">Deepavali is five days long. Tap the days in the right order, from first to last.</p>
+  <div class="card"><div class="qmeta">Day ${Math.min(n+1,5)} of 5</div>
+  ${n<5?`<div class="days">${dayOrder.filter(i=>!state.days.includes(i)).map(i=>`<button class="opt" data-i="${i}">${DAYS[i][0]}</button>`).join('')}</div>`:'<h2>You know all five days!</h2>'}
+  <ol class="timeline">${state.days.map((i,k)=>`<li><div class="n">${k+1}</div><div><strong>${DAYS[i][0]}</strong><span>${DAYS[i][1]}</span></div></li>`).join('')}</ol>
+  ${n===5?'<div class="row"><button class="btn ghost" id="dr">Play again</button></div>':''}</div>`;
+  daysEl.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+    if(+b.dataset.i===state.days.length){const i=+b.dataset.i;cheer(b,`Day ${i+1}: ${DAYS[i][0]}`);state.days.push(i);save();paint();renderDays()}
+    else oops(b,'Not this one yet. Which day comes next?');
+  });
+  const dr=$('dr');if(dr)dr.onclick=()=>{state.days=[];state.won=false;dayOrder=shuffle(DAYS.map((_,i)=>i));save();paint();renderDays()};
+}
+
+/* ---------- Across India (match) ---------- */
+const PAIRS=[
+ ["Ayodhya","Lamps to welcome Rama home"],
+ ["West Bengal","Kali Puja on the new moon night"],
+ ["Sikhs","Bandi Chhor Divas at the Golden Temple"],
+ ["Jains","Mahavira's nirvana at Pavapuri"],
+ ["Karnataka","Bali Padyami for King Mahabali"],
+ ["Nepal","Tihar, when even dogs and crows are honoured"]
+];
+const matchEl=$('match');let rightOrder=shuffle(PAIRS.map((_,i)=>i)),pick=null;
+function renderMatch(){
+  matchEl.innerHTML=`<p class="hint">Deepavali is celebrated in many ways. Tap a place or people, then tap how they celebrate.</p>
+  <div class="card"><div class="match"><div class="col">${PAIRS.map((p,i)=>`<button class="opt ${state.match.includes(i)?'done':''} ${pick===i?'sel':''}" data-l="${i}" ${state.match.includes(i)?'disabled':''}>${p[0]}</button>`).join('')}</div>
+  <div class="col">${rightOrder.map(i=>`<button class="opt ${state.match.includes(i)?'done':''}" data-r="${i}" ${state.match.includes(i)?'disabled':''}>${PAIRS[i][1]}</button>`).join('')}</div></div>
+  ${state.match.length===6?'<div class="row"><h2>All matched!</h2><button class="btn ghost" id="mr">Play again</button></div>':''}</div>`;
+  matchEl.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{pick=+b.dataset.l;renderMatch()});
+  matchEl.querySelectorAll('[data-r]').forEach(b=>b.onclick=()=>{
+    if(pick===null){say('Wait!','First tap a place on the left.',true);return}
+    if(+b.dataset.r===pick){cheer(b,`${PAIRS[pick][0]}: ${PAIRS[pick][1]}`);state.match.push(pick);pick=null;save();paint();renderMatch()}
+    else oops(b,'That is how someone else celebrates. Try another!');
+  });
+  const mr=$('mr');if(mr)mr.onclick=()=>{state.match=[];state.won=false;rightOrder=shuffle(PAIRS.map((_,i)=>i));save();paint();renderMatch()};
+}
+
+/* ---------- Rangoli ---------- */
+const rangEl=$('rangoli');
+const COLORS=[["#f5ede0","Rice flour white"],["#f6a723","Marigold"],["#e0405a","Kumkum red"],["#46b882","Leaf green"],["#ffd35a","Turmeric"],["#8a6cff","Violet"]];
+let color=COLORS[1][0],cv,ctx,drawing=false,last=null,strokes=0;
+rangEl.innerHTML=`<p class="hint">Draw in one corner and watch your pattern repeat all around, just like a real rangoli.</p>
+<div class="card"><div class="rang"><canvas id="cv" aria-label="Rangoli drawing board"></canvas>
+<div class="col"><div class="swatches">${COLORS.map((c,i)=>`<button class="sw" style="background:${c[0]}" data-c="${c[0]}" aria-label="${c[1]}" aria-pressed="${i===1}"></button>`).join('')}</div>
+<div class="row"><button class="btn" id="rd">I'm done</button><button class="btn ghost" id="rc">Clear</button></div>
+<ul class="facts"><li>Tamil Nadu: <b>kolam</b>, drawn with rice flour so ants and birds get a meal.</li><li>Andhra and Telangana: <b>muggulu</b></li><li>West Bengal: <b>alpana</b></li><li>Rajasthan: <b>mandana</b></li></ul></div></div></div>`;
+cv=$('cv');ctx=cv.getContext('2d');
+function sizeCanvas(){const r=cv.getBoundingClientRect();if(!r.width)return;const s=Math.round(r.width*devicePixelRatio);if(cv.width!==s){cv.width=cv.height=s;clearCanvas()}}
+function clearCanvas(){const w=cv.width;ctx.fillStyle='#3b2a1e';ctx.fillRect(0,0,w,w);ctx.fillStyle='rgba(245,237,224,.35)';const step=w/10;for(let x=1;x<10;x++)for(let y=1;y<10;y++){ctx.beginPath();ctx.arc(x*step,y*step,w/220,0,7);ctx.fill()}strokes=0}
+function seg(a,b){const w=cv.width,c=w/2;ctx.strokeStyle=color;ctx.lineWidth=w/70;ctx.lineCap='round';
+  for(let k=0;k<8;k++){ctx.save();ctx.translate(c,c);ctx.rotate(k*Math.PI/4);
+    for(const m of[1,-1]){ctx.beginPath();ctx.moveTo((a.x-c)*m,a.y-c);ctx.lineTo((b.x-c)*m,b.y-c);ctx.stroke()}ctx.restore()}}
+const pos=e=>{const r=cv.getBoundingClientRect();return{x:(e.clientX-r.left)*cv.width/r.width,y:(e.clientY-r.top)*cv.height/r.height}};
+cv.onpointerdown=e=>{drawing=true;last=pos(e);cv.setPointerCapture(e.pointerId);seg(last,{x:last.x+.1,y:last.y})};
+cv.onpointermove=e=>{if(!drawing)return;const p=pos(e);seg(last,p);last=p};
+cv.onpointerup=cv.onpointercancel=()=>{if(drawing){strokes++;if(AC&&Math.random()<.6)bell(hz(7+Math.floor(Math.random()*5)),AC.currentTime,.04)}drawing=false};
+rangEl.querySelectorAll('.sw').forEach(b=>b.onclick=()=>{color=b.dataset.c;rangEl.querySelectorAll('.sw').forEach(x=>x.setAttribute('aria-pressed',x===b))});
+$('rc').onclick=clearCanvas;
+$('rd').onclick=()=>{if(strokes<3){say('Almost!','Add a few more lines to your rangoli first.',true);return}
+  const[x,y]=center(cv);burst(x,y,'petal',40);
+  if(!state.rangoli){state.rangoli=true;save();cheer(null,'What a beautiful rangoli! A diya is lit.');paint()}else say('Beautiful!','Your rangoli diya is already glowing.')};
+addEventListener('resize',sizeCanvas);
+
+function resetAll(){state={quiz:{i:0,done:[]},days:[],match:[],rangoli:false,won:false};save();shown=0;dayOrder=shuffle(DAYS.map((_,i)=>i));rightOrder=shuffle(PAIRS.map((_,i)=>i));pick=null;renderQuiz();renderDays();renderMatch();clearCanvas();paint()}
+$('reset').onclick=resetAll;
+renderQuiz();renderDays();renderMatch();paint();
+
+/* ---------- Intro ---------- */
+function start(music){$('intro').hidden=true;initAudio();AC.resume();if(music)setMusic(true);say('Let\'s go!','Answer, match and draw to light the diyas.');setTimeout(flyBy,900)}
+$('go-music').onclick=()=>start(true);$('go-quiet').onclick=()=>start(false);
+</script>
+
+</body></html>
