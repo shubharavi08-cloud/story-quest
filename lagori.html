@@ -155,16 +155,17 @@ cv.addEventListener('pointerdown',e=>{ ac(); if(!G||G.over)return; const [X,Y]=p
 cv.addEventListener('pointermove',e=>{ if(!G||!G.drag||G.drag.id!==e.pointerId)return; const [X,Y]=pos(e); const [x,y]=Q(X,Y); G.drag.x=x; G.drag.y=y });
 ['pointerup','pointercancel'].forEach(k=>cv.addEventListener(k,e=>{ if(!G||!G.drag||G.drag.id!==e.pointerId)return; const d=G.drag; G.drag=null; const pull=Math.hypot(d.x-d.x0,d.y-d.y0); if(pull>18) throwBall(aimPoint(d)) }));
 function aimPoint(d){ // pulling back (down) aims forward (up the street); sideways pull aims the other way
-  const dx=d.x-d.x0, dy=Math.max(0,d.y-d.y0); return {x:STACK.x-dx*1.6, y:STACK.y+30-dy*1.15} }
+  const dx=d.x-d.x0, dy=d.y-d.y0, pw=Math.min(1,Math.hypot(dx,dy)/110); const top=stackY(6)-stoneDims(6,1)[1];
+  return {x:STACK.x-dx*1.0, y:STACK.y-10-(STACK.y-10-top+25)*pw, pw} }
 addEventListener('keydown',e=>{ if(!G||G.over||G.phase!=='aim'||G.ball)return; if(e.key===' '||e.key==='Enter'){ throwBall({x:STACK.x+(Math.random()-.5)*60,y:STACK.y-50}); e.preventDefault() } });
 
-function throwBall(a){ G.balls--; SFX.throw(); const wob=(Math.random()-.5)*10; G.ball={u:0,tx:a.x+wob,ty:a.y,hit:false}; }
+function throwBall(a){ G.balls--; SFX.throw(); const wob=(Math.random()-.5)*10; G.ball={u:0,tx:a.x+wob,ty:a.y,hit:false,pw:a.pw==null?.7:a.pw}; }
 function resolveHit(b){ // which stone did the ball reach?
-  let hitI=-1; for(let i=0;i<7;i++){ const s=G.stones[i]; if(!s.up)continue; const [w,h]=stoneDims(i,1), y=stackY(i); if(b.tx>STACK.x-w/2-10&&b.tx<STACK.x+w/2+10&&b.ty<y+6&&b.ty>y-h-10){ hitI=i; break } }
+  let hitI=-1; for(let i=0;i<7;i++){ const s=G.stones[i]; if(!s.up)continue; const [w,h]=stoneDims(i,1), y=stackY(i); if(b.tx>STACK.x-Math.max(w/2+22,60)&&b.tx<STACK.x+Math.max(w/2+22,60)&&b.ty<y+10&&b.ty>y-h-24){ hitI=i; break } }
   if(hitI<0){ say(G.balls>0?t('miss'):t('none'),1.6); return }
   let n=0; for(let i=hitI;i<7;i++){ const s=G.stones[i]; if(!s.up)continue; s.up=false; n++;
     const side=Math.sign(b.tx-STACK.x)||((Math.random()<.5)?-1:1);
-    s.x=STACK.x; s.y=stackY(i); s.vx=(Math.random()<.5?-1:1)*(160+Math.random()*440)+side*60; s.vy=-(180+Math.random()*240)-(i-hitI)*25; s.vr=(Math.random()-.5)*10; s.z=1;
+    s.x=STACK.x; s.y=stackY(i); const P2=.75+.6*(b.pw||.7); s.vx=((Math.random()<.5?-1:1)*(260+Math.random()*520)+side*120)*P2; s.vy=(-(420+Math.random()*380)-(i-hitI)*45)*P2; s.vr=(Math.random()-.5)*16; s.z=1;
     s.ground=590+Math.random()*55; }
   // anything below the hit stone that no longer has stones on top stays; a hit low enough topples the whole tower
   if(hitI<=1) for(let i=0;i<hitI;i++){ const s=G.stones[i]; if(Math.random()<.6&&s.up){ s.up=false; n++; s.x=STACK.x; s.y=stackY(i); s.vx=(Math.random()-.5)*300; s.vy=-(100+Math.random()*120); s.vr=(Math.random()-.5)*6; s.ground=590+Math.random()*55 } }
@@ -198,13 +199,13 @@ function burst(X,Y,c,n=22){ for(let i=0;i<n;i++){ const a=Math.random()*6.283,s=
 /* ---------- update ---------- */
 function update(dt){ if(!G)return; if(G.stop>0){ G.stop-=dt; return } G.el+=dt; if(G.zoom>0)G.zoom=Math.max(0,G.zoom-dt*2.2); if(G.flash>0)G.flash=Math.max(0,G.flash-dt*3); if(G.big){ G.big.k+=dt; if(G.big.k>1.6)G.big=null }
   for(const p of G.pops)p.k+=dt; G.pops=G.pops.filter(p=>p.k<1.2);
-  if(G.drag){ const pw=Math.min(1,Math.hypot(G.drag.x-G.drag.x0,G.drag.y-G.drag.y0)/160); if(Math.abs(pw-(G.lastPw||0))>.06){ G.lastPw=pw; SFX.charge(pw) } } if(G.msgT>0){G.msgT-=dt; if(G.msgT<=0)G.msg=null} if(G.shake>0)G.shake-=dt;
-  const b=G.ball; if(b){ b.u+=dt/.62; if(b.u>=1&&!b.hit){ b.hit=true; resolveHit(b); } if(b.u>1.6){ G.ball=null;
+  if(G.drag){ const pw=Math.min(1,Math.hypot(G.drag.x-G.drag.x0,G.drag.y-G.drag.y0)/110); if(Math.abs(pw-(G.lastPw||0))>.06){ G.lastPw=pw; SFX.charge(pw) } } if(G.msgT>0){G.msgT-=dt; if(G.msgT<=0)G.msg=null} if(G.shake>0)G.shake-=dt;
+  const b=G.ball; if(b){ b.u+=dt/.45; if(b.u>=1&&!b.hit){ b.hit=true; resolveHit(b); } if(b.u>1.6){ G.ball=null;
       if(G.phase==='aim'){ const allDown=G.stones.every(s=>!s.up); if(allDown||(G.balls===0&&G.knocked>0)||(G.knocked>0&&G.stones.filter(s=>s.up).length===0)) setTimeout(()=>{ if(G&&G.phase==='aim')startRebuild() },900);
         else if(G.knocked>0&&G.balls===0) setTimeout(()=>{ if(G&&G.phase==='aim')startRebuild() },900);
         else if(G.balls===0){ say(t('none'),1.8); endTurn(1.8) } } } }
   for(const s of G.stones){ if(s.up&&!s.fly)continue; if(s.fly){ s.fly.k+=dt*3; if(s.fly.k>=1){ s.fly=null; s.rot=0 } continue }
-    if(!s.landed){ s.vy+=900*dt; s.x+=s.vx*dt; s.y+=s.vy*dt; s.rot+=s.vr*dt; const g=s.ground||640; s.z=1+(s.y-STACK.y)/480; if(s.y>=g){ if(!s.bounced&&s.vy>200){ s.bounced=true; s.y=g; s.vy=-s.vy*.32; s.vx*=.6; s.vr*=.5; SFX.thud(); dust(s.x,g,6); continue } s.y=g; s.landed=true; s.rot=Math.round(s.rot/Math.PI)*Math.PI*0+(Math.random()-.5)*.25; s.z=1+(g-STACK.y)/480; SFX.thud(); s.x=Math.max(300,Math.min(IW-300,s.x)) } }
+    if(!s.landed){ s.vy+=900*dt; s.x+=s.vx*dt; s.y+=s.vy*dt; s.rot+=s.vr*dt; if(s.x<260||s.x>IW-260){ s.x=Math.max(260,Math.min(IW-260,s.x)); s.vx*=-.45 } const g=s.ground||640; s.z=1+(s.y-STACK.y)/480; if(s.y>=g){ if(!s.bounced&&s.vy>200){ s.bounced=true; s.y=g; s.vy=-s.vy*.32; s.vx*=.6; s.vr*=.5; SFX.thud(); dust(s.x,g,6); continue } s.y=g; s.landed=true; s.rot=Math.round(s.rot/Math.PI)*Math.PI*0+(Math.random()-.5)*.25; s.z=1+(g-STACK.y)/480; SFX.thud(); s.x=Math.max(260,Math.min(IW-260,s.x)) } }
     if(s.wig>0)s.wig-=dt }
   const rb=G.rb; if(rb&&G.phase==='rebuild'){ rb.left-=dt; if(Math.ceil(rb.left)<rb.lastTick&&rb.left<5){ rb.lastTick=Math.ceil(rb.left); SFX.tick() }
     rb.bvy+=700*dt; rb.bx+=rb.bvx*dt; rb.by+=rb.bvy*dt; if(rb.by>650){ rb.by=650; rb.bvy=-(380+Math.random()*120) } if(rb.bx<120||rb.bx>IW-120){ rb.bvx*=-1; rb.bx=Math.max(120,Math.min(IW-120,rb.bx)) }
@@ -249,8 +250,8 @@ function draw(){ cx.save(); if(G.shake>0)cx.translate(Math.sin(G.el*70)*10*G.sha
     const tw=portrait?W*.6:W*.3, tx=(W-tw)/2, ty=portrait?16:18; rr(tx,ty,tw,22,11); cx.fillStyle='rgba(0,0,0,.5)'; cx.fill(); rr(tx+3,ty+3,(tw-6)*Math.max(0,rb.left)/12,16,8); cx.fillStyle=rb.left<4?'#ff6b6b':'#ffd35a'; cx.fill();
     cx.font='800 22px "Baloo 2",sans-serif'; cx.fillStyle='#fff'; cx.textAlign='center'; cx.textBaseline='top'; cx.fillText('⏱ '+Math.max(0,Math.ceil(rb.left)),W/2,ty+28) }
   // the thrown ball flies up the street, getting smaller
-  if(G.ball){ const b=G.ball, u=Math.min(1,b.u), x=BALL0.x+(b.tx-BALL0.x)*u, y=BALL0.y+(b.ty-BALL0.y)*u-Math.sin(u*Math.PI)*90; const [X,Y]=P(x,y);
-    let r=(28-15*u)*sc; for(let k=1;k<=6;k++){ const uu=Math.max(0,u-k*.035), xx=BALL0.x+(b.tx-BALL0.x)*uu, yy=BALL0.y+(b.ty-BALL0.y)*uu-Math.sin(uu*Math.PI)*90; const [TX,TY]=P(xx,yy); if(b.u<=1){ cx.fillStyle=`rgba(255,180,90,${.25-k*.035})`; cx.beginPath(); cx.arc(TX,TY,r*(1-k*.1),0,6.283); cx.fill() } }
+  if(G.ball){ const b=G.ball, u=Math.min(1,b.u), x=BALL0.x+(b.tx-BALL0.x)*u, y=BALL0.y+(b.ty-BALL0.y)*u-Math.sin(u*Math.PI)*(50+90*(b.pw||.7)); const [X,Y]=P(x,y);
+    let r=(28-15*u)*sc; for(let k=1;k<=6;k++){ const uu=Math.max(0,u-k*.035), xx=BALL0.x+(b.tx-BALL0.x)*uu, yy=BALL0.y+(b.ty-BALL0.y)*uu-Math.sin(uu*Math.PI)*(50+90*(b.pw||.7)); const [TX,TY]=P(xx,yy); if(b.u<=1){ cx.fillStyle=`rgba(255,180,90,${.25-k*.035})`; cx.beginPath(); cx.arc(TX,TY,r*(1-k*.1),0,6.283); cx.fill() } }
     if(b.u>1){ const k=b.u-1; ball(X+(b.tx<STACK.x?-1:1)*k*200*sc,Y+k*k*300*sc,r) } else ball(X,Y,r) }
   // aim: rubber band from the ball and a target on the street
   if(G.phase==='aim'&&!G.ball&&G.balls>0){ const [X,Y]=P(BALL0.x,BALL0.y); let px=X, py=Y;
@@ -258,7 +259,7 @@ function draw(){ cx.save(); if(G.shake>0)cx.translate(Math.sin(G.el*70)*10*G.sha
       const a=aimPoint(d), [ax,ay]=P(a.x,a.y); cx.setLineDash([6,8]); cx.strokeStyle='rgba(255,240,200,.85)'; cx.lineWidth=3; cx.beginPath(); cx.moveTo(px,py); cx.quadraticCurveTo((px+ax)/2,Math.min(py,ay)-90*sc,ax,ay); cx.stroke(); cx.setLineDash([]);
       cx.strokeStyle='#ffd35a'; cx.lineWidth=3; cx.beginPath(); cx.arc(ax,ay,14*sc,0,6.283); cx.moveTo(ax-22*sc,ay); cx.lineTo(ax+22*sc,ay); cx.moveTo(ax,ay-22*sc); cx.lineTo(ax,ay+22*sc); cx.stroke();
       cx.strokeStyle='#7a4a1e'; cx.lineWidth=4; cx.beginPath(); cx.moveTo(X-60*sc,Y); cx.lineTo(px,py); cx.lineTo(X+60*sc,Y); cx.stroke() }
-    if(G.drag){ const pw=Math.min(1,Math.hypot(G.drag.x-G.drag.x0,G.drag.y-G.drag.y0)/160); cx.strokeStyle=`hsl(${50-pw*50},100%,60%)`; cx.lineWidth=6*sc; cx.beginPath(); cx.arc(px,py,40*sc,-Math.PI/2,-Math.PI/2+pw*6.283); cx.stroke() }
+    if(G.drag){ const pw=Math.min(1,Math.hypot(G.drag.x-G.drag.x0,G.drag.y-G.drag.y0)/110); cx.strokeStyle=`hsl(${50-pw*50},100%,60%)`; cx.lineWidth=6*sc; cx.beginPath(); cx.arc(px,py,40*sc,-Math.PI/2,-Math.PI/2+pw*6.283); cx.stroke() }
     ball(px,py,28*sc); if(!G.drag){ cx.font=`${44*sc}px serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText('👆',X+40*sc,Y+20*sc+Math.sin(el*5)*8) } }
   // balls left
   if(G.phase==='aim'){ for(let i=0;i<3;i++){ ball(26+i*34,H-28,12,i<G.balls?1:.25) } }
