@@ -201,7 +201,7 @@ const QUIZ = [
   a:[{en:'An old potter',hi:'एक बूढ़े कुम्हार का',kn:'ಒಬ್ಬ ಮುದಿ ಕುಂಬಾರನದು'},{en:'A royal guard',hi:'एक राजसी पहरेदार का',kn:'ಒಬ್ಬ ಅರಮನೆ ಕಾವಲುಗಾರನದು'},{en:'A merchant',hi:'एक व्यापारी का',kn:'ಒಬ್ಬ ವ್ಯಾಪಾರಿಯದು'}]},
 ];
 const COLORS = ['#e0405a','#3a6fd8','#46b882','#9b59d0'];
-let lang='en'; try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){}
+let lang='en'; try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){} {const q=new URLSearchParams(location.search).get('lang'); if(['en','hi','kn'].includes(q)){lang=q; try{localStorage.setItem('sq_lang',q)}catch(e){}}}
 const t=k=>L[lang][k];
 const tx=o=>o[lang]||o.en;
 
