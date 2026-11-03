@@ -1,2 +1,3 @@
-# story-quest
-Story Quest by World of Wonders, a unit of OurSchoolHouse (OSH)
+# Story Quest
+
+Stories of Bharat to watch and play, by World of Wonders, a unit of OurSchoolHouse (OSH) · https://ourschoolhouse.in
