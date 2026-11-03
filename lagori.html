@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lagori Strike</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
+<style>
+/* Lagori (seven stones) on a Goa street on Naraka Chaturdashi night: knock down Naraka's tower of pride, then rebuild it with virtues. */
+:root{
+  --night:#1c1442; --night-2:#2a1f5c; --ink:#fdf3dc; --muted:#c7bce6; --line:rgba(253,243,220,.16);
+  --marigold:#f6a723; --flame:#ffd35a; --cloth:#f7e7c4;
+  --display:"Baloo 2","Baloo Tamma 2","Trebuchet MS",system-ui,sans-serif; --body:"Mukta","Hind","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100vh;
+  padding:max(10px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 24px max(12px,env(safe-area-inset-left,0px))}
+button{font-family:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+.top{max-width:1100px;margin:0 auto 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top a.back{color:var(--muted);text-decoration:none;font-weight:600}
+.top h1{font-family:var(--display);font-size:clamp(22px,4vw,32px);margin:0;line-height:1;flex:1;min-width:170px}
+.top h1 small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-family:var(--body);font-weight:700;margin-bottom:4px}
+.pill{background:var(--night-2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px}
+.pill[aria-pressed="true"]{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.langs{display:flex;gap:4px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.stage{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -25px #000;border:3px solid #ffffff22;background:#141a33}
+canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.score{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pl{display:flex;align-items:center;gap:8px;background:var(--night-2);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:700}
+.pl.on{border-color:var(--flame);box-shadow:0 0 18px #ffb84a55}
+.pl b{font-family:var(--display);font-size:22px;color:var(--flame)}
+.ov{position:fixed;inset:0;background:#0d0826d9;backdrop-filter:blur(3px);display:grid;place-items:center;z-index:50;padding:16px}
+.card{width:min(500px,100%);background:var(--cloth);color:#3a1d0c;border-radius:22px;padding:20px;box-shadow:0 30px 80px #000a;border:5px solid var(--marigold);animation:pop .35s cubic-bezier(.2,1.6,.4,1);max-height:94vh;overflow:auto}
+.card h3{font-family:var(--display);font-size:28px;line-height:1.05;margin:4px 0 8px}
+.card p{margin:0 0 10px}
+.card img.hero{width:100%;border-radius:14px;display:block;margin-bottom:10px}
+.how{display:grid;gap:8px;margin:6px 0 12px}
+.how div{display:flex;gap:10px;align-items:center;background:#fffaf0;border:2px solid #e8d2a6;border-radius:14px;padding:8px 12px;font-weight:600}
+.how b{font-size:26px;line-height:1;min-width:34px;text-align:center}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
+.mode{border:3px solid #e8d2a6;background:#fffaf0;border-radius:14px;padding:10px;cursor:pointer;font:700 16px var(--body);color:#3a1d0c;text-align:center}
+.mode[aria-pressed="true"]{border-color:#b8643a;background:#ffe6b8}
+.go{font:800 20px var(--display);background:#3a1d0c;color:var(--cloth);border:0;border-radius:14px;padding:13px 18px;cursor:pointer;width:100%;text-align:center;text-decoration:none;display:block}
+.go.alt{background:#b8643a;margin-top:8px}
+.small{font-size:13px;color:#7a5a3a}
+.stars{font-size:34px;letter-spacing:4px;text-align:center;margin:4px 0 8px}
+.by{text-align:center;color:var(--muted);font-size:13px;margin:14px 0 0}.by a{color:var(--flame)}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="index.html#dv3" id="back">← Story Quest</a>
+  <h1><small id="t-eyebrow">Deepavali · Episode 3 game</small><span id="t-title">Lagori Strike</span></h1>
+  <div class="langs" role="group" aria-label="Language">
+    <button class="pill" data-lang="en" aria-pressed="true">EN</button>
+    <button class="pill" data-lang="hi" aria-pressed="false">हिं</button>
+    <button class="pill" data-lang="kn" aria-pressed="false">ಕ</button>
+  </div>
+  <button class="pill" id="sound" aria-pressed="true" aria-label="Sound">🔊</button>
+  <button class="pill" id="newgame" aria-label="New game">↻</button>
+</header>
+<main class="wrap">
+  <div class="stage"><canvas id="st" aria-label="A Goa street at night with a tower of seven stones. Pull back and release to throw the ball, then tap the fallen stones from biggest to smallest to rebuild."></canvas></div>
+  <div class="score" id="score"></div>
+</main>
+<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<div id="overlay"></div>
+<script>
+const L={
+ en:{eyebrow:'Deepavali · Episode 3 game',title:'Lagori Strike',back:'← Story Quest',
+  howT:"Knock down Naraka's tower of pride!",
+  how:[['🎯','Pull back on the ball, aim, and let go to throw. You get 3 balls.'],['🪨','Each stone you knock down is one of Naraka\'s faults.'],['🧱','Then rebuild fast: tap the stones from biggest to smallest. They turn into virtues!'],['⚡','Watch out for the bouncing ball while you rebuild.']],
+  solo:'One player',duo:'Two players',start:"Let's play Lagori!",
+  p:n=>`Player ${n}`,you:'You',round:(r,n)=>`Round ${r} of ${n}`,turn:n=>`Player ${n}'s turn`,
+  aim:'Pull back on the ball and let go!',balls:n=>`${n} ball${n===1?'':'s'} left`,
+  hit:n=>`${n} stone${n===1?'':'s'} down!`,miss:'Missed! Try again.',none:'No stones fell this round.',
+  rebuild:'Rebuild! Tap the biggest stone first.',wrong:'Biggest first!',ouch:'The ball got you! −2 seconds',
+  lagori:'LAGORI! Tower rebuilt!',timeup:"Time's up!",
+  winT:'Pride falls, virtues stand!',winP:"Power without kindness turns into pride, and pride always falls. Like Queen Satyabhama, stand up for what is right!",
+  total:'Total score',again:'Play again',story:'Back to the story',
+  F:['Pride','Anger','Greed','Fear','Envy','Cruelty','Lies'],V:['Humility','Calm','Sharing','Courage','Kindness','Respect','Truth']},
+ hi:{eyebrow:'दीपावली · एपिसोड 3 का खेल',title:'लगोरी स्ट्राइक',back:'← स्टोरी क्वेस्ट',
+  howT:'नरक के घमंड की मीनार गिराओ!',
+  how:[['🎯','गेंद को पीछे खींचो, निशाना लगाओ और छोड़ दो। तुम्हारे पास 3 गेंदें हैं।'],['🪨','हर गिरा पत्थर नरक की एक बुराई है।'],['🧱','फिर जल्दी से बनाओ: सबसे बड़े से सबसे छोटे पत्थर तक टैप करो। वे गुण बन जाएँगे!'],['⚡','बनाते समय उछलती गेंद से बचो।']],
+  solo:'एक खिलाड़ी',duo:'दो खिलाड़ी',start:'लगोरी खेलें!',
+  p:n=>`खिलाड़ी ${n}`,you:'आप',round:(r,n)=>`राउंड ${r} / ${n}`,turn:n=>`खिलाड़ी ${n} की बारी`,
+  aim:'गेंद को पीछे खींचो और छोड़ो!',balls:n=>`${n} गेंद बाकी`,
+  hit:n=>`${n} पत्थर गिरे!`,miss:'चूक गए! फिर कोशिश करो।',none:'इस राउंड में कोई पत्थर नहीं गिरा।',
+  rebuild:'फिर से बनाओ! सबसे बड़ा पत्थर पहले।',wrong:'सबसे बड़ा पहले!',ouch:'गेंद लग गई! −2 सेकंड',
+  lagori:'लगोरी! मीनार फिर बन गई!',timeup:'समय खत्म!',
+  winT:'घमंड गिरा, गुण खड़े हुए!',winP:'दया के बिना ताकत घमंड बन जाती है, और घमंड हमेशा गिरता है। रानी सत्यभामा की तरह, सही के लिए खड़े हो जाओ!',
+  total:'कुल अंक',again:'फिर से खेलें',story:'कहानी पर वापस',
+  F:['घमंड','क्रोध','लालच','डर','ईर्ष्या','क्रूरता','झूठ'],V:['विनम्रता','शांति','बाँटना','साहस','दया','सम्मान','सत्य']},
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 3 ಆಟ',title:'ಲಗೋರಿ ಸ್ಟ್ರೈಕ್',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',
+  howT:'ನರಕನ ಅಹಂಕಾರದ ಗೋಪುರವನ್ನು ಉರುಳಿಸಿ!',
+  how:[['🎯','ಚೆಂಡನ್ನು ಹಿಂದಕ್ಕೆ ಎಳೆದು, ಗುರಿ ಇಟ್ಟು, ಬಿಡಿ. ನಿಮಗೆ 3 ಚೆಂಡುಗಳಿವೆ.'],['🪨','ಉರುಳುವ ಪ್ರತಿ ಕಲ್ಲೂ ನರಕನ ಒಂದು ದೋಷ.'],['🧱','ನಂತರ ಬೇಗ ಕಟ್ಟಿ: ದೊಡ್ಡ ಕಲ್ಲಿನಿಂದ ಚಿಕ್ಕದರವರೆಗೆ ಟ್ಯಾಪ್ ಮಾಡಿ. ಅವು ಸದ್ಗುಣಗಳಾಗುತ್ತವೆ!'],['⚡','ಕಟ್ಟುವಾಗ ಪುಟಿಯುವ ಚೆಂಡಿನಿಂದ ಎಚ್ಚರ.']],
+  solo:'ಒಬ್ಬ ಆಟಗಾರ',duo:'ಇಬ್ಬರು ಆಟಗಾರರು',start:'ಲಗೋರಿ ಆಡೋಣ!',
+  p:n=>`ಆಟಗಾರ ${n}`,you:'ನೀವು',round:(r,n)=>`ಸುತ್ತು ${r} / ${n}`,turn:n=>`ಆಟಗಾರ ${n} ಸರದಿ`,
+  aim:'ಚೆಂಡನ್ನು ಹಿಂದಕ್ಕೆ ಎಳೆದು ಬಿಡಿ!',balls:n=>`${n} ಚೆಂಡು ಉಳಿದಿದೆ`,
+  hit:n=>`${n} ಕಲ್ಲು ಉರುಳಿದವು!`,miss:'ತಪ್ಪಿತು! ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.',none:'ಈ ಸುತ್ತಿನಲ್ಲಿ ಯಾವ ಕಲ್ಲೂ ಉರುಳಲಿಲ್ಲ.',
+  rebuild:'ಮತ್ತೆ ಕಟ್ಟಿ! ದೊಡ್ಡ ಕಲ್ಲು ಮೊದಲು.',wrong:'ದೊಡ್ಡದು ಮೊದಲು!',ouch:'ಚೆಂಡು ತಾಗಿತು! −2 ಸೆಕೆಂಡ್',
+  lagori:'ಲಗೋರಿ! ಗೋಪುರ ಮತ್ತೆ ನಿಂತಿತು!',timeup:'ಸಮಯ ಮುಗಿಯಿತು!',
+  winT:'ಅಹಂಕಾರ ಬಿತ್ತು, ಸದ್ಗುಣ ನಿಂತಿತು!',winP:'ದಯೆ ಇಲ್ಲದ ಶಕ್ತಿ ಅಹಂಕಾರವಾಗುತ್ತದೆ, ಅಹಂಕಾರ ಯಾವಾಗಲೂ ಬೀಳುತ್ತದೆ. ರಾಣಿ ಸತ್ಯಭಾಮೆಯಂತೆ, ಸರಿಯಾದುದಕ್ಕಾಗಿ ಎದ್ದು ನಿಲ್ಲಿ!',
+  total:'ಒಟ್ಟು ಅಂಕ',again:'ಮತ್ತೆ ಆಡಿ',story:'ಕಥೆಗೆ ಹಿಂತಿರುಗಿ',
+  F:['ಅಹಂಕಾರ','ಕೋಪ','ದುರಾಸೆ','ಭಯ','ಅಸೂಯೆ','ಕ್ರೂರತೆ','ಸುಳ್ಳು'],V:['ವಿನಯ','ಶಾಂತಿ','ಹಂಚಿಕೆ','ಧೈರ್ಯ','ದಯೆ','ಗೌರವ','ಸತ್ಯ']}
+};
+let lang='en'; try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){} {const q=new URLSearchParams(location.search).get('lang'); if(['en','hi','kn'].includes(q)){lang=q; try{localStorage.setItem('sq_lang',q)}catch(e){}}}
+const t=k=>L[lang][k]; const $=s=>document.querySelector(s);
+const IMG=n=>{const i=new Image(); i.src=n; return i}; const BG=IMG('img/ep3_street.jpg');
+
+/* ---------- sound ---------- */
+let AC=null, soundOn=true;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){} } if(AC&&AC.state==='suspended')AC.resume(); return AC }
+function tone(f,d=.15,type='sine',v=.15,slide=0){ if(!soundOn||!ac())return; const o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime; o.type=type;o.frequency.setValueAtTime(f,n); if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(40,f*slide),n+d); g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d); o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+d+.02)}
+function noise(d=.2,v=.2,f=900){ if(!soundOn||!ac())return; const n=AC.currentTime,b=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate),x=b.getChannelData(0); for(let i=0;i<x.length;i++)x[i]=(Math.random()*2-1)*Math.pow(1-i/x.length,2); const s=AC.createBufferSource(),fl=AC.createBiquadFilter(),g=AC.createGain(); fl.type='lowpass';fl.frequency.value=f; g.gain.value=v; s.buffer=b;s.connect(fl);fl.connect(g);g.connect(AC.destination);s.start(n)}
+const SFX={throw:()=>noise(.25,.08,2400),clack:()=>{noise(.12,.35,1800);tone(320,.08,'square',.05)},thud:()=>noise(.3,.3,300),place:i=>tone([262,294,330,392,440,523,587][i]||600,.18,'triangle',.14),
+ wrong:()=>tone(160,.25,'sawtooth',.08,.7),ouch:()=>{tone(500,.15,'square',.08,.5);noise(.15,.2,800)},lagori:()=>[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.35,'triangle',.14),i*110)),tick:()=>tone(1200,.04,'square',.03)};
+
+/* ---------- layout: the 3D street, cover-fitted ---------- */
+const cv=$('#st'), cx=cv.getContext('2d'); let W=1280,H=720,DPR=1,portrait=false;
+const IW=1256, IH=698;
+function layout(){ const w=cv.parentElement.clientWidth; portrait=w<640; W=portrait?720:1280; H=portrait?860:720;
+  DPR=Math.min(2,window.devicePixelRatio||1)*w/W; cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); cv.style.aspectRatio=W+'/'+H; cx.setTransform(DPR,0,0,DPR,0,0) }
+addEventListener('resize',layout);
+function S(){ return portrait? H/IH : Math.max(W/IW,H/IH) } function OX(){ return (W-IW*S())/2 } function OY(){ return (H-IH*S())/2 }
+const P=(x,y)=>[OX()+x*S(), OY()+y*S()];                 // image → canvas
+const Q=(X,Y)=>[(X-OX())/S(), (Y-OY())/S()];             // canvas → image
+// stack sits mid-street; the ball is thrown from the bottom of the picture
+const STACK={x:640, y:556}, BALL0={x:640, y:668};
+const SIZES=[1,.9,.8,.7,.6,.5,.42];  // stone widths, biggest at the bottom
+function stoneDims(i,sc){ const w=176*SIZES[i]*sc, h=27*sc; return [w,h] }
+
+/* ---------- game state ---------- */
+let G=null, mode='solo';
+const ROUNDS=3;
+function newGame(){ G={players:mode==='duo'?2:1, scores:[0,0], round:1, cur:0, phase:'aim', balls:3, stones:[], ball:null, drag:null, msg:null, msgT:0, rb:null, parts:[], el:0, over:false}; buildStack(); renderScore() }
+function buildStack(){ G.stones=SIZES.map((_,i)=>({i, up:true, x:STACK.x, y:0, vx:0, vy:0, rot:0, vr:0, z:1, landed:false, virtue:false, placed:false})); G.balls=3; G.phase='aim'; G.knocked=0; say(t('aim'),2.6) }
+function say(m,s=2){ G.msg=m; G.msgT=s }
+function stackY(i){ let y=STACK.y; for(let k=0;k<i;k++) y-=stoneDims(k,1)[1]*.98; return y }
+
+/* ---------- input ---------- */
+function pos(e){ const r=cv.getBoundingClientRect(); return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H] }
+cv.addEventListener('pointerdown',e=>{ ac(); if(!G||G.over)return; const [X,Y]=pos(e); const [x,y]=Q(X,Y);
+  if(G.phase==='aim'&&!G.ball){ G.drag={x0:x,y0:y,x,y,id:e.pointerId}; cv.setPointerCapture(e.pointerId) }
+  else if(G.phase==='rebuild') tapStone(x,y) });
+cv.addEventListener('pointermove',e=>{ if(!G||!G.drag||G.drag.id!==e.pointerId)return; const [X,Y]=pos(e); const [x,y]=Q(X,Y); G.drag.x=x; G.drag.y=y });
+['pointerup','pointercancel'].forEach(k=>cv.addEventListener(k,e=>{ if(!G||!G.drag||G.drag.id!==e.pointerId)return; const d=G.drag; G.drag=null; const pull=Math.hypot(d.x-d.x0,d.y-d.y0); if(pull>18) throwBall(aimPoint(d)) }));
+function aimPoint(d){ // pulling back (down) aims forward (up the street); sideways pull aims the other way
+  const dx=d.x-d.x0, dy=Math.max(0,d.y-d.y0); return {x:STACK.x-dx*1.6, y:STACK.y+30-dy*1.15} }
+addEventListener('keydown',e=>{ if(!G||G.over||G.phase!=='aim'||G.ball)return; if(e.key===' '||e.key==='Enter'){ throwBall({x:STACK.x+(Math.random()-.5)*60,y:STACK.y-50}); e.preventDefault() } });
+
+function throwBall(a){ G.balls--; SFX.throw(); const wob=(Math.random()-.5)*10; G.ball={u:0,tx:a.x+wob,ty:a.y,hit:false}; }
+function resolveHit(b){ // which stone did the ball reach?
+  let hitI=-1; for(let i=0;i<7;i++){ const s=G.stones[i]; if(!s.up)continue; const [w,h]=stoneDims(i,1), y=stackY(i); if(b.tx>STACK.x-w/2-8&&b.tx<STACK.x+w/2+8&&b.ty<y+4&&b.ty>y-h-6){ hitI=i; break } }
+  if(hitI<0){ say(G.balls>0?t('miss'):t('none'),1.6); return }
+  let n=0; for(let i=hitI;i<7;i++){ const s=G.stones[i]; if(!s.up)continue; s.up=false; n++;
+    const side=Math.sign(b.tx-STACK.x)||((Math.random()<.5)?-1:1);
+    s.x=STACK.x; s.y=stackY(i); s.vx=(-side*.3+(Math.random()-.5))*(220+Math.random()*260); s.vy=-(180+Math.random()*240)-(i-hitI)*25; s.vr=(Math.random()-.5)*10; s.z=1;
+    s.ground=600+Math.random()*80; }
+  // anything below the hit stone that no longer has stones on top stays; a hit low enough topples the whole tower
+  if(hitI<=1) for(let i=0;i<hitI;i++){ const s=G.stones[i]; if(Math.random()<.6&&s.up){ s.up=false; n++; s.x=STACK.x; s.y=stackY(i); s.vx=(Math.random()-.5)*300; s.vy=-(100+Math.random()*120); s.vr=(Math.random()-.5)*6; s.ground=595+Math.random()*80 } }
+  G.knocked+=n; G.scores[G.cur]+=n*10; renderScore(); SFX.clack(); burst(...P(b.tx,b.ty),'#ffd35a'); say(t('hit')(n),1.6)
+}
+function startRebuild(){ G.phase='rebuild'; G.rb={left:12, next:0, order:G.stones.filter(s=>!s.up).map(s=>s.i).sort((a,b)=>a-b), placed:0,
+  bx:300+Math.random()*600, by:600, bvx:(Math.random()<.5?-1:1)*(260+G.round*40), bvy:-320, lastTick:12};
+  G.stones.forEach(s=>{ if(!s.up) s.virtue=true }); say(t('rebuild'),2.4) }
+function tapStone(x,y){ const rb=G.rb; if(!rb)return;
+  let best=null; for(const s of G.stones){ if(s.up||s.placed||!s.landed)continue; const [w,h]=stoneDims(s.i,s.z); if(Math.abs(x-s.x)<w/2+14&&Math.abs(y-(s.y-h/2))<h+20){ if(!best||s.i<best.i) best=s } }
+  if(!best)return;
+  if(Math.hypot(rb.bx-best.x,rb.by-best.y)<70){ rb.left=Math.max(0,rb.left-2); SFX.ouch(); say(t('ouch'),1.2); G.shake=.35; return }
+  const want=rb.order[rb.placed];
+  if(best.i!==want){ SFX.wrong(); say(t('wrong'),1); best.wig=.4; return }
+  best.placed=true; best.up=true; best.fly={x:best.x,y:best.y,k:0}; rb.placed++; SFX.place(best.i); G.scores[G.cur]+=5; renderScore();
+  if(rb.placed===rb.order.length){ const bonus=Math.ceil(rb.left)*5; G.scores[G.cur]+=bonus; renderScore(); SFX.lagori(); say(t('lagori')+`  +${bonus}`,2.4); for(let k=0;k<6;k++)setTimeout(()=>burst(...P(STACK.x+(Math.random()-.5)*160,STACK.y-80-Math.random()*80),['#ffd35a','#fff','#ff8bd1'][k%3]),k*120); endTurn(2.6) }
+}
+function endTurn(delay){ G.phase='wait'; G.rb=null; setTimeout(()=>{ if(!G||G.over)return;
+  if(G.players===2&&G.cur===0){ G.cur=1 } else { G.cur=0; G.round++ }
+  if(G.round>ROUNDS){ finish(); return }
+  buildStack(); renderScore(); say(G.players===2?t('turn')(G.cur+1)+' · '+t('round')(G.round,ROUNDS):t('round')(G.round,ROUNDS),2.2) }, delay*1000) }
+function burst(X,Y,c){ for(let i=0;i<22;i++){ const a=Math.random()*6.283,s=2+Math.random()*5; G.parts.push({x:X,y:Y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,l:1,c}) } }
+
+/* ---------- update ---------- */
+function update(dt){ if(!G)return; G.el+=dt; if(G.msgT>0){G.msgT-=dt; if(G.msgT<=0)G.msg=null} if(G.shake>0)G.shake-=dt;
+  const b=G.ball; if(b){ b.u+=dt/.62; if(b.u>=1&&!b.hit){ b.hit=true; resolveHit(b); } if(b.u>1.6){ G.ball=null;
+      if(G.phase==='aim'){ const allDown=G.stones.every(s=>!s.up); if(allDown||(G.balls===0&&G.knocked>0)||(G.knocked>0&&G.stones.filter(s=>s.up).length===0)) setTimeout(()=>{ if(G&&G.phase==='aim')startRebuild() },900);
+        else if(G.knocked>0&&G.balls===0) setTimeout(()=>{ if(G&&G.phase==='aim')startRebuild() },900);
+        else if(G.balls===0){ say(t('none'),1.8); endTurn(1.8) } } } }
+  for(const s of G.stones){ if(s.up&&!s.fly)continue; if(s.fly){ s.fly.k+=dt*3; if(s.fly.k>=1){ s.fly=null; s.rot=0 } continue }
+    if(!s.landed){ s.vy+=900*dt; s.x+=s.vx*dt; s.y+=s.vy*dt; s.rot+=s.vr*dt; const g=s.ground||640; s.z=1+(s.y-STACK.y)/480; if(s.y>=g){ s.y=g; s.landed=true; s.rot=Math.round(s.rot/Math.PI)*Math.PI*0+(Math.random()-.5)*.25; s.z=1+(g-STACK.y)/480; SFX.thud(); s.x=Math.max(60,Math.min(IW-60,s.x)) } }
+    if(s.wig>0)s.wig-=dt }
+  const rb=G.rb; if(rb&&G.phase==='rebuild'){ rb.left-=dt; if(Math.ceil(rb.left)<rb.lastTick&&rb.left<5){ rb.lastTick=Math.ceil(rb.left); SFX.tick() }
+    rb.bvy+=700*dt; rb.bx+=rb.bvx*dt; rb.by+=rb.bvy*dt; if(rb.by>650){ rb.by=650; rb.bvy=-(380+Math.random()*120) } if(rb.bx<120||rb.bx>IW-120){ rb.bvx*=-1; rb.bx=Math.max(120,Math.min(IW-120,rb.bx)) }
+    if(rb.left<=0){ say(t('timeup'),1.8); SFX.wrong(); endTurn(2) } }
+  for(const p of G.parts){p.x+=p.vx;p.y+=p.vy;p.vy+=.25;p.l-=dt*1.4} G.parts=G.parts.filter(p=>p.l>0)
+}
+
+/* ---------- drawing ---------- */
+function rr(x,y,w,h,r){ cx.beginPath(); cx.roundRect?cx.roundRect(x,y,w,h,r):cx.rect(x,y,w,h) }
+function drawStone(s,X,Y,sc,alpha=1){ const [w,h]=stoneDims(s.i,sc); cx.save(); cx.globalAlpha=alpha; cx.translate(X,Y); cx.rotate(s.rot||0); if(s.wig>0)cx.translate(Math.sin(G.el*60)*4,0);
+  const top=s.virtue?['#ffe08a','#ffb347','#ff8bd1','#8fe0ff','#a6f08a','#ffc2a8','#fff3b0'][s.i]:'#8a7a9a', side=s.virtue?['#c9862b','#c86a1e','#c0508f','#3b8fb8','#4f9a3c','#c26a4a','#b8a24a'][s.i]:'#4e4060';
+  // side band
+  cx.fillStyle=side; cx.beginPath(); cx.ellipse(0,0,w/2,h*.38,0,0,Math.PI); cx.lineTo(-w/2,-h); cx.ellipse(0,-h,w/2,h*.38,0,Math.PI,0,true); cx.closePath(); cx.fill();
+  cx.strokeStyle='rgba(0,0,0,.35)'; cx.lineWidth=1.5*sc; cx.stroke();
+  // top face
+  const g=cx.createRadialGradient(-w*.15,-h-h*.1,2,0,-h,w/2); g.addColorStop(0,'#fff'); g.addColorStop(.25,top); g.addColorStop(1,side); cx.fillStyle=g; cx.beginPath(); cx.ellipse(0,-h,w/2,h*.38,0,0,6.283); cx.fill();
+  // word painted on the side
+  const word=(s.virtue?L[lang].V:L[lang].F)[s.i]; let fs=Math.max(9,h*.62); cx.font=`800 ${fs}px "Baloo 2","Baloo Tamma 2",sans-serif`; while(cx.measureText(word).width>w*.86&&fs>8){fs--; cx.font=`800 ${fs}px "Baloo 2","Baloo Tamma 2",sans-serif`}
+  cx.fillStyle=s.virtue?'#3a1d0c':'#f0e6ff'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(word,0,-h*.45);
+  cx.restore() }
+function draw(){ cx.save(); if(G.shake>0)cx.translate(Math.sin(G.el*70)*6*G.shake,0);
+  if(BG.complete&&BG.naturalWidth) cx.drawImage(BG,OX(),OY(),IW*S(),IH*S()); else { cx.fillStyle='#141a33'; cx.fillRect(0,0,W,H) }
+  const sc=S(), el=G.el;
+  // a soft spotlight on the tower
+  const [sx,sy]=P(STACK.x,STACK.y-60); let g=cx.createRadialGradient(sx,sy,10,sx,sy,260*sc); g.addColorStop(0,'rgba(255,220,150,.28)'); g.addColorStop(1,'rgba(255,220,150,0)'); cx.fillStyle=g; cx.fillRect(0,0,W,H);
+  // shadow + standing stones, bottom to top
+  const [bx,by]=P(STACK.x,STACK.y); cx.fillStyle='rgba(0,0,0,.35)'; cx.beginPath(); cx.ellipse(bx,by+3*sc,70*sc,12*sc,0,0,6.283); cx.fill();
+  for(let i=0;i<7;i++){ const s=G.stones[i]; if(!s.up)continue; let [X,Y]=P(STACK.x,stackY(i)); if(s.fly){ const [fx,fy]=P(s.fly.x,s.fly.y); const k=s.fly.k; X=fx+(X-fx)*k; Y=fy+(Y-fy)*k-Math.sin(k*Math.PI)*80*sc } drawStone(s,X,Y,sc) }
+  // fallen stones, far ones first
+  const down=G.stones.filter(s=>!s.up).sort((a,b)=>a.y-b.y);
+  for(const s of down){ const [X,Y]=P(s.x,s.y); const z=Math.max(.8,Math.min(1.5,s.z)); cx.fillStyle='rgba(0,0,0,.3)'; if(s.landed){ cx.beginPath(); cx.ellipse(X,Y+2,stoneDims(s.i,sc*z)[0]*.55,6*sc*z,0,0,6.283); cx.fill() } drawStone(s,X,Y,sc*z) }
+  // rebuild hints: glow on the stone to tap next, defenders' ball, timer
+  if(G.phase==='rebuild'&&G.rb){ const rb=G.rb, want=rb.order[rb.placed], s=G.stones[want];
+    if(s&&s.landed&&!s.placed){ const [X,Y]=P(s.x,s.y); const z=Math.max(.8,Math.min(1.5,s.z)), [w,h]=stoneDims(s.i,sc*z); cx.strokeStyle=`rgba(255,230,120,${.6+.4*Math.sin(el*8)})`; cx.lineWidth=4; cx.beginPath(); cx.ellipse(X,Y-h*.6,w*.62,h*1.3,0,0,6.283); cx.stroke() }
+    const [qx,qy]=P(rb.bx,rb.by); const r=16*sc*(1+(rb.by-STACK.y)/600); cx.fillStyle='rgba(0,0,0,.3)'; cx.beginPath(); cx.ellipse(qx,P(0,655)[1],r,r*.3,0,0,6.283); cx.fill(); ball(qx,qy,r);
+    const tw=portrait?W*.6:W*.3, tx=(W-tw)/2, ty=portrait?16:18; rr(tx,ty,tw,22,11); cx.fillStyle='rgba(0,0,0,.5)'; cx.fill(); rr(tx+3,ty+3,(tw-6)*Math.max(0,rb.left)/12,16,8); cx.fillStyle=rb.left<4?'#ff6b6b':'#ffd35a'; cx.fill();
+    cx.font='800 22px "Baloo 2",sans-serif'; cx.fillStyle='#fff'; cx.textAlign='center'; cx.textBaseline='top'; cx.fillText('⏱ '+Math.max(0,Math.ceil(rb.left)),W/2,ty+28) }
+  // the thrown ball flies up the street, getting smaller
+  if(G.ball){ const b=G.ball, u=Math.min(1,b.u), x=BALL0.x+(b.tx-BALL0.x)*u, y=BALL0.y+(b.ty-BALL0.y)*u-Math.sin(u*Math.PI)*90; const [X,Y]=P(x,y);
+    let r=(28-15*u)*sc; if(b.u>1){ const k=b.u-1; ball(X+(b.tx<STACK.x?-1:1)*k*200*sc,Y+k*k*300*sc,r) } else ball(X,Y,r) }
+  // aim: rubber band from the ball and a target on the street
+  if(G.phase==='aim'&&!G.ball&&G.balls>0){ const [X,Y]=P(BALL0.x,BALL0.y); let px=X, py=Y;
+    if(G.drag){ const d=G.drag; const [dx0,dy0]=P(d.x0,d.y0), [dx1,dy1]=P(d.x,d.y); px=X+(dx1-dx0)*.6; py=Y+Math.max(0,dy1-dy0)*.6;
+      const a=aimPoint(d), [ax,ay]=P(a.x,a.y); cx.setLineDash([6,8]); cx.strokeStyle='rgba(255,240,200,.85)'; cx.lineWidth=3; cx.beginPath(); cx.moveTo(px,py); cx.quadraticCurveTo((px+ax)/2,Math.min(py,ay)-90*sc,ax,ay); cx.stroke(); cx.setLineDash([]);
+      cx.strokeStyle='#ffd35a'; cx.lineWidth=3; cx.beginPath(); cx.arc(ax,ay,14*sc,0,6.283); cx.moveTo(ax-22*sc,ay); cx.lineTo(ax+22*sc,ay); cx.moveTo(ax,ay-22*sc); cx.lineTo(ax,ay+22*sc); cx.stroke();
+      cx.strokeStyle='#7a4a1e'; cx.lineWidth=4; cx.beginPath(); cx.moveTo(X-60*sc,Y); cx.lineTo(px,py); cx.lineTo(X+60*sc,Y); cx.stroke() }
+    ball(px,py,28*sc); if(!G.drag){ cx.font=`${44*sc}px serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText('👆',X+40*sc,Y+20*sc+Math.sin(el*5)*8) } }
+  // balls left
+  if(G.phase==='aim'){ for(let i=0;i<3;i++){ ball(26+i*34,H-28,12,i<G.balls?1:.25) } }
+  for(const p of G.parts){ cx.globalAlpha=Math.max(0,p.l); cx.fillStyle=p.c; cx.beginPath(); cx.arc(p.x,p.y,4,0,6.283); cx.fill() } cx.globalAlpha=1;
+  // banner
+  if(G.msg){ cx.font=`800 ${portrait?30:30}px "Baloo 2","Baloo Tamma 2",sans-serif`; const tw=Math.min(W*.9,cx.measureText(G.msg).width+50), bh=50, by2=portrait?H*.36:H*.16;
+    rr((W-tw)/2,by2,tw,bh,25); cx.fillStyle='rgba(28,20,66,.86)'; cx.fill(); cx.strokeStyle='#f6a723'; cx.lineWidth=3; cx.stroke(); cx.fillStyle='#ffe9a8'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(G.msg,W/2,by2+bh/2+2,W*.86) }
+  cx.restore() }
+function ball(X,Y,r,a=1){ cx.save(); cx.globalAlpha=a; const g=cx.createRadialGradient(X-r*.35,Y-r*.35,r*.1,X,Y,r); g.addColorStop(0,'#fff6e0'); g.addColorStop(.5,'#e84a3c'); g.addColorStop(1,'#8a1e16'); cx.fillStyle=g; cx.beginPath(); cx.arc(X,Y,r,0,6.283); cx.fill();
+  cx.strokeStyle='rgba(255,255,255,.6)'; cx.lineWidth=Math.max(1,r*.12); cx.beginPath(); cx.arc(X,Y,r*.72,-.6,1.2); cx.stroke(); cx.restore() }
+
+let last=0; function loop(now){ const dt=Math.min(.05,(now-last)/1000||0); last=now; if(G){ update(dt); draw() } requestAnimationFrame(loop) }
+
+/* ---------- screens ---------- */
+function renderScore(){ if(!G){$('#score').innerHTML='';return} $('#score').innerHTML=Array.from({length:G.players},(_,i)=>`<span class="pl ${i===G.cur?'on':''}">${G.players===1?t('you'):t('p')(i+1)} <b>${G.scores[i]}</b></span>`).join('')+`<span class="pl">${t('round')(Math.min(G.round,ROUNDS),ROUNDS)}</span>` }
+function start(){ newGame(); G.over=true; $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep3_effigy.jpg" alt=""><h3>${t('howT')}</h3><div class="how">${t('how').map(([i,s])=>`<div><b>${i}</b><span>${s}</span></div>`).join('')}</div>
+  <div class="modes"><button class="mode" data-m="solo" aria-pressed="${mode==='solo'}">🧑 ${t('solo')}</button><button class="mode" data-m="duo" aria-pressed="${mode==='duo'}">👫 ${t('duo')}</button></div><button class="go" id="go">${t('start')}</button></div></div>`;
+  document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ mode=b.dataset.m; document.querySelectorAll('.mode').forEach(x=>x.setAttribute('aria-pressed',x===b)) });
+  $('#go').onclick=()=>{ ac(); $('#overlay').innerHTML=''; newGame(); say(t('round')(1,ROUNDS)+' · '+t('aim'),2.6) } }
+function finish(){ G.over=true; const best=Math.max(...G.scores.slice(0,G.players)); try{const pr=JSON.parse(localStorage.getItem('storyquest')||'{}'); pr.dv3=1; localStorage.setItem('storyquest',JSON.stringify(pr))}catch(e){}
+  const stars=best>=200?3:best>=120?2:1; const who=G.players===2?(G.scores[0]===G.scores[1]?'🤝':(G.scores[0]>G.scores[1]?'🏆 '+t('p')(1):'🏆 '+t('p')(2))):'';
+  $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep3_satya.jpg" alt=""><h3>${t('winT')}</h3><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${t('winP')}</p>
+  <p><b>${t('total')}:</b> ${G.scores.slice(0,G.players).map((s,i)=>(G.players===2?t('p')(i+1)+' ':'')+s).join(' · ')} ${who}</p><button class="go" id="again">${t('again')}</button><a class="go alt" href="index.html#dv3">${t('story')}</a></div></div>`; $('#again').onclick=start }
+function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back');
+  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang)); renderScore() }
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||G.over)start() });
+$('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
+$('#newgame').onclick=start;
+layout(); applyLang(); start(); requestAnimationFrame(loop);
+</script>
+</body>
+</html>
