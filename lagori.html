@@ -165,15 +165,15 @@ function resolveHit(b){ // which stone did the ball reach?
   let n=0; for(let i=hitI;i<7;i++){ const s=G.stones[i]; if(!s.up)continue; s.up=false; n++;
     const side=Math.sign(b.tx-STACK.x)||((Math.random()<.5)?-1:1);
     s.x=STACK.x; s.y=stackY(i); s.vx=(Math.random()<.5?-1:1)*(160+Math.random()*440)+side*60; s.vy=-(180+Math.random()*240)-(i-hitI)*25; s.vr=(Math.random()-.5)*10; s.z=1;
-    s.ground=600+Math.random()*80; }
+    s.ground=590+Math.random()*55; }
   // anything below the hit stone that no longer has stones on top stays; a hit low enough topples the whole tower
-  if(hitI<=1) for(let i=0;i<hitI;i++){ const s=G.stones[i]; if(Math.random()<.6&&s.up){ s.up=false; n++; s.x=STACK.x; s.y=stackY(i); s.vx=(Math.random()-.5)*300; s.vy=-(100+Math.random()*120); s.vr=(Math.random()-.5)*6; s.ground=595+Math.random()*80 } }
+  if(hitI<=1) for(let i=0;i<hitI;i++){ const s=G.stones[i]; if(Math.random()<.6&&s.up){ s.up=false; n++; s.x=STACK.x; s.y=stackY(i); s.vx=(Math.random()-.5)*300; s.vy=-(100+Math.random()*120); s.vr=(Math.random()-.5)*6; s.ground=590+Math.random()*55 } }
   G.knocked+=n; const allDown=G.stones.every(s=>!s.up), perfect=allDown&&G.balls===2; const pts=n*10*(perfect?2:1); G.scores[G.cur]+=pts; renderScore();
   G.stop=.14; G.zoom=1; G.shake=.6; G.flash=1; SFX.boom(); SFX.clack(); vib(perfect?[60,40,90]:50);
   const [X,Y]=P(b.tx,b.ty); burst(X,Y,'#ffd35a',30); dust(b.tx,b.ty,26); popup(X,Y-30,'+'+pts,'#ffe066');
   G.big={txt: perfect?t('perfect'):(n>=5?t('strike'):t('hit')(n)), k:0}; if(n>=5||perfect) SFX.strike()
 }
-function spread(){ const d=G.stones.filter(s=>!s.up); for(let it=0;it<60;it++){ let moved=false; for(let i=0;i<d.length;i++)for(let j=i+1;j<d.length;j++){ const A=d[i],B=d[j], need=(stoneDims(A.i,A.z)[0]+stoneDims(B.i,B.z)[0])*.5*.95; if(Math.abs(A.y-B.y)<45&&Math.abs(A.x-B.x)<need){ const push=(need-Math.abs(A.x-B.x))/2+1, sg=A.x<B.x?-1:1; A.x=Math.max(170,Math.min(IW-170,A.x+sg*push)); B.x=Math.max(170,Math.min(IW-170,B.x-sg*push)); moved=true } } if(!moved)break } }
+function spread(){ const d=G.stones.filter(s=>!s.up); for(let it=0;it<60;it++){ let moved=false; for(let i=0;i<d.length;i++)for(let j=i+1;j<d.length;j++){ const A=d[i],B=d[j], need=(stoneDims(A.i,A.z)[0]+stoneDims(B.i,B.z)[0])*.5*.95; if(Math.abs(A.y-B.y)<45&&Math.abs(A.x-B.x)<need){ const push=(need-Math.abs(A.x-B.x))/2+1, sg=A.x<B.x?-1:1; A.x=Math.max(300,Math.min(IW-300,A.x+sg*push)); B.x=Math.max(300,Math.min(IW-300,B.x-sg*push)); moved=true } } if(!moved)break } }
 function startRebuild(){ spread(); G.phase='rebuild'; G.rb={left:12, next:0, order:G.stones.filter(s=>!s.up).map(s=>s.i).sort((a,b)=>a-b), placed:0,
   bx:300+Math.random()*600, by:600, bvx:(Math.random()<.5?-1:1)*(260+G.round*40), bvy:-320, lastTick:12};
   G.stones.forEach(s=>{ if(!s.up) s.virtue=true }); say(t('rebuild'),2.4) }
@@ -204,7 +204,7 @@ function update(dt){ if(!G)return; if(G.stop>0){ G.stop-=dt; return } G.el+=dt; 
         else if(G.knocked>0&&G.balls===0) setTimeout(()=>{ if(G&&G.phase==='aim')startRebuild() },900);
         else if(G.balls===0){ say(t('none'),1.8); endTurn(1.8) } } } }
   for(const s of G.stones){ if(s.up&&!s.fly)continue; if(s.fly){ s.fly.k+=dt*3; if(s.fly.k>=1){ s.fly=null; s.rot=0 } continue }
-    if(!s.landed){ s.vy+=900*dt; s.x+=s.vx*dt; s.y+=s.vy*dt; s.rot+=s.vr*dt; const g=s.ground||640; s.z=1+(s.y-STACK.y)/480; if(s.y>=g){ if(!s.bounced&&s.vy>200){ s.bounced=true; s.y=g; s.vy=-s.vy*.32; s.vx*=.6; s.vr*=.5; SFX.thud(); dust(s.x,g,6); continue } s.y=g; s.landed=true; s.rot=Math.round(s.rot/Math.PI)*Math.PI*0+(Math.random()-.5)*.25; s.z=1+(g-STACK.y)/480; SFX.thud(); s.x=Math.max(60,Math.min(IW-60,s.x)) } }
+    if(!s.landed){ s.vy+=900*dt; s.x+=s.vx*dt; s.y+=s.vy*dt; s.rot+=s.vr*dt; const g=s.ground||640; s.z=1+(s.y-STACK.y)/480; if(s.y>=g){ if(!s.bounced&&s.vy>200){ s.bounced=true; s.y=g; s.vy=-s.vy*.32; s.vx*=.6; s.vr*=.5; SFX.thud(); dust(s.x,g,6); continue } s.y=g; s.landed=true; s.rot=Math.round(s.rot/Math.PI)*Math.PI*0+(Math.random()-.5)*.25; s.z=1+(g-STACK.y)/480; SFX.thud(); s.x=Math.max(300,Math.min(IW-300,s.x)) } }
     if(s.wig>0)s.wig-=dt }
   const rb=G.rb; if(rb&&G.phase==='rebuild'){ rb.left-=dt; if(Math.ceil(rb.left)<rb.lastTick&&rb.left<5){ rb.lastTick=Math.ceil(rb.left); SFX.tick() }
     rb.bvy+=700*dt; rb.bx+=rb.bvx*dt; rb.by+=rb.bvy*dt; if(rb.by>650){ rb.by=650; rb.bvy=-(380+Math.random()*120) } if(rb.bx<120||rb.bx>IW-120){ rb.bvx*=-1; rb.bx=Math.max(120,Math.min(IW-120,rb.bx)) }
@@ -214,11 +214,16 @@ function update(dt){ if(!G)return; if(G.stop>0){ G.stop-=dt; return } G.el+=dt; 
 
 /* ---------- drawing ---------- */
 function rr(x,y,w,h,r){ cx.beginPath(); cx.roundRect?cx.roundRect(x,y,w,h,r):cx.rect(x,y,w,h) }
+function groundShadow(X,Y,w,a){ // contact shadow + cast shadow toward the viewer so stones sit on the cobbles
+  cx.save(); cx.filter=`blur(${Math.max(2,w*.05)}px)`;
+  cx.fillStyle=`rgba(8,4,0,${.55*a})`; cx.beginPath(); cx.ellipse(X+w*.04,Y+w*.07,w*.66,w*.16,0,0,6.283); cx.fill();   // cast shadow
+  cx.filter=`blur(${Math.max(1,w*.02)}px)`; cx.fillStyle=`rgba(0,0,0,${.85*a})`; cx.beginPath(); cx.ellipse(X,Y+w*.015,w*.5,w*.07,0,0,6.283); cx.fill();  // dark contact line
+  cx.restore() }
 function drawStone(s,X,Y,sc,alpha=1){ const w=150*SIZES[s.i]*sc; const img=s.virtue?(TINT[s.i]||BRIGHT):DARK; if(!img||!(img.width||img.naturalWidth))return;
   const iw=img.naturalWidth||img.width, ih=img.naturalHeight||img.height, h=w*ih/iw;
   cx.save(); cx.globalAlpha=alpha; cx.translate(X,Y); cx.rotate(s.rot||0); if(s.wig>0)cx.translate(Math.sin(G.el*60)*5,0);
-  if(!s.virtue){ cx.shadowColor='rgba(190,90,255,.55)'; cx.shadowBlur=14*sc }
-  cx.drawImage(img,-w/2,-h,w,h); cx.shadowBlur=0;
+  if(!s.virtue){ cx.shadowColor='rgba(190,90,255,.45)'; cx.shadowBlur=10*sc; cx.shadowOffsetY=-6*sc }
+  cx.drawImage(img,-w/2,-h+w*.02,w,h); cx.shadowBlur=0; cx.shadowOffsetY=0;
   const word=(s.virtue?L[lang].V:L[lang].F)[s.i]; let fs=Math.max(9,w*.13); const fnt=f=>`800 ${f}px "Baloo 2","Baloo Tamma 2",sans-serif`; cx.font=fnt(fs); while(cx.measureText(word).width>w*.8&&fs>8){fs--; cx.font=fnt(fs)}
   cx.textAlign='center'; cx.textBaseline='middle'; cx.lineJoin='round'; cx.lineWidth=Math.max(3,fs*.28); cx.strokeStyle=s.virtue?'rgba(60,20,0,.85)':'rgba(20,0,40,.9)'; const ty=-h*(s.virtue?.24:.3);
   cx.strokeText(word,0,ty); cx.fillStyle=s.virtue?'#fff8e0':'#e7c8ff'; cx.fillText(word,0,ty); cx.restore() }
@@ -229,11 +234,14 @@ function draw(){ cx.save(); if(G.shake>0)cx.translate(Math.sin(G.el*70)*10*G.sha
   // a soft spotlight on the tower
   const [sx,sy]=P(STACK.x,STACK.y-60); let g=cx.createRadialGradient(sx,sy,10,sx,sy,260*sc); g.addColorStop(0,'rgba(255,220,150,.28)'); g.addColorStop(1,'rgba(255,220,150,0)'); cx.fillStyle=g; cx.fillRect(0,0,W,H);
   // shadow + standing stones, bottom to top
-  const [bx,by]=P(STACK.x,STACK.y); cx.fillStyle='rgba(0,0,0,.35)'; cx.beginPath(); cx.ellipse(bx,by+3*sc,70*sc,12*sc,0,0,6.283); cx.fill();
+  { const base=G.stones.find(s=>s.up&&!s.fly); if(base){ const [bx,by]=P(STACK.x,STACK.y); groundShadow(bx,by,150*SIZES[base.i]*sc,1) } }
   for(let i=0;i<7;i++){ const s=G.stones[i]; if(!s.up)continue; let [X,Y]=P(STACK.x,stackY(i)); if(s.fly){ const [fx,fy]=P(s.fly.x,s.fly.y); const k=s.fly.k; X=fx+(X-fx)*k; Y=fy+(Y-fy)*k-Math.sin(k*Math.PI)*80*sc } drawStone(s,X,Y,sc) }
   // fallen stones, far ones first
   const down=G.stones.filter(s=>!s.up).sort((a,b)=>a.y-b.y);
-  for(const s of down){ const [X,Y]=P(s.x,s.y); const z=Math.max(.8,Math.min(1.5,s.z)); cx.fillStyle='rgba(0,0,0,.3)'; if(s.landed){ cx.beginPath(); cx.ellipse(X,Y+2,stoneDims(s.i,sc*z)[0]*.55,6*sc*z,0,0,6.283); cx.fill() } drawStone(s,X,Y,sc*z) }
+  for(const s of down){ const [X,Y]=P(s.x,s.y); const z=Math.max(.8,Math.min(1.5,s.z));
+    if(s.landed) groundShadow(X,Y,150*SIZES[s.i]*sc*z,1);
+    else { const g=s.ground||640, [GX,GY]=P(s.x,g), lift=Math.max(0,Math.min(1,(g-s.y)/220)); groundShadow(GX,GY,150*SIZES[s.i]*sc*z*(1-lift*.4),1-lift*.7) }
+    drawStone(s,X,Y,sc*z) }
   // rebuild hints: glow on the stone to tap next, defenders' ball, timer
   if(G.phase==='rebuild'&&G.rb){ const rb=G.rb, want=rb.order[rb.placed], s=G.stones[want];
     if(s&&s.landed&&!s.placed){ const [X,Y]=P(s.x,s.y); const z=Math.max(.8,Math.min(1.5,s.z)), [w,h]=stoneDims(s.i,sc*z); cx.strokeStyle=`rgba(255,230,120,${.6+.4*Math.sin(el*8)})`; cx.lineWidth=4; cx.beginPath(); cx.ellipse(X,Y-h*.6,w*.62,h*1.3,0,0,6.283); cx.stroke() }
