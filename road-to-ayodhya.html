@@ -1,0 +1,449 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Road to Ayodhya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
+<style>
+/* Layout: a painted Moksha Patam cloth on a night sky; board left, the players' rail (turn, dice, story card) right; stacks on phones. */
+:root{
+  --night:#1c1442; --night-2:#2a1f5c; --night-3:#362a72;
+  --ink:#fdf3dc; --muted:#c7bce6; --line:rgba(253,243,220,.16);
+  --marigold:#f6a723; --flame:#ffd35a; --kumkum:#e0405a; --leaf:#46b882; --clay:#b8643a; --river:#3a6fd8; --cloth:#f7e7c4;
+  --display:"Baloo 2","Baloo Tamma 2","Trebuchet MS",system-ui,sans-serif; --body:"Mukta","Hind","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100vh;
+  padding:max(10px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px));
+  background-image:radial-gradient(1px 1px at 12% 18%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 72% 9%,#fff6 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 30%,#fff7 50%,transparent 51%),radial-gradient(1px 1px at 40% 6%,#fff5 50%,transparent 51%);background-attachment:fixed}
+button{font-family:inherit}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+.top{max-width:1180px;margin:0 auto 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.top a.back{color:var(--muted);text-decoration:none;font-weight:600}
+.top h1{font-family:var(--display);font-size:clamp(24px,4vw,34px);margin:0;line-height:1;flex:1;min-width:180px}
+.by{max-width:1180px;margin:22px auto 0;text-align:center;color:var(--muted);font-size:13px}.by a{color:var(--flame)}
+.top h1 small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-family:var(--body);font-weight:700;margin-bottom:4px}
+.pill{background:var(--night-2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px}
+.pill[aria-pressed="true"]{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.langs{display:flex;gap:4px}
+.game{max-width:1180px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:18px;align-items:start}
+.boardwrap{position:relative;min-width:0}
+canvas#board{width:100%;aspect-ratio:1/1;display:block;border-radius:18px;box-shadow:0 30px 60px -25px #000,0 0 0 6px #7a3b22,0 0 0 9px var(--marigold);touch-action:manipulation;background:var(--cloth)}
+.rail{display:flex;flex-direction:column;gap:12px;min-width:0}
+.panel{background:linear-gradient(180deg,var(--night-2),var(--night-3));border:1px solid var(--line);border-radius:18px;padding:14px}
+.players{display:flex;flex-direction:column;gap:6px}
+.pl{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:12px;border:1.5px solid transparent;transition:background .2s}
+.pl.turn{background:#ffffff14;border-color:var(--flame)}
+.pl i{width:22px;height:22px;border-radius:50%;flex:none;box-shadow:0 0 0 2px #0006 inset}
+.pl b{flex:1;font-family:var(--display);font-size:18px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pl span{font-variant-numeric:tabular-nums;color:var(--muted);font-weight:700}
+.pl em{font-style:normal;font-size:13px;color:var(--flame)}
+.dicebox{display:flex;align-items:center;gap:16px}
+.scene{width:84px;height:84px;perspective:400px;flex:none;cursor:pointer}
+.cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;transition:transform 1s cubic-bezier(.2,.8,.25,1.05)}
+.face{position:absolute;inset:0;background:#fffaf0;border-radius:16px;border:3px solid #e9d6b0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:10px;box-shadow:inset 0 -6px 0 #0001}
+.face b{width:13px;height:13px;border-radius:50%;background:var(--kumkum);place-self:center}
+.f1{transform:rotateY(0deg) translateZ(42px)}.f2{transform:rotateY(90deg) translateZ(42px)}.f3{transform:rotateY(180deg) translateZ(42px)}
+.f4{transform:rotateY(-90deg) translateZ(42px)}.f5{transform:rotateX(90deg) translateZ(42px)}.f6{transform:rotateX(-90deg) translateZ(42px)}
+.roll{font:800 22px var(--display);background:var(--marigold);color:var(--night);border:0;border-radius:16px;padding:14px 18px;cursor:pointer;flex:1;box-shadow:0 6px 0 #a86a0c;transition:transform .1s}
+.roll:active{transform:translateY(4px);box-shadow:0 2px 0 #a86a0c}
+.roll:disabled{opacity:.45;cursor:default}
+.hint{color:var(--muted);font-size:14px;margin:8px 0 0}
+.log{font-size:14px;color:var(--muted);max-height:140px;overflow:auto;display:flex;flex-direction:column;gap:4px}
+.log p{margin:0}.log p:first-child{color:var(--ink);font-weight:600}
+.lamps{display:flex;gap:6px;flex-wrap:wrap}
+.lamps span{width:26px;height:26px;border-radius:50%;background:#ffffff10;display:grid;place-items:center;font-size:15px;filter:grayscale(1);opacity:.5}
+.lamps span.on{filter:none;opacity:1;background:#ffd35a33;box-shadow:0 0 12px #ffb84a}
+h2{font-family:var(--display);font-size:20px;margin:0 0 8px}
+/* overlay cards */
+.ov{position:fixed;inset:0;background:#0d0826cc;backdrop-filter:blur(3px);display:grid;place-items:center;z-index:50;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.card{width:min(460px,100%);background:var(--cloth);color:#3a1d0c;border-radius:22px;padding:22px;box-shadow:0 30px 80px #000a;border:5px solid var(--marigold);animation:pop .35s cubic-bezier(.2,1.6,.4,1);max-height:92vh;overflow:auto}
+.card.snake{border-color:var(--kumkum)} .card.ladder{border-color:var(--leaf)}
+.card .tag{display:inline-block;font:700 12px var(--body);letter-spacing:.14em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--marigold);color:#2a1100}
+.card.snake .tag{background:var(--kumkum);color:#fff}.card.ladder .tag{background:var(--leaf);color:#06260f}
+.card h3{font-family:var(--display);font-size:28px;line-height:1.05;margin:10px 0 6px}
+.card p{margin:0 0 12px}
+.card .opts{display:grid;gap:8px;margin:6px 0 12px}
+.card .opt{text-align:left;border:2px solid #d9bf8d;background:#fffaf0;color:#3a1d0c;border-radius:14px;padding:10px 14px;font-size:17px;font-weight:600;cursor:pointer}
+.card .opt.right{background:#c8f2d8;border-color:var(--leaf)} .card .opt.wrong{background:#fbd0d6;border-color:var(--kumkum)}
+.card .go{font:800 18px var(--display);background:#3a1d0c;color:var(--cloth);border:0;border-radius:14px;padding:12px 18px;cursor:pointer;width:100%}
+.card img.hero{width:100%;border-radius:14px;display:block;margin-bottom:12px}
+.setup .row{display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.setup input[type=text]{flex:1;min-width:120px;font:600 16px var(--body);padding:9px 12px;border-radius:12px;border:2px solid #d9bf8d;background:#fffaf0;color:#3a1d0c}
+.setup select{font:600 15px var(--body);padding:8px 10px;border-radius:12px;border:2px solid #d9bf8d;background:#fffaf0;color:#3a1d0c}
+.setup .dot{width:20px;height:20px;border-radius:50%;flex:none}
+.count{display:flex;gap:6px;margin:6px 0 14px}
+.count button{flex:1;font:800 18px var(--display);padding:8px;border-radius:12px;border:2px solid #d9bf8d;background:#fffaf0;color:#3a1d0c;cursor:pointer}
+.count button[aria-pressed="true"]{background:#3a1d0c;color:var(--cloth);border-color:#3a1d0c}
+.small{font-size:13px;color:#7a5a3a}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+.shake{animation:shake .45s}
+@keyframes shake{20%{transform:translate(-8px,3px)}40%{transform:translate(7px,-4px)}60%{transform:translate(-5px,2px)}80%{transform:translate(3px,-1px)}}
+canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:60}
+@media (max-width:860px){.game{grid-template-columns:1fr}.rail{order:2}.rail .panel.dicep{order:-1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="index.html#dv1" id="back">← Story Quest</a>
+  <h1><small id="t-eyebrow">Deepavali · Episode 1 game</small><span id="t-title">Road to Ayodhya</span></h1>
+  <div class="langs" role="group" aria-label="Language">
+    <button class="pill" data-lang="en" aria-pressed="true">EN</button>
+    <button class="pill" data-lang="hi" aria-pressed="false">हिं</button>
+    <button class="pill" data-lang="kn" aria-pressed="false">ಕ</button>
+  </div>
+  <button class="pill" id="sound" aria-pressed="true">🔊</button>
+  <button class="pill" id="newgame">↻</button>
+</header>
+
+<main class="game">
+  <div class="boardwrap" id="bw"><canvas id="board" aria-label="Moksha Patam board, 100 squares"></canvas></div>
+  <aside class="rail">
+    <section class="panel">
+      <div class="players" id="players"></div>
+    </section>
+    <section class="panel dicep">
+      <div class="dicebox">
+        <div class="scene" id="dicescene" aria-hidden="true"><div class="cube" id="cube">
+          <div class="face f1"><b style="grid-area:2/2"></b></div>
+          <div class="face f2"><b style="grid-area:1/1"></b><b style="grid-area:3/3"></b></div>
+          <div class="face f3"><b style="grid-area:1/1"></b><b style="grid-area:2/2"></b><b style="grid-area:3/3"></b></div>
+          <div class="face f4"><b style="grid-area:1/1"></b><b style="grid-area:1/3"></b><b style="grid-area:3/1"></b><b style="grid-area:3/3"></b></div>
+          <div class="face f5"><b style="grid-area:1/1"></b><b style="grid-area:1/3"></b><b style="grid-area:2/2"></b><b style="grid-area:3/1"></b><b style="grid-area:3/3"></b></div>
+          <div class="face f6"><b style="grid-area:1/1"></b><b style="grid-area:2/1"></b><b style="grid-area:3/1"></b><b style="grid-area:1/3"></b><b style="grid-area:2/3"></b><b style="grid-area:3/3"></b></div>
+        </div></div>
+        <button class="roll" id="roll">Roll</button>
+      </div>
+      <p class="hint" id="hint"></p>
+    </section>
+    <section class="panel">
+      <h2 id="t-lamps">Story lamps lit</h2>
+      <div class="lamps" id="lamps"></div>
+    </section>
+    <section class="panel"><div class="log" id="log"></div></section>
+  </aside>
+</main>
+<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<canvas id="fx"></canvas>
+<div id="overlay"></div>
+
+<script>
+/* ================= content ================= */
+const L = {
+ en:{eyebrow:'Deepavali · Episode 1 game',title:'Road to Ayodhya',back:'← Story Quest',roll:'Roll',rolling:'Rolling…',lamps:'Story lamps lit',
+   yourTurn:n=>`${n}'s turn. Tap Roll!`,botTurn:n=>`${n} is thinking…`,rolled:(n,v)=>`${n} rolled ${v}.`,six:'A six! Roll again.',
+   exact:v=>`Need exactly ${v} to reach Ayodhya.`,bounce:'Too far! Bounced back.',ladderTag:'Ladder of goodness',snakeTag:'Snake of trouble',
+   climb:'Climb up!',slide:'Slide down…',storyTag:'Story lamp',right:'Right! You lit a story lamp and move 3 squares ahead.',wrong:a=>`Not quite. The answer is: ${a}`,
+   ok:'Continue',winTitle:n=>`${n} reached Ayodhya!`,winText:'The whole city lights rows of lamps to welcome Shri Ram home. A row of lamps: Deepa + Aavali = Deepavali!',
+   again:'Play again',next:'Back to the story',setupTitle:'Who is playing?',setupText:'Take turns on this screen: grandparents, parents and children together. Or play against Diya.',
+   players:'Players',human:'Person',bot:'Diya (computer)',start:'Start the journey',name:i=>['Player 1','Player 2','Player 3','Player 4'][i],
+   rules:'Roll the dice and race to square 100, Ayodhya. Ladders of goodness lift you up; snakes of trouble pull you down. Land on a lamp square to answer a story question.',
+   badge:'New virtue diya collected:',youWord:'You'},
+ hi:{eyebrow:'दीपावली · एपिसोड 1 खेल',title:'अयोध्या की राह',back:'← स्टोरी क्वेस्ट',roll:'पासा फेंको',rolling:'घूम रहा है…',lamps:'जले हुए कहानी-दीये',
+   yourTurn:n=>`${n} की बारी। पासा फेंको!`,botTurn:n=>`${n} सोच रही है…`,rolled:(n,v)=>`${n} के ${v} आए।`,six:'छक्का! फिर से फेंको।',
+   exact:v=>`अयोध्या पहुँचने के लिए ठीक ${v} चाहिए।`,bounce:'ज़्यादा हो गया! पीछे लौटे।',ladderTag:'अच्छाई की सीढ़ी',snakeTag:'मुसीबत का साँप',
+   climb:'ऊपर चढ़ो!',slide:'नीचे फिसले…',storyTag:'कहानी का दीया',right:'सही! तुमने कहानी का दीया जलाया, 3 खाने आगे बढ़ो।',wrong:a=>`थोड़ा चूक गए। सही उत्तर: ${a}`,
+   ok:'आगे चलें',winTitle:n=>`${n} अयोध्या पहुँच गए!`,winText:'पूरा नगर दीयों की कतारें जलाकर श्री राम का स्वागत करता है। दीयों की कतार: दीप + आवली = दीपावली!',
+   again:'फिर से खेलें',next:'कहानी पर लौटें',setupTitle:'कौन खेल रहा है?',setupText:'इसी स्क्रीन पर बारी-बारी खेलें: दादा-दादी, माता-पिता और बच्चे साथ में। या दिया के साथ खेलें।',
+   players:'खिलाड़ी',human:'व्यक्ति',bot:'दिया (कंप्यूटर)',start:'यात्रा शुरू करें',name:i=>['खिलाड़ी 1','खिलाड़ी 2','खिलाड़ी 3','खिलाड़ी 4'][i],
+   rules:'पासा फेंको और खाना 100, अयोध्या तक दौड़ो। अच्छाई की सीढ़ियाँ ऊपर ले जाती हैं, मुसीबत के साँप नीचे गिराते हैं। दीये वाले खाने पर कहानी का सवाल मिलेगा।',
+   badge:'नया गुण-दीया मिला:',youWord:'आप'},
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 1 ಆಟ',title:'ಅಯೋಧ್ಯೆಯ ದಾರಿ',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',roll:'ದಾಳ ಎಸೆಯಿರಿ',rolling:'ಉರುಳುತ್ತಿದೆ…',lamps:'ಹಚ್ಚಿದ ಕಥೆಯ ದೀಪಗಳು',
+   yourTurn:n=>`${n} ಅವರ ಸರದಿ. ದಾಳ ಎಸೆಯಿರಿ!`,botTurn:n=>`${n} ಯೋಚಿಸುತ್ತಿದ್ದಾಳೆ…`,rolled:(n,v)=>`${n} ಗೆ ${v} ಬಂತು.`,six:'ಆರು! ಮತ್ತೆ ಎಸೆಯಿರಿ.',
+   exact:v=>`ಅಯೋಧ್ಯೆ ತಲುಪಲು ಸರಿಯಾಗಿ ${v} ಬೇಕು.`,bounce:'ಜಾಸ್ತಿ ಆಯಿತು! ಹಿಂದೆ ಬಂದಿರಿ.',ladderTag:'ಒಳ್ಳೆಯತನದ ಏಣಿ',snakeTag:'ತೊಂದರೆಯ ಹಾವು',
+   climb:'ಮೇಲೆ ಹತ್ತಿ!',slide:'ಕೆಳಗೆ ಜಾರಿದಿರಿ…',storyTag:'ಕಥೆಯ ದೀಪ',right:'ಸರಿ! ನೀವು ಕಥೆಯ ದೀಪ ಹಚ್ಚಿದಿರಿ, 3 ಮನೆ ಮುಂದೆ ಹೋಗಿ.',wrong:a=>`ಸ್ವಲ್ಪದರಲ್ಲಿ ತಪ್ಪಿತು. ಸರಿಯಾದ ಉತ್ತರ: ${a}`,
+   ok:'ಮುಂದುವರಿಸಿ',winTitle:n=>`${n} ಅಯೋಧ್ಯೆ ತಲುಪಿದರು!`,winText:'ಇಡೀ ನಗರ ದೀಪಗಳ ಸಾಲು ಹಚ್ಚಿ ಶ್ರೀರಾಮನನ್ನು ಸ್ವಾಗತಿಸುತ್ತದೆ. ದೀಪಗಳ ಸಾಲು: ದೀಪ + ಆವಳಿ = ದೀಪಾವಳಿ!',
+   again:'ಮತ್ತೆ ಆಡಿ',next:'ಕಥೆಗೆ ಹಿಂತಿರುಗಿ',setupTitle:'ಯಾರು ಆಡುತ್ತಿದ್ದಾರೆ?',setupText:'ಇದೇ ಪರದೆಯಲ್ಲಿ ಸರದಿಯಂತೆ ಆಡಿ: ಅಜ್ಜ-ಅಜ್ಜಿ, ಅಪ್ಪ-ಅಮ್ಮ ಮತ್ತು ಮಕ್ಕಳು ಒಟ್ಟಿಗೆ. ಅಥವಾ ದಿಯಾ ಜೊತೆ ಆಡಿ.',
+   players:'ಆಟಗಾರರು',human:'ವ್ಯಕ್ತಿ',bot:'ದಿಯಾ (ಕಂಪ್ಯೂಟರ್)',start:'ಯಾತ್ರೆ ಆರಂಭಿಸಿ',name:i=>['ಆಟಗಾರ 1','ಆಟಗಾರ 2','ಆಟಗಾರ 3','ಆಟಗಾರ 4'][i],
+   rules:'ದಾಳ ಎಸೆದು ಮನೆ 100, ಅಯೋಧ್ಯೆಗೆ ಓಡಿ. ಒಳ್ಳೆಯತನದ ಏಣಿಗಳು ಮೇಲೆ ಏರಿಸುತ್ತವೆ, ತೊಂದರೆಯ ಹಾವುಗಳು ಕೆಳಗೆ ಇಳಿಸುತ್ತವೆ. ದೀಪದ ಮನೆಗೆ ಬಂದರೆ ಕಥೆಯ ಪ್ರಶ್ನೆ.',
+   badge:'ಹೊಸ ಗುಣ-ದೀಪ ಸಿಕ್ಕಿತು:',youWord:'ನೀವು'}
+};
+// Ladders = virtues from the Ramayana; snakes = troubles. [from, to, {en,hi,kn title}, {en,hi,kn text}]
+const LADDERS = [
+ [4,25,{en:"Kevat's kindness",hi:'केवट की सेवा',kn:'ಕೇವಟನ ಸೇವೆ'},{en:'The boatman Kevat happily carried Ram, Sita and Lakshman across the Ganga and asked for nothing in return.',hi:'नाविक केवट ने राम, सीता और लक्ष्मण को गंगा पार कराया और बदले में कुछ नहीं माँगा।',kn:'ಅಂಬಿಗ ಕೇವಟ ರಾಮ, ಸೀತೆ, ಲಕ್ಷ್ಮಣರನ್ನು ಗಂಗೆ ದಾಟಿಸಿ, ಪ್ರತಿಯಾಗಿ ಏನೂ ಕೇಳಲಿಲ್ಲ.'}],
+ [13,46,{en:"Bharat's loyalty",hi:'भरत की निष्ठा',kn:'ಭರತನ ನಿಷ್ಠೆ'},{en:"Bharat refused the throne. He placed Ram's sandals on it and waited fourteen years for his brother.",hi:'भरत ने सिंहासन नहीं लिया। उन्होंने राम की पादुकाएँ रखीं और चौदह वर्ष भाई की राह देखी।',kn:'ಭರತ ಸಿಂಹಾಸನವನ್ನು ಸ್ವೀಕರಿಸಲಿಲ್ಲ. ರಾಮನ ಪಾದುಕೆಗಳನ್ನು ಇಟ್ಟು ಹದಿನಾಲ್ಕು ವರ್ಷ ಅಣ್ಣನಿಗಾಗಿ ಕಾದನು.'}],
+ [33,49,{en:"Shabari's devotion",hi:'शबरी की भक्ति',kn:'ಶಬರಿಯ ಭಕ್ತಿ'},{en:'Old Shabari waited her whole life for Ram and tasted every berry to give him only the sweetest ones.',hi:'वृद्ध शबरी ने जीवन भर राम की प्रतीक्षा की और चख-चखकर सबसे मीठे बेर खिलाए।',kn:'ವೃದ್ಧೆ ಶಬರಿ ಜೀವನವಿಡೀ ರಾಮನಿಗಾಗಿ ಕಾದು, ರುಚಿ ನೋಡಿ ಅತಿ ಸಿಹಿಯಾದ ಹಣ್ಣುಗಳನ್ನೇ ಕೊಟ್ಟಳು.'}],
+ [42,63,{en:"Jatayu's courage",hi:'जटायु का साहस',kn:'ಜಟಾಯುವಿನ ಧೈರ್ಯ'},{en:'The old eagle Jatayu fought mighty Ravana to save Sita, even though he knew he could not win.',hi:'बूढ़े गिद्ध जटायु ने सीता को बचाने के लिए शक्तिशाली रावण से युद्ध किया, यह जानते हुए भी कि वे जीत नहीं सकते।',kn:'ಮುದಿ ಹದ್ದು ಜಟಾಯು ಗೆಲ್ಲಲಾರೆ ಎಂದು ತಿಳಿದಿದ್ದರೂ ಸೀತೆಯನ್ನು ಕಾಪಾಡಲು ರಾವಣನೊಡನೆ ಹೋರಾಡಿತು.'}],
+ [50,69,{en:"Hanuman's great leap",hi:'हनुमान की छलाँग',kn:'ಹನುಮಂತನ ನೆಗೆತ'},{en:'Hanuman believed in himself and leapt across the ocean to find Sita in Lanka.',hi:'हनुमान ने खुद पर विश्वास किया और सीता को खोजने समुद्र लाँघकर लंका पहुँचे।',kn:'ಹನುಮಂತ ತನ್ನ ಮೇಲೆ ನಂಬಿಕೆ ಇಟ್ಟು ಸಮುದ್ರ ಹಾರಿ ಲಂಕೆಯಲ್ಲಿ ಸೀತೆಯನ್ನು ಹುಡುಕಿದನು.'}],
+ [62,81,{en:"Vibhishana's truth",hi:'विभीषण का सत्य',kn:'ವಿಭೀಷಣನ ಸತ್ಯ'},{en:'Vibhishana told his brother Ravana the truth, then chose to stand on the side of dharma.',hi:'विभीषण ने भाई रावण को सच कहा और फिर धर्म का साथ चुना।',kn:'ವಿಭೀಷಣ ಅಣ್ಣ ರಾವಣನಿಗೆ ಸತ್ಯ ಹೇಳಿ, ಧರ್ಮದ ಪಕ್ಷವನ್ನು ಆರಿಸಿಕೊಂಡನು.'}],
+ [74,92,{en:"The squirrel's help",hi:'गिलहरी की मदद',kn:'ಅಳಿಲು ಸೇವೆ'},{en:'While the army built the bridge to Lanka, a tiny squirrel rolled in sand and shook it onto the stones. Every bit of help counts!',hi:'जब सेना लंका का पुल बना रही थी, नन्ही गिलहरी रेत में लोटकर पत्थरों पर रेत झाड़ती रही। हर छोटी मदद मायने रखती है!',kn:'ಸೈನ್ಯ ಲಂಕೆಗೆ ಸೇತುವೆ ಕಟ್ಟುವಾಗ ಪುಟ್ಟ ಅಳಿಲು ಮರಳಲ್ಲಿ ಉರುಳಿ ಕಲ್ಲುಗಳ ಮೇಲೆ ಮರಳು ಕೊಡವುತ್ತಿತ್ತು. ಪ್ರತಿಯೊಂದು ಸಣ್ಣ ಸಹಾಯವೂ ಮುಖ್ಯ!'}],
+];
+const SNAKES = [
+ [27,7,{en:'Whispers that cause trouble',hi:'कान भरने वाली बातें',kn:'ಕಿವಿ ಊದುವ ಮಾತು'},{en:"Manthara whispered worries into Queen Kaikeyi's ear, and a happy palace turned sad. Careful what we whisper!",hi:'मंथरा ने रानी कैकेयी के कान भरे और खुशहाल महल उदास हो गया। सोचकर बोलें!',kn:'ಮಂಥರೆ ರಾಣಿ ಕೈಕೇಯಿಯ ಕಿವಿ ಊದಿದಳು, ಸಂತೋಷದ ಅರಮನೆ ದುಃಖದಲ್ಲಿ ಮುಳುಗಿತು. ಯೋಚಿಸಿ ಮಾತಾಡೋಣ!'}],
+ [43,18,{en:'Chasing what glitters',hi:'चमक के पीछे भागना',kn:'ಹೊಳಪಿನ ಹಿಂದೆ ಓಟ'},{en:"A golden deer led Ram far away from Sita. It was a trick. Not everything that shines is good for us.",hi:'सोने का हिरण राम को सीता से दूर ले गया। वह एक छल था। हर चमकती चीज़ अच्छी नहीं होती।',kn:'ಚಿನ್ನದ ಜಿಂಕೆ ರಾಮನನ್ನು ಸೀತೆಯಿಂದ ದೂರ ಕರೆದೊಯ್ಯಿತು. ಅದು ಮೋಸ. ಹೊಳೆಯುವುದೆಲ್ಲ ಒಳ್ಳೆಯದಲ್ಲ.'}],
+ [56,34,{en:'Anger',hi:'क्रोध',kn:'ಕೋಪ'},{en:'Shurpanakha flew into a rage and ran to Ravana for revenge. Anger makes small problems big.',hi:'शूर्पणखा क्रोध में बदला लेने रावण के पास गई। गुस्सा छोटी बात को बड़ा बना देता है।',kn:'ಶೂರ್ಪನಖಿ ಕೋಪದಿಂದ ಸೇಡಿಗಾಗಿ ರಾವಣನ ಬಳಿ ಓಡಿದಳು. ಕೋಪ ಸಣ್ಣ ವಿಷಯವನ್ನು ದೊಡ್ಡದಾಗಿಸುತ್ತದೆ.'}],
+ [67,47,{en:'Sleeping through it all',hi:'आलस्य',kn:'ಸೋಮಾರಿತನ'},{en:'Kumbhakarna slept for months at a time. By the time he woke up, it was too late to change anything.',hi:'कुंभकर्ण महीनों सोता रहता था। जब जागा, तब तक कुछ बदलने का समय निकल चुका था।',kn:'ಕುಂಭಕರ್ಣ ತಿಂಗಳುಗಟ್ಟಲೆ ನಿದ್ರಿಸುತ್ತಿದ್ದ. ಎಚ್ಚರವಾದಾಗ ಏನನ್ನೂ ಬದಲಿಸುವ ಸಮಯ ಮೀರಿತ್ತು.'}],
+ [86,52,{en:'Not listening',hi:'किसी की न सुनना',kn:'ಯಾರ ಮಾತೂ ಕೇಳದಿರುವುದು'},{en:"Mandodari and Vibhishana begged Ravana to return Sita. He would not listen to anyone.",hi:'मंदोदरी और विभीषण ने रावण से सीता को लौटाने की विनती की। उसने किसी की नहीं सुनी।',kn:'ಮಂಡೋದರಿ ಮತ್ತು ವಿಭೀಷಣ ಸೀತೆಯನ್ನು ಹಿಂದಿರುಗಿಸಲು ರಾವಣನನ್ನು ಬೇಡಿದರು. ಅವನು ಯಾರ ಮಾತನ್ನೂ ಕೇಳಲಿಲ್ಲ.'}],
+ [98,61,{en:'Pride',hi:'अहंकार',kn:'ಅಹಂಕಾರ'},{en:"Ravana had ten heads and great power, but his pride brought him down. So close to home... careful!",hi:'रावण के दस सिर और बड़ी शक्ति थी, पर अहंकार ने उसे गिरा दिया। घर इतना पास... सावधान!',kn:'ರಾವಣನಿಗೆ ಹತ್ತು ತಲೆ, ಅಪಾರ ಶಕ್ತಿ ಇತ್ತು, ಆದರೆ ಅಹಂಕಾರವೇ ಅವನನ್ನು ಕೆಡವಿತು. ಮನೆ ಇಷ್ಟು ಹತ್ತಿರ... ಎಚ್ಚರ!'}],
+ [94,73,{en:'Breaking a promise',hi:'वचन तोड़ना',kn:'ಮಾತು ತಪ್ಪುವುದು'},{en:"King Dasharatha's family kept its word even when it hurt. In our game, breaking a promise sends you back!",hi:'राजा दशरथ के कुल ने दुख में भी अपना वचन निभाया। इस खेल में वचन तोड़ने पर पीछे जाना पड़ता है!',kn:'ದಶರಥನ ವಂಶ ನೋವಾದರೂ ಕೊಟ್ಟ ಮಾತು ಉಳಿಸಿಕೊಂಡಿತು. ಈ ಆಟದಲ್ಲಿ ಮಾತು ತಪ್ಪಿದರೆ ಹಿಂದೆ ಹೋಗಬೇಕು!'}],
+];
+// Story-lamp squares with questions from the episode
+const STORY = [9,21,38,58,71,83,96];
+const QUIZ = [
+ {q:{en:'Why was the night Ram came home so dark?',hi:'राम के लौटने वाली रात इतनी अँधेरी क्यों थी?',kn:'ರಾಮ ಹಿಂದಿರುಗಿದ ರಾತ್ರಿ ಏಕೆ ಅಷ್ಟು ಕತ್ತಲಾಗಿತ್ತು?'},
+  a:[{en:'It was Amavasya, the night with no moon',hi:'अमावस्या थी, बिना चाँद की रात',kn:'ಅಮಾವಾಸ್ಯೆ, ಚಂದ್ರನಿಲ್ಲದ ರಾತ್ರಿ'},{en:'There was a big storm',hi:'बड़ा तूफ़ान आया था',kn:'ದೊಡ್ಡ ಬಿರುಗಾಳಿ ಬಂದಿತ್ತು'},{en:'The sun forgot to set',hi:'सूरज डूबना भूल गया',kn:'ಸೂರ್ಯ ಮುಳುಗಲು ಮರೆತ'}]},
+ {q:{en:'What does "Deepavali" mean?',hi:'"दीपावली" का अर्थ क्या है?',kn:'"ದೀಪಾವಳಿ" ಎಂದರೆ ಏನು?'},
+  a:[{en:'A row of lamps (Deepa + Aavali)',hi:'दीयों की कतार (दीप + आवली)',kn:'ದೀಪಗಳ ಸಾಲು (ದೀಪ + ಆವಳಿ)'},{en:'A big sweet',hi:'एक बड़ी मिठाई',kn:'ಒಂದು ದೊಡ್ಡ ಸಿಹಿ'},{en:'A kind of firework',hi:'एक तरह का पटाखा',kn:'ಒಂದು ಬಗೆಯ ಪಟಾಕಿ'}]},
+ {q:{en:'How many years were Ram, Sita and Lakshman in the forest?',hi:'राम, सीता और लक्ष्मण कितने वर्ष वन में रहे?',kn:'ರಾಮ, ಸೀತೆ, ಲಕ್ಷ್ಮಣ ಎಷ್ಟು ವರ್ಷ ಕಾಡಿನಲ್ಲಿದ್ದರು?'},
+  a:[{en:'14 years',hi:'14 वर्ष',kn:'14 ವರ್ಷ'},{en:'7 years',hi:'7 वर्ष',kn:'7 ವರ್ಷ'},{en:'40 years',hi:'40 वर्ष',kn:'40 ವರ್ಷ'}]},
+ {q:{en:'On which river does Ayodhya stand?',hi:'अयोध्या किस नदी के किनारे है?',kn:'ಅಯೋಧ್ಯೆ ಯಾವ ನದಿಯ ದಡದಲ್ಲಿದೆ?'},
+  a:[{en:'The Saraayu',hi:'सरयू',kn:'ಸರಯೂ'},{en:'The Kaveri',hi:'कावेरी',kn:'ಕಾವೇರಿ'},{en:'The Narmada',hi:'नर्मदा',kn:'ನರ್ಮದಾ'}]},
+ {q:{en:'Who first owned the Pushpak Vimana?',hi:'पुष्पक विमान पहले किसका था?',kn:'ಪುಷ್ಪಕ ವಿಮಾನ ಮೊದಲು ಯಾರದಾಗಿತ್ತು?'},
+  a:[{en:'Kubera',hi:'कुबेर',kn:'ಕುಬೇರ'},{en:'Hanuman',hi:'हनुमान',kn:'ಹನುಮಂತ'},{en:'King Janaka',hi:'राजा जनक',kn:'ಜನಕ ರಾಜ'}]},
+ {q:{en:'Who first told the Ramayana?',hi:'रामायण सबसे पहले किसने सुनाई?',kn:'ರಾಮಾಯಣವನ್ನು ಮೊದಲು ಹೇಳಿದವರು ಯಾರು?'},
+  a:[{en:'Sage Valmiki',hi:'महर्षि वाल्मीकि',kn:'ವಾಲ್ಮೀಕಿ ಮಹರ್ಷಿ'},{en:'Sage Vyasa',hi:'महर्षि व्यास',kn:'ವ್ಯಾಸ ಮಹರ್ಷಿ'},{en:'King Dasharatha',hi:'राजा दशरथ',kn:'ದಶರಥ ರಾಜ'}]},
+ {q:{en:"In our story, whose idea lit up all of Ayodhya?",hi:'हमारी कहानी में पूरी अयोध्या को रोशन करने का विचार किसका था?',kn:'ನಮ್ಮ ಕಥೆಯಲ್ಲಿ ಇಡೀ ಅಯೋಧ್ಯೆಯನ್ನು ಬೆಳಗಿಸುವ ಉಪಾಯ ಯಾರದು?'},
+  a:[{en:'An old potter',hi:'एक बूढ़े कुम्हार का',kn:'ಒಬ್ಬ ಮುದಿ ಕುಂಬಾರನದು'},{en:'A royal guard',hi:'एक राजसी पहरेदार का',kn:'ಒಬ್ಬ ಅರಮನೆ ಕಾವಲುಗಾರನದು'},{en:'A merchant',hi:'एक व्यापारी का',kn:'ಒಬ್ಬ ವ್ಯಾಪಾರಿಯದು'}]},
+];
+const COLORS = ['#e0405a','#3a6fd8','#46b882','#9b59d0'];
+let lang='en'; try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){}
+const t=k=>L[lang][k];
+const tx=o=>o[lang]||o.en;
+
+/* ================= sound (Web Audio, starts on first tap) ================= */
+let AC=null, soundOn=true;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){} } if(AC&&AC.state==='suspended')AC.resume(); return AC }
+function tone(f,d=.12,type='triangle',v=.18,when=0,slide=0){ if(!soundOn)return; const a=ac(); if(!a)return; const o=a.createOscillator(),g=a.createGain(); o.type=type; const t0=a.currentTime+when;
+  o.frequency.setValueAtTime(f,t0); if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(40,f+slide),t0+d); g.gain.setValueAtTime(v,t0); g.gain.exponentialRampToValueAtTime(.001,t0+d); o.connect(g).connect(a.destination); o.start(t0); o.stop(t0+d+.02) }
+function noise(d=.25,v=.12,when=0,hp=800){ if(!soundOn)return; const a=ac(); if(!a)return; const b=a.createBuffer(1,a.sampleRate*d,a.sampleRate),ch=b.getChannelData(0); for(let i=0;i<ch.length;i++)ch[i]=(Math.random()*2-1)*(1-i/ch.length);
+  const s=a.createBufferSource(),f=a.createBiquadFilter(),g=a.createGain(); f.type='highpass'; f.frequency.value=hp; s.buffer=b; g.gain.value=v; s.connect(f).connect(g).connect(a.destination); s.start(a.currentTime+when) }
+const SFX={
+ dice(){ for(let i=0;i<7;i++){ noise(.05,.15,i*.07,1800); } },
+ hop(){ tone(520+Math.random()*80,.07,'sine',.12) },
+ ladder(){ [523,587,659,784,880,1047].forEach((f,i)=>tone(f,.16,'triangle',.14,i*.07)); },
+ snake(){ tone(700,.9,'sawtooth',.06,0,-560); noise(.8,.05,0,3000) },
+ right(){ [784,988,1175].forEach((f,i)=>tone(f,.2,'sine',.16,i*.09)) },
+ wrong(){ tone(220,.25,'square',.08); tone(180,.3,'square',.07,.12) },
+ conch(){ tone(233,1.6,'sawtooth',.05,0,8); tone(466,1.6,'sine',.06,0,6) },
+ win(){ [523,659,784,1047,784,1047,1319].forEach((f,i)=>tone(f,.28,'triangle',.16,i*.12)); for(let i=0;i<10;i++)noise(.35,.1,.8+i*.18,400) },
+ bell(){ tone(1568,.6,'sine',.09); tone(2093,.5,'sine',.05,.02) }
+};
+
+/* ================= board geometry ================= */
+const cv=document.getElementById('board'), cx=cv.getContext('2d');
+let S=600, cell=60, dpr=1;
+function resize(){ dpr=Math.min(2,window.devicePixelRatio||1); const w=cv.getBoundingClientRect().width; S=w; cell=S/10; cv.width=Math.round(S*dpr); cv.height=Math.round(S*dpr); cx.setTransform(dpr,0,0,dpr,0,0); }
+function pos(n){ n=Math.max(1,Math.min(100,n)); const r=Math.floor((n-1)/10), c0=(n-1)%10, c=(r%2===0)?c0:9-c0; return [c*cell+cell/2, S-(r*cell+cell/2)] }
+const SQ_TINTS=['#fbe3b2','#f9d2a0','#f6e7c9','#f3d9b7'];
+function rr(x,y,w,h,r){cx.beginPath();cx.moveTo(x+r,y);cx.arcTo(x+w,y,x+w,y+h,r);cx.arcTo(x+w,y+h,x,y+h,r);cx.arcTo(x,y+h,x,y,r);cx.arcTo(x,y,x+w,y,r);cx.closePath()}
+let boardCache=null;
+function drawBoardStatic(){
+  const off=document.createElement('canvas'); off.width=cv.width; off.height=cv.height; const c=off.getContext('2d'); c.setTransform(dpr,0,0,dpr,0,0);
+  const save=cx; // draw with helper bound to c
+  // cloth background
+  c.fillStyle='#f7e7c4'; c.fillRect(0,0,S,S);
+  for(let n=1;n<=100;n++){ const [x,y]=pos(n); const r=Math.floor((n-1)/10);
+    c.fillStyle= n===100?'#ffd35a': SQ_TINTS[(n+r)%4]; c.fillRect(x-cell/2,y-cell/2,cell,cell);
+    c.strokeStyle='#c9a46a'; c.lineWidth=1; c.strokeRect(x-cell/2+.5,y-cell/2+.5,cell-1,cell-1);
+    // corner flourish
+    c.fillStyle='#e0405a22'; c.beginPath(); c.arc(x-cell/2,y-cell/2,cell*.18,0,Math.PI/2); c.lineTo(x-cell/2,y-cell/2); c.fill();
+    c.fillStyle='#5a2b10'; c.font=`800 ${Math.round(cell*.24)}px "Baloo 2", sans-serif`; c.textAlign='left'; c.textBaseline='top'; c.fillText(n,x-cell/2+4,y-cell/2+2);
+    if(STORY.includes(n)){ drawLamp(c,x,y+cell*.08,cell*.22,true); }
+  }
+  // Ayodhya gate on 100
+  const [gx,gy]=pos(100); c.save(); c.translate(gx,gy+cell*.05);
+  c.fillStyle='#b8643a'; c.fillRect(-cell*.3,-cell*.05,cell*.6,cell*.3); c.fillStyle='#7a3b22'; c.beginPath(); c.arc(0,cell*.25,cell*.14,Math.PI,0); c.fill();
+  c.fillStyle='#e0405a'; c.beginPath(); c.moveTo(-cell*.36,-cell*.05); c.lineTo(0,-cell*.3); c.lineTo(cell*.36,-cell*.05); c.fill();
+  c.fillStyle='#5a2b10'; c.font=`800 ${Math.round(cell*.14)}px "Baloo 2",sans-serif`; c.textAlign='center'; c.textBaseline='middle'; c.fillText('AYODHYA',0,cell*.4); c.restore();
+  // ladders
+  LADDERS.forEach(([a,b])=>drawLadder(c,a,b));
+  SNAKES.forEach(([a,b],i)=>drawSnake(c,a,b,i));
+  boardCache=off;
+}
+function drawLamp(c,x,y,s,lit){
+  c.save(); c.translate(x,y);
+  if(lit){ const g=c.createRadialGradient(0,-s*.6,0,0,-s*.6,s*1.6); g.addColorStop(0,'#ffd35a88'); g.addColorStop(1,'#ffd35a00'); c.fillStyle=g; c.beginPath(); c.arc(0,-s*.6,s*1.6,0,7); c.fill(); }
+  c.fillStyle='#b8643a'; c.beginPath(); c.moveTo(-s,0); c.quadraticCurveTo(0,s*1.1,s,0); c.closePath(); c.fill();
+  c.fillStyle='#7a3b22'; c.beginPath(); c.ellipse(0,0,s,s*.22,0,0,7); c.fill();
+  if(lit){ c.fillStyle='#ffb02e'; c.beginPath(); c.moveTo(0,-s*1.3); c.quadraticCurveTo(s*.45,-s*.5,0,-s*.05); c.quadraticCurveTo(-s*.45,-s*.5,0,-s*1.3); c.fill(); c.fillStyle='#fff3c0'; c.beginPath(); c.ellipse(0,-s*.4,s*.12,s*.25,0,0,7); c.fill(); }
+  c.restore();
+}
+function drawLadder(c,a,b){
+  const [x1,y1]=pos(a),[x2,y2]=pos(b); const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy),nx=-dy/len,ny=dx/len,w=cell*.16;
+  c.save(); c.lineCap='round';
+  c.strokeStyle='#0003'; c.lineWidth=cell*.1; [[1],[-1]].forEach(([s])=>{c.beginPath();c.moveTo(x1+nx*w*s+4,y1+ny*w*s+5);c.lineTo(x2+nx*w*s+4,y2+ny*w*s+5);c.stroke()});
+  const rails=c.createLinearGradient(x1,y1,x2,y2); rails.addColorStop(0,'#8a4b1c'); rails.addColorStop(1,'#c8823a');
+  c.strokeStyle=rails; c.lineWidth=cell*.085; [1,-1].forEach(s=>{c.beginPath();c.moveTo(x1+nx*w*s,y1+ny*w*s);c.lineTo(x2+nx*w*s,y2+ny*w*s);c.stroke()});
+  const steps=Math.max(3,Math.round(len/(cell*.38))); c.strokeStyle='#e6a85a'; c.lineWidth=cell*.06;
+  for(let i=1;i<steps;i++){ const k=i/steps,px=x1+dx*k,py=y1+dy*k; c.beginPath(); c.moveTo(px+nx*w,py+ny*w); c.lineTo(px-nx*w,py-ny*w); c.stroke() }
+  c.restore();
+}
+function snakePath(a,b,i){ const [x1,y1]=pos(a),[x2,y2]=pos(b); const pts=[]; const N=60, amp=cell*.42*(i%2?1:-1), waves=Math.max(1.5,Math.hypot(x2-x1,y2-y1)/(cell*1.6));
+  const dx=x2-x1,dy=y2-y1,len=Math.hypot(dx,dy),nx=-dy/len,ny=dx/len;
+  for(let k=0;k<=N;k++){ const s=k/N, w=Math.sin(s*Math.PI*waves)*amp*Math.sin(s*Math.PI)**.6; pts.push([x1+dx*s+nx*w, y1+dy*s+ny*w]); } return pts }
+const SNAKE_COLS=[['#2e8b57','#a7e36b'],['#c0392b','#f5b041'],['#6c3fb5','#d7b8ff'],['#1f6fb2','#86d0ff'],['#b0306a','#ffb3d1'],['#3b7d2a','#e9f07a'],['#8a4b1c','#ffd08a']];
+function drawSnake(c,a,b,i){
+  const pts=snakePath(a,b,i), [col,belly]=SNAKE_COLS[i%SNAKE_COLS.length]; c.save(); c.lineCap='round'; c.lineJoin='round';
+  for(let k=0;k<pts.length-1;k++){ const s=k/pts.length, wdt=cell*(.26-.18*s); c.strokeStyle='#0003'; c.lineWidth=wdt+3; c.beginPath(); c.moveTo(pts[k][0]+3,pts[k][1]+4); c.lineTo(pts[k+1][0]+3,pts[k+1][1]+4); c.stroke(); }
+  for(let k=0;k<pts.length-1;k++){ const s=k/pts.length, wdt=cell*(.26-.18*s); c.strokeStyle=col; c.lineWidth=wdt; c.beginPath(); c.moveTo(pts[k][0],pts[k][1]); c.lineTo(pts[k+1][0],pts[k+1][1]); c.stroke();
+    if(k%4===0){ c.fillStyle=belly; c.beginPath(); c.arc(pts[k][0],pts[k][1],wdt*.22,0,7); c.fill(); } }
+  // head
+  const [hx,hy]=pts[0],[px,py]=pts[2],ang=Math.atan2(hy-py,hx-px); c.translate(hx,hy); c.rotate(ang);
+  c.fillStyle=col; c.beginPath(); c.ellipse(cell*.05,0,cell*.22,cell*.17,0,0,7); c.fill();
+  c.strokeStyle='#e0405a'; c.lineWidth=2; c.beginPath(); c.moveTo(cell*.26,0); c.lineTo(cell*.38,0); c.lineTo(cell*.43,-cell*.05); c.moveTo(cell*.38,0); c.lineTo(cell*.43,cell*.05); c.stroke();
+  [-1,1].forEach(s=>{ c.fillStyle='#fff'; c.beginPath(); c.arc(cell*.1,s*cell*.08,cell*.055,0,7); c.fill(); c.fillStyle='#111'; c.beginPath(); c.arc(cell*.12,s*cell*.08,cell*.03,0,7); c.fill(); });
+  c.restore();
+}
+
+/* ================= state ================= */
+let G=null; // {players:[{name,color,bot,pos,lamps:[]}], turn, busy, winner, litStory:{}}
+const imgDiya=new Image(); imgDiya.src='img/diya_wave.png';
+const anim={tokens:[], parts:[], shake:0, glow:[]};
+function tokenXY(i){ const p=G.players[i]; if(p.draw)return p.draw; const [x,y]=pos(p.pos||1); const same=G.players.filter(q=>(q.pos||1)===(p.pos||1)); const k=same.indexOf(p); const off=(k-(same.length-1)/2)*cell*.22; return [x+off,y+cell*.12] }
+
+function draw(ts){
+  if(!boardCache) drawBoardStatic();
+  const sh=anim.shake>0?(Math.random()-.5)*anim.shake:0; anim.shake*=.88;
+  cx.save(); cx.clearRect(0,0,S,S); cx.translate(sh,sh*.6); cx.drawImage(boardCache,0,0,S,S);
+  // lit story squares
+  if(G) Object.keys(G.litStory).forEach(n=>{ const [x,y]=pos(+n); const f=.8+.2*Math.sin(ts/180+ +n); cx.globalAlpha=.55*f; const g=cx.createRadialGradient(x,y,0,x,y,cell*.7); g.addColorStop(0,'#ffd35a'); g.addColorStop(1,'#ffd35a00'); cx.fillStyle=g; cx.fillRect(x-cell,y-cell,cell*2,cell*2); cx.globalAlpha=1; });
+  // turn highlight
+  if(G&&!G.winner){ const p=G.players[G.turn]; const [x,y]=tokenXY(G.turn); cx.strokeStyle=p.color; cx.lineWidth=3; cx.globalAlpha=.5+.5*Math.sin(ts/200); cx.beginPath(); cx.arc(x,y-cell*.1,cell*.34,0,7); cx.stroke(); cx.globalAlpha=1; }
+  // tokens
+  if(G) G.players.forEach((p,i)=>{ const [x,y]=tokenXY(i); const r=cell*.2, lift=p.lift||0;
+    cx.fillStyle='#0004'; cx.beginPath(); cx.ellipse(x,y+r*.9,r*.9,r*.3,0,0,7); cx.fill();
+    if(p.bot && imgDiya.complete){ const h=cell*.62; cx.drawImage(imgDiya,x-h*.48,y-h*.85-lift,h*.96,h); }
+    else{ const g=cx.createRadialGradient(x-r*.3,y-r*.6-lift,r*.1,x,y-r*.3-lift,r*1.2); g.addColorStop(0,'#fff'); g.addColorStop(.25,p.color); g.addColorStop(1,'#000a');
+      cx.fillStyle=g; cx.beginPath(); cx.moveTo(x-r*.8,y+r*.6-lift); cx.quadraticCurveTo(x,y-r*2.2-lift,x+r*.8,y+r*.6-lift); cx.closePath(); cx.fill();
+      cx.beginPath(); cx.arc(x,y-r*1.2-lift,r*.55,0,7); cx.fill(); cx.fillStyle='#fff'; cx.font=`800 ${Math.round(r*.8)}px "Baloo 2",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText((p.name||'?')[0].toUpperCase(),x,y-r*1.18-lift); }
+  });
+  cx.restore();
+  fxDraw(ts);
+  requestAnimationFrame(draw);
+}
+
+/* ================= particles on overlay canvas ================= */
+const fx=document.getElementById('fx'), fc=fx.getContext('2d');
+function fxSize(){ fx.width=innerWidth*dpr; fx.height=innerHeight*dpr; fc.setTransform(dpr,0,0,dpr,0,0) }
+function burst(x,y,kind='spark',n=30){ for(let i=0;i<n;i++){ const a=Math.random()*Math.PI*2, sp=kind==='fire'?2+Math.random()*5:1+Math.random()*4;
+  anim.parts.push({x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-(kind==='petal'?1:2),life:1,kind,col:kind==='petal'?['#f6a723','#e0405a','#ffd35a','#ff8fb1'][i%4]:kind==='fire'?['#ffd35a','#ff7b54','#7fd3ff','#b98cff','#9cff8a'][Math.floor(Math.random()*5)]:'#ffd35a',r:kind==='petal'?5+Math.random()*4:2+Math.random()*2.5,rot:Math.random()*6}) } }
+function boardToScreen(x,y){ const r=cv.getBoundingClientRect(); return [r.left+x*r.width/S, r.top+y*r.height/S] }
+function fxDraw(){ fc.clearRect(0,0,innerWidth,innerHeight); anim.parts=anim.parts.filter(p=>p.life>0);
+  for(const p of anim.parts){ p.x+=p.vx; p.y+=p.vy; p.vy+=p.kind==='petal'?.04:.08; p.vx*=.99; p.life-=p.kind==='petal'?.008:.018; p.rot+=.1; fc.globalAlpha=Math.max(0,p.life);
+    if(p.kind==='petal'){ fc.save(); fc.translate(p.x,p.y); fc.rotate(p.rot); fc.fillStyle=p.col; fc.beginPath(); fc.ellipse(0,0,p.r,p.r*.55,0,0,7); fc.fill(); fc.restore() }
+    else { fc.fillStyle=p.col; fc.beginPath(); fc.arc(p.x,p.y,p.r,0,7); fc.fill() } }
+  fc.globalAlpha=1 }
+
+/* ================= UI ================= */
+const $=s=>document.querySelector(s);
+function applyLang(){
+  document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); $('#t-lamps').textContent=t('lamps');
+  document.title=t('title'); document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
+  if(G){ renderPlayers(); setHint(); } $('#roll').textContent=t('roll');
+}
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G)setup(); });
+$('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').textContent=soundOn?'🔊':'🔇'; $('#sound').setAttribute('aria-pressed',soundOn) };
+$('#newgame').onclick=()=>setup();
+function renderPlayers(){ $('#players').innerHTML=G.players.map((p,i)=>`<div class="pl ${i===G.turn&&!G.winner?'turn':''}"><i style="background:${p.color}"></i><b>${esc(p.name)}</b>${p.virtues.length?`<em>✦${p.virtues.length}</em>`:''}<span>${p.pos||0}/100</span></div>`).join('');
+  $('#lamps').innerHTML=STORY.map(n=>`<span class="${G.litStory[n]?'on':''}" title="${n}">🪔</span>`).join('') }
+function log(s){ const l=$('#log'); l.insertAdjacentHTML('afterbegin',`<p>${s}</p>`); while(l.children.length>12)l.lastChild.remove() }
+function setHint(){ if(!G||G.winner)return; const p=G.players[G.turn]; $('#hint').textContent=p.bot?t('botTurn')(p.name):t('yourTurn')(p.name); $('#roll').disabled=G.busy||p.bot }
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+
+function overlay(html,cls=''){ $('#overlay').innerHTML=`<div class="ov"><div class="card ${cls}">${html}</div></div>`; return $('#overlay .card') }
+function closeOv(){ $('#overlay').innerHTML='' }
+
+/* ================= setup ================= */
+let setupCount=2, setupRows=null;
+function setup(){
+  const prev=setupRows||[{name:t('youWord'),bot:false},{name:'Diya',bot:true},{name:t('name')(2),bot:false},{name:t('name')(3),bot:false}];
+  const card=overlay(`<span class="tag">Moksha Patam</span><h3>${t('setupTitle')}</h3><p>${t('setupText')}</p>
+    <div class="small">${t('players')}</div><div class="count">${[1,2,3,4].map(n=>`<button data-n="${n}" aria-pressed="${n===setupCount}">${n}</button>`).join('')}</div>
+    <div class="setup" id="rows"></div><p class="small">${t('rules')}</p><button class="go" id="start">${t('start')} 🪔</button>`);
+  function rows(){ card.querySelector('#rows').innerHTML=prev.slice(0,setupCount).map((r,i)=>`<div class="row"><span class="dot" style="background:${COLORS[i]}"></span>
+      <input type="text" id="pn${i}" maxlength="14" value="${esc(r.name)}" aria-label="${t('name')(i)}">
+      <select id="pb${i}" aria-label="type"><option value="h" ${r.bot?'':'selected'}>${t('human')}</option><option value="b" ${r.bot?'selected':''}>${t('bot')}</option></select></div>`).join('') }
+  rows();
+  card.querySelectorAll('.count button').forEach(b=>b.onclick=()=>{ collect(); setupCount=+b.dataset.n; if(setupCount===1){prev[1].bot=true} card.querySelectorAll('.count button').forEach(x=>x.setAttribute('aria-pressed',x===b)); rows() });
+  function collect(){ for(let i=0;i<setupCount;i++){ const n=card.querySelector('#pn'+i), b=card.querySelector('#pb'+i); if(n){prev[i].name=n.value.trim()||t('name')(i); prev[i].bot=b.value==='b'} } }
+  card.querySelector('#start').onclick=()=>{ collect(); ac(); SFX.conch(); setupRows=prev;
+    let list=prev.slice(0,setupCount).map((r,i)=>({name:r.name,bot:r.bot,color:COLORS[i],pos:0,virtues:[]}));
+    if(setupCount===1) list.push({name:'Diya',bot:true,color:COLORS[1],pos:0,virtues:[]});
+    G={players:list,turn:0,busy:false,winner:null,litStory:{}}; closeOv(); renderPlayers(); $('#log').innerHTML=''; setHint(); maybeBot(); };
+}
+
+/* ================= dice ================= */
+const FACE_ROT={1:[0,0],2:[0,-90],3:[0,180],4:[0,90],5:[-90,0],6:[90,0]};
+let spin=0;
+async function rollDice(){ SFX.dice(); const v=1+Math.floor(Math.random()*6); spin+=2; const [rx,ry]=FACE_ROT[v];
+  $('#cube').style.transform=`rotateX(${rx+360*spin}deg) rotateY(${ry+360*spin}deg)`; $('#dicescene').classList.remove('shake'); void $('#dicescene').offsetWidth; $('#dicescene').classList.add('shake');
+  await sleep(1050); return v }
+
+/* ================= moves ================= */
+async function hopTo(p,target){ const dir=target>p.pos?1:-1; while(p.pos!==target){ const from=pos(p.pos||1); p.pos+=dir; const to=pos(p.pos);
+    for(let k=1;k<=8;k++){ const s=k/8; p.draw=[from[0]+(to[0]-from[0])*s, from[1]+(to[1]-from[1])*s+cell*.12]; p.lift=Math.sin(s*Math.PI)*cell*.25; await sleep(16) }
+    p.draw=null; p.lift=0; SFX.hop(); } }
+async function glide(p,pts,ms){ const t0=performance.now(); return new Promise(res=>{ (function step(){ const s=Math.min(1,(performance.now()-t0)/ms), e=s<.5?2*s*s:1-Math.pow(-2*s+2,2)/2; const k=e*(pts.length-1), i=Math.floor(k), f=k-i; const a=pts[i], b=pts[Math.min(pts.length-1,i+1)];
+  p.draw=[a[0]+(b[0]-a[0])*f, a[1]+(b[1]-a[1])*f+cell*.12]; if(Math.random()<.3){ const [sx,sy]=boardToScreen(p.draw[0],p.draw[1]); burst(sx,sy,'spark',1) } if(s<1)requestAnimationFrame(step); else { p.draw=null; res() } })() }) }
+
+function cardAwait(html,cls,btn){ return new Promise(res=>{ const c=overlay(html+`<button class="go" id="ok">${btn||t('ok')}</button>`,cls); c.querySelector('#ok').focus(); c.querySelector('#ok').onclick=()=>{ closeOv(); res() } }) }
+
+async function quiz(p,n){
+  const Q=QUIZ[STORY.indexOf(n)%QUIZ.length]; const order=[0,1,2].sort(()=>Math.random()-.5);
+  return new Promise(res=>{
+    const c=overlay(`<span class="tag">🪔 ${t('storyTag')}</span><h3>${tx(Q.q)}</h3><div class="opts">${order.map(i=>`<button class="opt" data-i="${i}">${tx(Q.a[i])}</button>`).join('')}</div><p id="fb"></p>`);
+    const choose=async i=>{ c.querySelectorAll('.opt').forEach(b=>{ b.disabled=true; if(+b.dataset.i===0)b.classList.add('right'); else if(+b.dataset.i===i)b.classList.add('wrong') });
+      const ok=i===0; c.querySelector('#fb').textContent= ok?t('right'):t('wrong')(tx(Q.a[0])); ok?SFX.right():SFX.wrong();
+      if(ok){ const r=c.getBoundingClientRect(); burst(r.left+r.width/2,r.top+40,'spark',40) }
+      c.insertAdjacentHTML('beforeend',`<button class="go" id="ok">${t('ok')}</button>`); c.querySelector('#ok').focus(); c.querySelector('#ok').onclick=()=>{ closeOv(); res(ok) };
+      if(p.bot) setTimeout(()=>c.querySelector('#ok')?.click(),1600) };
+    c.querySelectorAll('.opt').forEach(b=>b.onclick=()=>choose(+b.dataset.i));
+    if(p.bot) setTimeout(()=>choose(Math.random()<.7?0:order.find(i=>i!==0)),1400);
+  });
+}
+
+async function resolveSquare(p){
+  const L1=LADDERS.find(l=>l[0]===p.pos), S1=SNAKES.find(s=>s[0]===p.pos);
+  if(L1){ const html=`<span class="tag">🪜 ${t('ladderTag')}</span><h3>${tx(L1[2])}</h3><p>${tx(L1[3])}</p>`;
+    if(p.bot){ overlay(html,'ladder'); await sleep(2300); closeOv() } else await cardAwait(html,'ladder',t('climb'));
+    SFX.ladder(); await glide(p,[pos(L1[0]),pos(L1[1])],900); p.pos=L1[1]; const [x,y]=boardToScreen(...pos(p.pos)); burst(x,y,'spark',30);
+    if(!p.virtues.includes(L1[0])){ p.virtues.push(L1[0]); saveVirtue(L1[0]); } log(`🪜 ${esc(p.name)}: ${tx(L1[2])} → ${p.pos}`); return resolveSquare(p) }
+  if(S1){ const html=`<span class="tag">🐍 ${t('snakeTag')}</span><h3>${tx(S1[2])}</h3><p>${tx(S1[3])}</p>`;
+    if(p.bot){ overlay(html,'snake'); await sleep(2300); closeOv() } else await cardAwait(html,'snake',t('slide'));
+    SFX.snake(); anim.shake=10; $('#bw').classList.remove('shake'); void $('#bw').offsetWidth; $('#bw').classList.add('shake');
+    await glide(p,snakePath(S1[0],S1[1],SNAKES.indexOf(S1)),1300); p.pos=S1[1]; log(`🐍 ${esc(p.name)}: ${tx(S1[2])} → ${p.pos}`); return }
+  if(STORY.includes(p.pos)){ const ok=await quiz(p,p.pos); if(ok){ G.litStory[p.pos]=1; renderPlayers(); SFX.bell(); await hopTo(p,Math.min(100,p.pos+3)); return resolveSquare(p) } }
+}
+
+async function takeTurn(){
+  if(!G||G.busy||G.winner)return; G.busy=true; $('#roll').disabled=true; $('#roll').textContent=t('rolling');
+  const p=G.players[G.turn]; const v=await rollDice(); $('#roll').textContent=t('roll'); log(t('rolled')(esc(p.name),v));
+  let target=(p.pos||0)+v;
+  if(p.pos===0){ p.pos=1; target=v; await hopTo(p,Math.max(1,target)); }
+  else if(target>100){ const back=100-(target-100); await hopTo(p,100); log(t('bounce')); SFX.wrong(); await hopTo(p,back); }
+  else await hopTo(p,target);
+  await resolveSquare(p); renderPlayers();
+  if(p.pos===100){ G.winner=p; G.busy=false; return win(p) }
+  if(v!==6) G.turn=(G.turn+1)%G.players.length; else log(t('six'));
+  G.busy=false; renderPlayers(); setHint(); maybeBot();
+}
+async function maybeBot(){ if(!G||G.winner)return; const p=G.players[G.turn]; if(p.bot){ await sleep(900); takeTurn() } }
+$('#roll').onclick=()=>{ ac(); takeTurn() }; $('#dicescene').onclick=()=>{ if(!$('#roll').disabled){ac(); takeTurn()} };
+addEventListener('keydown',e=>{ if((e.key===' '||e.key==='Enter')&&!$('#overlay').innerHTML&&!$('#roll').disabled&&document.activeElement.tagName!=='INPUT'){ e.preventDefault(); takeTurn() } });
+
+function win(p){
+  SFX.win(); renderPlayers(); $('#hint').textContent='';
+  for(let k=0;k<8;k++) setTimeout(()=>burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.15+Math.random()*.35),'fire',60),k*280);
+  setTimeout(()=>burst(innerWidth/2,innerHeight*.2,'petal',90),300);
+  try{ const pr=JSON.parse(localStorage.getItem('storyquest')||'{}'); pr.dv1=1; pr.dv1game=1; localStorage.setItem('storyquest',JSON.stringify(pr)) }catch(e){}
+  const virt=p.virtues.map(n=>tx(LADDERS.find(l=>l[0]===n)[2]));
+  const c=overlay(`<img class="hero" src="img/return.jpg" alt=""><span class="tag">🪔 Ayodhya</span><h3>${t('winTitle')(esc(p.name))}</h3><p>${t('winText')}</p>
+    ${virt.length?`<p class="small">✦ ${virt.join(' · ')}</p>`:''}<div style="display:grid;gap:8px"><button class="go" id="again">${t('again')}</button><a class="go" style="text-align:center;text-decoration:none;background:#b8643a" href="index.html#dv1">${t('next')}</a></div>`);
+  c.querySelector('#again').onclick=()=>setup();
+}
+function saveVirtue(n){ try{ const pr=JSON.parse(localStorage.getItem('storyquest')||'{}'); pr.virtues=[...new Set([...(pr.virtues||[]),n])]; localStorage.setItem('storyquest',JSON.stringify(pr)) }catch(e){} }
+
+/* ================= boot ================= */
+function relayout(){ resize(); fxSize(); boardCache=null }
+addEventListener('resize',relayout);
+document.fonts?.ready?.then(()=>{ boardCache=null });
+relayout(); applyLang(); setup(); requestAnimationFrame(draw);
+</script>
+</body>
+</html>
