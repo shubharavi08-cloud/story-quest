@@ -141,9 +141,10 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 const DEEPAVALI = [
  {n:1, place:'Ayodhya', title:'The Night One Tiny Lamp Lit Up the World', img:'img/ayodhya.jpg', game:'Road to Ayodhya', yt:'MzVcueVUos8', play:'road-to-ayodhya.html', ready:true, alts:[['हिंदी','yjNlnXLQzcM'],['ಕನ್ನಡ','GFDDA8vcGnk']],
    playImg:'img/return.jpg', playTag:'Moksha Patam · 1 to 4 players · English, हिंदी, ಕನ್ನಡ', playBlurb:"Race to Ayodhya on the old Indian board of ladders and snakes. Climb Hanuman's leap, dodge Ravana's pride, and light story lamps. Play together on one screen or against Diya.", playBtn:'Play now 🎲'},
- {n:2, place:'Rajasthan', title:'Dhanteras: More Precious Than Gold', img:'img/rajasthan.jpg', game:'Samudra Manthan', play:'samudra-manthan.html', ready:true, alts:[['हिंदी','-x8G377Xxmg'],['ಕನ್ನಡ','Quo3RghcGSc']],
+ {n:2, place:'Rajasthan', title:'Dhanteras: More Precious Than Gold', img:'img/rajasthan.jpg', game:'Samudra Manthan', play:'samudra-manthan.html', ready:true, yt:'ofU33IYt4dE', ytFrom:'2026-11-04T11:00:00Z', alts:[['हिंदी','-x8G377Xxmg'],['ಕನ್ನಡ','Quo3RghcGSc']],
    playImg:'img/ep2_churning.jpg', playTag:'Rhythm tug game · 1 or 2 players · English, हिंदी, ಕನ್ನಡ', playBlurb:'Devas and Asuras pull Vasuki in turns. Keep the rhythm to churn the ocean of milk, call Lord Shiva when the poison rises, and collect the treasures until Lord Dhanvantari appears with the pot of amrit.', playBtn:'Play now 🌊'},
- {n:3, place:'Goa', title:'Narakasura, Part 1', img:'img/S23_diya_to_sea.jpg', game:"Who's Who"},
+ {n:3, place:'Goa', title:'The King Only His Mother Could Defeat', img:'img/ep3_effigy.jpg', game:'Lagori Strike', play:'lagori.html', ready:true, yt:'FAU2IvP3Rhc', ytFrom:'2026-11-05T11:00:00Z', alts:[['हिंदी','rKCHtj7W2AA'],['ಕನ್ನಡ','6F6vA_jPhOY']],
+   playImg:'img/ep3_street.jpg', playTag:'Lagori (seven stones) · 1 or 2 players · English, हिंदी, ಕನ್ನಡ', playBlurb:"Knock down Naraka's tower of pride with the old Indian game of seven stones, then rebuild it fast, biggest stone first, while dodging the ball. Every stone you rebuild turns into a virtue.", playBtn:'Play now 🎯'},
  {n:4, place:'Andhra & Tamil Nadu', title:"Satyabhama's Victory", img:'img/S19_thalai_deepavali.jpg', game:"Satyabhama's Arrow"},
  {n:5, place:'Gujarat', title:'Where Does Lakshmi Stay?', img:'img/lamps.jpg', game:'Where Does Lakshmi Stay?'},
  {n:6, place:'Bengal, Odisha & Mithila', title:'Maa Kali and the Lamps for Ancestors', img:'img/amavasya.jpg', game:'Catch Every Drop'},
@@ -244,8 +245,8 @@ function deepavali(){
 }
 function episode(n){
   const e=DEEPAVALI.find(x=>x.n===n); if(!e||!e.ready){location.hash='deepavali';return}
-  const vers=[...(e.yt?[['English',e.yt]]:[]),...(e.alts||[])];
-  const tabs=vers.length?`<div class="langs" role="tablist">${vers.map(([l,id],i)=>`<button class="lang${i?'':' on'}" data-id="${id}" role="tab">▶ ${l}</button>`).join('')}${e.yt?'':'<span class="muted">English episode coming soon</span>'}</div>`:'';
+  const enLive=e.yt&&(!e.ytFrom||Date.now()>=Date.parse(e.ytFrom)); const vers=[...(enLive?[['English',e.yt]]:[]),...(e.alts||[])];
+  const tabs=vers.length?`<div class="langs" role="tablist">${vers.map(([l,id],i)=>`<button class="lang${i?'':' on'}" data-id="${id}" role="tab">▶ ${l}</button>`).join('')}${enLive?'':'<span class="muted">English episode: '+(e.ytFrom?new Date(e.ytFrom).toLocaleDateString(undefined,{day:'numeric',month:'short'}):'coming soon')+'</span>'}</div>`:'';
   const vid=vers.length?`<button class="watch" id="poster" data-id="${vers[0][1]}" aria-label="Play episode ${e.n}"><img src="${e.img}" alt="Episode ${e.n}: ${e.title}"><span class="playbtn" aria-hidden="true">▶</span></button>`
     :`<img src="${e.img}" alt=""><div class="soon"><div><span class="eyebrow">Episode ${e.n} · ${e.place}</span><h3>The video arrives here soon</h3></div><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Open our channel</a></div>`;
   const alsoIn='';
