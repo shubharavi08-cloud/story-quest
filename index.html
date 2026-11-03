@@ -82,6 +82,11 @@ h3{font-size:22px}
 .watch img{filter:brightness(.75)}
 .watch .playbtn{position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:50%;background:var(--kumkum);color:#fff;display:grid;place-items:center;font-size:34px;box-shadow:0 10px 30px #000a}
 .watch .btn{position:absolute;left:16px;bottom:16px}
+button.watch{border:0;padding:0;cursor:pointer;background:none;width:100%;height:100%}
+.langs{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.lang{font:700 15px var(--body);border:1px solid var(--line);background:var(--night-2);color:var(--ink);border-radius:999px;padding:8px 16px;cursor:pointer}
+.lang.on{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.small{font-size:14px}
 .bigplay{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px;align-items:center;background:linear-gradient(135deg,var(--night-2),var(--night-3));border:2px solid var(--marigold);border-radius:22px;padding:16px;text-decoration:none;color:var(--ink);transition:transform .15s}
 .bigplay:hover{transform:translateY(-3px)}
 .bigplay img{width:100%;border-radius:16px;display:block}
@@ -134,8 +139,10 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 <script>
 /* ===== content ===== */
 const DEEPAVALI = [
- {n:1, place:'Ayodhya', title:'The Night One Tiny Lamp Lit Up the World', img:'img/ayodhya.jpg', game:'Road to Ayodhya', yt:'MzVcueVUos8', play:'road-to-ayodhya.html', ready:true},
- {n:2, place:'Rajasthan', title:'Dhanteras: More Precious Than Gold', img:'img/rajasthan.jpg', game:'Churn the Ocean'},
+ {n:1, place:'Ayodhya', title:'The Night One Tiny Lamp Lit Up the World', img:'img/ayodhya.jpg', game:'Road to Ayodhya', yt:'MzVcueVUos8', play:'road-to-ayodhya.html', ready:true, alts:[['हिंदी','yjNlnXLQzcM'],['ಕನ್ನಡ','GFDDA8vcGnk']],
+   playImg:'img/return.jpg', playTag:'Moksha Patam · 1 to 4 players · English, हिंदी, ಕನ್ನಡ', playBlurb:"Race to Ayodhya on the old Indian board of ladders and snakes. Climb Hanuman's leap, dodge Ravana's pride, and light story lamps. Play together on one screen or against Diya.", playBtn:'Play now 🎲'},
+ {n:2, place:'Rajasthan', title:'Dhanteras: More Precious Than Gold', img:'img/rajasthan.jpg', game:'Samudra Manthan', play:'samudra-manthan.html', ready:true, alts:[['हिंदी','-x8G377Xxmg'],['ಕನ್ನಡ','Quo3RghcGSc']],
+   playImg:'img/ep2_churning.jpg', playTag:'Rhythm tug game · 1 or 2 players · English, हिंदी, ಕನ್ನಡ', playBlurb:'Devas and Asuras pull Vasuki in turns. Keep the rhythm to churn the ocean of milk, call Lord Shiva when the poison rises, and collect the treasures until Lord Dhanvantari appears with the pot of amrit.', playBtn:'Play now 🌊'},
  {n:3, place:'Goa', title:'Narakasura, Part 1', img:'img/S23_diya_to_sea.jpg', game:"Who's Who"},
  {n:4, place:'Andhra & Tamil Nadu', title:"Satyabhama's Victory", img:'img/S19_thalai_deepavali.jpg', game:"Satyabhama's Arrow"},
  {n:5, place:'Gujarat', title:'Where Does Lakshmi Stay?', img:'img/lamps.jpg', game:'Where Does Lakshmi Stay?'},
@@ -237,16 +244,29 @@ function deepavali(){
 }
 function episode(n){
   const e=DEEPAVALI.find(x=>x.n===n); if(!e||!e.ready){location.hash='deepavali';return}
-  const vid=e.yt?`<a class="watch" href="https://youtu.be/${e.yt}" target="_blank" rel="noopener"><img src="${e.img}" alt="Episode ${e.n}: ${e.title}"><span class="playbtn" aria-hidden="true">▶</span><span class="btn">Watch on YouTube</span></a>`
+  const vers=[...(e.yt?[['English',e.yt]]:[]),...(e.alts||[])];
+  const tabs=vers.length?`<div class="langs" role="tablist">${vers.map(([l,id],i)=>`<button class="lang${i?'':' on'}" data-id="${id}" role="tab">▶ ${l}</button>`).join('')}${e.yt?'':'<span class="muted">English episode coming soon</span>'}</div>`:'';
+  const vid=vers.length?`<button class="watch" id="poster" data-id="${vers[0][1]}" aria-label="Play episode ${e.n}"><img src="${e.img}" alt="Episode ${e.n}: ${e.title}"><span class="playbtn" aria-hidden="true">▶</span></button>`
     :`<img src="${e.img}" alt=""><div class="soon"><div><span class="eyebrow">Episode ${e.n} · ${e.place}</span><h3>The video arrives here soon</h3></div><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Open our channel</a></div>`;
+  const alsoIn='';
   V.innerHTML=`<a href="#deepavali" class="muted">← Deepavali</a>
    <div><span class="eyebrow">Episode ${e.n} · ${e.place}</span><h1>${e.title}</h1></div>
-   <div class="step"><i>1</i><h2>Watch the story</h2></div><div class="video">${vid}</div>
+   <div class="step"><i>1</i><h2>Watch the story</h2></div>${tabs}<div class="video" id="vbox">${vid}</div><a class="muted small" id="ytlink" href="https://youtu.be/${vers[0]?vers[0][1]:''}" target="_blank" rel="noopener" style="${vers.length?'':'display:none'}">Open on YouTube ↗</a>
    <div class="step"><i>2</i><h2>Play: ${e.game}</h2></div>
-   ${e.play?`<a class="bigplay" href="${e.play}"><img src="img/return.jpg" alt=""><div><span class="eyebrow">Moksha Patam · 1 to 4 players · English, हिंदी, ಕನ್ನಡ</span><h3>${e.game}</h3><p class="muted">Race to Ayodhya on the old Indian board of ladders and snakes. Climb Hanuman's leap, dodge Ravana's pride, and light story lamps. Play together on one screen or against Diya.</p><span class="btn">Play now 🎲</span></div></a>
-   <div class="step"><i>3</i><h2>Quick game: Light the Path</h2></div>`:''}
-   <section class="card" id="game"></section>`;
-  lightThePath(document.getElementById('game'),e);
+   ${e.play?`<a class="bigplay" href="${e.play}"><img src="${e.playImg}" alt=""><div><span class="eyebrow">${e.playTag}</span><h3>${e.game}</h3><p class="muted">${e.playBlurb}</p><span class="btn">${e.playBtn}</span></div></a>`:''}
+   ${e.n===1?`<div class="step"><i>3</i><h2>Quick game: Light the Path</h2></div><section class="card" id="game"></section>`:''}`;
+  if(e.n===1) lightThePath(document.getElementById('game'),e);
+  wireVideo(e);
+}
+
+function wireVideo(e){
+  const box=document.getElementById('vbox'), link=document.getElementById('ytlink'); if(!box)return;
+  const poster=()=>`<button class="watch" id="poster" aria-label="Play"><img src="${e.img}" alt=""><span class="playbtn" aria-hidden="true">▶</span></button>`;
+  let cur=(document.querySelector('.lang.on')||{}).dataset?.id;
+  const play=()=>{ try{if(musicOn)setMusic(false)}catch(_){}
+    box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${cur}?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="Episode ${e.n}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>` };
+  box.addEventListener('click',ev=>{ if(ev.target.closest('#poster')) play() });
+  document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>{ document.querySelectorAll('.lang').forEach(x=>x.classList.toggle('on',x===b)); cur=b.dataset.id; if(link)link.href='https://youtu.be/'+cur; if(box.querySelector('iframe')) play(); else box.innerHTML=poster() });
 }
 
 /* ===== Episode 1 game: Light the Path ===== */
