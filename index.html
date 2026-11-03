@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Story Quest</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Story Quest by World of Wonders, an OurSchoolHouse (OSH) initiative: stories of Bharat's festivals, epics and scriptures for every age. Watch, play, learn and teach together.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&display=swap">
+<style>
+/* Layout: a night-sky quest board. Home = worlds and shelves of story sections; a series page = Diya's journey trail; an episode page = video then its game. */
+:root{
+  --night:#1c1442; --night-2:#2a1f5c; --night-3:#362a72;
+  --ink:#fdf3dc; --muted:#c7bce6; --line:rgba(253,243,220,.14);
+  --marigold:#f6a723; --flame:#ffd35a; --kumkum:#e0405a; --leaf:#46b882; --clay:#b8643a; --river:#3a6fd8;
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif; --body:"Mukta","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 120px;
+  background-image:radial-gradient(1px 1px at 12% 18%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 72% 9%,#fff6 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 30%,#fff7 50%,transparent 51%),radial-gradient(1px 1px at 40% 6%,#fff5 50%,transparent 51%),radial-gradient(1px 1px at 22% 40%,#fff4 50%,transparent 51%),radial-gradient(1px 1px at 60% 55%,#fff4 50%,transparent 51%);background-attachment:fixed}
+a{color:var(--flame)}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding-block:16px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo img{width:44px;height:auto}
+.logo b{font-family:var(--display);font-size:26px;line-height:1}
+.logo small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-weight:700}
+.btn{font:700 16px var(--body);background:var(--marigold);color:var(--night);border:0;border-radius:999px;padding:10px 20px;cursor:pointer;text-decoration:none;display:inline-flex;gap:8px;align-items:center;transition:transform .15s}
+.btn:hover{transform:scale(1.04)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);line-height:1.08;margin:0;text-wrap:balance}
+h1{font-size:clamp(36px,7vw,64px);font-weight:800}
+h1 span{color:var(--flame)}
+h2{font-size:clamp(26px,4vw,36px)}
+h3{font-size:22px}
+.lede{color:var(--muted);margin:0;max-width:60ch}
+.eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-weight:700}
+.hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:20px;align-items:center}
+.hero .art{position:relative}
+.hero .art img.scene{width:100%;border-radius:22px;display:block;box-shadow:0 20px 50px -20px #000}
+.hero .art img.mascot{position:absolute;left:-30px;bottom:-34px;width:42%;filter:drop-shadow(0 0 22px #ffb84a99);animation:bob 1.6s ease-in-out infinite alternate}
+@keyframes bob{to{transform:translateY(-10px) rotate(3deg)}}
+@media (max-width:760px){.hero{grid-template-columns:1fr}.hero .art img.mascot{left:-6px;width:34%}}
+.worlds{display:flex;gap:10px;flex-wrap:wrap}
+.world{font:700 16px var(--body);border-radius:999px;padding:8px 18px;border:1.5px solid var(--line);background:transparent;color:var(--ink)}
+.world.on{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.world.soon{opacity:.6}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.tile{position:relative;border-radius:18px;overflow:hidden;background:var(--night-2);border:1px solid var(--line);text-decoration:none;color:var(--ink);display:flex;flex-direction:column;min-width:0;transition:transform .2s}
+.tile:hover{transform:translateY(-4px)}
+.tile img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.tile .ph{aspect-ratio:16/9;display:grid;place-items:center;font-family:var(--display);font-size:46px;background:linear-gradient(135deg,var(--night-3),var(--night-2))}
+.tile .body{padding:12px 14px 14px;display:flex;flex-direction:column;gap:4px}
+.tile .body p{margin:0;color:var(--muted);font-size:15px}
+.chip{position:absolute;top:10px;left:10px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:var(--leaf);color:#0d2a1d}
+.chip.soon{background:var(--night-3);color:var(--muted)}
+.tile.locked{pointer-events:none}
+.tile.locked img{filter:saturate(.4) brightness(.6)}
+/* journey trail */
+.trail{position:relative;background:var(--night-2);border:1px solid var(--line);border-radius:22px;padding:18px;overflow:hidden}
+.trail svg{width:100%;height:auto;display:block}
+.trail .legend{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:baseline}
+.count{font-family:var(--display);font-size:22px;font-variant-numeric:tabular-nums}
+.count b{color:var(--flame)}
+.eps{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.ep .num{font-family:var(--display);color:var(--flame);font-size:15px;letter-spacing:.08em;text-transform:uppercase}
+.ep .game{font-size:14px;color:var(--leaf);font-weight:700}
+.finale{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;background:linear-gradient(120deg,var(--night-3),var(--night-2));border:1px solid var(--marigold);border-radius:22px;padding:22px}
+@media (max-width:640px){.finale{grid-template-columns:1fr}}
+/* episode page */
+.video{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:16/9;background:#000;max-width:100%}
+.video iframe,.video img{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
+.video .soon{position:absolute;inset:auto 0 0 0;padding:40px 18px 16px;background:linear-gradient(transparent,#0c0820ee);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-end}
+.step{display:flex;gap:10px;align-items:center}
+.step i{font-style:normal;width:34px;height:34px;border-radius:50%;background:var(--marigold);color:var(--night);display:grid;place-items:center;font-family:var(--display);font-size:20px}
+.card{background:var(--night-2);border:1px solid var(--line);border-radius:22px;padding:20px;display:flex;flex-direction:column;gap:16px}
+.watch{position:absolute;inset:0;display:block;border-radius:22px;overflow:hidden;text-decoration:none}
+.watch img{filter:brightness(.75)}
+.watch .playbtn{position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:50%;background:var(--kumkum);color:#fff;display:grid;place-items:center;font-size:34px;box-shadow:0 10px 30px #000a}
+.watch .btn{position:absolute;left:16px;bottom:16px}
+.bigplay{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px;align-items:center;background:linear-gradient(135deg,var(--night-2),var(--night-3));border:2px solid var(--marigold);border-radius:22px;padding:16px;text-decoration:none;color:var(--ink);transition:transform .15s}
+.bigplay:hover{transform:translateY(-3px)}
+.bigplay img{width:100%;border-radius:16px;display:block}
+.bigplay div{display:flex;flex-direction:column;gap:8px;align-items:flex-start;min-width:0}
+.bigplay p{margin:0}
+@media (max-width:640px){.bigplay{grid-template-columns:1fr}}
+/* Light the Path game */
+.path{position:relative}
+.path svg{width:100%;height:auto;display:block}
+.tray{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.moment{position:relative;border:2px solid transparent;border-radius:14px;overflow:hidden;background:var(--night-3);cursor:pointer;padding:0;color:var(--ink);text-align:left;font:600 15px var(--body);transition:transform .15s,border-color .15s;min-width:0}
+.moment:hover{transform:translateY(-3px);border-color:var(--marigold)}
+.moment img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+.moment span{display:block;padding:8px 10px;line-height:1.25}
+.moment.used{opacity:.25;pointer-events:none;transform:scale(.96)}
+.shake{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.story{display:grid;grid-template-columns:120px minmax(0,1fr);gap:14px;align-items:center;background:rgba(246,167,35,.1);border-left:4px solid var(--marigold);border-radius:10px;padding:10px;animation:up .4s both}
+.story img{width:120px;border-radius:10px;aspect-ratio:16/10;object-fit:cover}
+.story p{margin:0}
+@keyframes up{from{opacity:0;transform:translateY(10px)}}
+.done{display:grid;place-items:center;text-align:center;gap:10px}
+.done img{max-width:100%;border-radius:18px}
+.muted{color:var(--muted)}
+#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:40}
+.pal{position:fixed;left:max(12px,env(safe-area-inset-left,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:45;display:flex;align-items:flex-end;gap:4px;pointer-events:none;transform:translateY(160%);transition:transform .55s cubic-bezier(.3,1.5,.5,1)}
+.pal.show{transform:none}
+.pal img{width:104px;height:auto;filter:drop-shadow(0 0 18px #ffb84a99);animation:bob 1.4s ease-in-out infinite alternate}
+.bubble{background:var(--ink);color:var(--night);border-radius:18px 18px 18px 4px;padding:10px 14px;max-width:min(300px,60vw);margin-bottom:66px;font-weight:600;line-height:1.3;box-shadow:0 8px 24px #0006}
+.bubble b{font-family:var(--display);font-size:20px;display:block;color:#7a3b22}
+.music{font:700 14px var(--body);color:var(--ink);background:var(--night-2);border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer}
+footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-direction:column;gap:4px}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="bar">
+    <a class="logo" href="#home"><img src="img/wow_logo.png" alt="World of Wonders"><span><small>World of Wonders · by OurSchoolHouse</small><b>Story Quest</b></span></a>
+    <button class="music" id="music" type="button" aria-pressed="false">Music off</button>
+  </header>
+  <main id="view"></main>
+  <footer><span>Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders Studio</a>, a unit of <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></span><span>Watch the story. Play the quest. Learn and teach together.</span></footer>
+</div>
+<canvas id="fx" aria-hidden="true"></canvas>
+<div class="pal" id="pal" aria-live="polite"><img src="img/diya_wave.png" alt="Diya"><div class="bubble" id="bubble"></div></div>
+
+<script>
+/* ===== content ===== */
+const DEEPAVALI = [
+ {n:1, place:'Ayodhya', title:'The Night One Tiny Lamp Lit Up the World', img:'img/ayodhya.jpg', game:'Road to Ayodhya', yt:'MzVcueVUos8', play:'road-to-ayodhya.html', ready:true},
+ {n:2, place:'Rajasthan', title:'Dhanteras: More Precious Than Gold', img:'img/rajasthan.jpg', game:'Churn the Ocean'},
+ {n:3, place:'Goa', title:'Narakasura, Part 1', img:'img/S23_diya_to_sea.jpg', game:"Who's Who"},
+ {n:4, place:'Andhra & Tamil Nadu', title:"Satyabhama's Victory", img:'img/S19_thalai_deepavali.jpg', game:"Satyabhama's Arrow"},
+ {n:5, place:'Gujarat', title:'Where Does Lakshmi Stay?', img:'img/lamps.jpg', game:'Where Does Lakshmi Stay?'},
+ {n:6, place:'Bengal, Odisha & Mithila', title:'Maa Kali and the Lamps for Ancestors', img:'img/amavasya.jpg', game:'Catch Every Drop'},
+ {n:7, place:'Karnataka, Maharashtra & Kerala', title:"King Bali's Promise", img:'img/S03_diya_desert.jpg', game:"Bali's Promise"},
+ {n:8, place:'Mathura', title:'Bhai Dooj by the Yamuna', img:'img/river.jpg', game:"Yamuna's Thali"},
+];
+const SECTIONS = [
+ {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale.", img:'img/ayodhya.jpg', open:true},
+ {k:'gita', name:'Bhagavad Gita', group:'Scriptures', blurb:'Krishna and Arjuna, one chapter at a time.', emoji:'🪷'},
+ {k:'panchatantra', name:'Panchatantra', group:'Wisdom tales', blurb:'Clever animals, smart lessons.', emoji:'🐒'},
+ {k:'ramayana', name:'Ramayana', group:'Epics', blurb:'The journey of Shri Ram.', img:'img/exile.jpg'},
+ {k:'puranas', name:'Puranas', group:'Puranas', blurb:'Samudra Manthan, Prahlada, Dhruva and more.', emoji:'🌊'},
+ {k:'dasara', name:'Dasara', group:'Festivals', blurb:'Ten days of victory of good over evil.', emoji:'🏹'},
+ {k:'heroes', name:'History Heroes', group:'History', blurb:'Shivaji, Rani Lakshmibai, Aryabhata and more.', emoji:'🛡️'},
+];
+const MOMENTS = [
+ {id:'exile', img:'img/exile.jpg', label:'Ram, Sita and Lakshman live in the forest', text:'For fourteen years, Shri Ram, Mother Sita and Lakshman lived in the forest.'},
+ {id:'ravana', img:'img/ravana.jpg', label:'Ravana carries Sita away', text:'The ten-headed king Ravana carried Mother Sita away to Lanka.'},
+ {id:'battle', img:'img/battle.jpg', label:'The great battle', text:'After a mighty battle, Shri Ram brought Mother Sita safely back.'},
+ {id:'news', img:'img/news.jpg', label:'"Shri Ram is coming home!"', text:'The happy news ran through Ayodhya: Shri Ram is coming home!'},
+ {id:'amavasya', img:'img/amavasya.jpg', label:'The darkest night', text:'It was Amavasya, the night with no moon. How would the king find his way?'},
+ {id:'potter', img:'img/potter.jpg', label:"The potter's idea", text:'An old potter had an idea: "We will light lamps!"'},
+ {id:'lamps', img:'img/lamps.jpg', label:'Everyone makes clay lamps', text:'Everyone made little clay lamps, and one of them was Diya!'},
+ {id:'return', img:'img/return.jpg', label:'Home at last!', text:'Rows of lamps lit the way, and Shri Ram came home. A row of lamps: Deepavali!'},
+];
+
+/* ===== tiny sound kit (synthesized, starts on a tap) ===== */
+let AC=null,master,musicOn=false,mG,sched=null,nextT=0,step=0;
+const SA=293.66,SC=[0,2,4,7,9],hz=d=>SA*Math.pow(2,Math.floor(d/5)+SC[((d%5)+5)%5]/12);
+function initAudio(){if(AC)return;AC=new(window.AudioContext||window.webkitAudioContext)();master=AC.createGain();master.gain.value=.9;master.connect(AC.destination);mG=AC.createGain();mG.gain.value=0;mG.connect(master);
+  [[SA/2,.05],[SA*.75,.035]].forEach(([f,g])=>{const o=AC.createOscillator(),lp=AC.createBiquadFilter(),gn=AC.createGain();o.type='sawtooth';o.frequency.value=f;lp.type='lowpass';lp.frequency.value=650;gn.gain.value=g;o.connect(lp);lp.connect(gn);gn.connect(mG);o.start()})}
+function flute(f,t,d,v){const o=AC.createOscillator(),g=AC.createGain(),l=AC.createOscillator(),lg=AC.createGain();o.frequency.value=f;l.frequency.value=5.2;lg.gain.value=f*.006;l.connect(lg);lg.connect(o.frequency);g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.07);g.gain.exponentialRampToValueAtTime(.0005,t+d+.4);o.connect(g);g.connect(mG);[o,l].forEach(x=>{x.start(t);x.stop(t+d+.5)})}
+function bell(f,t,v){[1,2.76,5.4].forEach((m,i)=>{const o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f*m;g.gain.setValueAtTime(v/(i+1),t);g.gain.exponentialRampToValueAtTime(.0004,t+1.6/(i+1));o.connect(g);g.connect(master);o.start(t);o.stop(t+1.8)})}
+function drum(t,low,v){const o=AC.createOscillator(),g=AC.createGain();o.frequency.setValueAtTime(low?120:420,t);o.frequency.exponentialRampToValueAtTime(low?55:300,t+.18);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.0005,t+(low?.4:.12));o.connect(g);g.connect(mG);o.start(t);o.stop(t+.45)}
+let deg=5;const beat=60/80,TH=[1,0,.5,0,1,0,.5,.5];
+function tick(){while(nextT<AC.currentTime+.25){const s=step%8;if(TH[s])drum(nextT,s===0||s===4,TH[s]===1?.09:.045);if(s%2===0&&Math.random()<.7){deg=Math.max(3,Math.min(11,deg+[-2,-1,-1,1,1,2][Math.floor(Math.random()*6)]));flute(hz(deg),nextT,beat,.06)}nextT+=beat/2;step++}}
+function setMusic(on){initAudio();AC.resume();musicOn=on;const t=AC.currentTime;mG.gain.cancelScheduledValues(t);mG.gain.setValueAtTime(mG.gain.value,t);mG.gain.linearRampToValueAtTime(on?.5:0,t+1);if(on&&!sched){nextT=AC.currentTime+.1;sched=setInterval(tick,90)}
+  const b=document.getElementById('music');b.textContent=on?'Music on':'Music off';b.setAttribute('aria-pressed',on)}
+document.getElementById('music').onclick=()=>setMusic(!musicOn);
+const sfx={right(){initAudio();AC.resume();const t=AC.currentTime;[5,7,8,10].forEach((d,i)=>bell(hz(d),t+i*.09,.11))},wrong(){initAudio();const t=AC.currentTime;bell(hz(2),t,.06);bell(hz(0),t+.15,.06)},win(){initAudio();const t=AC.currentTime;[5,6,7,8,9,10,12,15].forEach((d,i)=>bell(hz(d),t+i*.12,.12))}};
+
+/* ===== effects ===== */
+const fx=document.getElementById('fx'),fc=fx.getContext('2d');let P=[],loopOn=false;const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function fsize(){fx.width=innerWidth*devicePixelRatio;fx.height=innerHeight*devicePixelRatio;fc.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}fsize();addEventListener('resize',fsize);
+const COL=['#ffd35a','#f6a723','#e0405a','#ff8a3d','#fff1c1','#46b882'];
+function burst(x,y,kind='spark',n=28){if(RM)return;for(let i=0;i<n;i++){const a=Math.random()*6.283,s=1+Math.random()*(kind==='fire'?5:4);P.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-(kind==='petal'?3:1.5),life:1,decay:.012+Math.random()*.015,kind,c:COL[i%COL.length],r:kind==='petal'?5+Math.random()*4:1.5+Math.random()*2.5,rot:Math.random()*6,vr:(Math.random()-.5)*.3})}if(!loopOn){loopOn=true;requestAnimationFrame(loop)}}
+function loop(){fc.clearRect(0,0,innerWidth,innerHeight);P=P.filter(p=>p.life>0);for(const p of P){p.x+=p.vx;p.y+=p.vy;p.vy+=p.kind==='petal'?.08:.06;p.life-=p.decay;p.rot+=p.vr;fc.globalAlpha=Math.max(p.life,0);fc.fillStyle=p.c;
+  if(p.kind==='petal'){fc.save();fc.translate(p.x,p.y);fc.rotate(p.rot);fc.beginPath();fc.ellipse(0,0,p.r,p.r*.45,0,0,7);fc.fill();fc.restore()}else{fc.beginPath();fc.arc(p.x,p.y,p.r,0,7);fc.fill()}}
+  fc.globalAlpha=1;if(P.length)requestAnimationFrame(loop);else{loopOn=false;fc.clearRect(0,0,innerWidth,innerHeight)}}
+const center=el=>{const r=el.getBoundingClientRect();return[r.left+r.width/2,r.top+r.height/2]};
+let palT;function say(title,text,sad){const pal=document.getElementById('pal');document.getElementById('bubble').innerHTML=`<b>${title}</b>${text||''}`;pal.classList.add('show');clearTimeout(palT);palT=setTimeout(()=>pal.classList.remove('show'),sad?2000:2800)}
+
+/* ===== progress (this browser only) ===== */
+let prog={};try{prog=JSON.parse(localStorage.getItem('storyquest')||'{}')}catch(e){}
+function saveProg(){try{localStorage.setItem('storyquest',JSON.stringify(prog))}catch(e){}}
+
+/* ===== views ===== */
+const V=document.getElementById('view');
+function home(){
+  const groups=SECTIONS.map(s=>`<a class="tile ${s.open?'':'locked'}" href="${s.open?'#'+s.k:'#home'}" ${s.open?'':'aria-disabled="true"'}>
+    ${s.img?`<img src="${s.img}" alt="">`:`<div class="ph" aria-hidden="true">${s.emoji}</div>`}
+    <span class="chip ${s.open?'':'soon'}">${s.open?'Play now':'Coming soon'}</span>
+    <div class="body"><span class="eyebrow">${s.group}</span><h3>${s.name}</h3><p>${s.blurb}</p></div></a>`).join('');
+  V.innerHTML=`<section class="hero">
+    <div><span class="eyebrow">Watch the story · Play the quest</span><h1>Stories of <span>Bharat</span> for every age</h1>
+    <p class="lede" style="margin-top:12px">Festivals, epics, scriptures and wisdom tales, each told as a short animated story with a game to play together. Grandparents, parents and children: play, learn and teach each other. Diya the little lamp is your guide.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn" href="#deepavali">Start with Deepavali</a><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Our YouTube channel</a></div></div>
+    <div class="art"><img class="scene" src="img/ayodhya.jpg" alt="Ayodhya glowing with rows of lamps"><img class="mascot" src="img/diya_wave.png" alt="Diya waving"></div></section>
+    <div class="worlds"><span class="world on">🇮🇳 Bharat</span><span class="world soon">🌍 World · coming later</span></div>
+    <section style="display:flex;flex-direction:column;gap:14px"><h2>Pick a quest</h2><div class="shelf">${groups}</div></section>`;
+}
+function trailSVG(){
+  const done=n=>prog['dv'+n];const W=1000,H=230;
+  const pts=DEEPAVALI.map((e,i)=>[60+i*(W-120)/7, i%2?70:160]);
+  let d=`M${pts[0][0]},${pts[0][1]}`;for(let i=1;i<pts.length;i++){const [x0,y0]=pts[i-1],[x1,y1]=pts[i];d+=` C${x0+60},${y0} ${x1-60},${y1} ${x1},${y1}`}
+  return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Diya's journey: ${DEEPAVALI.filter(e=>done(e.n)).length} of 8 stops lit">
+   <path d="${d}" fill="none" stroke="#c7bce6" stroke-opacity=".35" stroke-width="5" stroke-dasharray="2 12" stroke-linecap="round"/>
+   ${pts.map(([x,y],i)=>{const e=DEEPAVALI[i],lit=done(e.n);return `<g>
+     <circle cx="${x}" cy="${y}" r="26" fill="${lit?'#f6a723':'#362a72'}" stroke="${lit?'#ffd35a':'#c7bce6'}" stroke-opacity="${lit?1:.4}" stroke-width="3"/>
+     <text x="${x}" y="${y+8}" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="24" fill="${lit?'#1c1442':'#fdf3dc'}">${e.n}</text>
+     ${lit?`<path d="M${x},${y-58} C${x+9},${y-44} ${x+10},${y-38} ${x},${y-32} C${x-10},${y-38} ${x-9},${y-44} ${x},${y-58}Z" fill="#ffd35a"/>`:''}
+     <text x="${x}" y="${i%2?y+52:y+52}" text-anchor="middle" font-family="Mukta, sans-serif" font-weight="700" font-size="17" fill="#fdf3dc">${e.place.split(/[,&]/)[0].trim()}</text></g>`}).join('')}
+  </svg>`;
+}
+function deepavali(){
+  const lit=DEEPAVALI.filter(e=>prog['dv'+e.n]).length;
+  const eps=DEEPAVALI.map(e=>`<a class="tile ep ${e.ready?'':'locked'}" href="${e.ready?'#dv'+e.n:'#deepavali'}">
+     <img src="${e.img}" alt=""><span class="chip ${e.ready?'':'soon'}">${prog['dv'+e.n]?'✓ Done':e.ready?'Watch & play':'Coming soon'}</span>
+     <div class="body"><span class="num">Episode ${e.n} · ${e.place}</span><h3>${e.title}</h3><span class="game">Game: ${e.game}</span></div></a>`).join('');
+  V.innerHTML=`<a href="#home" class="muted">← All quests</a>
+   <section class="hero"><div><span class="eyebrow">Festivals · Deepavali</span><h1>Why do we celebrate <span>Deepavali?</span></h1>
+   <p class="lede" style="margin-top:12px">Fly across India with Diya. Every place has its own Deepavali story. Watch each episode, play its game, and light a lamp on Diya's journey.</p></div>
+   <div class="art"><img class="scene" src="img/river.jpg" alt="Diya beside the river Saraayu lit with lamps"></div></section>
+   <section class="trail"><div class="legend"><h2>Diya's journey</h2><span class="count"><b>${lit}</b> / 8 lamps lit</span></div>${trailSVG()}</section>
+   <section style="display:flex;flex-direction:column;gap:14px"><h2>Episodes</h2><div class="eps">${eps}</div></section>
+   <section class="finale"><div><span class="eyebrow">Grand finale</span><h2>Light Up Deepavali</h2><p class="lede">Quiz, the five days, Deepavali across India and a rangoli maker. Light all 24 diyas!</p></div>
+   <a class="btn" href="finale.html">Play the finale</a></section>`;
+}
+function episode(n){
+  const e=DEEPAVALI.find(x=>x.n===n); if(!e||!e.ready){location.hash='deepavali';return}
+  const vid=e.yt?`<a class="watch" href="https://youtu.be/${e.yt}" target="_blank" rel="noopener"><img src="${e.img}" alt="Episode ${e.n}: ${e.title}"><span class="playbtn" aria-hidden="true">▶</span><span class="btn">Watch on YouTube</span></a>`
+    :`<img src="${e.img}" alt=""><div class="soon"><div><span class="eyebrow">Episode ${e.n} · ${e.place}</span><h3>The video arrives here soon</h3></div><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Open our channel</a></div>`;
+  V.innerHTML=`<a href="#deepavali" class="muted">← Deepavali</a>
+   <div><span class="eyebrow">Episode ${e.n} · ${e.place}</span><h1>${e.title}</h1></div>
+   <div class="step"><i>1</i><h2>Watch the story</h2></div><div class="video">${vid}</div>
+   <div class="step"><i>2</i><h2>Play: ${e.game}</h2></div>
+   ${e.play?`<a class="bigplay" href="${e.play}"><img src="img/return.jpg" alt=""><div><span class="eyebrow">Moksha Patam · 1 to 4 players · English, हिंदी, ಕನ್ನಡ</span><h3>${e.game}</h3><p class="muted">Race to Ayodhya on the old Indian board of ladders and snakes. Climb Hanuman's leap, dodge Ravana's pride, and light story lamps. Play together on one screen or against Diya.</p><span class="btn">Play now 🎲</span></div></a>
+   <div class="step"><i>3</i><h2>Quick game: Light the Path</h2></div>`:''}
+   <section class="card" id="game"></section>`;
+  lightThePath(document.getElementById('game'),e);
+}
+
+/* ===== Episode 1 game: Light the Path ===== */
+function lightThePath(root,e){
+  const order=MOMENTS.map(m=>m.id); let next=0;
+  const shuffled=[...MOMENTS].sort(()=>Math.random()-.5);
+  const W=1000,H=200;const pts=order.map((_,i)=>[70+i*(W-140)/7, 120+Math.sin(i*1.1)*40]);
+  let d=`M10,${pts[0][1]}`;pts.forEach(([x,y])=>d+=` L${x},${y}`);d+=` L${W-10},${pts[7][1]}`;
+  root.innerHTML=`<p class="muted" style="margin:0">Ayodhya is dark. Put the story moments <b>in the right order</b>. Each right answer lights a lamp on the path home for Shri Ram. Play it together: whoever knows the story can teach the others.</p>
+   <div class="path"><svg viewBox="0 0 ${W} ${H}" id="pathsvg" role="img" aria-label="The road home with 8 lamps">
+    <path d="${d}" fill="none" stroke="#3a6fd8" stroke-opacity=".5" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="${d}" fill="none" stroke="#c7bce6" stroke-opacity=".3" stroke-width="2" stroke-dasharray="6 10"/>
+    ${pts.map(([x,y],i)=>`<g id="lamp${i}"><path d="M${x-22},${y} Q${x},${y+30} ${x+22},${y} Z" fill="#7a3b22"/><ellipse cx="${x}" cy="${y}" rx="22" ry="4" fill="#b8643a"/>
+      <path class="fl" d="M${x},${y-34} C${x+9},${y-20} ${x+10},${y-12} ${x},${y-5} C${x-10},${y-12} ${x-9},${y-20} ${x},${y-34}Z" fill="#ffd35a" opacity="0"/>
+      <text x="${x}" y="${y+46}" text-anchor="middle" font-family="Baloo 2, sans-serif" font-size="20" font-weight="800" fill="#c7bce6">${i+1}</text></g>`).join('')}
+   </svg></div>
+   <div id="told"></div>
+   <div class="tray">${shuffled.map(m=>`<button class="moment" data-id="${m.id}"><img src="${m.img}" alt=""><span>${m.label}</span></button>`).join('')}</div>`;
+  const told=root.querySelector('#told');
+  root.querySelectorAll('.moment').forEach(b=>b.onclick=()=>{
+    if(b.dataset.id===order[next]){
+      const m=MOMENTS[next];b.classList.add('used');
+      const g=root.querySelector('#lamp'+next+' .fl');g.setAttribute('opacity','1');g.style.filter='drop-shadow(0 0 8px #ffb84a)';
+      const[x,y]=center(root.querySelector('#lamp'+next));burst(x,y,'spark',26);sfx.right();
+      told.innerHTML=`<div class="story"><img src="${m.img}" alt=""><p><b>${next+1}.</b> ${m.text}</p></div>`;
+      say(['Shabash!','Yes!','Wah!','You got it!','Super!'][next%5],'A lamp is lit!');
+      next++;
+      if(next===order.length) setTimeout(()=>win(root,e),900);
+    }else{b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');sfx.wrong();say('Hmm…','Which moment comes next in the story?',true)}
+  });
+}
+function win(root,e){
+  prog['dv'+e.n]=1;saveProg();sfx.win();
+  for(let k=0;k<6;k++)setTimeout(()=>burst(innerWidth*(.2+Math.random()*.6),innerHeight*(.2+Math.random()*.3),'fire',50),k*300);
+  setTimeout(()=>burst(innerWidth/2,innerHeight*.3,'petal',60),400);
+  root.innerHTML=`<div class="done"><img src="img/pushpak.jpg" alt="The Pushpak Vimana glowing over Ayodhya"><h2>The path is lit!</h2>
+   <p class="muted">Rows of lamps guided Shri Ram home. A row of lamps: <b>Deepa + Aavali = Deepavali</b>. You lit the first lamp on Diya's journey!</p>
+   <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center"><a class="btn" href="#deepavali">See Diya's journey</a><button class="btn ghost" id="again">Play again</button></div></div>`;
+  root.querySelector('#again').onclick=()=>lightThePath(root,e);
+  say('You did it!','Next stop: Rajasthan!');
+}
+
+/* ===== router ===== */
+function route(){
+  const h=(location.hash||'#home').slice(1);
+  if(h==='deepavali')deepavali(); else if(/^dv\d$/.test(h))episode(+h.slice(2)); else home();
+  scrollTo(0,0);
+}
+addEventListener('hashchange',route);route();
+</script>
+
+</body>
+</html>
