@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bali's Promise</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
+<style>
+/* Bali's Promise: Navakankari (nine-lamp morris) in King Bali's courtyard. */
+:root{
+  --night:#1c1442; --night-2:#2a1f5c; --ink:#fdf3dc; --muted:#c7bce6; --line:rgba(253,243,220,.16);
+  --marigold:#f6a723; --flame:#ffd35a; --cloth:#f7e7c4;
+  --display:"Baloo 2","Baloo Tamma 2","Trebuchet MS",system-ui,sans-serif; --body:"Mukta","Hind","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100vh;
+  padding:max(10px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 24px max(12px,env(safe-area-inset-left,0px))}
+button{font-family:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+.top{max-width:1100px;margin:0 auto 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top a.back{color:var(--muted);text-decoration:none;font-weight:600}
+.top h1{font-family:var(--display);font-size:clamp(22px,4vw,32px);margin:0;line-height:1;flex:1;min-width:170px}
+.top h1 small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-family:var(--body);font-weight:700;margin-bottom:4px}
+.pill{background:var(--night-2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px}
+.pill[aria-pressed="true"]{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.langs{display:flex;gap:4px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.stage{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -25px #000;border:3px solid #ffffff22;background:#141a33}
+canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.score{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pl{display:flex;align-items:center;gap:8px;background:var(--night-2);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:700}
+.pl.on{border-color:var(--flame);box-shadow:0 0 18px #ffb84a55}
+.pl b{font-family:var(--display);font-size:22px;color:var(--flame)}
+.ov{position:fixed;inset:0;background:#0d0826d9;backdrop-filter:blur(3px);display:grid;place-items:center;z-index:50;padding:16px}
+.card{width:min(500px,100%);background:var(--cloth);color:#3a1d0c;border-radius:22px;padding:20px;box-shadow:0 30px 80px #000a;border:5px solid var(--marigold);animation:pop .35s cubic-bezier(.2,1.6,.4,1);max-height:94vh;overflow:auto}
+.card h3{font-family:var(--display);font-size:28px;line-height:1.05;margin:4px 0 8px}
+.card p{margin:0 0 10px}
+.card img.hero{width:100%;border-radius:14px;display:block;margin-bottom:10px}
+.how{display:grid;gap:8px;margin:6px 0 12px}
+.how div{display:flex;gap:10px;align-items:center;background:#fffaf0;border:2px solid #e8d2a6;border-radius:14px;padding:8px 12px;font-weight:600}
+.how b{font-size:26px;line-height:1;min-width:34px;text-align:center}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
+.mode{border:3px solid #e8d2a6;background:#fffaf0;border-radius:14px;padding:10px;cursor:pointer;font:700 16px var(--body);color:#3a1d0c;text-align:center}
+.mode[aria-pressed="true"]{border-color:#b8643a;background:#ffe6b8}
+.go{font:800 20px var(--display);background:#3a1d0c;color:var(--cloth);border:0;border-radius:14px;padding:13px 18px;cursor:pointer;width:100%;text-align:center;text-decoration:none;display:block}
+.go.alt{background:#b8643a;margin-top:8px}
+.small{font-size:13px;color:#7a5a3a}
+.stars{font-size:34px;letter-spacing:4px;text-align:center;margin:4px 0 8px}
+.by{text-align:center;color:var(--muted);font-size:13px;margin:14px 0 0}.by a{color:var(--flame)}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="index.html#dv7" id="back">← Story Quest</a>
+  <h1><small id="t-eyebrow">Deepavali · Episode 7 game</small><span id="t-title">Bali's Promise</span></h1>
+  <div class="langs" role="group" aria-label="Language">
+    <button class="pill" data-lang="en" aria-pressed="true">EN</button>
+    <button class="pill" data-lang="hi" aria-pressed="false">हिं</button>
+    <button class="pill" data-lang="kn" aria-pressed="false">ಕ</button>
+  </div>
+  <button class="pill" id="sound" aria-pressed="true" aria-label="Sound">🔊</button>
+  <button class="pill" id="newgame" aria-label="New game">↻</button>
+</header>
+<main class="wrap">
+  <div class="stage"><canvas id="st" aria-label="A Navakankari board of three nested squares in King Bali's courtyard. Tap a dot to place or move your lamps; three in a line lets you take a lamp."></canvas></div>
+  <div class="score" id="score"></div>
+</main>
+<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<div id="overlay"></div>
+<script>
+const L={
+ en:{eyebrow:'Deepavali · Episode 7 game',title:"Bali's Promise",back:'← Story Quest',
+  howT:'Navakankari: the nine-lamp game',
+  how:[['🪔',"Players of Karnataka have played Navakankari on temple floors for centuries. Each player has 9 lamps. Take turns to place them on the dots."],['✨','Three of your lamps in a straight line is a Promise! Then take away one of your friend\'s lamps.'],['👆','When all lamps are placed, slide one lamp to a free dot next to it along a line. With only 3 lamps left, you can jump anywhere.'],['🏆','Your friend loses when only 2 lamps are left, or no lamp can move.']],
+  solo:'Play Deepu',duo:'Two players',start:"Let's play!",
+  p:n=>`Player ${n}`,you:'You',deepu:'Deepu',
+  place:n=>`${n}: place a lamp`,move:n=>`${n}: slide a lamp`,fly:n=>`${n}: jump a lamp anywhere!`,take:n=>`${n}: a Promise! Take a lamp`,
+  think:'Deepu is thinking…',mill:'A Promise kept!',taken:'Lamp taken!',inhand:'To place',
+  nomove:'No moves left!',winT:n=>n==='You'?'You win!':`${n} wins!`,
+  winP:"King Bali kept his promise even when it cost him everything, and that is why he is welcomed home every year on Bali Padyami. Keep your promises, little and big!",
+  again:'Play again',story:'Back to the story',diya:'Diya',tie:"It's a tie!"},
+ hi:{eyebrow:'दीपावली · एपिसोड 7 का खेल',title:'बलि का वचन',back:'← स्टोरी क्वेस्ट',
+  howT:'नवकंकरी: नौ दीयों का खेल',
+  how:[['🪔','कर्नाटक में सदियों से मंदिरों के फ़र्श पर नवकंकरी खेली जाती है। हर खिलाड़ी के पास 9 दीये हैं। बारी-बारी से उन्हें बिंदुओं पर रखो।'],['✨','अपने तीन दीये एक सीधी रेखा में = एक वचन! फिर दोस्त का एक दीया हटाओ।'],['👆','सब दीये रख दिए जाएँ, तो एक दीया रेखा पर पास के खाली बिंदु पर खिसकाओ। सिर्फ़ 3 बचें तो कहीं भी कूद सकते हो।'],['🏆','जिसके सिर्फ़ 2 दीये बचें, या कोई चाल न बचे, वह हारता है।']],
+  solo:'दीपू से खेलो',duo:'दो खिलाड़ी',start:'चलो खेलें!',
+  p:n=>`खिलाड़ी ${n}`,you:'आप',deepu:'दीपू',
+  place:n=>`${n}: दीया रखो`,move:n=>`${n}: दीया खिसकाओ`,fly:n=>`${n}: कहीं भी कूदो!`,take:n=>`${n}: वचन पूरा! एक दीया हटाओ`,
+  think:'दीपू सोच रहा है…',mill:'वचन पूरा!',taken:'दीया हटा!',inhand:'रखने को',
+  nomove:'कोई चाल नहीं बची!',winT:n=>n==='आप'?'आप जीते!':`${n} जीता!`,
+  winP:'राजा बलि ने सब कुछ देकर भी अपना वचन निभाया, इसीलिए बलि प्रतिपदा पर हर साल उनका स्वागत होता है। छोटे-बड़े हर वचन को निभाओ!',
+  again:'फिर से खेलें',story:'कहानी पर वापस',diya:'दिया',tie:'बराबरी!'},
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 7 ಆಟ',title:'ಬಲಿಯ ವಚನ',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',
+  howT:'ನವಕಂಕರಿ: ಒಂಬತ್ತು ದೀಪಗಳ ಆಟ',
+  how:[['🪔','ಕರ್ನಾಟಕದಲ್ಲಿ ಶತಮಾನಗಳಿಂದ ದೇವಾಲಯದ ನೆಲದ ಮೇಲೆ ನವಕಂಕರಿ ಆಡುತ್ತಾರೆ. ಪ್ರತಿ ಆಟಗಾರನಿಗೆ 9 ದೀಪಗಳು. ಸರದಿಯಾಗಿ ಚುಕ್ಕೆಗಳ ಮೇಲೆ ಇಡಿ.'],['✨','ನಿಮ್ಮ ಮೂರು ದೀಪಗಳು ಒಂದೇ ನೇರ ಗೆರೆಯಲ್ಲಿ = ಒಂದು ವಚನ! ಆಗ ಗೆಳೆಯನ ಒಂದು ದೀಪ ತೆಗೆಯಿರಿ.'],['👆','ಎಲ್ಲ ದೀಪ ಇಟ್ಟ ಮೇಲೆ, ಒಂದು ದೀಪವನ್ನು ಗೆರೆಯ ಮೇಲೆ ಪಕ್ಕದ ಖಾಲಿ ಚುಕ್ಕೆಗೆ ಸರಿಸಿ. 3 ಮಾತ್ರ ಉಳಿದರೆ ಎಲ್ಲಿಗಾದರೂ ಹಾರಬಹುದು.'],['🏆','2 ದೀಪ ಮಾತ್ರ ಉಳಿದವರು, ಅಥವಾ ಚಲಿಸಲು ಆಗದವರು ಸೋಲುತ್ತಾರೆ.']],
+  solo:'ದೀಪುವಿನೊಂದಿಗೆ',duo:'ಇಬ್ಬರು ಆಟಗಾರರು',start:'ಆಡೋಣ!',
+  p:n=>`ಆಟಗಾರ ${n}`,you:'ನೀವು',deepu:'ದೀಪು',
+  place:n=>`${n}: ದೀಪ ಇಡಿ`,move:n=>`${n}: ದೀಪ ಸರಿಸಿ`,fly:n=>`${n}: ಎಲ್ಲಿಗಾದರೂ ಹಾರಿ!`,take:n=>`${n}: ವಚನ ಪೂರ್ಣ! ಒಂದು ದೀಪ ತೆಗೆಯಿರಿ`,
+  think:'ದೀಪು ಯೋಚಿಸುತ್ತಿದ್ದಾನೆ…',mill:'ವಚನ ಪೂರ್ಣ!',taken:'ದೀಪ ತೆಗೆಯಲಾಯಿತು!',inhand:'ಇಡಲು',
+  nomove:'ಚಲಿಸಲು ದಾರಿ ಇಲ್ಲ!',winT:n=>`${n} ಗೆದ್ದರು!`,
+  winP:'ರಾಜ ಬಲಿ ಎಲ್ಲವನ್ನೂ ಕೊಟ್ಟರೂ ತನ್ನ ವಚನ ಉಳಿಸಿಕೊಂಡ, ಅದಕ್ಕೇ ಬಲಿಪಾಡ್ಯಮಿಯಂದು ಪ್ರತಿ ವರ್ಷ ಅವನನ್ನು ಸ್ವಾಗತಿಸುತ್ತಾರೆ. ಚಿಕ್ಕ-ದೊಡ್ಡ ಎಲ್ಲ ವಚನಗಳನ್ನು ಉಳಿಸಿಕೊಳ್ಳಿ!',
+  again:'ಮತ್ತೆ ಆಡಿ',story:'ಕಥೆಗೆ ಹಿಂತಿರುಗಿ',diya:'ದಿಯಾ',tie:'ಸಮಬಲ!'}
+};
+let lang='en'; try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){} {const q=new URLSearchParams(location.search).get('lang'); if(['en','hi','kn'].includes(q)){lang=q; try{localStorage.setItem('sq_lang',q)}catch(e){}}}
+const t=k=>L[lang][k]; const $=s=>document.querySelector(s);
+const IMG=n=>{const i=new Image(); i.src=n; return i}; const BG=IMG('img/ep7_court.jpg');
+/* ---------- sound ---------- */
+let AC=null, soundOn=true;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){} } if(AC&&AC.state==='suspended')AC.resume(); return AC }
+function tone(f,d=.15,type='sine',v=.15,slide=0){ if(!soundOn||!ac())return; const o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime; o.type=type;o.frequency.setValueAtTime(f,n); if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(40,f*slide),n+d); g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d); o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+d+.02)}
+function noise(d=.2,v=.2,f=900){ if(!soundOn||!ac())return; const n=AC.currentTime,b=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate),x=b.getChannelData(0); for(let i=0;i<x.length;i++)x[i]=(Math.random()*2-1)*Math.pow(1-i/x.length,2); const s=AC.createBufferSource(),fl=AC.createBiquadFilter(),g=AC.createGain(); fl.type='lowpass';fl.frequency.value=f; g.gain.value=v; s.buffer=b;s.connect(fl);fl.connect(g);g.connect(AC.destination);s.start(n)}
+function vib(ms){ try{ navigator.vibrate&&navigator.vibrate(ms) }catch(e){} }
+const SFX={place:()=>{tone(440,.12,'triangle',.1);noise(.08,.1,2500)},slide:()=>{noise(.18,.08,1600);tone(330,.12,'sine',.05,1.4)},pick:()=>tone(880,.06,'square',.03),
+ mill:()=>[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.25,'triangle',.1),i*80)),take:()=>{tone(300,.3,'sawtooth',.07,.4);noise(.3,.15,800)},bad:()=>tone(160,.15,'square',.05),
+ win:()=>[392,523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>tone(f,.4,'triangle',.14),i*120))};
+/* ---------- board geometry ---------- */
+const PTS=[];
+for(let s=0;s<3;s++){ const o=s; const c=[[0,0],[3,0],[6,0],[6,3],[6,6],[3,6],[0,6],[0,3]]; for(const [x,y] of c){ PTS.push([o+x*(3-o)/3, o+y*(3-o)/3]) } }
+// PTS are on a 0..6 grid
+const ADJ=Array.from({length:24},()=>[]);
+for(let s=0;s<3;s++) for(let i=0;i<8;i++){ const a=s*8+i, b=s*8+(i+1)%8; ADJ[a].push(b); ADJ[b].push(a) }
+for(const i of [1,3,5,7]){ ADJ[i].push(8+i); ADJ[8+i].push(i); ADJ[8+i].push(16+i); ADJ[16+i].push(8+i) }
+const MILLS=[]; for(let s=0;s<3;s++) for(const i of [0,2,4,6]) MILLS.push([s*8+i,s*8+i+1,s*8+(i+2)%8]); for(const i of [1,3,5,7]) MILLS.push([i,8+i,16+i]);
+/* ---------- layout ---------- */
+const cv=$('#st'), cx=cv.getContext('2d'); let W=1280,H=720,DPR=1,portrait=false;
+function layout(){ const w=cv.parentElement.clientWidth; portrait=w<640; W=portrait?720:1280; H=portrait?1000:720;
+  DPR=Math.min(2,window.devicePixelRatio||1)*w/W; cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); cv.style.aspectRatio=W+'/'+H; cx.setTransform(DPR,0,0,DPR,0,0) }
+addEventListener('resize',layout);
+function BX(){ return portrait?{x:60,y:215,s:600}:{x:360,y:62,s:560} }
+function P(i){ const b=BX(), [gx,gy]=PTS[i]; return [b.x+gx/6*b.s, b.y+gy/6*b.s] }
+/* ---------- state ---------- */
+let G=null, mode='solo';
+function name(p){ return p===1?(G.players===1?t('you'):t('diya')):(G.players===1?t('deepu'):t('p')(2)) }
+function newGame(){ G={players:mode==='duo'?2:1, b:Array(24).fill(0), hand:[0,9,9], turn:1, removing:false, sel:-1, over:false, el:0, parts:[], pops:[], big:null, anim:{}, millGlow:[], last:-1, busy:false, msg:'', hint:[], quiet:0}; setMsg(); renderScore() }
+const count=p=>G.b.filter(v=>v===p).length;
+function inMill(i,b=G.b){ const p=b[i]; return p&&MILLS.some(m=>m.includes(i)&&m.every(j=>b[j]===p)) }
+function formsMill(i,p,b){ return MILLS.some(m=>m.includes(i)&&m.every(j=>j===i||b[j]===p)) }
+function phase(p){ return G.hand[p]>0?'place':(count(p)<=3?'fly':'move') }
+function movesFor(p,b=G.b,hand=G.hand){ const out=[]; if(hand[p]>0){ for(let i=0;i<24;i++) if(!b[i]) out.push([-1,i]); return out }
+  const fly=b.filter(v=>v===p).length<=3; for(let i=0;i<24;i++) if(b[i]===p){ const tg=fly?[...Array(24).keys()]:ADJ[i]; for(const j of tg) if(!b[j]) out.push([i,j]) } return out }
+function removable(p){ const opp=3-p, all=[]; for(let i=0;i<24;i++) if(G.b[i]===opp) all.push(i); const free=all.filter(i=>!inMill(i)); return free.length?free:all }
+function setMsg(){ const p=G.turn, n=name(p); G.msg=G.removing?t('take')(n):(t(phase(p))(n)); if(G.players===1&&p===2) G.msg=t('think'); G.hint=[];
+  if(!G.removing&&!(G.players===1&&p===2)){ if(G.sel>=0){ const fly=phase(p)==='fly'; G.hint=(fly?[...Array(24).keys()]:ADJ[G.sel]).filter(j=>!G.b[j]) } } }
+/* ---------- moves ---------- */
+function doMove(from,to){ const p=G.turn; if(from<0){ G.hand[p]--; G.anim[to]={k:0,from:null}; SFX.place() } else { G.b[from]=0; G.anim[to]={k:0,from:P(from)}; SFX.slide() }
+  G.b[to]=p; G.last=to; G.sel=-1; vib(10);
+  if(inMill(to)) G.quiet=0; else if(from>=0) G.quiet++;
+  if(inMill(to)){ const m=MILLS.find(m=>m.includes(to)&&m.every(j=>G.b[j]===p)); G.millGlow=m.map(i=>({i,k:0})); G.removing=true; SFX.mill(); G.big={txt:t('mill'),k:0}; vib([20,30,40]); const [x,y]=P(to); burst(x,y,'#ffd35a',30); setMsg(); renderScore(); if(G.players===1&&p===2) setTimeout(aiRemove,900); return }
+  endTurn() }
+function doRemove(i){ const [x,y]=P(i); G.b[i]=0; G.removing=false; burst(x,y,'#ff9a6a',26); popup(x,y-30,t('taken'),'#ffd0b0'); SFX.take(); vib(30); endTurn() }
+function endTurn(){ renderScore(); const opp=3-G.turn;
+  if(G.hand[opp]===0&&count(opp)<3){ return win(G.turn) }
+  if(G.quiet>=50){ const a=count(1),b2=count(2); G.big={txt:a===b2?t('tie'):t('mill'),k:0}; return setTimeout(()=>a===b2?finish(0):win(a>b2?1:2),900) }
+  if(!movesFor(opp).length){ G.big={txt:t('nomove'),k:0}; return setTimeout(()=>win(G.turn),900) }
+  G.turn=opp; setMsg(); renderScore(); if(G.players===1&&G.turn===2){ G.busy=true; setTimeout(aiMove,700+Math.random()*500) } }
+function win(p){ G.over=true; SFX.win(); for(let k=0;k<12;k++)setTimeout(()=>G&&fireworks(W*(.15+Math.random()*.7),H*(.1+Math.random()*.4)),k*130); try{const pr=JSON.parse(localStorage.getItem('storyquest')||'{}'); pr.dv7=1; localStorage.setItem('storyquest',JSON.stringify(pr))}catch(e){} setTimeout(()=>finish(p),1800) }
+/* ---------- AI (Deepu) ---------- */
+function threats(p,b){ let n=0; for(const m of MILLS){ const v=m.map(j=>b[j]); if(v.filter(x=>x===p).length===2&&v.includes(0)) n++ } return n }
+function scoreMove(mv,p){ const b=G.b.slice(), [f,to]=mv; if(f>=0)b[f]=0; b[to]=p; let s=Math.random()*3;
+  if(formsMill(to,p,b)) s+=100;
+  // does it block an opponent mill?
+  const ob=G.b.slice(); if(f>=0)ob[f]=0; if(formsMill(to,3-p,ob)&&!G.b[to]) s+=60;
+  s+=threats(p,b)*8-threats(3-p,b)*25;
+  if(f>=0){ // leaving a spot the opponent could fill to make a mill
+    if(MILLS.some(m=>m.includes(f)&&m.filter(j=>j!==f&&b[j]===3-p).length===2)) { const oppCan=movesFor(3-p,b,G.hand).some(([a,c])=>c===f); if(oppCan) s-=70 } }
+  if(f<0&&[9,11,13,15].includes(to)) s+=4;
+  s+=ADJ[to].filter(j=>!b[j]).length;
+  return s }
+function aiMove(){ if(!G||G.over)return; const mv=movesFor(2).map(m=>[m,scoreMove(m,2)]).sort((a,b)=>b[1]-a[1]); let best=mv.length?mv[0][0]:null; if(mv.length>2&&Math.random()<.22&&mv[1][1]>-20) best=mv[1+(Math.random()*Math.min(2,mv.length-1)|0)][0]; G.busy=false; if(best) doMove(best[0],best[1]) }
+function aiRemove(){ if(!G||G.over)return; const opts=removable(2); let best=opts[0],bs=-1e9; for(const i of opts){ let s=Math.random(); const b=G.b.slice(); b[i]=0; s+= (threats(1,G.b)-threats(1,b))*30 + ADJ[i].filter(j=>!G.b[j]).length; if(s>bs){bs=s;best=i} } doRemove(best) }
+/* ---------- input ---------- */
+function pos(e){ const r=cv.getBoundingClientRect(); return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H] }
+function hit(X,Y){ let bi=-1,bd=1e9; for(let i=0;i<24;i++){ const [x,y]=P(i), d=Math.hypot(X-x,Y-y); if(d<bd){bd=d;bi=i} } return bd<(portrait?48:44)?bi:-1 }
+cv.addEventListener('pointerdown',e=>{ ac(); if(!G||G.over||G.busy)return; if(G.players===1&&G.turn===2)return; const [X,Y]=pos(e); const i=hit(X,Y); if(i<0)return; const p=G.turn;
+  if(G.removing){ if(removable(p).includes(i)) doRemove(i); else { SFX.bad(); shake(i) } return }
+  const ph=phase(p);
+  if(ph==='place'){ if(!G.b[i]) doMove(-1,i); else { SFX.bad(); shake(i) } return }
+  if(G.b[i]===p){ G.sel=i; SFX.pick(); setMsg(); return }
+  if(G.sel>=0&&!G.b[i]&&(ph==='fly'||ADJ[G.sel].includes(i))){ doMove(G.sel,i); return }
+  SFX.bad(); shake(i) });
+function shake(i){ G.anim[i]={...(G.anim[i]||{k:1}),sh:1} }
+/* ---------- fx ---------- */
+function popup(X,Y,txt,c){ G.pops.push({x:X,y:Y,txt,c,k:0}) }
+function burst(X,Y,c,n=22){ for(let i=0;i<n;i++){ const a=Math.random()*6.283,s=2+Math.random()*6; G.parts.push({x:X,y:Y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,l:1,c,r:2.5+Math.random()*3.5}) } }
+function fireworks(X,Y){ const c=['#ffd35a','#ff6bd6','#7fe3ff','#9dffb0','#fff'][Math.random()*5|0]; for(let i=0;i<40;i++){ const a=i/40*6.283, sp=3+Math.random()*3; G.parts.push({x:X,y:Y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:1.2,c,r:2.5}) } tone(900+Math.random()*600,.08,'sine',.04) }
+function update(dt){ if(!G)return; G.el+=dt; for(const k in G.anim){ const a=G.anim[k]; a.k=Math.min(1,a.k+dt*4); if(a.sh)a.sh=Math.max(0,a.sh-dt*4) } for(const m of G.millGlow) m.k+=dt; G.millGlow=G.millGlow.filter(m=>m.k<1.6);
+  if(G.big){ G.big.k+=dt; if(G.big.k>1.6)G.big=null }
+  for(const p of G.parts){p.x+=p.vx;p.y+=p.vy;p.vy+=.18; p.l-=dt*1.3} G.parts=G.parts.filter(p=>p.l>0); for(const p of G.pops) p.k+=dt; G.pops=G.pops.filter(p=>p.k<1.2) }
+/* ---------- draw ---------- */
+function rr(x,y,w,h,r){ cx.beginPath(); cx.roundRect?cx.roundRect(x,y,w,h,r):cx.rect(x,y,w,h) }
+function lamp(x,y,r,p,glow=1,a=1){ cx.save(); cx.globalAlpha=a; cx.translate(x,y);
+  const gl=cx.createRadialGradient(0,-r*.6,2,0,-r*.6,r*2.2); gl.addColorStop(0,`rgba(255,200,90,${.45*glow})`); gl.addColorStop(1,'rgba(255,200,90,0)'); cx.fillStyle=gl; cx.beginPath(); cx.arc(0,-r*.6,r*2.2,0,6.283); cx.fill();
+  // bowl
+  const g=cx.createLinearGradient(0,-r*.3,0,r*.8); if(p===1){ g.addColorStop(0,'#e59a5a'); g.addColorStop(1,'#8a3f16') } else { g.addColorStop(0,'#fff0a8'); g.addColorStop(.5,'#e0b030'); g.addColorStop(1,'#8a6008') }
+  cx.fillStyle=g; cx.beginPath(); cx.moveTo(-r,-r*.15); cx.quadraticCurveTo(-r*.9,r*.8,0,r*.8); cx.quadraticCurveTo(r*.9,r*.8,r,-r*.15); cx.closePath(); cx.fill();
+  cx.fillStyle=p===1?'#c8743a':'#f6d870'; cx.beginPath(); cx.ellipse(0,-r*.15,r,r*.28,0,0,6.283); cx.fill(); cx.fillStyle=p===1?'#5a2408':'#7a5206'; cx.beginPath(); cx.ellipse(0,-r*.13,r*.75,r*.17,0,0,6.283); cx.fill();
+  if(p===1){ cx.strokeStyle='rgba(255,240,220,.8)'; cx.lineWidth=2; cx.beginPath(); for(let k=-2;k<=2;k++){ cx.moveTo(k*r*.3-3,r*.3); cx.lineTo(k*r*.3+3,r*.3) } cx.stroke() }
+  // flame
+  const f=Math.sin(G.el*9+x)*.08; const fg=cx.createRadialGradient(0,-r*.55,1,0,-r*.5,r*.7); fg.addColorStop(0,'#fffbe0'); fg.addColorStop(.45,'#ffc83a'); fg.addColorStop(1,'rgba(255,90,20,0)'); cx.fillStyle=fg;
+  cx.beginPath(); cx.moveTo(0,-r*(1.25+f)); cx.bezierCurveTo(r*.42,-r*.6,r*.3,-r*.15,0,-r*.15); cx.bezierCurveTo(-r*.3,-r*.15,-r*.42,-r*.6,0,-r*(1.25+f)); cx.fill(); cx.restore() }
+function draw(){ cx.save();
+  if(BG.complete&&BG.naturalWidth){ const s=Math.max(W/BG.width,H/BG.height); cx.drawImage(BG,(W-BG.width*s)/2,(H-BG.height*s)/2,BG.width*s,BG.height*s) } else { cx.fillStyle='#2a1a10'; cx.fillRect(0,0,W,H) }
+  cx.fillStyle='rgba(20,10,30,.35)'; cx.fillRect(0,0,W,H);
+  const b=BX(); // stone slab
+  rr(b.x-46,b.y-46,b.s+92,b.s+92,30); const sg=cx.createLinearGradient(0,b.y,0,b.y+b.s); sg.addColorStop(0,'rgba(70,40,30,.92)'); sg.addColorStop(1,'rgba(40,22,18,.92)'); cx.fillStyle=sg; cx.fill(); cx.strokeStyle='#f6a723'; cx.lineWidth=5; cx.stroke();
+  // rangoli dots in corners
+  for(const [x,y] of [[b.x-22,b.y-22],[b.x+b.s+22,b.y-22],[b.x-22,b.y+b.s+22],[b.x+b.s+22,b.y+b.s+22]]){ for(let k=0;k<8;k++){ const a=k/8*6.283+G.el*.2; cx.fillStyle=['#ff6b8a','#ffd35a','#7fe3ff','#9dffb0'][k%4]; cx.beginPath(); cx.arc(x+Math.cos(a)*10,y+Math.sin(a)*10,3.5,0,6.283); cx.fill() } }
+  // lines
+  cx.strokeStyle='rgba(255,214,120,.9)'; cx.lineWidth=5; cx.lineCap='round';
+  for(let s=0;s<3;s++){ cx.beginPath(); for(let i=0;i<=8;i++){ const [x,y]=P(s*8+i%8); cx[i?'lineTo':'moveTo'](x,y) } cx.stroke() }
+  for(const i of [1,3,5,7]){ const [x1,y1]=P(i),[x2,y2]=P(16+i); cx.beginPath(); cx.moveTo(x1,y1); cx.lineTo(x2,y2); cx.stroke() }
+  // mill glow
+  for(const m of G.millGlow){ const [x,y]=P(m.i); const a=Math.max(0,1-m.k/1.6); cx.fillStyle=`rgba(255,240,160,${.6*a})`; cx.beginPath(); cx.arc(x,y,40+m.k*30,0,6.283); cx.fill() }
+  const R=portrait?27:25, rem=G.removing&&!(G.players===1&&G.turn===2)?removable(G.turn):[];
+  for(let i=0;i<24;i++){ const [x,y]=P(i); cx.fillStyle='#f6d58a'; cx.beginPath(); cx.arc(x,y,8,0,6.283); cx.fill();
+    if(G.hint.includes(i)){ cx.strokeStyle=`rgba(157,255,176,${.6+Math.sin(G.el*6)*.3})`; cx.lineWidth=4; cx.beginPath(); cx.arc(x,y,R+4,0,6.283); cx.stroke() }
+    if(!G.over&&phase(G.turn)==='place'&&!G.removing&&!G.b[i]&&!(G.players===1&&G.turn===2)){ cx.fillStyle='rgba(255,255,255,.12)'; cx.beginPath(); cx.arc(x,y,R*.8,0,6.283); cx.fill() } }
+  for(let i=0;i<24;i++){ const v=G.b[i]; if(!v)continue; let [x,y]=P(i); const a=G.anim[i]; let sc=1; if(a){ if(a.from){ const e=1-Math.pow(1-a.k,3); x=a.from[0]+(x-a.from[0])*e; y=a.from[1]+(y-a.from[1])*e-Math.sin(a.k*Math.PI)*30 } else sc=a.k<.6?a.k/.6*1.25:1.25-(a.k-.6)/.4*.25; if(a.sh)x+=Math.sin(G.el*60)*6*a.sh }
+    cx.fillStyle='rgba(0,0,0,.35)'; cx.beginPath(); cx.ellipse(x,y+R*.7,R*.9,R*.3,0,0,6.283); cx.fill();
+    if(i===G.sel){ cx.strokeStyle='#9dffb0'; cx.lineWidth=5; cx.beginPath(); cx.arc(x,y,R+8,0,6.283); cx.stroke() }
+    if(rem.includes(i)){ cx.strokeStyle=`rgba(255,90,90,${.6+Math.sin(G.el*8)*.35})`; cx.lineWidth=5; cx.beginPath(); cx.arc(x,y,R+8,0,6.283); cx.stroke() }
+    cx.save(); cx.translate(x,y); cx.scale(sc,sc); lamp(0,R*.15,R,v,i===G.last?1.3:1); cx.restore() }
+  // hands
+  for(const p of [1,2]){ const n=G.hand[p]; const lab=name(p)+' · '+t('inhand'); const left=p===1;
+    if(portrait){ const y=left?H-58:138, x0=40; cx.font='800 22px "Baloo 2","Baloo Tamma 2",sans-serif'; cx.fillStyle=G.turn===p?'#ffe9a8':'rgba(255,233,168,.6)'; cx.textAlign='left'; cx.fillText(lab+': '+n+'   ·   🪔 '+count(p),x0,y-36); for(let k=0;k<n;k++) lamp(x0+20+k*44,y,15,p,.6) }
+    else { const x=left?150:W-150, y0=110; rr(x-110,y0-40,220,560,26); cx.fillStyle=G.turn===p&&!G.over?'rgba(60,30,90,.85)':'rgba(28,20,66,.7)'; cx.fill(); if(G.turn===p&&!G.over){ cx.strokeStyle='#ffd35a'; cx.lineWidth=4; cx.stroke() }
+      cx.font='800 24px "Baloo 2","Baloo Tamma 2",sans-serif'; cx.fillStyle='#ffe9a8'; cx.textAlign='center'; cx.fillText(name(p),x,y0); lamp(x,y0+50,22,p,1);
+      cx.font='700 17px "Baloo 2","Baloo Tamma 2",sans-serif'; cx.fillStyle='#d8cdf4'; cx.fillText(t('inhand')+': '+n,x,y0+105);
+      for(let k=0;k<n;k++) lamp(x-45+(k%3)*45,y0+150+Math.floor(k/3)*52,15,p,.5);
+      cx.fillStyle='#d8cdf4'; cx.fillText('🪔 '+count(p),x,y0+480) } }
+  // message
+  if(G.msg&&!G.over){ cx.font=`800 ${portrait?26:28}px "Baloo 2","Baloo Tamma 2",sans-serif`; const tw=Math.min(W*.92,cx.measureText(G.msg).width+50), bh=48, by=portrait?24:H-50;
+    rr((W-tw)/2,by,tw,bh,24); cx.fillStyle='rgba(28,20,66,.9)'; cx.fill(); cx.strokeStyle='#f6a723'; cx.lineWidth=3; cx.stroke(); cx.fillStyle='#ffe9a8'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(G.msg,W/2,by+bh/2+2,W*.88); cx.textBaseline='alphabetic' }
+  for(const p of G.parts){ cx.globalAlpha=Math.max(0,Math.min(1,p.l)); cx.fillStyle=p.c; cx.beginPath(); cx.arc(p.x,p.y,p.r||4,0,6.283); cx.fill() } cx.globalAlpha=1;
+  for(const p of G.pops){ const a=1-Math.max(0,p.k-.7)/.5; cx.globalAlpha=Math.max(0,a); cx.font='900 30px "Baloo 2",sans-serif'; cx.textAlign='center'; cx.lineWidth=6; cx.strokeStyle='#2a0d3a'; cx.strokeText(p.txt,p.x,p.y-p.k*60); cx.fillStyle=p.c; cx.fillText(p.txt,p.x,p.y-p.k*60) } cx.globalAlpha=1;
+  if(G.big){ const k=G.big.k, s2=k<.2?k/.2*1.3:(k<.35?1.3-(k-.2)/.15*.3:1), a=k>1.2?1-(k-1.2)/.4:1; cx.save(); cx.globalAlpha=Math.max(0,a); cx.translate(W/2,H*.45); cx.scale(s2,s2); cx.rotate(-.04);
+    cx.font=`900 ${portrait?52:70}px "Baloo 2","Baloo Tamma 2",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=12; cx.strokeStyle='#3a0a4a'; cx.strokeText(G.big.txt,0,0,W*.9); const gg=cx.createLinearGradient(0,-40,0,40); gg.addColorStop(0,'#fff6b0'); gg.addColorStop(1,'#ff9a2e'); cx.fillStyle=gg; cx.fillText(G.big.txt,0,0,W*.9); cx.restore() }
+  cx.restore() }
+let last=0; function loop(now){ const dt=Math.min(.05,(now-last)/1000||0); last=now; if(G){ update(dt); draw() } requestAnimationFrame(loop) }
+/* ---------- screens ---------- */
+function renderScore(){ if(!G){$('#score').innerHTML='';return} $('#score').innerHTML=[1,2].map(p=>`<span class="pl ${p===G.turn&&!G.over?'on':''}">${p===1?'🪔':'✨'} ${name(p)} <b>${count(p)+G.hand[p]}</b></span>`).join('') }
+function start(){ newGame(); G.over=true; G.msg=''; $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep7_bali_visits.jpg" alt=""><h3>${t('howT')}</h3><div class="how">${t('how').map(([i,s])=>`<div><b>${i}</b><span>${s}</span></div>`).join('')}</div>
+  <div class="modes"><button class="mode" data-m="solo" aria-pressed="${mode==='solo'}">🪔 ${t('solo')}</button><button class="mode" data-m="duo" aria-pressed="${mode==='duo'}">👫 ${t('duo')}</button></div><button class="go" id="go">${t('start')}</button></div></div>`;
+  document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ mode=b.dataset.m; document.querySelectorAll('.mode').forEach(x=>x.setAttribute('aria-pressed',x===b)) });
+  $('#go').onclick=()=>{ ac(); $('#overlay').innerHTML=''; newGame() } }
+function finish(p){ if(!p){ G.over=true; $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep7_bali_bows.jpg" alt=""><h3>${t('tie')}</h3><p>${t('winP')}</p><button class="go" id="again">${t('again')}</button><a class="go alt" href="index.html#dv7">${t('story')}</a></div></div>`; $('#again').onclick=start; return }
+  const stars=p===1||G.players===2?(count(p)>=6?3:count(p)>=4?2:1):1;
+  $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep7_bali_bows.jpg" alt=""><h3>${t('winT')(name(p))}</h3><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${t('winP')}</p>
+  <button class="go" id="again">${t('again')}</button><a class="go alt" href="index.html#dv7">${t('story')}</a></div></div>`; $('#again').onclick=start }
+function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title');
+  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang)); if(G&&!G.over)setMsg(); renderScore() }
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||G.over)start() });
+$('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
+$('#newgame').onclick=start;
+layout(); applyLang(); start(); requestAnimationFrame(loop);
+</script>
+</body>
+</html>
