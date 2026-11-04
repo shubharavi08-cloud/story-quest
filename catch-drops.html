@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Catch Every Drop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
+<style>
+/* Catch Every Drop: help Maa Kali catch Raktabeej's drops before they touch the ground. */
+:root{
+  --night:#1c1442; --night-2:#2a1f5c; --ink:#fdf3dc; --muted:#c7bce6; --line:rgba(253,243,220,.16);
+  --marigold:#f6a723; --flame:#ffd35a; --cloth:#f7e7c4;
+  --display:"Baloo 2","Baloo Tamma 2","Trebuchet MS",system-ui,sans-serif; --body:"Mukta","Hind","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100vh;
+  padding:max(10px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 24px max(12px,env(safe-area-inset-left,0px))}
+button{font-family:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+.top{max-width:1100px;margin:0 auto 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top a.back{color:var(--muted);text-decoration:none;font-weight:600}
+.top h1{font-family:var(--display);font-size:clamp(22px,4vw,32px);margin:0;line-height:1;flex:1;min-width:170px}
+.top h1 small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-family:var(--body);font-weight:700;margin-bottom:4px}
+.pill{background:var(--night-2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px}
+.pill[aria-pressed="true"]{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.langs{display:flex;gap:4px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.stage{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -25px #000;border:3px solid #ffffff22;background:#141a33}
+canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.score{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pl{display:flex;align-items:center;gap:8px;background:var(--night-2);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:700}
+.pl.on{border-color:var(--flame);box-shadow:0 0 18px #ffb84a55}
+.pl b{font-family:var(--display);font-size:22px;color:var(--flame)}
+.ov{position:fixed;inset:0;background:#0d0826d9;backdrop-filter:blur(3px);display:grid;place-items:center;z-index:50;padding:16px}
+.card{width:min(500px,100%);background:var(--cloth);color:#3a1d0c;border-radius:22px;padding:20px;box-shadow:0 30px 80px #000a;border:5px solid var(--marigold);animation:pop .35s cubic-bezier(.2,1.6,.4,1);max-height:94vh;overflow:auto}
+.card h3{font-family:var(--display);font-size:28px;line-height:1.05;margin:4px 0 8px}
+.card p{margin:0 0 10px}
+.card img.hero{width:100%;border-radius:14px;display:block;margin-bottom:10px}
+.how{display:grid;gap:8px;margin:6px 0 12px}
+.how div{display:flex;gap:10px;align-items:center;background:#fffaf0;border:2px solid #e8d2a6;border-radius:14px;padding:8px 12px;font-weight:600}
+.how b{font-size:26px;line-height:1;min-width:34px;text-align:center}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
+.mode{border:3px solid #e8d2a6;background:#fffaf0;border-radius:14px;padding:10px;cursor:pointer;font:700 16px var(--body);color:#3a1d0c;text-align:center}
+.mode[aria-pressed="true"]{border-color:#b8643a;background:#ffe6b8}
+.go{font:800 20px var(--display);background:#3a1d0c;color:var(--cloth);border:0;border-radius:14px;padding:13px 18px;cursor:pointer;width:100%;text-align:center;text-decoration:none;display:block}
+.go.alt{background:#b8643a;margin-top:8px}
+.small{font-size:13px;color:#7a5a3a}
+.stars{font-size:34px;letter-spacing:4px;text-align:center;margin:4px 0 8px}
+.by{text-align:center;color:var(--muted);font-size:13px;margin:14px 0 0}.by a{color:var(--flame)}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="index.html#dv6" id="back">← Story Quest</a>
+  <h1><small id="t-eyebrow">Deepavali · Episode 6 game</small><span id="t-title">Catch Every Drop</span></h1>
+  <div class="langs" role="group" aria-label="Language">
+    <button class="pill" data-lang="en" aria-pressed="true">EN</button>
+    <button class="pill" data-lang="hi" aria-pressed="false">हिं</button>
+    <button class="pill" data-lang="kn" aria-pressed="false">ಕ</button>
+  </div>
+  <button class="pill" id="sound" aria-pressed="true" aria-label="Sound">🔊</button>
+  <button class="pill" id="newgame" aria-label="New game">↻</button>
+</header>
+<main class="wrap">
+  <div class="stage"><canvas id="st" aria-label="A battlefield at dusk. Raktabeej stands at the top; move Maa Kali's bowl left and right to catch the falling drops before they touch the ground."></canvas></div>
+  <div class="score" id="score"></div>
+</main>
+<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<div id="overlay"></div>
+<script>
+const L={
+ en:{eyebrow:'Deepavali · Episode 6 game',title:'Catch Every Drop',back:'← Story Quest',
+  howT:'Help Maa Kali stop Raktabeej!',
+  how:[['🥣',"Move Maa Kali's bowl left and right (drag, or the arrow keys) to catch every drop."],['👹','Every drop that touches the ground becomes a new Raktabeej! If 6 appear, he wins the round.'],['✨',"Golden drops are worth more. Catch 8 in a row and Kali's bowl grows wide!"],['👫','Two players: Maa Kali and Diya catch together. Left side or A/D for Kali, right side or arrow keys for Diya.']],
+  solo:'One player',duo:'Two players',start:'Start!',
+  p:n=>`Player ${n}`,you:'You',wave:(r,n)=>`Round ${r} of ${n}`,
+  W:['The drops begin to fall','The clones throw drops too','Raktabeej is furious!'],
+  gold:'Golden!',combo:n=>`${n} in a row!`,roar:"Kali's power! Wide bowl!",clone:'A new Raktabeej!',many:'Too many clones! Next round…',
+  clear:'Round cleared!',win:'Jai Maa Kali!',clones:'Clones',kali:'Maa Kali',diya:'Diya',
+  winT:'Every drop caught!',winP:"Raktabeej's power was that every drop of his that fell became a new demon. Maa Kali caught the drops before they touched the ground, and the darkness was gone. On Amavasya, the darkest night, Bengal worships Maa Kali and lights lamps for courage.",
+  total:'Total score',again:'Play again',story:'Back to the story'},
+ hi:{eyebrow:'दीपावली · एपिसोड 6 का खेल',title:'हर बूँद पकड़ो',back:'← स्टोरी क्वेस्ट',
+  howT:'माँ काली के साथ रक्तबीज को रोको!',
+  how:[['🥣','माँ काली का कटोरा बाएँ-दाएँ चलाओ (खींचो या तीर वाली कुंजियाँ) और हर बूँद पकड़ो।'],['👹','जो बूँद ज़मीन छू ले, वह नया रक्तबीज बन जाती है! 6 हो गए तो यह दौर उसका।'],['✨','सुनहरी बूँद के ज़्यादा अंक। लगातार 8 पकड़ो तो काली का कटोरा चौड़ा हो जाएगा!'],['👫','दो खिलाड़ी: माँ काली और दिया साथ पकड़ें। बायाँ हिस्सा या A/D काली के लिए, दायाँ हिस्सा या तीर वाली कुंजियाँ दिया के लिए।']],
+  solo:'एक खिलाड़ी',duo:'दो खिलाड़ी',start:'शुरू करो!',
+  p:n=>`खिलाड़ी ${n}`,you:'आप',wave:(r,n)=>`दौर ${r} / ${n}`,
+  W:['बूँदें गिरने लगीं','नकली रक्तबीज भी बूँदें फेंकते हैं','रक्तबीज गुस्से में है!'],
+  gold:'सुनहरी!',combo:n=>`लगातार ${n}!`,roar:'काली की शक्ति! चौड़ा कटोरा!',clone:'नया रक्तबीज आ गया!',many:'बहुत सारे रक्तबीज! अगला दौर…',
+  clear:'दौर पूरा!',win:'जय माँ काली!',clones:'रक्तबीज',kali:'माँ काली',diya:'दिया',
+  winT:'हर बूँद पकड़ ली!',winP:'रक्तबीज की शक्ति थी कि उसकी हर गिरती बूँद से नया राक्षस बन जाता था। माँ काली ने हर बूँद ज़मीन छूने से पहले पकड़ ली, और अँधेरा मिट गया। अमावस्या की सबसे अँधेरी रात को बंगाल माँ काली की पूजा करता है और साहस के दीप जलाता है।',
+  total:'कुल अंक',again:'फिर से खेलें',story:'कहानी पर वापस'},
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 6 ಆಟ',title:'ಪ್ರತಿ ಹನಿ ಹಿಡಿಯಿರಿ',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',
+  howT:'ಮಾ ಕಾಳಿಯ ಜೊತೆ ರಕ್ತಬೀಜನನ್ನು ತಡೆಯಿರಿ!',
+  how:[['🥣','ಮಾ ಕಾಳಿಯ ಬಟ್ಟಲನ್ನು ಎಡ-ಬಲಕ್ಕೆ ಸರಿಸಿ (ಎಳೆಯಿರಿ ಅಥವಾ ಬಾಣದ ಕೀಲಿಗಳು), ಪ್ರತಿ ಹನಿ ಹಿಡಿಯಿರಿ.'],['👹','ನೆಲ ಮುಟ್ಟಿದ ಪ್ರತಿ ಹನಿ ಹೊಸ ರಕ್ತಬೀಜನಾಗುತ್ತದೆ! 6 ಆದರೆ ಈ ಸುತ್ತು ಅವನದು.'],['✨','ಚಿನ್ನದ ಹನಿಗೆ ಹೆಚ್ಚು ಅಂಕ. ಸತತ 8 ಹಿಡಿದರೆ ಕಾಳಿಯ ಬಟ್ಟಲು ಅಗಲವಾಗುತ್ತದೆ!'],['👫','ಇಬ್ಬರು ಆಟಗಾರರು: ಮಾ ಕಾಳಿ ಮತ್ತು ದಿಯಾ ಜೊತೆಯಾಗಿ ಹಿಡಿಯುತ್ತಾರೆ. ಎಡಭಾಗ ಅಥವಾ A/D ಕಾಳಿಗೆ, ಬಲಭಾಗ ಅಥವಾ ಬಾಣದ ಕೀಲಿಗಳು ದಿಯಾಗೆ.']],
+  solo:'ಒಬ್ಬ ಆಟಗಾರ',duo:'ಇಬ್ಬರು ಆಟಗಾರರು',start:'ಶುರು ಮಾಡಿ!',
+  p:n=>`ಆಟಗಾರ ${n}`,you:'ನೀವು',wave:(r,n)=>`ಸುತ್ತು ${r} / ${n}`,
+  W:['ಹನಿಗಳು ಬೀಳತೊಡಗಿದವು','ನಕಲಿ ರಕ್ತಬೀಜರೂ ಹನಿ ಎಸೆಯುತ್ತಾರೆ','ರಕ್ತಬೀಜನಿಗೆ ಕೋಪ ಬಂದಿದೆ!'],
+  gold:'ಚಿನ್ನದ ಹನಿ!',combo:n=>`ಸತತ ${n}!`,roar:'ಕಾಳಿಯ ಶಕ್ತಿ! ಅಗಲ ಬಟ್ಟಲು!',clone:'ಹೊಸ ರಕ್ತಬೀಜ ಬಂದ!',many:'ತುಂಬಾ ರಕ್ತಬೀಜರು! ಮುಂದಿನ ಸುತ್ತು…',
+  clear:'ಸುತ್ತು ಮುಗಿಯಿತು!',win:'ಜೈ ಮಾ ಕಾಳಿ!',clones:'ರಕ್ತಬೀಜರು',kali:'ಮಾ ಕಾಳಿ',diya:'ದಿಯಾ',
+  winT:'ಪ್ರತಿ ಹನಿ ಹಿಡಿಯಲಾಯಿತು!',winP:'ರಕ್ತಬೀಜನ ಶಕ್ತಿ ಏನೆಂದರೆ, ಅವನ ಪ್ರತಿ ಬಿದ್ದ ಹನಿಯಿಂದ ಹೊಸ ರಾಕ್ಷಸ ಹುಟ್ಟುತ್ತಿದ್ದ. ಮಾ ಕಾಳಿ ಪ್ರತಿ ಹನಿಯನ್ನೂ ನೆಲ ಮುಟ್ಟುವ ಮೊದಲೇ ಹಿಡಿದಳು, ಕತ್ತಲು ಮಾಯವಾಯಿತು. ಅಮಾವಾಸ್ಯೆಯ ಅತ್ಯಂತ ಕತ್ತಲ ರಾತ್ರಿ ಬಂಗಾಳ ಮಾ ಕಾಳಿಯನ್ನು ಪೂಜಿಸಿ ಧೈರ್ಯದ ದೀಪ ಹಚ್ಚುತ್ತದೆ.',
+  total:'ಒಟ್ಟು ಅಂಕ',again:'ಮತ್ತೆ ಆಡಿ',story:'ಕಥೆಗೆ ಹಿಂತಿರುಗಿ'}
+};
+let lang='en'; try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){} {const q=new URLSearchParams(location.search).get('lang'); if(['en','hi','kn'].includes(q)){lang=q; try{localStorage.setItem('sq_lang',q)}catch(e){}}}
+const t=k=>L[lang][k]; const $=s=>document.querySelector(s);
+const IMG=n=>{const i=new Image(); i.src=n; return i};
+const BG=IMG('img/ep6_field.jpg'), RAK=IMG('img/ep6_rakta.png'), RAKS=IMG('img/ep6_rakta_shock.png'), KALI=IMG('img/ep6_kali.png'), DIYA=IMG('img/diya_fly.png');
+/* ---------- sound ---------- */
+let AC=null, soundOn=true;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){} } if(AC&&AC.state==='suspended')AC.resume(); return AC }
+function tone(f,d=.15,type='sine',v=.15,slide=0){ if(!soundOn||!ac())return; const o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime; o.type=type;o.frequency.setValueAtTime(f,n); if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(40,f*slide),n+d); g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d); o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+d+.02)}
+function noise(d=.2,v=.2,f=900){ if(!soundOn||!ac())return; const n=AC.currentTime,b=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate),x=b.getChannelData(0); for(let i=0;i<x.length;i++)x[i]=(Math.random()*2-1)*Math.pow(1-i/x.length,2); const s=AC.createBufferSource(),fl=AC.createBiquadFilter(),g=AC.createGain(); fl.type='lowpass';fl.frequency.value=f; g.gain.value=v; s.buffer=b;s.connect(fl);fl.connect(g);g.connect(AC.destination);s.start(n)}
+function cheer(){ if(!soundOn||!ac())return; for(let k=0;k<3;k++) setTimeout(()=>noise(.6,.12,1400+k*500),k*90); }
+function vib(ms){ try{ navigator.vibrate&&navigator.vibrate(ms) }catch(e){} }
+const PENTA=[523,587,659,784,880,1047,1175,1319,1568,1760];
+const SFX={catch_:n=>{const f=PENTA[Math.min(PENTA.length-1,n)]; tone(f,.16,'triangle',.11); tone(f*2,.08,'sine',.04)},gold:()=>[784,1047,1319,1568].forEach((f,i)=>setTimeout(()=>tone(f,.18,'square',.05),i*50)),
+ splat:()=>{noise(.25,.25,500);tone(160,.25,'sawtooth',.08,.5)},pop:()=>{tone(90,.35,'square',.1,.5);noise(.4,.3,700)},spray:()=>noise(.18,.08,2400),throw_:()=>tone(300,.15,'sine',.05,1.8),
+ laugh:()=>{for(let k=0;k<4;k++)setTimeout(()=>tone(170-k*12,.14,'sawtooth',.08,.8),k*150)},roar:()=>{noise(.8,.3,1200);[392,523,659,784].forEach((f,i)=>setTimeout(()=>tone(f,.3,'triangle',.1),i*70))},
+ win:()=>[392,523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>tone(f,.4,'triangle',.14),i*120)),sweep:()=>{noise(.9,.18,3000);tone(400,.8,'sine',.06,3)}};
+/* ---------- layout ---------- */
+const cv=$('#st'), cx=cv.getContext('2d'); let W=1280,H=720,DPR=1,portrait=false;
+const IW=1376, IH=768;
+function layout(){ const w=cv.parentElement.clientWidth; portrait=w<640; W=portrait?720:1280; H=portrait?1000:720;
+  DPR=Math.min(2,window.devicePixelRatio||1)*w/W; cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); cv.style.aspectRatio=W+'/'+H; cx.setTransform(DPR,0,0,DPR,0,0); if(G) G.pl.forEach(p=>{p.x=Math.max(60,Math.min(W-60,p.x)); p.tx=p.x}) }
+addEventListener('resize',layout);
+const GY=()=>H*(portrait?.9:.9);              // ground line where drops land and clones stand
+const KH=()=>H*(portrait?.33:.46);            // Kali height
+const CY=()=>H+KH()*.06-KH()*(1-.707);        // catch line = Kali's bowl
+const RH=()=>H*(portrait?.27:.40);            // Raktabeej height
+const WAVES=[{n:18,iv:1.15,g:300,gold:.12,throw:0,split:0},{n:26,iv:.9,g:350,gold:.14,throw:5.2,split:0},{n:34,iv:.72,g:400,gold:.16,throw:4,split:.22}];
+const MAXC=6;
+/* ---------- state ---------- */
+let G=null, mode='solo';
+function newGame(){ const duo=mode==='duo';
+  G={players:duo?2:1, scores:[0,0], wave:0, phase:'play', drops:[], clones:[], parts:[], pops:[], el:0, over:false, shake:0, flash:0, big:null, msg:null, msgT:0,
+     spawned:0, spT:1.4, caught:0, missed:0, rak:{x:W/2, hitk:0, mood:0, gone:0}, sweep:0,
+     pl:[{x:duo?W*.33:W/2, tx:duo?W*.33:W/2, kv:0, streak:0, meter:0, roar:0, bump:0},{x:W*.7, tx:W*.7, kv:0, streak:0, meter:0, roar:0, bump:0}].slice(0,duo?2:1)};
+  startWave(); renderScore() }
+function say(m,s=2){ G.msg=m; G.msgT=s }
+function startWave(){ G.phase='play'; G.drops=[]; G.spawned=0; G.spT=1.6; say(t('wave')(G.wave+1,WAVES.length)+' · '+t('W')[G.wave],2.6) }
+function cfg(){ return WAVES[G.wave] }
+/* ---------- input ---------- */
+function pos(e){ const r=cv.getBoundingClientRect(); return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H] }
+const ptr={};
+function who(X){ if(G.players===1) return 0; return X<W/2?0:1 }
+cv.addEventListener('pointerdown',e=>{ ac(); if(!G||G.over)return; const [X]=pos(e); const i=who(X); ptr[e.pointerId]=i; G.pl[i].tx=X; try{cv.setPointerCapture(e.pointerId)}catch(_){} });
+cv.addEventListener('pointermove',e=>{ if(!G||G.over)return; const [X]=pos(e); let i=ptr[e.pointerId]; if(i===undefined){ if(e.pointerType!=='mouse')return; i=who(X) } G.pl[i].tx=X });
+['pointerup','pointercancel'].forEach(k=>cv.addEventListener(k,e=>{ delete ptr[e.pointerId] }));
+const keys={};
+addEventListener('keydown',e=>{ keys[e.key.toLowerCase()]=1; if(['arrowleft','arrowright'].includes(e.key.toLowerCase()))e.preventDefault() });
+addEventListener('keyup',e=>{ keys[e.key.toLowerCase()]=0 });
+/* ---------- spawning ---------- */
+function rakPos(){ const h=RH(); return [G.rak.x, (portrait?70:18)+h*.55] }
+function spawnDrop(fromX,fromY,up){ const c=cfg(), s=W/1280, gold=Math.random()<c.gold;
+  const vx=(Math.random()<.5?-1:1)*(70+Math.random()*(portrait?150:260))*s, vy=-(up||(150+Math.random()*230))*s;
+  G.drops.push({x:fromX,y:fromY,vx,vy,gold,r:gold?15:13,split:!gold&&Math.random()<c.split,ph:Math.random()*6,trail:[]}) }
+function rakSpray(){ const [x,y]=rakPos(); G.rak.hitk=1; spawnDrop(x+(Math.random()-.5)*40,y); G.spawned++; SFX.spray(); burst(x,y,'#ff3d5a',8) }
+/* ---------- catching ---------- */
+function bowlR(p){ return (p.roar>0?118:58)*(portrait?.95:1) }
+function caught(d,i){ const p=G.pl[i]; p.streak++; p.bump=1; G.caught++; let pts=d.gold?25:10; if(p.streak>=5) pts+=Math.min(10,p.streak-4)*2; G.scores[i]+=pts; renderScore();
+  popup(d.x,CY()-40,'+'+pts,d.gold?'#ffe066':'#fff'); burst(d.x,CY()-10,d.gold?'#ffd35a':'#ff8a9a',d.gold?22:12); SFX.catch_(Math.min(9,p.streak-1)); if(d.gold){SFX.gold(); G.big={txt:t('gold'),k:0}} vib(15);
+  if(p.roar<=0){ p.meter=Math.min(8,p.meter+1); if(p.meter>=8){ p.roar=6; p.meter=0; G.big={txt:t('roar'),k:0}; SFX.roar(); G.flash=.5; vib([30,30,60]) } }
+  if(p.streak>0&&p.streak%10===0) G.big={txt:t('combo')(p.streak),k:0} }
+function landed(d){ G.pl.forEach(p=>p.streak=0); if(d.gold){ burst(d.x,GY(),'#ffd35a',10); return }
+  G.missed++; SFX.splat(); burst(d.x,GY(),'#c0102a',16); dust(d.x,GY());
+  const x=Math.max(70,Math.min(W-70,d.x)); G.clones.push({x,born:0,thr:cfg().throw?cfg().throw*(.6+Math.random()*.6):0,ph:Math.random()*6,dead:0});
+  setTimeout(()=>{ if(G&&!G.over) SFX.pop() },250); G.shake=.25; say(t('clone'),1.1);
+  if(G.clones.filter(c=>!c.dead).length>=MAXC&&G.phase==='play'){ G.phase='wait'; G.rak.mood=2; SFX.laugh(); say(t('many'),2.4); setTimeout(()=>endWave(false),2200) } }
+function endWave(ok){ if(!G||G.over)return; G.phase='wait'; G.drops=[]; G.sweep=.01; SFX.sweep(); G.flash=.7;
+  const left=G.clones.filter(c=>!c.dead).length; G.clones.forEach(c=>{ if(!c.dead){ c.dead=.01; burst(c.x,GY()-40,'#fff6c0',16) } });
+  if(ok){ const bonus=(MAXC-left)*15; for(let i=0;i<G.players;i++){ G.scores[i]+=Math.round(bonus/G.players) } renderScore(); popup(W/2,H*.5,'+'+bonus,'#9dffb0'); G.big={txt:t('clear'),k:0}; SFX.win(); for(let k=0;k<6;k++)setTimeout(()=>G&&fireworks(W*(.2+Math.random()*.6),H*(.15+Math.random()*.3)),k*140) }
+  setTimeout(()=>{ if(!G||G.over)return; G.clones=[]; G.rak.mood=0; G.wave++; if(G.wave>=WAVES.length){ finale(); return } startWave(); renderScore() }, 2600) }
+function finale(){ G.phase='end'; G.rak.mood=1; G.rak.gone=.01; G.big={txt:t('win'),k:0}; SFX.win(); cheer(); vib([60,40,60,40,200]); G.flash=.8;
+  for(let k=0;k<16;k++)setTimeout(()=>G&&fireworks(W*(.1+Math.random()*.8),H*(.1+Math.random()*.4)),k*130); setTimeout(finish,3600) }
+/* ---------- fx ---------- */
+function popup(X,Y,txt,c){ G.pops.push({x:X,y:Y,txt,c,k:0}) }
+function burst(X,Y,c,n=22){ for(let i=0;i<n;i++){ const a=Math.random()*6.283,s=2+Math.random()*6; G.parts.push({x:X,y:Y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,l:1,c,r:2.5+Math.random()*3.5}) } }
+function dust(X,Y){ for(let i=0;i<14;i++){ const a=Math.PI+Math.random()*Math.PI; G.parts.push({x:X,y:Y,vx:Math.cos(a)*3,vy:Math.sin(a)*1.5,l:1.2,c:'rgba(210,170,120,.8)',r:6+Math.random()*8,dust:1}) } }
+function fireworks(X,Y){ const c=['#ffd35a','#ff6bd6','#7fe3ff','#9dffb0','#fff'][Math.random()*5|0]; for(let i=0;i<40;i++){ const a=i/40*6.283, sp=3+Math.random()*3; G.parts.push({x:X,y:Y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:1.2,c,r:2.5}) } tone(900+Math.random()*600,.08,'sine',.04) }
+/* ---------- update ---------- */
+function update(dt){ if(!G)return; G.el+=dt;
+  if(G.flash>0)G.flash=Math.max(0,G.flash-dt*2.5); if(G.shake>0)G.shake=Math.max(0,G.shake-dt*2); if(G.big){ G.big.k+=dt; if(G.big.k>1.6)G.big=null } if(G.msgT>0){G.msgT-=dt; if(G.msgT<=0)G.msg=null}
+  if(G.sweep>0){ G.sweep+=dt; if(G.sweep>1.4)G.sweep=0 }
+  const R=G.rak; if(R.hitk>0)R.hitk=Math.max(0,R.hitk-dt*3); if(R.gone>0)R.gone+=dt;
+  const range=portrait?W*.28:W*.3; R.x=W/2+Math.sin(G.el*(.45+G.wave*.15))*range;
+  // players
+  const sp=(portrait?820:1000);
+  G.pl.forEach((p,i)=>{ let kv=0; const solo=G.players===1;
+    if(keys['a']||(solo&&keys['arrowleft']))kv-=(i===0?1:0); if(keys['d']||(solo&&keys['arrowright']))kv+=(i===0?1:0);
+    if(i===1){ if(keys['arrowleft'])kv=-1; if(keys['arrowright'])kv=1 }
+    if(kv){ p.tx=p.x+kv*sp*dt*1.2 }
+    const lo=G.players===2?(i===0?50:W*.5+20):50, hi=G.players===2?(i===0?W*.5-20:W-50):W-50; p.tx=Math.max(lo,Math.min(hi,p.tx));
+    const d=p.tx-p.x, mv=Math.sign(d)*Math.min(Math.abs(d),sp*dt*1.6); p.x+=mv; p.kv=mv/dt/sp;
+    if(p.roar>0)p.roar=Math.max(0,p.roar-dt); if(p.bump>0)p.bump=Math.max(0,p.bump-dt*4) });
+  if(G.phase==='play'){ const c=cfg();
+    G.spT-=dt; if(G.spT<=0&&G.spawned<c.n){ rakSpray(); G.spT=c.iv*(.75+Math.random()*.5); if(G.wave===2&&Math.random()<.3){ setTimeout(()=>{ if(G&&G.phase==='play'&&G.spawned<cfg().n) rakSpray() },180) } }
+    for(const cl of G.clones){ if(cl.dead||!c.throw)continue; cl.thr-=dt; if(cl.thr<=0){ cl.thr=c.throw*(.8+Math.random()*.5); cl.thrk=1; spawnDrop(cl.x,GY()-RH()*.42,420+Math.random()*160); SFX.throw_() } }
+    if(G.spawned>=c.n&&!G.drops.length) endWave(true) }
+  for(const cl of G.clones){ cl.born=Math.min(1,cl.born+dt*2.5); if(cl.thrk>0)cl.thrk=Math.max(0,cl.thrk-dt*3); if(cl.dead>0)cl.dead+=dt }
+  // drops
+  const g=(G.phase==='play'?cfg().g:400)*(W/1280)*(portrait?1.1:1), cy=CY();
+  for(const d of G.drops){ const py=d.y; d.vy+=g*dt; d.x+=d.vx*dt; d.y+=d.vy*dt; if(d.x<12){d.x=12;d.vx=Math.abs(d.vx)} if(d.x>W-12){d.x=W-12;d.vx=-Math.abs(d.vx)}
+    d.trail.push([d.x,d.y]); if(d.trail.length>7)d.trail.shift();
+    if(d.split&&d.vy>0&&py<=d.y&&d.vy-g*dt<=0){ d.split=false; G.drops.push({x:d.x,y:d.y,vx:-d.vx*.9,vy:d.vy,gold:false,r:12,split:false,ph:0,trail:[]}); burst(d.x,d.y,'#ff5a70',8); tone(500,.1,'sine',.05,.5) }
+    if(d.vy>0&&py<cy+6&&d.y>=cy-14){ for(let i=0;i<G.players;i++){ const p=G.pl[i]; if(Math.abs(d.x-p.x)<bowlR(p)){ d.done=1; caught(d,i); break } } }
+    if(!d.done&&d.y>=GY()){ d.done=1; landed(d) } }
+  G.drops=G.drops.filter(d=>!d.done);
+  for(const p of G.parts){p.x+=p.vx;p.y+=p.vy;p.vy+=p.dust?.02:.18; p.l-=dt*(p.dust?1:1.3)} G.parts=G.parts.filter(p=>p.l>0);
+  for(const p of G.pops) p.k+=dt; G.pops=G.pops.filter(p=>p.k<1.2) }
+/* ---------- draw ---------- */
+function rr(x,y,w,h,r){ cx.beginPath(); cx.roundRect?cx.roundRect(x,y,w,h,r):cx.rect(x,y,w,h) }
+function shadow(X,Y,w,a=1){ cx.save(); cx.filter=`blur(${Math.max(2,w*.08)}px)`; cx.fillStyle=`rgba(20,8,0,${.5*a})`; cx.beginPath(); cx.ellipse(X,Y,w*.5,w*.12,0,0,6.283); cx.fill(); cx.restore() }
+function drawBG(){ const s=Math.max(W/IW,H/IH), ox=(W-IW*s)/2, oy=(H-IH*s)/2; if(BG.complete&&BG.naturalWidth) cx.drawImage(BG,ox,oy,IW*s,IH*s); else { cx.fillStyle='#3a2340'; cx.fillRect(0,0,W,H) }
+  const g=cx.createLinearGradient(0,0,0,H); g.addColorStop(0,'rgba(40,10,40,.25)'); g.addColorStop(.6,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(30,10,0,.35)'); cx.fillStyle=g; cx.fillRect(0,0,W,H) }
+function drawRak(){ const R=G.rak, img=(R.mood===1||R.gone>0)?RAKS:RAK; if(!img.complete||!img.naturalWidth)return; let h=RH(), w=h*img.naturalWidth/img.naturalHeight, a=1, sc=1;
+  if(R.gone>0){ sc=Math.max(0,1-R.gone/2.2); a=sc; if(Math.random()<.5) burst(R.x+(Math.random()-.5)*w*.6,(portrait?70:18)+h*.5,'#fff6c0',2) }
+  const y0=portrait?60:8; cx.save(); cx.globalAlpha=a; cx.translate(R.x,y0+h*.5+Math.sin(G.el*2)*6); cx.scale(sc,sc);
+  if(R.mood===2){ cx.rotate(Math.sin(G.el*14)*.04) } if(R.hitk>0){ cx.translate(Math.sin(G.el*80)*6*R.hitk,0); cx.filter=`brightness(${1+R.hitk*.6}) saturate(${1+R.hitk})` }
+  const gl=cx.createRadialGradient(0,0,10,0,0,h*.7); gl.addColorStop(0,'rgba(120,0,30,.35)'); gl.addColorStop(1,'rgba(120,0,30,0)'); cx.fillStyle=gl; cx.beginPath(); cx.arc(0,0,h*.7,0,6.283); cx.fill();
+  cx.drawImage(img,-w/2,-h/2,w,h); cx.filter='none'; cx.restore() }
+function drawClone(c){ if(!RAK.complete)return; const h=RH()*.42, w=h*RAK.naturalWidth/RAK.naturalHeight; const pop=c.born<1?(c.born<.7?c.born/.7*1.25:1.25-(c.born-.7)/.3*.25):1;
+  let a=1, lift=0; if(c.dead>0){ a=Math.max(0,1-c.dead/.8); lift=c.dead*80 }
+  shadow(c.x,GY()+2,w*.8,a); cx.save(); cx.globalAlpha=a; cx.translate(c.x,GY()-lift); cx.scale(pop*(c.thrk?1+c.thrk*.1:1),pop*(c.thrk?1-c.thrk*.08:1));
+  cx.translate(0,Math.sin(G.el*4+c.ph)*3); if(c.dead>0)cx.filter=`brightness(${1+c.dead*3})`; cx.drawImage(RAK,-w/2,-h,w,h); cx.filter='none'; cx.restore() }
+function drawDrop(d){ for(let k=0;k<d.trail.length;k++){ const [x,y]=d.trail[k]; cx.globalAlpha=k/d.trail.length*.35; cx.fillStyle=d.gold?'#ffd35a':'#ff3d5a'; cx.beginPath(); cx.arc(x,y,d.r*.5*(k/d.trail.length),0,6.283); cx.fill() } cx.globalAlpha=1;
+  cx.save(); cx.translate(d.x,d.y); const ang=Math.atan2(d.vy,d.vx)-Math.PI/2; cx.rotate(ang); const r=d.r;
+  const gl=cx.createRadialGradient(0,0,2,0,0,r*2.6); gl.addColorStop(0,d.gold?'rgba(255,220,90,.7)':'rgba(255,40,70,.55)'); gl.addColorStop(1,'rgba(255,40,70,0)'); cx.fillStyle=gl; cx.beginPath(); cx.arc(0,0,r*2.6,0,6.283); cx.fill();
+  const g=cx.createRadialGradient(-r*.35,r*.1,1,0,0,r*1.2); if(d.gold){ g.addColorStop(0,'#fffbe0'); g.addColorStop(.4,'#ffd35a'); g.addColorStop(1,'#c07800') } else { g.addColorStop(0,'#ff9aa8'); g.addColorStop(.4,'#e0102e'); g.addColorStop(1,'#6a0012') }
+  cx.fillStyle=g; cx.beginPath(); cx.moveTo(0,-r*1.9); cx.bezierCurveTo(r*.9,-r*.6,r,r*.2,r,r*.35); cx.arc(0,r*.35,r,0,Math.PI); cx.bezierCurveTo(-r,r*.2,-r*.9,-r*.6,0,-r*1.9); cx.fill();
+  cx.fillStyle='rgba(255,255,255,.75)'; cx.beginPath(); cx.ellipse(-r*.35,r*.15,r*.18,r*.32,.3,0,6.283); cx.fill();
+  if(d.gold){ cx.rotate(G.el*3); cx.strokeStyle='rgba(255,255,220,.9)'; cx.lineWidth=2; for(let k=0;k<4;k++){ cx.rotate(Math.PI/2); cx.beginPath(); cx.moveTo(0,r*1.4); cx.lineTo(0,r*2.1); cx.stroke() } }
+  cx.restore() }
+function drawBowlGlow(p){ const R=bowlR(p), y=CY(); cx.save(); const g=cx.createRadialGradient(p.x,y,4,p.x,y,R*1.3); g.addColorStop(0,`rgba(255,210,90,${.35+(p.roar>0?.25:0)+p.bump*.3})`); g.addColorStop(1,'rgba(255,210,90,0)'); cx.fillStyle=g; cx.beginPath(); cx.ellipse(p.x,y,R*1.3,R*.55,0,0,6.283); cx.fill();
+  if(p.roar>0){ cx.strokeStyle=`rgba(255,230,140,${.6+Math.sin(G.el*12)*.3})`; cx.lineWidth=5; cx.beginPath(); cx.ellipse(p.x,y-2,R,R*.28,0,0,Math.PI); cx.stroke(); // wide golden rim
+    const gg=cx.createLinearGradient(0,y-10,0,y+18); gg.addColorStop(0,'#ffe9a0'); gg.addColorStop(1,'#b8740a'); cx.fillStyle=gg; cx.beginPath(); cx.ellipse(p.x,y,R,R*.22,0,0,Math.PI); cx.fill() }
+  cx.restore() }
+function drawKali(p){ if(!KALI.complete||!KALI.naturalWidth)return; const h=KH(), w=h*KALI.naturalWidth/KALI.naturalHeight, bx=.753, by=.707;
+  const x=p.x-w*bx, y=CY()-h*by; cx.save(); const tilt=Math.max(-.08,Math.min(.08,p.kv*.08)); cx.translate(p.x,CY()); cx.rotate(tilt); cx.translate(-p.x,-CY()-p.bump*6);
+  const gl=cx.createRadialGradient(x+w*.5,y+h*.5,10,x+w*.5,y+h*.5,h*.7); gl.addColorStop(0,'rgba(140,170,255,.28)'); gl.addColorStop(1,'rgba(140,170,255,0)'); cx.fillStyle=gl; cx.fillRect(x-h*.3,y-h*.2,w+h*.6,h*1.4);
+  cx.drawImage(KALI,x,y,w,h); cx.restore() }
+function drawDiya(p){ if(!DIYA.complete||!DIYA.naturalWidth)return; const h=KH()*.62, w=h*DIYA.naturalWidth/DIYA.naturalHeight, y=CY(), bob=Math.sin(G.el*3)*4;
+  cx.save(); cx.translate(p.x,y+bob-p.bump*5); cx.rotate(Math.max(-.12,Math.min(.12,p.kv*.12)));
+  cx.drawImage(DIYA,-w/2,-h*.30,w,h);
+  // little golden bowl held over her head
+  const R=p.roar>0?bowlR(p):50, g=cx.createLinearGradient(0,-8,0,22); g.addColorStop(0,'#ffe9a0'); g.addColorStop(.5,'#e0a020'); g.addColorStop(1,'#8a5200'); cx.fillStyle=g; cx.beginPath(); cx.ellipse(0,0,R,R*.2,0,0,6.283); cx.fill(); cx.beginPath(); cx.moveTo(-R,0); cx.quadraticCurveTo(0,R*.9,R,0); cx.fill();
+  cx.strokeStyle='#fff3c0'; cx.lineWidth=2; cx.beginPath(); cx.ellipse(0,0,R,R*.2,0,0,6.283); cx.stroke(); cx.restore() }
+function drawHUD(){ const alive=G.clones.filter(c=>!c.dead).length, x0=portrait?W-24:W-28, y0=portrait?30:30;
+  cx.save(); cx.font='800 20px "Baloo 2","Baloo Tamma 2",sans-serif'; cx.textAlign='right'; cx.textBaseline='middle'; const lab='👹 '+t('clones'); const tw=cx.measureText(lab).width;
+  rr(x0-tw-MAXC*24-34,y0-20,tw+MAXC*24+44,40,20); cx.fillStyle='rgba(28,20,66,.78)'; cx.fill(); cx.fillStyle='#ffe9a8'; cx.fillText(lab,x0-MAXC*24-10,y0+1);
+  for(let i=0;i<MAXC;i++){ cx.beginPath(); cx.arc(x0-6-(MAXC-1-i)*24,y0,8,0,6.283); cx.fillStyle=i<alive?'#ff4d5e':'rgba(255,255,255,.18)'; cx.fill() } cx.restore();
+  // power meters
+  G.pl.forEach((p,i)=>{ const x=portrait?(G.players===2?(i?W*.55:24):24):(G.players===2?(i?W-238:28):28), y=portrait?72:H-36; const bw=210;
+    cx.save(); rr(x,y-14,bw,28,14); cx.fillStyle='rgba(28,20,66,.78)'; cx.fill(); const f=p.roar>0?p.roar/6:p.meter/8; rr(x+4,y-10,(bw-8)*f,20,10); const gg=cx.createLinearGradient(x,0,x+bw,0); gg.addColorStop(0,'#ff9a2e'); gg.addColorStop(1,'#fff6b0'); cx.fillStyle=p.roar>0?`hsl(${(G.el*200)%360},90%,65%)`:gg; cx.fill();
+    cx.font='800 15px "Baloo 2","Baloo Tamma 2",sans-serif'; cx.fillStyle='#fff'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText((i?t('diya'):t('kali'))+' ⚡',x+bw/2,y+1); cx.restore() }) }
+function draw(){ cx.save(); if(G.shake>0)cx.translate(Math.sin(G.el*70)*10*G.shake,Math.cos(G.el*53)*6*G.shake);
+  drawBG(); drawRak();
+  for(const c of G.clones) drawClone(c);
+  G.pl.forEach((p,i)=>{ shadow(p.x,GY()+4,KH()*(i?.3:.5)); drawBowlGlow(p) });
+  if(G.players===2) drawDiya(G.pl[1]); drawKali(G.pl[0]);
+  if(G.players===2){ cx.save(); cx.setLineDash([6,10]); cx.strokeStyle='rgba(255,240,200,.25)'; cx.lineWidth=2; cx.beginPath(); cx.moveTo(W/2,H*.45); cx.lineTo(W/2,H); cx.stroke(); cx.restore() }
+  for(const d of G.drops) drawDrop(d);
+  if(G.sweep>0){ const k=G.sweep/1.4, x=-W*.3+k*W*1.6; const g=cx.createLinearGradient(x-260,0,x+260,0); g.addColorStop(0,'rgba(255,240,200,0)'); g.addColorStop(.5,'rgba(255,240,200,.55)'); g.addColorStop(1,'rgba(255,240,200,0)'); cx.fillStyle=g; cx.fillRect(0,0,W,H) }
+  for(const p of G.parts){ cx.globalAlpha=Math.max(0,Math.min(1,p.l)); cx.fillStyle=p.c; cx.beginPath(); cx.arc(p.x,p.y,p.r||4,0,6.283); cx.fill() } cx.globalAlpha=1;
+  drawHUD();
+  for(const p of G.pops){ const a=1-Math.max(0,p.k-.7)/.5; cx.globalAlpha=Math.max(0,a); cx.font=`900 ${30+10*Math.min(1,p.k*6)}px "Baloo 2",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=7; cx.strokeStyle='#2a0d3a'; cx.strokeText(p.txt,p.x,p.y-p.k*70); cx.fillStyle=p.c; cx.fillText(p.txt,p.x,p.y-p.k*70) } cx.globalAlpha=1;
+  if(G.big){ const k=G.big.k, s2=k<.2?k/.2*1.3:(k<.35?1.3-(k-.2)/.15*.3:1), a=k>1.2?1-(k-1.2)/.4:1; cx.save(); cx.globalAlpha=Math.max(0,a); cx.translate(W/2,H*.42); cx.scale(s2,s2); cx.rotate(-.04);
+    cx.font=`900 ${portrait?50:72}px "Baloo 2","Baloo Tamma 2",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=12; cx.strokeStyle='#3a0a4a'; cx.strokeText(G.big.txt,0,0,W*.9); const gg=cx.createLinearGradient(0,-40,0,40); gg.addColorStop(0,'#fff6b0'); gg.addColorStop(1,'#ff9a2e'); cx.fillStyle=gg; cx.fillText(G.big.txt,0,0,W*.9); cx.restore() }
+  if(G.flash>0){ cx.fillStyle=`rgba(255,240,200,${G.flash*.4})`; cx.fillRect(0,0,W,H) }
+  if(G.msg){ cx.font=`800 28px "Baloo 2","Baloo Tamma 2",sans-serif`; const tw=Math.min(W*.92,cx.measureText(G.msg).width+50), bh=48, by2=portrait?H*.30:H*.56;
+    rr((W-tw)/2,by2,tw,bh,24); cx.fillStyle='rgba(28,20,66,.86)'; cx.fill(); cx.strokeStyle='#f6a723'; cx.lineWidth=3; cx.stroke(); cx.fillStyle='#ffe9a8'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(G.msg,W/2,by2+bh/2+2,W*.88) }
+  cx.restore() }
+let last=0; function loop(now){ const dt=Math.min(.05,(now-last)/1000||0); last=now; if(G){ if(!G.over||G.phase==='end') update(dt); draw() } requestAnimationFrame(loop) }
+/* ---------- screens ---------- */
+function renderScore(){ if(!G){$('#score').innerHTML='';return} $('#score').innerHTML=Array.from({length:G.players},(_,i)=>`<span class="pl on">${G.players===1?t('you'):(i?'🪔 '+t('diya'):'🔱 '+t('kali'))} <b>${G.scores[i]}</b></span>`).join('')+`<span class="pl">${t('wave')(Math.min(G.wave+1,WAVES.length),WAVES.length)}</span>` }
+function start(){ newGame(); G.over=true; G.phase='menu'; G.msg=null; $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep6_kali_drops.jpg" alt=""><h3>${t('howT')}</h3><div class="how">${t('how').map(([i,s])=>`<div><b>${i}</b><span>${s}</span></div>`).join('')}</div>
+  <div class="modes"><button class="mode" data-m="solo" aria-pressed="${mode==='solo'}">🧑 ${t('solo')}</button><button class="mode" data-m="duo" aria-pressed="${mode==='duo'}">👫 ${t('duo')}</button></div><button class="go" id="go">${t('start')}</button></div></div>`;
+  document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ mode=b.dataset.m; document.querySelectorAll('.mode').forEach(x=>x.setAttribute('aria-pressed',x===b)) });
+  $('#go').onclick=()=>{ ac(); $('#overlay').innerHTML=''; newGame() } }
+function finish(){ if(!G)return; G.over=true; G.phase='done'; try{const pr=JSON.parse(localStorage.getItem('storyquest')||'{}'); pr.dv6=1; localStorage.setItem('storyquest',JSON.stringify(pr))}catch(e){}
+  const ratio=G.caught/Math.max(1,G.caught+G.missed), stars=ratio>=.85?3:ratio>=.6?2:1;
+  $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep6_kali_hero.jpg" alt=""><h3>${t('winT')}</h3><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${t('winP')}</p>
+  <p><b>${t('total')}:</b> ${G.scores.slice(0,G.players).map((s,i)=>(G.players===2?(i?t('diya'):t('kali'))+' ':'')+s).join(' · ')} · 💧 ${G.caught}/${G.caught+G.missed}</p><button class="go" id="again">${t('again')}</button><a class="go alt" href="index.html#dv6">${t('story')}</a></div></div>`; $('#again').onclick=start }
+function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title');
+  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang)); renderScore() }
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||G.over)start() });
+$('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
+$('#newgame').onclick=start;
+layout(); applyLang(); start(); requestAnimationFrame(loop);
+</script>
+</body>
+</html>
