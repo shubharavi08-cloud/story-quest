@@ -64,6 +64,7 @@ canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:non
     <button class="pill" data-lang="kn" aria-pressed="false">ಕ</button>
   </div>
   <button class="pill" id="sound" aria-pressed="true" aria-label="Sound">🔊</button>
+  <button class="pill" id="speed" aria-label="Speed">🐢</button>
   <button class="pill" id="newgame" aria-label="New game">↻</button>
 </header>
 <main class="wrap">
@@ -79,7 +80,7 @@ const L={
   how:[['👆','Tap a pit on YOUR side. Its cowries are sown one by one, around the board.'],['🔁','Where the last cowrie lands, look at the next pit: if it has cowries, pick them up and keep sowing!'],['✨','If the next pit is empty, you win the pit after it: Lakshmi\'s blessing!'],['4️⃣','Any pit that reaches exactly 4 cowries while sowing goes to the owner of that side.']],
   solo:'Play with Diya',duo:'Two players',start:'Start sowing!',
   p:n=>`Player ${n}`,you:'You',diya:'Diya',turn:n=>`${n}'s turn`,yourTurn:'Your turn: tap a pit on your side',diyaThinks:'Diya is thinking…',
-  bless:'Lakshmi\'s blessing!',pasu:'Four! Pasu!',bigBless:'Treasure!',again2:'Keep sowing!',empty:'Empty… turn over',notYours:'Tap a pit on your own side',
+  took:n=>`Picked up ${n}!`,pickup:n=>`${n} here: pick up!`,emptyNext:'Next pit is empty… look one further!',bless:'Lakshmi\'s blessing!',pasu:'Four! Pasu!',bigBless:'Treasure!',again2:'Keep sowing!',empty:'Empty… turn over',notYours:'Tap a pit on your own side',
   winT:w=>`${w} wins Lakshmi's treasure!`,tie:"It's a tie! Lakshmi blesses both!",
   winP:'Lakshmi stays where there is light, honesty and sharing. Count fairly, play kindly, and every home becomes rich!',
   total:'Cowries',again:'Play again',story:'Back to the story',store:'Treasure'},
@@ -88,7 +89,7 @@ const L={
   how:[['👆','अपनी तरफ़ का कोई गड्ढा छुओ। उसकी कौड़ियाँ एक-एक करके बोर्ड पर बोई जाएँगी।'],['🔁','जहाँ आख़िरी कौड़ी गिरे, उसके अगले गड्ढे को देखो: उसमें कौड़ियाँ हों तो उठाओ और बोते रहो!'],['✨','अगर अगला गड्ढा खाली है, तो उसके बाद वाले गड्ढे की सारी कौड़ियाँ तुम्हारी: लक्ष्मी का आशीर्वाद!'],['4️⃣','बोते समय जिस गड्ढे में ठीक 4 कौड़ियाँ हो जाएँ, वे उस तरफ़ वाले खिलाड़ी की।']],
   solo:'दिया के साथ खेलो',duo:'दो खिलाड़ी',start:'बोना शुरू करो!',
   p:n=>`खिलाड़ी ${n}`,you:'आप',diya:'दिया',turn:n=>`${n} की बारी`,yourTurn:'आपकी बारी: अपनी तरफ़ का गड्ढा छुओ',diyaThinks:'दिया सोच रही है…',
-  bless:'लक्ष्मी का आशीर्वाद!',pasu:'चार! पसु!',bigBless:'ख़ज़ाना!',again2:'बोते रहो!',empty:'खाली… बारी ख़त्म',notYours:'अपनी तरफ़ का गड्ढा छुओ',
+  took:n=>`${n} कौड़ियाँ उठाईं!`,pickup:n=>`यहाँ ${n} हैं: उठाओ!`,emptyNext:'अगला गड्ढा खाली… एक आगे देखो!',bless:'लक्ष्मी का आशीर्वाद!',pasu:'चार! पसु!',bigBless:'ख़ज़ाना!',again2:'बोते रहो!',empty:'खाली… बारी ख़त्म',notYours:'अपनी तरफ़ का गड्ढा छुओ',
   winT:w=>`${w} ने लक्ष्मी का ख़ज़ाना जीता!`,tie:'बराबरी! लक्ष्मी दोनों को आशीर्वाद देती हैं!',
   winP:'लक्ष्मी वहीं रहती हैं जहाँ रोशनी, ईमानदारी और बाँटना हो। ईमानदारी से गिनो, प्यार से खेलो, और हर घर अमीर बन जाएगा!',
   total:'कौड़ियाँ',again:'फिर से खेलें',story:'कहानी पर वापस',store:'ख़ज़ाना'},
@@ -97,7 +98,7 @@ const L={
   how:[['👆','ನಿಮ್ಮ ಕಡೆಯ ಒಂದು ಗುಳಿಯನ್ನು ಮುಟ್ಟಿ. ಅದರ ಕವಡೆಗಳು ಒಂದೊಂದಾಗಿ ಮಣೆಯ ಸುತ್ತ ಹಾಕಲ್ಪಡುತ್ತವೆ.'],['🔁','ಕೊನೆಯ ಕವಡೆ ಬಿದ್ದ ಮುಂದಿನ ಗುಳಿ ನೋಡಿ: ಕವಡೆ ಇದ್ದರೆ ಎತ್ತಿಕೊಂಡು ಮುಂದುವರಿಸಿ!'],['✨','ಮುಂದಿನ ಗುಳಿ ಖಾಲಿ ಇದ್ದರೆ, ಅದರ ಮುಂದಿನ ಗುಳಿಯ ಕವಡೆಗಳೆಲ್ಲ ನಿಮ್ಮವು: ಲಕ್ಷ್ಮಿಯ ಆಶೀರ್ವಾದ!'],['4️⃣','ಹಾಕುವಾಗ ಯಾವ ಗುಳಿಯಲ್ಲಿ ಸರಿಯಾಗಿ 4 ಕವಡೆ ಆಗುತ್ತದೋ, ಅವು ಆ ಕಡೆಯ ಆಟಗಾರನವು.']],
   solo:'ದಿಯಾ ಜೊತೆ ಆಡಿ',duo:'ಇಬ್ಬರು ಆಟಗಾರರು',start:'ಕವಡೆ ಹಾಕಿ!',
   p:n=>`ಆಟಗಾರ ${n}`,you:'ನೀವು',diya:'ದಿಯಾ',turn:n=>`${n} ಸರದಿ`,yourTurn:'ನಿಮ್ಮ ಸರದಿ: ನಿಮ್ಮ ಕಡೆಯ ಗುಳಿ ಮುಟ್ಟಿ',diyaThinks:'ದಿಯಾ ಯೋಚಿಸುತ್ತಿದ್ದಾಳೆ…',
-  bless:'ಲಕ್ಷ್ಮಿಯ ಆಶೀರ್ವಾದ!',pasu:'ನಾಲ್ಕು! ಪಸು!',bigBless:'ನಿಧಿ!',again2:'ಹಾಕುತ್ತಲೇ ಇರಿ!',empty:'ಖಾಲಿ… ಸರದಿ ಮುಗಿಯಿತು',notYours:'ನಿಮ್ಮ ಕಡೆಯ ಗುಳಿ ಮುಟ್ಟಿ',
+  took:n=>`${n} ಕವಡೆ ಎತ್ತಿದೆ!`,pickup:n=>`ಇಲ್ಲಿ ${n} ಇವೆ: ಎತ್ತಿಕೊಳ್ಳಿ!`,emptyNext:'ಮುಂದಿನ ಗುಳಿ ಖಾಲಿ… ಇನ್ನೊಂದು ಮುಂದೆ ನೋಡಿ!',bless:'ಲಕ್ಷ್ಮಿಯ ಆಶೀರ್ವಾದ!',pasu:'ನಾಲ್ಕು! ಪಸು!',bigBless:'ನಿಧಿ!',again2:'ಹಾಕುತ್ತಲೇ ಇರಿ!',empty:'ಖಾಲಿ… ಸರದಿ ಮುಗಿಯಿತು',notYours:'ನಿಮ್ಮ ಕಡೆಯ ಗುಳಿ ಮುಟ್ಟಿ',
   winT:w=>`${w} ಲಕ್ಷ್ಮಿಯ ನಿಧಿ ಗೆದ್ದರು!`,tie:'ಸಮ! ಲಕ್ಷ್ಮಿ ಇಬ್ಬರಿಗೂ ಆಶೀರ್ವದಿಸುತ್ತಾಳೆ!',
   winP:'ಬೆಳಕು, ಪ್ರಾಮಾಣಿಕತೆ ಮತ್ತು ಹಂಚಿಕೆ ಇರುವಲ್ಲಿ ಲಕ್ಷ್ಮಿ ನೆಲೆಸುತ್ತಾಳೆ. ನ್ಯಾಯವಾಗಿ ಎಣಿಸಿ, ಪ್ರೀತಿಯಿಂದ ಆಡಿ, ಪ್ರತಿ ಮನೆಯೂ ಶ್ರೀಮಂತವಾಗುತ್ತದೆ!',
   total:'ಕವಡೆಗಳು',again:'ಮತ್ತೆ ಆಡಿ',story:'ಕಥೆಗೆ ಹಿಂತಿರುಗಿ',store:'ನಿಧಿ'}
@@ -128,7 +129,7 @@ function pitXY(i){ const b=board(); const col=i<7?i:13-i, row=i<7?1:0; return [b
 const pw2=()=>board().pw;
 /* ---------- state ---------- */
 let G=null, mode='solo';
-function newGame(){ G={pits:Array(14).fill(5), st:[0,0], cur:0, busy:false, hand:null, parts:[], pops:[], flies:[], msg:null, msgT:0, el:0, over:false, big:null, shake:0, flash:0, hl:-1, players:mode==='duo'?2:1, last:-1}; say(t('yourTurn'),2.5); renderScore() }
+function newGame(){ G={look:-1,focus:-1,pits:Array(14).fill(5), st:[0,0], cur:0, busy:false, hand:null, parts:[], pops:[], flies:[], msg:null, msgT:0, el:0, over:false, big:null, shake:0, flash:0, hl:-1, players:mode==='duo'?2:1, last:-1}; say(t('yourTurn'),2.5); renderScore() }
 function say(m,s=2){ G.msg=m; G.msgT=s }
 const owner=i=>i<7?0:1; const name=p=>G.players===1?(p===0?t('you'):t('diya')):t('p')(p+1);
 function sideEmpty(p){ for(let k=0;k<7;k++) if(G.pits[p*7+k]>0) return false; return true }
@@ -138,26 +139,26 @@ function simulate(pits,start,p){ pits=pits.slice(); let gain=0, i=start, hand=pi
     const n=(i+1)%14; if(pits[n]>0){ hand=pits[n]; pits[n]=0; i=n; continue } const m=(n+1)%14; gain+=pits[m]; pits[m]=0; break }
   return gain }
 /* animated move */
-const wait=ms=>new Promise(r=>setTimeout(r,ms));
+let FAST=false; const wait=ms=>new Promise(r=>setTimeout(r,FAST?ms*.4:ms));
 async function play(start){ if(!G||G.busy||G.over)return; const p=G.cur; if(owner(start)!==p||G.pits[start]===0){ SFX.bad(); say(t('notYours'),1.2); return }
-  G.busy=true; G.hl=-1; let i=start, hand=G.pits[i]; G.pits[i]=0; G.hand={i,n:hand}; SFX.pick(); vib(15); const sp=hand>14?70:120;
+  G.busy=true; G.hl=-1; let i=start, hand=G.pits[i]; G.hand={i,n:hand}; G.focus=i; popup(...pitXY(i),t('took')(hand),'#ffe9a8'); await wait(550); if(!G)return; G.pits[i]=0; SFX.pick(); vib(15); const sp=430;
   let chain=0;
   while(true){
     while(hand>0){ i=(i+1)%14; await wait(sp); if(!G)return; G.pits[i]++; hand--; G.hand={i,n:hand}; SFX.clink(i); const [X,Y]=pitXY(i); sparkle(X,Y,4);
       if(G.pits[i]===4&&hand>0){ const o=owner(i); await wait(120); capture(i,o,true) } }
-    const n=(i+1)%14; await wait(260); if(!G)return;
-    if(G.pits[n]>0){ chain++; hand=G.pits[n]; G.pits[n]=0; i=n; G.hand={i,n:hand}; SFX.pick(); if(chain>=2)popup(...pitXY(n),t('again2'),'#9dffb0'); continue }
-    const m=(n+1)%14; G.hand={i:n,n:0}; await wait(200);
+    const n=(i+1)%14; G.focus=n; G.look=n; await wait(650); if(!G)return;
+    if(G.pits[n]>0){ chain++; hand=G.pits[n]; i=n; G.hand={i,n:hand}; popup(...pitXY(n),t('pickup')(hand),'#9dffb0'); say(t('pickup')(hand)+' '+t('again2'),1.6); await wait(700); if(!G)return; G.pits[n]=0; G.look=-1; SFX.pick(); continue }
+    const m=(n+1)%14; G.hand={i:n,n:0}; G.look=m; say(t('emptyNext'),1.6); await wait(900); if(!G)return;
     if(G.pits[m]>0){ capture(m,p,false) } else { SFX.empty(); say(t('empty'),1.1) }
     break }
-  G.hand=null; renderScore(); await wait(700); if(!G)return;
+  G.hand=null; G.look=-1; G.focus=-1; renderScore(); await wait(1300); if(!G)return;
   // next turn
   G.cur=1-G.cur;
   if(sideEmpty(G.cur)||G.pits.reduce((a,b)=>a+b,0)<2){ endGame(); return }
   G.busy=false; renderScore();
-  if(G.players===1&&G.cur===1){ say(t('diyaThinks'),1.4); G.busy=true; await wait(900); G.busy=false; aiMove() }
+  if(G.players===1&&G.cur===1){ say(t('diyaThinks'),1.6); G.busy=true; await wait(1400); G.busy=false; aiMove() }
   else say(G.players===1?t('yourTurn'):t('turn')(name(G.cur)),1.8) }
-function aiMove(){ let best=-1,bv=-1; for(let k=7;k<14;k++){ if(!G.pits[k])continue; const v=simulate(G.pits,k,1)+Math.random()*1.5; if(v>bv){bv=v;best=k} } if(best<0){ endGame(); return } G.hl=best; setTimeout(()=>play(best),450) }
+function aiMove(){ let best=-1,bv=-1; for(let k=7;k<14;k++){ if(!G.pits[k])continue; const v=simulate(G.pits,k,1)+Math.random()*1.5; if(v>bv){bv=v;best=k} } if(best<0){ endGame(); return } G.hl=best; setTimeout(()=>play(best),FAST?400:1100) }
 function capture(i,p,isPasu){ const n=G.pits[i]; if(!n)return; G.pits[i]=0; G.st[p]+=n; const [X,Y]=pitXY(i);
   for(let k=0;k<Math.min(n,18);k++) G.flies.push({x:X+(Math.random()-.5)*30,y:Y+(Math.random()-.5)*30,p,k:-k*.04,r:Math.random()*6.28});
   burst(X,Y,'#ffe27a',20+n*2); popup(X,Y-30,'+'+n,'#ffe066');
@@ -205,11 +206,14 @@ function draw(){ const el=G.el; cx.save(); if(G.shake>0)cx.translate(Math.sin(el
   const r=b.pw*.4;
   for(let i=0;i<14;i++){ const [X,Y]=pitXY(i); const mine=owner(i)===G.cur&&!G.busy&&!G.over&&!(G.players===1&&G.cur===1);
     const g=cx.createRadialGradient(X,Y-r*.35,r*.1,X,Y,r); g.addColorStop(0,'#2c1405'); g.addColorStop(.85,'#4a2208'); g.addColorStop(1,'#b0702f'); cx.fillStyle=g; cx.beginPath(); cx.ellipse(X,Y,r,r*.82,0,0,6.283); cx.fill();
+    if(G.look===i){ cx.strokeStyle=`rgba(120,255,170,${.6+.4*Math.sin(el*12)})`; cx.lineWidth=6; cx.beginPath(); cx.ellipse(X,Y,r+7,r*.82+7,0,0,6.283); cx.stroke() }
     if(G.hl===i||(G.hand&&G.hand.i===i)){ cx.strokeStyle=`rgba(255,220,100,${.6+.4*Math.sin(el*10)})`; cx.lineWidth=5; cx.beginPath(); cx.ellipse(X,Y,r+4,r*.82+4,0,0,6.283); cx.stroke() }
     else if(mine&&G.pits[i]){ cx.strokeStyle='rgba(255,220,120,.35)'; cx.lineWidth=2; cx.beginPath(); cx.ellipse(X,Y,r+3,r*.82+3,0,0,6.283); cx.stroke() }
     const n=G.pits[i], m=Math.min(n,16); for(let k=0;k<m;k++){ const a=k*2.399+i, rad=(m===1?0:Math.sqrt((k+.6)/Math.max(m,5))*r*.58); cowrie(X+Math.cos(a)*rad,Y+Math.sin(a)*rad*.8,r*(m>9?.2:.25),a*1.7) }
     // count bubble
     const ty=owner(i)===0?Y+r*.82+16:Y-r*.82-16; cx.font='800 18px "Baloo 2",sans-serif'; cx.textAlign='center'; cx.textBaseline='middle'; rr(X-17,ty-12,34,24,12); cx.fillStyle='rgba(28,12,2,.8)'; cx.fill(); cx.fillStyle=n===3?'#ffb0b0':'#ffe9a8'; cx.fillText(n,X,ty+1) }
+  // direction arrows around the board (anticlockwise)
+  { cx.save(); cx.globalAlpha=.55; cx.fillStyle='#ffe27a'; cx.font='bold 22px sans-serif'; cx.textAlign='center'; cx.textBaseline='middle'; const yb=b.y+b.bh-10, yt=b.y+12; cx.fillText('→  →  →',W/2,yb); cx.fillText('←  ←  ←',W/2,yt); cx.restore() }
   // hand: Diya floats over the pit being sown, showing how many she still holds
   if(G.hand&&DIYA.complete){ const [X,Y]=pitXY(G.hand.i); const h=portrait?80:96, w=h*DIYA.width/DIYA.height; const bob=Math.sin(el*12)*4; cx.drawImage(DIYA,X-w/2,Y-r-h+10+bob,w,h);
     if(G.hand.n>0){ cx.font='900 20px "Baloo 2",sans-serif'; rr(X+w*.25,Y-r-h+bob,36,26,13); cx.fillStyle='#ffd35a'; cx.fill(); cx.fillStyle='#3a1d0c'; cx.textAlign='center'; cx.fillText(G.hand.n,X+w*.25+18,Y-r-h+bob+14) } }
@@ -239,6 +243,7 @@ function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textCo
 document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||G.over)start() });
 $('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
 $('#newgame').onclick=start;
+$('#speed').onclick=()=>{ FAST=!FAST; $('#speed').textContent=FAST?'⏩':'🐢'; $('#speed').setAttribute('aria-pressed',FAST) };
 layout(); applyLang(); start(); requestAnimationFrame(loop);
 </script>
 </body>
