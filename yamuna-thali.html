@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yamuna's Thali</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
+<style>
+/* Yamuna's Thali: a memory game to fill the Bhai Dooj welcome thali before Yamraj arrives. */
+:root{
+  --night:#1c1442; --night-2:#2a1f5c; --ink:#fdf3dc; --muted:#c7bce6; --line:rgba(253,243,220,.16);
+  --marigold:#f6a723; --flame:#ffd35a; --cloth:#f7e7c4;
+  --display:"Baloo 2","Baloo Tamma 2","Trebuchet MS",system-ui,sans-serif; --body:"Mukta","Hind","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100vh;
+  padding:max(10px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 24px max(12px,env(safe-area-inset-left,0px))}
+button{font-family:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+.top{max-width:1100px;margin:0 auto 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top a.back{color:var(--muted);text-decoration:none;font-weight:600}
+.top h1{font-family:var(--display);font-size:clamp(22px,4vw,32px);margin:0;line-height:1;flex:1;min-width:170px}
+.top h1 small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-family:var(--body);font-weight:700;margin-bottom:4px}
+.pill{background:var(--night-2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px}
+.pill[aria-pressed="true"]{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.langs{display:flex;gap:4px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.stage{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -25px #000;border:3px solid #ffffff22;background:#141a33}
+canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.score{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pl{display:flex;align-items:center;gap:8px;background:var(--night-2);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:700}
+.pl.on{border-color:var(--flame);box-shadow:0 0 18px #ffb84a55}
+.pl b{font-family:var(--display);font-size:22px;color:var(--flame)}
+.ov{position:fixed;inset:0;background:#0d0826d9;backdrop-filter:blur(3px);display:grid;place-items:center;z-index:50;padding:16px}
+.card{width:min(500px,100%);background:var(--cloth);color:#3a1d0c;border-radius:22px;padding:20px;box-shadow:0 30px 80px #000a;border:5px solid var(--marigold);animation:pop .35s cubic-bezier(.2,1.6,.4,1);max-height:94vh;overflow:auto}
+.card h3{font-family:var(--display);font-size:28px;line-height:1.05;margin:4px 0 8px}
+.card p{margin:0 0 10px}
+.card img.hero{width:100%;border-radius:14px;display:block;margin-bottom:10px}
+.how{display:grid;gap:8px;margin:6px 0 12px}
+.how div{display:flex;gap:10px;align-items:center;background:#fffaf0;border:2px solid #e8d2a6;border-radius:14px;padding:8px 12px;font-weight:600}
+.how b{font-size:26px;line-height:1;min-width:34px;text-align:center}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
+.mode{border:3px solid #e8d2a6;background:#fffaf0;border-radius:14px;padding:10px;cursor:pointer;font:700 16px var(--body);color:#3a1d0c;text-align:center}
+.mode[aria-pressed="true"]{border-color:#b8643a;background:#ffe6b8}
+.go{font:800 20px var(--display);background:#3a1d0c;color:var(--cloth);border:0;border-radius:14px;padding:13px 18px;cursor:pointer;width:100%;text-align:center;text-decoration:none;display:block}
+.go.alt{background:#b8643a;margin-top:8px}
+.small{font-size:13px;color:#7a5a3a}
+.stars{font-size:34px;letter-spacing:4px;text-align:center;margin:4px 0 8px}
+.by{text-align:center;color:var(--muted);font-size:13px;margin:14px 0 0}.by a{color:var(--flame)}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="index.html#dv8" id="back">← Story Quest</a>
+  <h1><small id="t-eyebrow">Deepavali · Episode 8 game</small><span id="t-title">Yamuna's Thali</span></h1>
+  <div class="langs" role="group" aria-label="Language">
+    <button class="pill" data-lang="en" aria-pressed="true">EN</button>
+    <button class="pill" data-lang="hi" aria-pressed="false">हिं</button>
+    <button class="pill" data-lang="kn" aria-pressed="false">ಕ</button>
+  </div>
+  <button class="pill" id="sound" aria-pressed="true" aria-label="Sound">🔊</button>
+  <button class="pill" id="newgame" aria-label="New game">↻</button>
+</header>
+<main class="wrap">
+  <div class="stage"><canvas id="st" aria-label="Face-down cards and a golden thali. Flip two cards to find matching puja items and fill Yamuna's thali before Yamraj arrives."></canvas></div>
+  <div class="score" id="score"></div>
+</main>
+<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<div id="overlay"></div>
+<script>
+const ITEMS=[['🪔','Lamp','दीया','ದೀಪ'],['🌼','Marigold','गेंदा','ಚೆಂಡು ಹೂ'],['🍬','Sweets','मिठाई','ಸಿಹಿ'],['🥥','Coconut','नारियल','ತೆಂಗಿನಕಾಯಿ'],['🍚','Rice','चावल','ಅಕ್ಕಿ'],['🔴','Kumkum for tilak','तिलक की रोली','ತಿಲಕದ ಕುಂಕುಮ'],
+ ['🍌','Banana','केला','ಬಾಳೆಹಣ್ಣು'],['🪷','Lotus','कमल','ಕಮಲ'],['🔔','Bell','घंटी','ಗಂಟೆ'],['🌿','Betel leaf','पान','ವೀಳ್ಯದೆಲೆ'],['🥭','Mango','आम','ಮಾವು'],['🥛','Milk','दूध','ಹಾಲು'],['🏺','Kalash','कलश','ಕಲಶ'],['🌸','Flowers','फूल','ಹೂವು']];
+const L={
+ en:{eyebrow:'Deepavali · Episode 8 game',title:"Yamuna's Thali",back:'← Story Quest',li:1,
+  howT:'Yamraj is coming! Get the thali ready',
+  how:[['🃏','Flip two cards. If they match, that item goes onto Yamuna\'s welcome thali.'],['🐃',"Yamraj is riding his buffalo to Yamuna's door. Fill the thali before he arrives!"],['🔥','Find pairs one after another for a streak bonus.'],['👫','Two players work as a team, brother and sister! Take turns; find a pair and you go again.']],
+  solo:'One player',duo:'Brother & sister team',start:'Start!',
+  p:n=>`Player ${n}`,you:'You',round:(r,n)=>`Thali ${r} of ${n}`,turn:n=>`Player ${n}'s turn`,
+  coming:'Yamraj is on his way!',here:'Yamraj is here! Finish the thali!',ready:'The thali is ready!',streak:n=>`${n} in a row!`,
+  winT:'Welcome home, brother!',winP:'Yamuna welcomed her brother with a tilak, an aarti and a meal made with love. Yamraj was so happy that he blessed every brother and sister who meet on this day. That is Bhai Dooj!',
+  moves:'Turns',time:'Time',again:'Play again',story:'Back to the story',finale:'Play the grand finale ✨'},
+ hi:{eyebrow:'दीपावली · एपिसोड 8 का खेल',title:'यमुना की थाली',back:'← स्टोरी क्वेस्ट',li:2,
+  howT:'यमराज आ रहे हैं! थाली सजाओ',
+  how:[['🃏','दो पत्ते पलटो। जोड़ी मिली तो वह चीज़ यमुना की स्वागत थाली पर चली जाएगी।'],['🐃','यमराज भैंसे पर बैठकर यमुना के घर आ रहे हैं। उनके पहुँचने से पहले थाली सजा दो!'],['🔥','लगातार जोड़ियाँ ढूँढो, बोनस पाओ।'],['👫','दो खिलाड़ी एक टीम, भाई और बहन! बारी-बारी से खेलो; जोड़ी मिले तो फिर से तुम्हारी बारी।']],
+  solo:'एक खिलाड़ी',duo:'भाई-बहन की टीम',start:'शुरू करो!',
+  p:n=>`खिलाड़ी ${n}`,you:'आप',round:(r,n)=>`थाली ${r} / ${n}`,turn:n=>`खिलाड़ी ${n} की बारी`,
+  coming:'यमराज आ रहे हैं!',here:'यमराज आ गए! थाली पूरी करो!',ready:'थाली तैयार है!',streak:n=>`लगातार ${n}!`,
+  winT:'स्वागत है, भैया!',winP:'यमुना ने अपने भाई का तिलक, आरती और प्यार से बने भोजन से स्वागत किया। यमराज इतने खुश हुए कि उन्होंने इस दिन मिलने वाले हर भाई-बहन को आशीर्वाद दिया। यही है भाई दूज!',
+  moves:'चालें',time:'समय',again:'फिर से खेलें',story:'कहानी पर वापस',finale:'ग्रैंड फ़िनाले खेलें ✨'},
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 8 ಆಟ',title:'ಯಮುನೆಯ ತಟ್ಟೆ',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',li:3,
+  howT:'ಯಮರಾಜ ಬರುತ್ತಿದ್ದಾನೆ! ತಟ್ಟೆ ಸಿದ್ಧ ಮಾಡಿ',
+  how:[['🃏','ಎರಡು ಕಾರ್ಡ್ ತಿರುಗಿಸಿ. ಜೋಡಿ ಸಿಕ್ಕರೆ ಆ ವಸ್ತು ಯಮುನೆಯ ಸ್ವಾಗತದ ತಟ್ಟೆಗೆ ಹೋಗುತ್ತದೆ.'],['🐃','ಯಮರಾಜ ಕೋಣದ ಮೇಲೆ ಯಮುನೆಯ ಮನೆಗೆ ಬರುತ್ತಿದ್ದಾನೆ. ಅವನು ಬರುವ ಮೊದಲೇ ತಟ್ಟೆ ತುಂಬಿಸಿ!'],['🔥','ಸತತವಾಗಿ ಜೋಡಿ ಹುಡುಕಿದರೆ ಬೋನಸ್.'],['👫','ಇಬ್ಬರು ಆಟಗಾರರು ಒಂದು ತಂಡ, ಅಣ್ಣ-ತಂಗಿ! ಸರದಿಯಾಗಿ ಆಡಿ; ಜೋಡಿ ಸಿಕ್ಕರೆ ಮತ್ತೆ ನಿಮ್ಮ ಸರದಿ.']],
+  solo:'ಒಬ್ಬ ಆಟಗಾರ',duo:'ಅಣ್ಣ-ತಂಗಿ ತಂಡ',start:'ಶುರು ಮಾಡಿ!',
+  p:n=>`ಆಟಗಾರ ${n}`,you:'ನೀವು',round:(r,n)=>`ತಟ್ಟೆ ${r} / ${n}`,turn:n=>`ಆಟಗಾರ ${n} ಸರದಿ`,
+  coming:'ಯಮರಾಜ ಬರುತ್ತಿದ್ದಾನೆ!',here:'ಯಮರಾಜ ಬಂದ! ತಟ್ಟೆ ಪೂರ್ಣಗೊಳಿಸಿ!',ready:'ತಟ್ಟೆ ಸಿದ್ಧ!',streak:n=>`ಸತತ ${n}!`,
+  winT:'ಸ್ವಾಗತ, ಅಣ್ಣ!',winP:'ಯಮುನೆ ತನ್ನ ಅಣ್ಣನನ್ನು ತಿಲಕ, ಆರತಿ ಮತ್ತು ಪ್ರೀತಿಯಿಂದ ಮಾಡಿದ ಊಟದಿಂದ ಸ್ವಾಗತಿಸಿದಳು. ಯಮರಾಜ ತುಂಬಾ ಸಂತೋಷಪಟ್ಟು ಈ ದಿನ ಭೇಟಿಯಾಗುವ ಪ್ರತಿ ಅಣ್ಣ-ತಂಗಿಗೆ ಆಶೀರ್ವದಿಸಿದ. ಅದೇ ಭಾಯಿ ದೂಜ್!',
+  moves:'ಸರದಿಗಳು',time:'ಸಮಯ',again:'ಮತ್ತೆ ಆಡಿ',story:'ಕಥೆಗೆ ಹಿಂತಿರುಗಿ',finale:'ಗ್ರ್ಯಾಂಡ್ ಫಿನಾಲೆ ಆಡಿ ✨'}
+};
+let lang='en'; try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){} {const q=new URLSearchParams(location.search).get('lang'); if(['en','hi','kn'].includes(q)){lang=q; try{localStorage.setItem('sq_lang',q)}catch(e){}}}
+const t=k=>L[lang][k]; const $=s=>document.querySelector(s);
+const IMG=n=>{const i=new Image(); i.src=n; return i}; const BG=IMG('img/ep8_hall.jpg');
+/* ---------- sound ---------- */
+let AC=null, soundOn=true;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){} } if(AC&&AC.state==='suspended')AC.resume(); return AC }
+function tone(f,d=.15,type='sine',v=.15,slide=0){ if(!soundOn||!ac())return; const o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime; o.type=type;o.frequency.setValueAtTime(f,n); if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(40,f*slide),n+d); g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d); o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+d+.02)}
+function noise(d=.2,v=.2,f=900){ if(!soundOn||!ac())return; const n=AC.currentTime,b=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate),x=b.getChannelData(0); for(let i=0;i<x.length;i++)x[i]=(Math.random()*2-1)*Math.pow(1-i/x.length,2); const s=AC.createBufferSource(),fl=AC.createBiquadFilter(),g=AC.createGain(); fl.type='lowpass';fl.frequency.value=f; g.gain.value=v; s.buffer=b;s.connect(fl);fl.connect(g);g.connect(AC.destination);s.start(n)}
+function vib(ms){ try{ navigator.vibrate&&navigator.vibrate(ms) }catch(e){} }
+const SFX={flip:()=>{noise(.06,.08,3000);tone(700,.05,'triangle',.04)},match:n=>[659,784,988,1175,1319].slice(0,2+Math.min(3,n)).forEach((f,i)=>setTimeout(()=>tone(f,.2,'triangle',.1),i*70)),
+ miss:()=>tone(220,.18,'sine',.05,.8),bell:()=>{tone(1320,.6,'sine',.06);tone(1980,.4,'sine',.03)},hoof:()=>{noise(.05,.15,300)},
+ win:()=>[392,523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>tone(f,.4,'triangle',.14),i*120))};
+/* ---------- layout ---------- */
+const cv=$('#st'), cx=cv.getContext('2d'); let W=1280,H=720,DPR=1,portrait=false;
+function layout(){ const w=cv.parentElement.clientWidth; portrait=w<640; W=portrait?720:1280; H=portrait?1040:720;
+  DPR=Math.min(2,window.devicePixelRatio||1)*w/W; cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); cv.style.aspectRatio=W+'/'+H; cx.setTransform(DPR,0,0,DPR,0,0); if(G) placeCards() }
+addEventListener('resize',layout);
+const ROUNDS=[{pairs:6,cols:4,time:55},{pairs:8,cols:4,time:65},{pairs:10,cols:5,time:80}];
+function gridBox(){ return portrait?{x:20,y:360,w:W-40,h:H-380}:{x:28,y:96,w:850,h:H-120} }
+function thaliPos(){ return portrait?{x:W/2,y:205,r:120}:{x:1075,y:390,r:160} }
+/* ---------- state ---------- */
+let G=null, mode='solo';
+function newGame(){ G={players:mode==='duo'?2:1, cur:0, scores:[0,0], round:0, cards:[], open:[], lock:false, el:0, parts:[], pops:[], big:null, msg:null, msgT:0, onThali:[], streak:0, turns:0, rt:0, totalTime:0, late:0, over:false, here:false, done:false};
+  startRound(); renderScore() }
+function startRound(){ const R=ROUNDS[Math.min(G.round,ROUNDS.length-1)]; const pool=ITEMS.slice().sort(()=>Math.random()-.5).slice(0,R.pairs); const deck=[...pool,...pool].map((it,k)=>({it,id:pool.indexOf(it),up:0,face:false,gone:false,k}));
+  deck.sort(()=>Math.random()-.5); G.cards=deck; G.open=[]; G.onThali=[]; G.rt=0; G.here=false; G.done=false; G.lock=false; placeCards(); say(t('round')(G.round+1,ROUNDS.length)+' · '+t('coming'),2.4) }
+function placeCards(){ const R=ROUNDS[Math.min(G.round,ROUNDS.length-1)], n=G.cards.length; const cols=R.cols, rows=Math.ceil(n/cols), b=gridBox();
+  const cw=Math.min((b.w-(cols-1)*14)/cols,(b.h-(rows-1)*14)/rows*.8), ch=cw*1.25, gx=b.x+(b.w-(cols*cw+(cols-1)*14))/2, gy=b.y+(b.h-(rows*ch+(rows-1)*14))/2;
+  G.cards.forEach((c,i)=>{ c.x=gx+(i%cols)*(cw+14); c.y=gy+Math.floor(i/cols)*(ch+14); c.w=cw; c.h=ch }) }
+function say(m,s=2){ G.msg=m; G.msgT=s }
+/* ---------- input ---------- */
+function pos(e){ const r=cv.getBoundingClientRect(); return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H] }
+cv.addEventListener('pointerdown',e=>{ ac(); if(!G||G.over||G.lock||G.done)return; const [X,Y]=pos(e); const c=G.cards.find(c=>!c.gone&&!c.face&&X>=c.x&&X<=c.x+c.w&&Y>=c.y&&Y<=c.y+c.h); if(!c)return;
+  c.face=true; SFX.flip(); G.open.push(c); if(G.open.length===2){ G.turns++; G.lock=true; const [a,b]=G.open;
+    if(a.id===b.id){ setTimeout(()=>matched(a,b),380) } else { setTimeout(()=>{ a.face=false; b.face=false; G.open=[]; G.lock=false; G.streak=0; SFX.miss(); if(G.players===2){ G.cur=1-G.cur; say(t('turn')(G.cur+1),1.2); renderScore() } },900) } } });
+function matched(a,b){ a.gone=b.gone=true; G.open=[]; G.lock=false; G.streak++; const pts=10+(G.streak-1)*5; G.scores[G.cur]+=pts; renderScore(); SFX.match(G.streak); vib(25);
+  const tp=thaliPos(); const k=G.onThali.length; G.onThali.push({it:a.it,k:0,from:[a.x+a.w/2,a.y+a.h/2]});
+  popup(a.x+a.w/2,a.y,'+'+pts,'#ffe066'); popup(b.x+b.w/2,b.y+b.h*.5,a.it[t('li')],'#fff'); burst(a.x+a.w/2,a.y+a.h/2,'#ffd35a',14); burst(b.x+b.w/2,b.y+b.h/2,'#ffd35a',14);
+  if(G.streak>=3) G.big={txt:t('streak')(G.streak),k:0};
+  if(G.cards.every(c=>c.gone)) roundDone() }
+function roundDone(){ G.done=true; G.totalTime+=G.rt; const R=ROUNDS[Math.min(G.round,ROUNDS.length-1)]; const bonus=Math.max(0,Math.round(R.time-G.rt))*2; for(let i=0;i<G.players;i++) G.scores[i]+=Math.round(bonus/G.players); renderScore();
+  setTimeout(()=>{ if(!G)return; G.big={txt:t('ready'),k:0}; SFX.bell(); SFX.win(); const tp=thaliPos(); popup(tp.x,tp.y-tp.r-20,'+'+bonus,'#9dffb0'); for(let k=0;k<8;k++)setTimeout(()=>G&&fireworks(W*(.15+Math.random()*.7),H*(.1+Math.random()*.4)),k*130) },500);
+  setTimeout(()=>{ if(!G||G.over)return; G.round++; if(G.round>=ROUNDS.length) finish(); else { startRound(); renderScore() } },3000) }
+/* ---------- fx ---------- */
+function popup(X,Y,txt,c){ G.pops.push({x:X,y:Y,txt,c,k:0}) }
+function burst(X,Y,c,n=22){ for(let i=0;i<n;i++){ const a=Math.random()*6.283,s=2+Math.random()*6; G.parts.push({x:X,y:Y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,l:1,c,r:2.5+Math.random()*3.5}) } }
+function fireworks(X,Y){ const c=['#ffd35a','#ff6bd6','#7fe3ff','#9dffb0','#fff'][Math.random()*5|0]; for(let i=0;i<40;i++){ const a=i/40*6.283, sp=3+Math.random()*3; G.parts.push({x:X,y:Y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:1.2,c,r:2.5}) } tone(900+Math.random()*600,.08,'sine',.04) }
+function update(dt){ if(!G)return; G.el+=dt; if(!G.over&&!G.done){ G.rt+=dt; const R=ROUNDS[Math.min(G.round,ROUNDS.length-1)]; if(!G.here&&G.rt>=R.time){ G.here=true; G.late++; say(t('here'),2.6); SFX.bell(); vib([40,40,40]) } if(!G.here&&Math.floor(G.rt*2)!==Math.floor((G.rt-dt)*2)) SFX.hoof() }
+  for(const c of G.cards){ const tg=c.face||c.gone?1:0; c.up+=(tg-c.up)*Math.min(1,dt*12) }
+  for(const o of G.onThali) o.k=Math.min(1,o.k+dt*1.6);
+  if(G.big){ G.big.k+=dt; if(G.big.k>1.6)G.big=null } if(G.msgT>0){G.msgT-=dt; if(G.msgT<=0)G.msg=null}
+  for(const p of G.parts){p.x+=p.vx;p.y+=p.vy;p.vy+=.18; p.l-=dt*1.3} G.parts=G.parts.filter(p=>p.l>0); for(const p of G.pops) p.k+=dt; G.pops=G.pops.filter(p=>p.k<1.3) }
+/* ---------- draw ---------- */
+function rr(x,y,w,h,r){ cx.beginPath(); cx.roundRect?cx.roundRect(x,y,w,h,r):cx.rect(x,y,w,h) }
+function drawCard(c){ if(c.gone&&c.up>.98) return; const flip=c.up, sx=Math.abs(Math.cos(flip*Math.PI)), face=flip>.5; cx.save(); cx.translate(c.x+c.w/2,c.y+c.h/2); cx.scale(Math.max(.02,sx),1);
+  cx.fillStyle='rgba(0,0,0,.35)'; rr(-c.w/2+4,-c.h/2+6,c.w,c.h,16); cx.fill();
+  if(face){ rr(-c.w/2,-c.h/2,c.w,c.h,16); const g=cx.createLinearGradient(0,-c.h/2,0,c.h/2); g.addColorStop(0,'#fff8e6'); g.addColorStop(1,'#f3dfb0'); cx.fillStyle=g; cx.fill(); cx.strokeStyle='#e0a020'; cx.lineWidth=4; cx.stroke();
+    cx.font=`${c.w*.5}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(c.it[0],0,-c.h*.06);
+    cx.font=`800 ${Math.max(12,c.w*.13)}px "Baloo 2","Baloo Tamma 2",sans-serif`; cx.fillStyle='#7a3b10'; cx.fillText(c.it[L[lang].li],0,c.h*.36,c.w*.92) }
+  else { rr(-c.w/2,-c.h/2,c.w,c.h,16); const g=cx.createLinearGradient(-c.w/2,-c.h/2,c.w/2,c.h/2); g.addColorStop(0,'#b8243c'); g.addColorStop(1,'#6a0f40'); cx.fillStyle=g; cx.fill(); cx.strokeStyle='#ffd35a'; cx.lineWidth=4; cx.stroke();
+    // rangoli back
+    cx.strokeStyle='rgba(255,214,90,.75)'; cx.lineWidth=2; for(let k=0;k<8;k++){ cx.save(); cx.rotate(k/8*6.283); cx.beginPath(); cx.ellipse(0,-c.w*.18,c.w*.07,c.w*.16,0,0,6.283); cx.stroke(); cx.restore() }
+    cx.fillStyle='#ffd35a'; cx.beginPath(); cx.arc(0,0,c.w*.06,0,6.283); cx.fill();
+    for(const [dx,dy] of [[-1,-1],[1,-1],[-1,1],[1,1]]){ cx.beginPath(); cx.arc(dx*c.w*.36,dy*c.h*.38,3,0,6.283); cx.fill() } }
+  cx.restore() }
+function drawThali(){ const tp=thaliPos(); cx.save();
+  const gl=cx.createRadialGradient(tp.x,tp.y,tp.r*.3,tp.x,tp.y,tp.r*1.5); gl.addColorStop(0,'rgba(255,210,90,.35)'); gl.addColorStop(1,'rgba(255,210,90,0)'); cx.fillStyle=gl; cx.beginPath(); cx.arc(tp.x,tp.y,tp.r*1.5,0,6.283); cx.fill();
+  cx.fillStyle='rgba(0,0,0,.35)'; cx.beginPath(); cx.ellipse(tp.x+6,tp.y+12,tp.r,tp.r*.96,0,0,6.283); cx.fill();
+  const g=cx.createRadialGradient(tp.x-tp.r*.3,tp.y-tp.r*.3,10,tp.x,tp.y,tp.r); g.addColorStop(0,'#fff0a8'); g.addColorStop(.6,'#e0a828'); g.addColorStop(1,'#8a5a08'); cx.fillStyle=g; cx.beginPath(); cx.arc(tp.x,tp.y,tp.r,0,6.283); cx.fill();
+  cx.strokeStyle='rgba(255,250,210,.8)'; cx.lineWidth=3; cx.beginPath(); cx.arc(tp.x,tp.y,tp.r*.9,0,6.283); cx.stroke(); cx.beginPath(); cx.arc(tp.x,tp.y,tp.r*.42,0,6.283); cx.stroke();
+  for(let k=0;k<24;k++){ const a=k/24*6.283; cx.fillStyle='rgba(140,80,0,.5)'; cx.beginPath(); cx.arc(tp.x+Math.cos(a)*tp.r*.95,tp.y+Math.sin(a)*tp.r*.95,2.5,0,6.283); cx.fill() }
+  // central diya, flame grows with progress
+  const prog=G.onThali.length/Math.max(1,G.cards.length/2); const fr=10+prog*14+Math.sin(G.el*9)*1.5;
+  cx.fillStyle='#b8622a'; cx.beginPath(); cx.ellipse(tp.x,tp.y+6,22,10,0,0,Math.PI); cx.fill(); cx.fillStyle='#8a3f16'; cx.beginPath(); cx.ellipse(tp.x,tp.y+6,22,7,0,0,6.283); cx.fill();
+  const fg=cx.createRadialGradient(tp.x,tp.y-fr*.4,1,tp.x,tp.y-fr*.3,fr*1.2); fg.addColorStop(0,'#fffbe0'); fg.addColorStop(.45,'#ffc83a'); fg.addColorStop(1,'rgba(255,90,20,0)'); cx.fillStyle=fg; cx.beginPath(); cx.moveTo(tp.x,tp.y-fr*1.6); cx.bezierCurveTo(tp.x+fr*.6,tp.y-fr*.6,tp.x+fr*.4,tp.y,tp.x,tp.y); cx.bezierCurveTo(tp.x-fr*.4,tp.y,tp.x-fr*.6,tp.y-fr*.6,tp.x,tp.y-fr*1.6); cx.fill();
+  const n=G.cards.length/2; G.onThali.forEach((o,k)=>{ const a=-Math.PI/2+k/n*6.283, X=tp.x+Math.cos(a)*tp.r*.66, Y=tp.y+Math.sin(a)*tp.r*.66; const e=1-Math.pow(1-o.k,3); const x=o.from[0]+(X-o.from[0])*e, y=o.from[1]+(Y-o.from[1])*e-Math.sin(o.k*Math.PI)*80;
+    cx.font=`${tp.r*.3*(1+Math.sin(o.k*Math.PI)*.4)}px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(o.it[0],x,y) });
+  cx.restore() }
+function drawTrack(){ const R=ROUNDS[Math.min(G.round,ROUNDS.length-1)], p=Math.min(1,G.rt/R.time), x0=portrait?40:W*.03, x1=portrait?W-40:W*.69, y=portrait?40:44;
+  rr(x0,y-14,x1-x0,28,14); cx.fillStyle='rgba(28,20,66,.8)'; cx.fill(); rr(x0+4,y-10,(x1-x0-8)*p,20,10); cx.fillStyle=G.here?'#ff6b6b':p>.75?'#ffb347':'#9dffb0'; cx.fill();
+  cx.font='34px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText('🐃',x0+(x1-x0)*p,y-4+Math.abs(Math.sin(G.el*8))*-5); cx.fillText('🏠',x1+24,y-2);
+  cx.font='800 17px "Baloo 2","Baloo Tamma 2",sans-serif'; cx.fillStyle='#ffe9a8'; cx.textAlign='left'; cx.fillText(t('round')(G.round+1,ROUNDS.length),x0,y+30) }
+function draw(){ cx.save();
+  if(BG.complete&&BG.naturalWidth){ const s=Math.max(W/BG.width,H/BG.height); cx.drawImage(BG,(W-BG.width*s)/2,(H-BG.height*s)/2,BG.width*s,BG.height*s) } else { cx.fillStyle='#2a1a10'; cx.fillRect(0,0,W,H) }
+  cx.fillStyle='rgba(20,10,30,.25)'; cx.fillRect(0,0,W,H);
+  drawTrack(); drawThali(); for(const c of G.cards) drawCard(c);
+  for(const p of G.parts){ cx.globalAlpha=Math.max(0,Math.min(1,p.l)); cx.fillStyle=p.c; cx.beginPath(); cx.arc(p.x,p.y,p.r||4,0,6.283); cx.fill() } cx.globalAlpha=1;
+  for(const p of G.pops){ const a=1-Math.max(0,p.k-.8)/.5; cx.globalAlpha=Math.max(0,a); cx.font='900 28px "Baloo 2","Baloo Tamma 2",sans-serif'; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=6; cx.strokeStyle='#2a0d3a'; cx.strokeText(p.txt,p.x,p.y-p.k*50); cx.fillStyle=p.c; cx.fillText(p.txt,p.x,p.y-p.k*50) } cx.globalAlpha=1;
+  if(G.big){ const k=G.big.k, s2=k<.2?k/.2*1.3:(k<.35?1.3-(k-.2)/.15*.3:1), a=k>1.2?1-(k-1.2)/.4:1; cx.save(); cx.globalAlpha=Math.max(0,a); cx.translate(W/2,H*.45); cx.scale(s2,s2); cx.rotate(-.04);
+    cx.font=`900 ${portrait?50:70}px "Baloo 2","Baloo Tamma 2",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=12; cx.strokeStyle='#3a0a4a'; cx.strokeText(G.big.txt,0,0,W*.9); const gg=cx.createLinearGradient(0,-40,0,40); gg.addColorStop(0,'#fff6b0'); gg.addColorStop(1,'#ff9a2e'); cx.fillStyle=gg; cx.fillText(G.big.txt,0,0,W*.9); cx.restore() }
+  if(G.msg){ cx.font=`800 26px "Baloo 2","Baloo Tamma 2",sans-serif`; const tw=Math.min(W*.92,cx.measureText(G.msg).width+50), bh=46, by=portrait?H-60:H-56;
+    rr((W-tw)/2,by,tw,bh,23); cx.fillStyle='rgba(28,20,66,.9)'; cx.fill(); cx.strokeStyle='#f6a723'; cx.lineWidth=3; cx.stroke(); cx.fillStyle='#ffe9a8'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(G.msg,W/2,by+bh/2+2,W*.88) }
+  cx.restore() }
+let last=0; function loop(now){ const dt=Math.min(.05,(now-last)/1000||0); last=now; if(G){ update(dt); draw() } requestAnimationFrame(loop) }
+/* ---------- screens ---------- */
+function renderScore(){ if(!G){$('#score').innerHTML='';return} $('#score').innerHTML=Array.from({length:G.players},(_,i)=>`<span class="pl ${G.players===2&&i===G.cur?'on':''}">${G.players===1?t('you'):(i?'👧 ':'👦 ')+t('p')(i+1)} <b>${G.scores[i]}</b></span>`).join('')+`<span class="pl">${t('round')(Math.min(G.round+1,ROUNDS.length),ROUNDS.length)}</span>` }
+function start(){ newGame(); G.over=true; G.done=true; G.msg=null; $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep8_tilak.jpg" alt=""><h3>${t('howT')}</h3><div class="how">${t('how').map(([i,s])=>`<div><b>${i}</b><span>${s}</span></div>`).join('')}</div>
+  <div class="modes"><button class="mode" data-m="solo" aria-pressed="${mode==='solo'}">🧑 ${t('solo')}</button><button class="mode" data-m="duo" aria-pressed="${mode==='duo'}">👫 ${t('duo')}</button></div><button class="go" id="go">${t('start')}</button></div></div>`;
+  document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ mode=b.dataset.m; document.querySelectorAll('.mode').forEach(x=>x.setAttribute('aria-pressed',x===b)) });
+  $('#go').onclick=()=>{ ac(); $('#overlay').innerHTML=''; newGame() } }
+function finish(){ G.over=true; try{const pr=JSON.parse(localStorage.getItem('storyquest')||'{}'); pr.dv8=1; localStorage.setItem('storyquest',JSON.stringify(pr))}catch(e){}
+  const stars=G.late===0?3:G.late===1?2:1; const tot=G.scores.slice(0,G.players).reduce((a,b)=>a+b,0); const m=Math.floor(G.totalTime/60), s=Math.round(G.totalTime%60);
+  $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep8_tathastu.jpg" alt=""><h3>${t('winT')}</h3><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${t('winP')}</p>
+  <p><b>${tot}</b> ⭐ · ${t('moves')}: ${G.turns} · ${t('time')}: ${m}:${String(s).padStart(2,'0')}</p><button class="go" id="again">${t('again')}</button><a class="go alt" href="finale.html">${t('finale')}</a><a class="go alt" href="index.html#dv8">${t('story')}</a></div></div>`; $('#again').onclick=start }
+function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title');
+  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang)); renderScore() }
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||G.over)start() });
+$('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
+$('#newgame').onclick=start;
+layout(); applyLang(); start(); requestAnimationFrame(loop);
+</script>
+</body>
+</html>
