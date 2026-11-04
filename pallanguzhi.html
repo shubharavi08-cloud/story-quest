@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lakshmi's Cowries</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
+<style>
+/* Pallanguzhi, the old South Indian cowrie-shell board game, played on Deepavali night in Sethji's shop: sow the shells, capture Lakshmi's blessings. */
+:root{
+  --night:#1c1442; --night-2:#2a1f5c; --ink:#fdf3dc; --muted:#c7bce6; --line:rgba(253,243,220,.16);
+  --marigold:#f6a723; --flame:#ffd35a; --cloth:#f7e7c4;
+  --display:"Baloo 2","Baloo Tamma 2","Trebuchet MS",system-ui,sans-serif; --body:"Mukta","Hind","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100vh;
+  padding:max(10px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 24px max(12px,env(safe-area-inset-left,0px))}
+button{font-family:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+.top{max-width:1100px;margin:0 auto 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top a.back{color:var(--muted);text-decoration:none;font-weight:600}
+.top h1{font-family:var(--display);font-size:clamp(22px,4vw,32px);margin:0;line-height:1;flex:1;min-width:170px}
+.top h1 small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-family:var(--body);font-weight:700;margin-bottom:4px}
+.pill{background:var(--night-2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px}
+.pill[aria-pressed="true"]{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.langs{display:flex;gap:4px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.stage{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -25px #000;border:3px solid #ffffff22;background:#141a33}
+canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.score{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pl{display:flex;align-items:center;gap:8px;background:var(--night-2);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:700}
+.pl.on{border-color:var(--flame);box-shadow:0 0 18px #ffb84a55}
+.pl b{font-family:var(--display);font-size:22px;color:var(--flame)}
+.ov{position:fixed;inset:0;background:#0d0826d9;backdrop-filter:blur(3px);display:grid;place-items:center;z-index:50;padding:16px}
+.card{width:min(500px,100%);background:var(--cloth);color:#3a1d0c;border-radius:22px;padding:20px;box-shadow:0 30px 80px #000a;border:5px solid var(--marigold);animation:pop .35s cubic-bezier(.2,1.6,.4,1);max-height:94vh;overflow:auto}
+.card h3{font-family:var(--display);font-size:28px;line-height:1.05;margin:4px 0 8px}
+.card p{margin:0 0 10px}
+.card img.hero{width:100%;border-radius:14px;display:block;margin-bottom:10px}
+.how{display:grid;gap:8px;margin:6px 0 12px}
+.how div{display:flex;gap:10px;align-items:center;background:#fffaf0;border:2px solid #e8d2a6;border-radius:14px;padding:8px 12px;font-weight:600}
+.how b{font-size:26px;line-height:1;min-width:34px;text-align:center}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
+.mode{border:3px solid #e8d2a6;background:#fffaf0;border-radius:14px;padding:10px;cursor:pointer;font:700 16px var(--body);color:#3a1d0c;text-align:center}
+.mode[aria-pressed="true"]{border-color:#b8643a;background:#ffe6b8}
+.go{font:800 20px var(--display);background:#3a1d0c;color:var(--cloth);border:0;border-radius:14px;padding:13px 18px;cursor:pointer;width:100%;text-align:center;text-decoration:none;display:block}
+.go.alt{background:#b8643a;margin-top:8px}
+.small{font-size:13px;color:#7a5a3a}
+.stars{font-size:34px;letter-spacing:4px;text-align:center;margin:4px 0 8px}
+.by{text-align:center;color:var(--muted);font-size:13px;margin:14px 0 0}.by a{color:var(--flame)}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="index.html#dv5" id="back">← Story Quest</a>
+  <h1><small id="t-eyebrow">Deepavali · Episode 5 game</small><span id="t-title">Lakshmi's Cowries</span></h1>
+  <div class="langs" role="group" aria-label="Language">
+    <button class="pill" data-lang="en" aria-pressed="true">EN</button>
+    <button class="pill" data-lang="hi" aria-pressed="false">हिं</button>
+    <button class="pill" data-lang="kn" aria-pressed="false">ಕ</button>
+  </div>
+  <button class="pill" id="sound" aria-pressed="true" aria-label="Sound">🔊</button>
+  <button class="pill" id="newgame" aria-label="New game">↻</button>
+</header>
+<main class="wrap">
+  <div class="stage"><canvas id="st" aria-label="A wooden Pallanguzhi board with fourteen pits of cowrie shells in a lamp-lit shop. Tap a pit on your side to sow its shells."></canvas></div>
+  <div class="score" id="score"></div>
+</main>
+<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<div id="overlay"></div>
+<script>
+const L={
+ en:{eyebrow:'Deepavali · Episode 5 game',title:"Lakshmi's Cowries",back:'← Story Quest',
+  howT:'Pallanguzhi: the cowrie game of Deepavali night',
+  how:[['👆','Tap a pit on YOUR side. Its cowries are sown one by one, around the board.'],['🔁','Where the last cowrie lands, look at the next pit: if it has cowries, pick them up and keep sowing!'],['✨','If the next pit is empty, you win the pit after it: Lakshmi\'s blessing!'],['4️⃣','Any pit that reaches exactly 4 cowries while sowing goes to the owner of that side.']],
+  solo:'Play with Diya',duo:'Two players',start:'Start sowing!',
+  p:n=>`Player ${n}`,you:'You',diya:'Diya',turn:n=>`${n}'s turn`,yourTurn:'Your turn: tap a pit on your side',diyaThinks:'Diya is thinking…',
+  bless:'Lakshmi\'s blessing!',pasu:'Four! Pasu!',bigBless:'Treasure!',again2:'Keep sowing!',empty:'Empty… turn over',notYours:'Tap a pit on your own side',
+  winT:w=>`${w} wins Lakshmi's treasure!`,tie:"It's a tie! Lakshmi blesses both!",
+  winP:'Lakshmi stays where there is light, honesty and sharing. Count fairly, play kindly, and every home becomes rich!',
+  total:'Cowries',again:'Play again',story:'Back to the story',store:'Treasure'},
+ hi:{eyebrow:'दीपावली · एपिसोड 5 का खेल',title:'लक्ष्मी की कौड़ियाँ',back:'← स्टोरी क्वेस्ट',
+  howT:'पल्लांगुझी: दीपावली की रात का कौड़ी खेल',
+  how:[['👆','अपनी तरफ़ का कोई गड्ढा छुओ। उसकी कौड़ियाँ एक-एक करके बोर्ड पर बोई जाएँगी।'],['🔁','जहाँ आख़िरी कौड़ी गिरे, उसके अगले गड्ढे को देखो: उसमें कौड़ियाँ हों तो उठाओ और बोते रहो!'],['✨','अगर अगला गड्ढा खाली है, तो उसके बाद वाले गड्ढे की सारी कौड़ियाँ तुम्हारी: लक्ष्मी का आशीर्वाद!'],['4️⃣','बोते समय जिस गड्ढे में ठीक 4 कौड़ियाँ हो जाएँ, वे उस तरफ़ वाले खिलाड़ी की।']],
+  solo:'दिया के साथ खेलो',duo:'दो खिलाड़ी',start:'बोना शुरू करो!',
+  p:n=>`खिलाड़ी ${n}`,you:'आप',diya:'दिया',turn:n=>`${n} की बारी`,yourTurn:'आपकी बारी: अपनी तरफ़ का गड्ढा छुओ',diyaThinks:'दिया सोच रही है…',
+  bless:'लक्ष्मी का आशीर्वाद!',pasu:'चार! पसु!',bigBless:'ख़ज़ाना!',again2:'बोते रहो!',empty:'खाली… बारी ख़त्म',notYours:'अपनी तरफ़ का गड्ढा छुओ',
+  winT:w=>`${w} ने लक्ष्मी का ख़ज़ाना जीता!`,tie:'बराबरी! लक्ष्मी दोनों को आशीर्वाद देती हैं!',
+  winP:'लक्ष्मी वहीं रहती हैं जहाँ रोशनी, ईमानदारी और बाँटना हो। ईमानदारी से गिनो, प्यार से खेलो, और हर घर अमीर बन जाएगा!',
+  total:'कौड़ियाँ',again:'फिर से खेलें',story:'कहानी पर वापस',store:'ख़ज़ाना'},
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 5 ಆಟ',title:'ಲಕ್ಷ್ಮಿಯ ಕವಡೆಗಳು',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',
+  howT:'ಅಳಗುಳಿ ಮನೆ: ದೀಪಾವಳಿ ರಾತ್ರಿಯ ಕವಡೆ ಆಟ',
+  how:[['👆','ನಿಮ್ಮ ಕಡೆಯ ಒಂದು ಗುಳಿಯನ್ನು ಮುಟ್ಟಿ. ಅದರ ಕವಡೆಗಳು ಒಂದೊಂದಾಗಿ ಮಣೆಯ ಸುತ್ತ ಹಾಕಲ್ಪಡುತ್ತವೆ.'],['🔁','ಕೊನೆಯ ಕವಡೆ ಬಿದ್ದ ಮುಂದಿನ ಗುಳಿ ನೋಡಿ: ಕವಡೆ ಇದ್ದರೆ ಎತ್ತಿಕೊಂಡು ಮುಂದುವರಿಸಿ!'],['✨','ಮುಂದಿನ ಗುಳಿ ಖಾಲಿ ಇದ್ದರೆ, ಅದರ ಮುಂದಿನ ಗುಳಿಯ ಕವಡೆಗಳೆಲ್ಲ ನಿಮ್ಮವು: ಲಕ್ಷ್ಮಿಯ ಆಶೀರ್ವಾದ!'],['4️⃣','ಹಾಕುವಾಗ ಯಾವ ಗುಳಿಯಲ್ಲಿ ಸರಿಯಾಗಿ 4 ಕವಡೆ ಆಗುತ್ತದೋ, ಅವು ಆ ಕಡೆಯ ಆಟಗಾರನವು.']],
+  solo:'ದಿಯಾ ಜೊತೆ ಆಡಿ',duo:'ಇಬ್ಬರು ಆಟಗಾರರು',start:'ಕವಡೆ ಹಾಕಿ!',
+  p:n=>`ಆಟಗಾರ ${n}`,you:'ನೀವು',diya:'ದಿಯಾ',turn:n=>`${n} ಸರದಿ`,yourTurn:'ನಿಮ್ಮ ಸರದಿ: ನಿಮ್ಮ ಕಡೆಯ ಗುಳಿ ಮುಟ್ಟಿ',diyaThinks:'ದಿಯಾ ಯೋಚಿಸುತ್ತಿದ್ದಾಳೆ…',
+  bless:'ಲಕ್ಷ್ಮಿಯ ಆಶೀರ್ವಾದ!',pasu:'ನಾಲ್ಕು! ಪಸು!',bigBless:'ನಿಧಿ!',again2:'ಹಾಕುತ್ತಲೇ ಇರಿ!',empty:'ಖಾಲಿ… ಸರದಿ ಮುಗಿಯಿತು',notYours:'ನಿಮ್ಮ ಕಡೆಯ ಗುಳಿ ಮುಟ್ಟಿ',
+  winT:w=>`${w} ಲಕ್ಷ್ಮಿಯ ನಿಧಿ ಗೆದ್ದರು!`,tie:'ಸಮ! ಲಕ್ಷ್ಮಿ ಇಬ್ಬರಿಗೂ ಆಶೀರ್ವದಿಸುತ್ತಾಳೆ!',
+  winP:'ಬೆಳಕು, ಪ್ರಾಮಾಣಿಕತೆ ಮತ್ತು ಹಂಚಿಕೆ ಇರುವಲ್ಲಿ ಲಕ್ಷ್ಮಿ ನೆಲೆಸುತ್ತಾಳೆ. ನ್ಯಾಯವಾಗಿ ಎಣಿಸಿ, ಪ್ರೀತಿಯಿಂದ ಆಡಿ, ಪ್ರತಿ ಮನೆಯೂ ಶ್ರೀಮಂತವಾಗುತ್ತದೆ!',
+  total:'ಕವಡೆಗಳು',again:'ಮತ್ತೆ ಆಡಿ',story:'ಕಥೆಗೆ ಹಿಂತಿರುಗಿ',store:'ನಿಧಿ'}
+};
+let lang='en'; try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){} {const q=new URLSearchParams(location.search).get('lang'); if(['en','hi','kn'].includes(q)){lang=q; try{localStorage.setItem('sq_lang',q)}catch(e){}}}
+const t=k=>L[lang][k]; const $=s=>document.querySelector(s);
+const IMG=n=>{const i=new Image(); i.src=n; return i}; const BG=IMG('img/ep5_shop.jpg'), DIYA=IMG('img/diya_wave.png');
+/* ---------- sound ---------- */
+let AC=null, soundOn=true;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){} } if(AC&&AC.state==='suspended')AC.resume(); return AC }
+function tone(f,d=.15,type='sine',v=.15,slide=0){ if(!soundOn||!ac())return; const o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime; o.type=type;o.frequency.setValueAtTime(f,n); if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(40,f*slide),n+d); g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d); o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+d+.02)}
+function noise(d=.2,v=.2,f=900){ if(!soundOn||!ac())return; const n=AC.currentTime,b=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate),x=b.getChannelData(0); for(let i=0;i<x.length;i++)x[i]=(Math.random()*2-1)*Math.pow(1-i/x.length,2); const s=AC.createBufferSource(),fl=AC.createBiquadFilter(),g=AC.createGain(); fl.type='lowpass';fl.frequency.value=f; g.gain.value=v; s.buffer=b;s.connect(fl);fl.connect(g);g.connect(AC.destination);s.start(n)}
+function cheer(){ if(!soundOn||!ac())return; for(let k=0;k<3;k++) setTimeout(()=>noise(.6,.12,1400+k*500),k*90); }
+function vib(ms){ try{ navigator.vibrate&&navigator.vibrate(ms) }catch(e){} }
+const SFX={clink:i=>tone(1400+((i*137)%5)*180,.06,'triangle',.07),pick:()=>{noise(.12,.12,3000);tone(700,.05,'sine',.04)},
+ bless:()=>{[784,988,1175,1568].forEach((f,i)=>setTimeout(()=>tone(f,.25,'triangle',.1),i*70)); noise(.4,.08,5000)},pasu:()=>[660,880,1100].forEach((f,i)=>setTimeout(()=>tone(f,.18,'square',.06),i*60)),
+ empty:()=>tone(220,.25,'sine',.06,.6),win:()=>[392,523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>tone(f,.4,'triangle',.14),i*120)),bad:()=>tone(160,.2,'sawtooth',.06,.7)};
+
+/* ---------- layout ---------- */
+const cv=$('#st'), cx=cv.getContext('2d'); let W=1280,H=720,DPR=1,portrait=false;
+function layout(){ const w=cv.parentElement.clientWidth; portrait=w<640; W=portrait?720:1280; H=portrait?900:720;
+  DPR=Math.min(2,window.devicePixelRatio||1)*w/W; cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); cv.style.aspectRatio=W+'/'+H; cx.setTransform(DPR,0,0,DPR,0,0) }
+addEventListener('resize',layout);
+function board(){ // geometry of the board in canvas coords
+  const bw=portrait?W*.96:W*.86, bh=portrait?330:340, x=(W-bw)/2, y=portrait?H*.36:H*.36; const store=portrait?0:bw*.09; const pw=(bw-store*2-40)/7;
+  return {x,y,bw,bh,store,pw,ph:(bh-60)/2} }
+function pitXY(i){ const b=board(); const col=i<7?i:13-i, row=i<7?1:0; return [b.x+b.store+20+pw2()*(col+.5), b.y+30+b.ph*(row+.5)] }
+const pw2=()=>board().pw;
+/* ---------- state ---------- */
+let G=null, mode='solo';
+function newGame(){ G={pits:Array(14).fill(5), st:[0,0], cur:0, busy:false, hand:null, parts:[], pops:[], flies:[], msg:null, msgT:0, el:0, over:false, big:null, shake:0, flash:0, hl:-1, players:mode==='duo'?2:1, last:-1}; say(t('yourTurn'),2.5); renderScore() }
+function say(m,s=2){ G.msg=m; G.msgT=s }
+const owner=i=>i<7?0:1; const name=p=>G.players===1?(p===0?t('you'):t('diya')):t('p')(p+1);
+function sideEmpty(p){ for(let k=0;k<7;k++) if(G.pits[p*7+k]>0) return false; return true }
+/* pure simulation for the AI */
+function simulate(pits,start,p){ pits=pits.slice(); let gain=0, i=start, hand=pits[i]; pits[i]=0; let guard=0;
+  while(guard++<400){ while(hand>0){ i=(i+1)%14; pits[i]++; hand--; if(pits[i]===4&&hand>0){ if(owner(i)===p) gain+=4; pits[i]=0 } }
+    const n=(i+1)%14; if(pits[n]>0){ hand=pits[n]; pits[n]=0; i=n; continue } const m=(n+1)%14; gain+=pits[m]; pits[m]=0; break }
+  return gain }
+/* animated move */
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+async function play(start){ if(!G||G.busy||G.over)return; const p=G.cur; if(owner(start)!==p||G.pits[start]===0){ SFX.bad(); say(t('notYours'),1.2); return }
+  G.busy=true; G.hl=-1; let i=start, hand=G.pits[i]; G.pits[i]=0; G.hand={i,n:hand}; SFX.pick(); vib(15); const sp=hand>14?70:120;
+  let chain=0;
+  while(true){
+    while(hand>0){ i=(i+1)%14; await wait(sp); if(!G)return; G.pits[i]++; hand--; G.hand={i,n:hand}; SFX.clink(i); const [X,Y]=pitXY(i); sparkle(X,Y,4);
+      if(G.pits[i]===4&&hand>0){ const o=owner(i); await wait(120); capture(i,o,true) } }
+    const n=(i+1)%14; await wait(260); if(!G)return;
+    if(G.pits[n]>0){ chain++; hand=G.pits[n]; G.pits[n]=0; i=n; G.hand={i,n:hand}; SFX.pick(); if(chain>=2)popup(...pitXY(n),t('again2'),'#9dffb0'); continue }
+    const m=(n+1)%14; G.hand={i:n,n:0}; await wait(200);
+    if(G.pits[m]>0){ capture(m,p,false) } else { SFX.empty(); say(t('empty'),1.1) }
+    break }
+  G.hand=null; renderScore(); await wait(700); if(!G)return;
+  // next turn
+  G.cur=1-G.cur;
+  if(sideEmpty(G.cur)||G.pits.reduce((a,b)=>a+b,0)<2){ endGame(); return }
+  G.busy=false; renderScore();
+  if(G.players===1&&G.cur===1){ say(t('diyaThinks'),1.4); G.busy=true; await wait(900); G.busy=false; aiMove() }
+  else say(G.players===1?t('yourTurn'):t('turn')(name(G.cur)),1.8) }
+function aiMove(){ let best=-1,bv=-1; for(let k=7;k<14;k++){ if(!G.pits[k])continue; const v=simulate(G.pits,k,1)+Math.random()*1.5; if(v>bv){bv=v;best=k} } if(best<0){ endGame(); return } G.hl=best; setTimeout(()=>play(best),450) }
+function capture(i,p,isPasu){ const n=G.pits[i]; if(!n)return; G.pits[i]=0; G.st[p]+=n; const [X,Y]=pitXY(i);
+  for(let k=0;k<Math.min(n,18);k++) G.flies.push({x:X+(Math.random()-.5)*30,y:Y+(Math.random()-.5)*30,p,k:-k*.04,r:Math.random()*6.28});
+  burst(X,Y,'#ffe27a',20+n*2); popup(X,Y-30,'+'+n,'#ffe066');
+  if(isPasu){ SFX.pasu(); G.big={txt:t('pasu'),k:0}; vib(40) } else if(n>=8){ SFX.bless(); cheer(); G.big={txt:t('bigBless'),k:0}; G.flash=.6; G.shake=.4; vib([40,30,80]) } else { SFX.bless(); G.big={txt:t('bless'),k:0}; vib(40) }
+  renderScore() }
+function endGame(){ for(let p=0;p<2;p++) for(let k=0;k<7;k++){ const i=p*7+k; if(G.pits[i]){ G.st[p]+=G.pits[i]; G.pits[i]=0 } }
+  renderScore(); SFX.win(); cheer(); for(let k=0;k<12;k++)setTimeout(()=>G&&fireworks(W*(.15+Math.random()*.7),H*(.1+Math.random()*.25)),k*130); setTimeout(finish,1800) }
+/* fx */
+function popup(X,Y,txt,c){ G.pops.push({x:X,y:Y,txt,c,k:0}) }
+function burst(X,Y,c,n=22){ for(let i=0;i<n;i++){ const a=Math.random()*6.283,s=2+Math.random()*6; G.parts.push({x:X,y:Y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,l:1,c,r:2+Math.random()*3}) } }
+function sparkle(X,Y,n){ for(let i=0;i<n;i++){ const a=Math.random()*6.283,s=1+Math.random()*2.5; G.parts.push({x:X,y:Y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,l:.6,c:'#fff3b0',r:2}) } }
+function fireworks(X,Y){ const c=['#ffd35a','#ff6bd6','#7fe3ff','#9dffb0','#fff'][Math.random()*5|0]; for(let i=0;i<40;i++){ const a=i/40*6.283, sp=3+Math.random()*3; G.parts.push({x:X,y:Y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:1.2,c,r:2.5}) } tone(900+Math.random()*600,.08,'sine',.04) }
+/* input */
+function pos(e){ const r=cv.getBoundingClientRect(); return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H] }
+cv.addEventListener('pointerdown',e=>{ ac(); if(!G||G.over||G.busy)return; if(G.players===1&&G.cur===1)return; const [X,Y]=pos(e); const r=pw2()*.48;
+  for(let i=0;i<14;i++){ const [x,y]=pitXY(i); if(Math.hypot(X-x,Y-y)<r){ play(i); return } } });
+cv.addEventListener('pointermove',e=>{ if(!G||G.busy)return; const [X,Y]=pos(e); G.hl=-1; for(let i=0;i<14;i++){ const [x,y]=pitXY(i); if(Math.hypot(X-x,Y-y)<pw2()*.48&&owner(i)===G.cur&&G.pits[i]){ G.hl=i; break } } });
+/* update/draw */
+function update(dt){ G.el+=dt; if(G.msgT>0){G.msgT-=dt; if(G.msgT<=0)G.msg=null} if(G.big){G.big.k+=dt; if(G.big.k>1.4)G.big=null} if(G.flash>0)G.flash=Math.max(0,G.flash-dt*3); if(G.shake>0)G.shake=Math.max(0,G.shake-dt*2);
+  for(const p of G.parts){p.x+=p.vx;p.y+=p.vy;p.vy+=.15;p.l-=dt*1.4} G.parts=G.parts.filter(p=>p.l>0); for(const p of G.pops)p.k+=dt; G.pops=G.pops.filter(p=>p.k<1.2);
+  const b=board(); for(const f of G.flies){ f.k+=dt*1.6; } G.flies=G.flies.filter(f=>f.k<1) }
+function rr(x,y,w,h,r){ cx.beginPath(); cx.roundRect?cx.roundRect(x,y,w,h,r):cx.rect(x,y,w,h) }
+function cowrie(X,Y,s,rot){ cx.save(); cx.translate(X,Y); cx.rotate(rot); const g=cx.createRadialGradient(-s*.3,-s*.35,s*.1,0,0,s); g.addColorStop(0,'#fffdf4'); g.addColorStop(.6,'#f1e2c0'); g.addColorStop(1,'#b99a68');
+  cx.fillStyle='rgba(0,0,0,.35)'; cx.beginPath(); cx.ellipse(s*.12,s*.18,s*.62,s*.92,0,0,6.283); cx.fill();
+  cx.fillStyle=g; cx.beginPath(); cx.ellipse(0,0,s*.62,s*.9,0,0,6.283); cx.fill(); cx.strokeStyle='#5a3d1c'; cx.lineWidth=Math.max(1,s*.16); cx.beginPath(); cx.moveTo(0,-s*.62);
+  for(let k=1;k<=6;k++) cx.lineTo((k%2?1:-1)*s*.1,-s*.62+k*s*.21); cx.stroke(); cx.restore() }
+function storeXY(p){ const b=board(); if(portrait) return [p===0?W*.75:W*.25, p===0?b.y+b.bh+70:b.y-70]; return [p===0?b.x+b.bw-b.store/2:b.x+b.store/2, b.y+b.bh/2] }
+function draw(){ const el=G.el; cx.save(); if(G.shake>0)cx.translate(Math.sin(el*70)*8*G.shake,Math.cos(el*53)*5*G.shake);
+  // background: the shop, softened
+  if(BG.complete&&BG.naturalWidth){ const s=Math.max(W/BG.width,H/BG.height); cx.filter='blur(3px) brightness(.55)'; cx.drawImage(BG,(W-BG.width*s)/2,(H-BG.height*s)/2,BG.width*s,BG.height*s); cx.filter='none' } else { cx.fillStyle='#2a1a10'; cx.fillRect(0,0,W,H) }
+  const vg=cx.createRadialGradient(W/2,H*.55,H*.2,W/2,H*.55,H*.9); vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(10,4,0,.6)'); cx.fillStyle=vg; cx.fillRect(0,0,W,H);
+  const b=board();
+  // board body
+  cx.save(); cx.shadowColor='rgba(0,0,0,.6)'; cx.shadowBlur=40; cx.shadowOffsetY=18; rr(b.x,b.y,b.bw,b.bh,46); const wg=cx.createLinearGradient(0,b.y,0,b.y+b.bh); wg.addColorStop(0,'#9a5a2a'); wg.addColorStop(.5,'#7a3f18'); wg.addColorStop(1,'#5a2c10'); cx.fillStyle=wg; cx.fill(); cx.restore();
+  rr(b.x+8,b.y+8,b.bw-16,b.bh-16,40); cx.strokeStyle='#e8b34a'; cx.lineWidth=4; cx.stroke(); rr(b.x+16,b.y+16,b.bw-32,b.bh-32,34); cx.strokeStyle='rgba(255,220,140,.35)'; cx.lineWidth=2; cx.setLineDash([2,8]); cx.stroke(); cx.setLineDash([]);
+  // wood grain
+  cx.save(); rr(b.x,b.y,b.bw,b.bh,46); cx.clip(); cx.strokeStyle='rgba(40,15,0,.18)'; cx.lineWidth=2; for(let k=0;k<14;k++){ cx.beginPath(); const yy=b.y+k*b.bh/14; cx.moveTo(b.x,yy); cx.bezierCurveTo(b.x+b.bw*.3,yy+12,b.x+b.bw*.6,yy-12,b.x+b.bw,yy+6); cx.stroke() } cx.restore();
+  // stores
+  for(let p=0;p<2;p++){ const [X,Y]=storeXY(p), r=portrait?52:Math.min(b.store*.42,b.bh*.36); const g=cx.createRadialGradient(X,Y-r*.3,r*.1,X,Y,r); g.addColorStop(0,'#3a1c08'); g.addColorStop(1,'#1c0c02');
+    cx.fillStyle=g; cx.beginPath(); cx.ellipse(X,Y,r,portrait?r*.8:r*1.6,0,0,6.283); cx.fill(); cx.strokeStyle=G.cur===p&&!G.over?'#ffd35a':'#c8913a'; cx.lineWidth=G.cur===p?5:3; cx.stroke();
+    const n=Math.min(G.st[p],40); for(let k=0;k<n;k++){ const a=k*2.4, rad=(k%7)/7*r*.7; cowrie(X+Math.cos(a)*rad,Y+Math.sin(a)*rad*(portrait?.7:1.4),portrait?7:8,a) }
+    cx.font=`900 ${portrait?30:34}px "Baloo 2",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=6; cx.strokeStyle='#2a0d00'; cx.strokeText(G.st[p],X,Y); cx.fillStyle='#ffe27a'; cx.fillText(G.st[p],X,Y);
+    cx.font='800 16px "Baloo 2",sans-serif'; cx.fillStyle='#ffe9a8'; cx.fillText(name(p),X,portrait?(p===0?Y+r*.8+18:Y-r*.8-18):(Y+r*1.6+20)) }
+  // pits
+  const r=b.pw*.4;
+  for(let i=0;i<14;i++){ const [X,Y]=pitXY(i); const mine=owner(i)===G.cur&&!G.busy&&!G.over&&!(G.players===1&&G.cur===1);
+    const g=cx.createRadialGradient(X,Y-r*.35,r*.1,X,Y,r); g.addColorStop(0,'#2c1405'); g.addColorStop(.85,'#4a2208'); g.addColorStop(1,'#b0702f'); cx.fillStyle=g; cx.beginPath(); cx.ellipse(X,Y,r,r*.82,0,0,6.283); cx.fill();
+    if(G.hl===i||(G.hand&&G.hand.i===i)){ cx.strokeStyle=`rgba(255,220,100,${.6+.4*Math.sin(el*10)})`; cx.lineWidth=5; cx.beginPath(); cx.ellipse(X,Y,r+4,r*.82+4,0,0,6.283); cx.stroke() }
+    else if(mine&&G.pits[i]){ cx.strokeStyle='rgba(255,220,120,.35)'; cx.lineWidth=2; cx.beginPath(); cx.ellipse(X,Y,r+3,r*.82+3,0,0,6.283); cx.stroke() }
+    const n=G.pits[i], m=Math.min(n,16); for(let k=0;k<m;k++){ const a=k*2.399+i, rad=(m===1?0:Math.sqrt((k+.6)/Math.max(m,5))*r*.58); cowrie(X+Math.cos(a)*rad,Y+Math.sin(a)*rad*.8,r*(m>9?.2:.25),a*1.7) }
+    // count bubble
+    const ty=owner(i)===0?Y+r*.82+16:Y-r*.82-16; cx.font='800 18px "Baloo 2",sans-serif'; cx.textAlign='center'; cx.textBaseline='middle'; rr(X-17,ty-12,34,24,12); cx.fillStyle='rgba(28,12,2,.8)'; cx.fill(); cx.fillStyle=n===3?'#ffb0b0':'#ffe9a8'; cx.fillText(n,X,ty+1) }
+  // hand: Diya floats over the pit being sown, showing how many she still holds
+  if(G.hand&&DIYA.complete){ const [X,Y]=pitXY(G.hand.i); const h=portrait?80:96, w=h*DIYA.width/DIYA.height; const bob=Math.sin(el*12)*4; cx.drawImage(DIYA,X-w/2,Y-r-h+10+bob,w,h);
+    if(G.hand.n>0){ cx.font='900 20px "Baloo 2",sans-serif'; rr(X+w*.25,Y-r-h+bob,36,26,13); cx.fillStyle='#ffd35a'; cx.fill(); cx.fillStyle='#3a1d0c'; cx.textAlign='center'; cx.fillText(G.hand.n,X+w*.25+18,Y-r-h+bob+14) } }
+  // flying captured cowries
+  for(const f of G.flies){ if(f.k<0)continue; const [sx,sy]=storeXY(f.p), q=Math.min(1,f.k), e=q*q*(3-2*q); const x=f.x+(sx-f.x)*e, y=f.y+(sy-f.y)*e-Math.sin(q*Math.PI)*120; cowrie(x,y,9,f.r+q*8) }
+  for(const p of G.parts){ cx.globalAlpha=Math.max(0,Math.min(1,p.l)); cx.fillStyle=p.c; cx.beginPath(); cx.arc(p.x,p.y,p.r||3,0,6.283); cx.fill() } cx.globalAlpha=1;
+  for(const p of G.pops){ const a=1-Math.max(0,p.k-.7)/.5; cx.globalAlpha=Math.max(0,a); cx.font=`900 ${30+10*Math.min(1,p.k*6)}px "Baloo 2",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=7; cx.strokeStyle='#2a0d3a'; cx.strokeText(p.txt,p.x,p.y-p.k*70); cx.fillStyle=p.c; cx.fillText(p.txt,p.x,p.y-p.k*70) } cx.globalAlpha=1;
+  if(G.big){ const k=G.big.k, s2=k<.2?k/.2*1.3:(k<.35?1.3-(k-.2)/.15*.3:1), a=k>1?1-(k-1)/.4:1; cx.save(); cx.globalAlpha=Math.max(0,a); cx.translate(W/2,portrait?H*.2:H*.2); cx.scale(s2,s2); cx.rotate(-.04);
+    cx.font=`900 ${portrait?50:70}px "Baloo 2","Baloo Tamma 2",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=12; cx.strokeStyle='#3a0a4a'; cx.strokeText(G.big.txt,0,0,W*.9); const gg=cx.createLinearGradient(0,-40,0,40); gg.addColorStop(0,'#fff6b0'); gg.addColorStop(1,'#ff9a2e'); cx.fillStyle=gg; cx.fillText(G.big.txt,0,0,W*.9); cx.restore() }
+  if(G.flash>0){ cx.fillStyle=`rgba(255,240,200,${G.flash*.45})`; cx.fillRect(0,0,W,H) }
+  if(G.msg){ cx.font=`800 26px "Baloo 2","Baloo Tamma 2",sans-serif`; const tw=Math.min(W*.92,cx.measureText(G.msg).width+50), bh=46, by2=portrait?H*.05:H*.07;
+    rr((W-tw)/2,by2,tw,bh,23); cx.fillStyle='rgba(28,20,66,.86)'; cx.fill(); cx.strokeStyle='#f6a723'; cx.lineWidth=3; cx.stroke(); cx.fillStyle='#ffe9a8'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(G.msg,W/2,by2+bh/2+2,W*.88) }
+  cx.restore() }
+let last=0; function loop(now){ const dt=Math.min(.05,(now-last)/1000||0); last=now; if(G){ update(dt); draw() } requestAnimationFrame(loop) }
+/* screens */
+function renderScore(){ if(!G){$('#score').innerHTML='';return} $('#score').innerHTML=[0,1].map(i=>`<span class="pl ${i===G.cur&&!G.over?'on':''}">${name(i)} <b>${G.st[i]}</b></span>`).join('') }
+function start(){ newGame(); G.over=true; G.msg=null; $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep5_shop.jpg" alt=""><h3>${t('howT')}</h3><div class="how">${t('how').map(([i,s])=>`<div><b>${i}</b><span>${s}</span></div>`).join('')}</div>
+  <div class="modes"><button class="mode" data-m="solo" aria-pressed="${mode==='solo'}">🪔 ${t('solo')}</button><button class="mode" data-m="duo" aria-pressed="${mode==='duo'}">👫 ${t('duo')}</button></div><button class="go" id="go">${t('start')}</button></div></div>`;
+  document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ mode=b.dataset.m; document.querySelectorAll('.mode').forEach(x=>x.setAttribute('aria-pressed',x===b)) });
+  $('#go').onclick=()=>{ ac(); $('#overlay').innerHTML=''; newGame() } }
+function finish(){ if(!G)return; G.over=true; try{const pr=JSON.parse(localStorage.getItem('storyquest')||'{}'); pr.dv5=1; localStorage.setItem('storyquest',JSON.stringify(pr))}catch(e){}
+  const [a,b2]=G.st; const head=a===b2?t('tie'):t('winT')(name(a>b2?0:1)); const stars=G.players===2?3:(a>b2?3:(a===b2?2:1));
+  $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep5_lakshmi.jpg" alt=""><h3>${head}</h3><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${t('winP')}</p>
+  <p><b>${t('total')}:</b> ${name(0)} ${a} · ${name(1)} ${b2}</p><button class="go" id="again">${t('again')}</button><a class="go alt" href="index.html#dv5">${t('story')}</a></div></div>`; $('#again').onclick=start }
+function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title');
+  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang)); renderScore() }
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||G.over)start() });
+$('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
+$('#newgame').onclick=start;
+layout(); applyLang(); start(); requestAnimationFrame(loop);
+</script>
+</body>
+</html>
