@@ -125,7 +125,7 @@ function render(){
   bind();
 }
 function bind(){
-  document.querySelectorAll('.vid button').forEach(b=>b.onclick=()=>{const id=b.dataset.id;b.parentNode.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1" title="Mauna video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`});
+  document.querySelectorAll('.vid button').forEach(b=>b.onclick=()=>{const id=b.dataset.id;b.parentNode.innerHTML=`<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" title="Mauna video" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`});
   document.querySelectorAll('.vtabs button').forEach(b=>b.onclick=()=>{const c=D.cases.find(x=>x.id===b.dataset.c);const box=$('v-'+c.id);const id=c.yt[b.dataset.l];
     b.parentNode.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
     box.innerHTML=`<button aria-label="Play" data-id="${id}"><img src="${thumb(id)}" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${id}/hqdefault.jpg'" alt=""><span class="pl">▶</span></button>`;bind()});
