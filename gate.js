@@ -1,6 +1,6 @@
 /* World of Wonders: "watch first, then play".
    A game page includes:  <script src="gate.js" data-key="lagori" data-yt='{"en":"ID","hi":"ID"}' data-back="index.html#dv3"></script>
-   The game stays covered until the story video (a YouTube embed, so the view counts on YouTube) has been watched to 70% or the end.
+   The game stays covered until the visitor presses play on the story video (a YouTube embed, so the view counts on YouTube); it unlocks at play and opens by itself when the video ends. Once unlocked, never asked again in that browser.
    Episode pages can call WOWGate.track(iframe, key) on their own YouTube iframe so a watch there unlocks the game too.
    Remembered per browser (localStorage); a convenience gate, not a security wall. */
 (function(){
@@ -10,9 +10,9 @@
   function mark(k){try{localStorage.setItem(KEYP+k,'1')}catch(e){}}
   function lang(){var l='en';try{l=localStorage.getItem('jb_lang')||localStorage.getItem('wow-lang')||'en'}catch(e){}return /^(en|hi|kn)$/.test(l)?l:'en'}
   var T={
-    en:{h:'First, watch the story',p:'The game opens when you have watched the video. Story first, then play!',bar:'Game unlocks at 70%',go:'▶ Play the game',done:'Unlocked! Your game is ready.',yt:'Watch on YouTube ↗',back:'← Back'},
-    hi:{h:'पहले कहानी देखिए',p:'वीडियो देखने के बाद गेम खुलेगा। पहले कहानी, फिर खेल!',bar:'70% पर गेम खुलेगा',go:'▶ गेम खेलिए',done:'गेम खुल गया!',yt:'YouTube पर देखें ↗',back:'← वापस'},
-    kn:{h:'ಮೊದಲು ಕಥೆ ನೋಡಿ',p:'ವಿಡಿಯೋ ನೋಡಿದ ನಂತರ ಆಟ ತೆರೆಯುತ್ತದೆ. ಮೊದಲು ಕಥೆ, ನಂತರ ಆಟ!',bar:'70% ನಲ್ಲಿ ಆಟ ತೆರೆಯುತ್ತದೆ',go:'▶ ಆಟ ಆಡಿ',done:'ಆಟ ತೆರೆಯಿತು!',yt:'YouTube ನಲ್ಲಿ ನೋಡಿ ↗',back:'← ಹಿಂದೆ'}
+    en:{h:'First, watch the story',p:'Press play on the story to unlock the game. When the video ends, the game opens by itself. You only need to do this once.',bar:'Story',go:'▶ Play the game',done:'Unlocked! Your game is ready.',yt:'Watch on YouTube ↗',back:'← Back'},
+    hi:{h:'पहले कहानी देखिए',p:'कहानी चलाइए, गेम खुल जाएगा। वीडियो ख़त्म होते ही गेम अपने-आप शुरू होगा। यह बस एक बार करना है।',bar:'कहानी',go:'▶ गेम खेलिए',done:'गेम खुल गया!',yt:'YouTube पर देखें ↗',back:'← वापस'},
+    kn:{h:'ಮೊದಲು ಕಥೆ ನೋಡಿ',p:'ಕಥೆಯನ್ನು ಪ್ಲೇ ಮಾಡಿ, ಆಟ ತೆರೆಯುತ್ತದೆ. ವಿಡಿಯೋ ಮುಗಿದ ಕೂಡಲೇ ಆಟ ತಾನಾಗಿಯೇ ಶುರುವಾಗುತ್ತದೆ. ಇದು ಒಮ್ಮೆ ಮಾತ್ರ.',bar:'ಕಥೆ',go:'▶ ಆಟ ಆಡಿ',done:'ಆಟ ತೆರೆಯಿತು!',yt:'YouTube ನಲ್ಲಿ ನೋಡಿ ↗',back:'← ಹಿಂದೆ'}
   };
 
   /* load the YouTube IFrame API once */
@@ -31,14 +31,14 @@
   /* watch an existing or new player; call onPct(fraction) and onDone() */
   function watch(target,opts){
     return api().then(function(YT){
-      var timer=null,fired=false;
+      var timer=null,fired=false,started=false;
       var p=new YT.Player(target,Object.assign({events:{
         onStateChange:function(e){
           if(e.data===YT.PlayerState.ENDED){finish();return}
-          if(e.data===YT.PlayerState.PLAYING&&!timer){timer=setInterval(tick,1000)}
+          if(e.data===YT.PlayerState.PLAYING){if(!started){started=true;opts.onStart&&opts.onStart()}if(!timer)timer=setInterval(tick,1000)}
           if(e.data!==YT.PlayerState.PLAYING&&timer){clearInterval(timer);timer=null}
         }}},opts.player||{}));
-      function tick(){try{var d=p.getDuration(),t=p.getCurrentTime();if(d>0){var f=t/d;opts.onPct&&opts.onPct(Math.min(1,f/0.7));if(f>=0.7||d-t<5)finish()}}catch(e){}}
+      function tick(){try{var d=p.getDuration(),t=p.getCurrentTime();if(d>0){opts.onPct&&opts.onPct(Math.min(1,t/d))}}catch(e){}}
       function finish(){if(fired)return;fired=true;if(timer){clearInterval(timer);timer=null}opts.onPct&&opts.onPct(1);opts.onDone&&opts.onDone()}
       return p;
     });
@@ -47,7 +47,7 @@
   window.WOWGate={
     watched:has,
     /* for episode pages: iframe src must include enablejsapi=1 */
-    track:function(iframe,key){if(!iframe||!key||has(key))return;watch(iframe,{onDone:function(){mark(key)}})}
+    track:function(iframe,key){if(!iframe||!key||has(key))return;watch(iframe,{onStart:function(){mark(key)}})}
   };
 
   /* game-page mode */
@@ -80,8 +80,10 @@
   function mount(){document.body.appendChild(g);document.documentElement.classList.add('wow-gated');
     watch('wowGateP',{player:{videoId:vid,playerVars:{rel:0,playsinline:1,modestbranding:1}},
       onPct:function(f){var b=document.getElementById('wowGateB');if(b)b.style.width=Math.round(f*100)+'%'},
-      onDone:function(){mark(key);var b=document.getElementById('wowGateGo');if(b){b.disabled=false;b.textContent=t.go;b.focus()}}});
-    document.getElementById('wowGateGo').onclick=function(){g.remove();document.documentElement.classList.remove('wow-gated');try{window.dispatchEvent(new Event('resize'))}catch(e){}};
+      onStart:function(){mark(key);var b=document.getElementById('wowGateGo');if(b){b.disabled=false}},
+      onDone:function(){open()}});
+    function open(){if(!g.isConnected)return;g.remove();document.documentElement.classList.remove('wow-gated');try{window.dispatchEvent(new Event('resize'))}catch(e){}}
+    document.getElementById('wowGateGo').onclick=open;
   }
   if(document.body)mount();else document.addEventListener('DOMContentLoaded',mount);
 })();
