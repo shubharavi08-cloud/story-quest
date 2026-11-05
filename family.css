@@ -1,0 +1,6 @@
+/* World of Wonders family strip: links the three OurSchoolHouse sites */
+.fam-bar{background:#120c2e;border-bottom:3px solid #f6a723;color:#e9e2ff;font:600 13px/1.3 "Mukta","Segoe UI",system-ui,sans-serif;display:flex;flex-wrap:wrap;gap:6px 14px;justify-content:center;align-items:center;padding:7px 12px;text-align:center}
+.fam-bar b{color:#ffd35a;font-weight:800}
+.fam-bar a{color:#ffd35a;text-decoration:none}
+.fam-bar a:hover{text-decoration:underline}
+.fam-bar .fam{opacity:.85}
