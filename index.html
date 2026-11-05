@@ -135,7 +135,7 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 [hidden]{display:none!important}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-<link rel="stylesheet" href="family.css?v=20261105b">
+<link rel="stylesheet" href="family.css?v=20261105c">
 </head>
 <body>
 
@@ -174,7 +174,6 @@ const DEEPAVALI = [
 const SECTIONS = [
  {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale.", img:'img/ayodhya.jpg', open:true},
  {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/'},
- {k:'scamalert', name:'Scam Alert', group:'Jagruth Bharath', blurb:'Real scam cases with Mauna the detective owl: watch the video, read the case file, then play. Can Mr. Promise trick you?', img:'jagruth-bharath/img/tile.jpg', open:true, href:'jagruth-bharath/'},
  {k:'gita', name:'Bhagavad Gita', group:'Scriptures', blurb:'Krishna and Arjuna, one chapter at a time.', emoji:'🪷'},
  {k:'panchatantra', name:'Panchatantra', group:'Wisdom tales', blurb:'Clever animals, smart lessons.', emoji:'🐒'},
  {k:'ramayana', name:'Ramayana', group:'Epics', blurb:'The journey of Shri Ram.', img:'img/exile.jpg'},
@@ -232,7 +231,7 @@ function home(){
     <div class="body"><span class="eyebrow">${s.group}</span><h3>${s.name}</h3><p>${s.blurb}</p></div></a>`).join('');
   V.innerHTML=`<section class="hero">
     <div><span class="eyebrow">Watch · Play · Learn</span><h1>Wonders of <span>Bharat</span> for every age</h1>
-    <p class="lede" style="margin-top:12px">Festivals, epics, scriptures, wisdom tales, Vedic Maths and scam alerts, each told as a short animated story with a game to play together. Grandparents, parents and children: play, learn and teach each other. Diya the little lamp is your guide.</p>
+    <p class="lede" style="margin-top:12px">Festivals, epics, scriptures, wisdom tales and Vedic Maths, each told as a short animated story with a game to play together. Grandparents, parents and children: play, learn and teach each other. Diya the little lamp is your guide.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn" href="#deepavali">Start with Deepavali</a><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Our YouTube channel</a></div></div>
     <div class="art"><img class="scene" src="img/ayodhya.jpg" alt="Ayodhya glowing with rows of lamps"><img class="mascot" src="img/diya_wave.png" alt="Diya waving"></div></section>
     <div class="worlds"><span class="world on">🇮🇳 Bharat</span><span class="world soon">🌍 World · coming later</span></div>
@@ -347,9 +346,10 @@ addEventListener('hashchange',route);route();
 
 <footer class="wow-foot"><div class="wf-in">
 <a class="wf-brand" href="index.html"><img src="img/wow_logo.png" alt=""><span><b>World of Wonders Studio</b><small>Music · Stories · Creation · Inspiration</small></span></a>
-<nav class="wf-links"><a href="index.html">Home</a> · <a href="index.html#deepavali">Deepavali</a> · <a href="vedic-maths/">Vedic Maths</a> · <a href="jagruth-bharath/">Scam Alert</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
+<nav class="wf-links"><a href="index.html">Home</a> · <a href="index.html#deepavali">Deepavali</a> · <a href="vedic-maths/">Vedic Maths</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
 <div class="wf-sis">Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></div>
 <div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
 </div></footer>
+<script src="join.js?v=1" defer></script>
 </body>
 </html>
