@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>A Thought a Day · World of Wonders</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A Thought a Day by World of Wonders Studio: one story, one shloka, one small step. In English, Hindi and Kannada.">
+<meta property="og:title" content="A Thought a Day · World of Wonders">
+<meta property="og:description" content="One story. One shloka. One small step.">
+<meta property="og:image" content="https://worldofwondersstudio.com/img/thought/tile.jpg">
+<meta property="og:url" content="https://worldofwondersstudio.com/thought.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="img/wow_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Noto+Sans+Kannada:wght@400;600;700&family=Tiro+Devanagari+Sanskrit&display=swap">
+<link rel="stylesheet" href="family.css?v=20261105c">
+<style>
+/* Layout: a calm night-sky page. Today's thought: video beside four cards (story, today, shloka, your step); then a reflection, share, and the archive. */
+:root{
+  --night:#1c1442; --night-2:#2a1f5c; --night-3:#362a72;
+  --ink:#fdf3dc; --muted:#c7bce6; --line:rgba(253,243,220,.14);
+  --marigold:#f6a723; --flame:#ffd35a; --kumkum:#e0405a; --leaf:#46b882;
+  --display:"Baloo 2","Trebuchet MS",system-ui,sans-serif; --body:"Mukta","Segoe UI",system-ui,sans-serif;
+  --sanskrit:"Tiro Devanagari Sanskrit","Mukta",serif;
+  color-scheme:dark;
+}
+html[lang=kn]{--display:"Baloo Tamma 2","Baloo 2",system-ui,sans-serif;--body:"Noto Sans Kannada","Mukta",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 120px;
+  background-image:radial-gradient(1px 1px at 12% 18%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 72% 9%,#fff6 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 30%,#fff7 50%,transparent 51%),radial-gradient(1px 1px at 40% 6%,#fff5 50%,transparent 51%),radial-gradient(1px 1px at 22% 40%,#fff4 50%,transparent 51%),radial-gradient(1px 1px at 60% 55%,#fff4 50%,transparent 51%);background-attachment:fixed}
+.wow-top{margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+a{color:var(--flame)}
+.wrap{max-width:1040px;margin:26px auto 0;display:flex;flex-direction:column;gap:30px}
+h1,h2,h3{font-family:var(--display);line-height:1.12;margin:0;text-wrap:balance}
+h1{font-size:clamp(34px,6.4vw,58px);font-weight:800}
+h2{font-size:clamp(24px,3.6vw,32px)}
+h3{font-size:20px}
+.eyebrow{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-weight:700}
+.muted{color:var(--muted)}
+.btn{font:700 16px var(--body);background:var(--marigold);color:var(--night);border:0;border-radius:999px;padding:10px 20px;cursor:pointer;text-decoration:none;display:inline-flex;gap:8px;align-items:center;transition:transform .15s}
+.btn:hover{transform:scale(1.04)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+
+.top{display:flex;flex-direction:column;gap:12px}
+.toprow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.langs{display:flex;gap:8px;flex-wrap:wrap}
+.lang{font:700 15px var(--body);border-radius:999px;padding:7px 16px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
+.lang.on{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.lang[data-l=hi]{font-family:"Mukta",sans-serif}.lang[data-l=kn]{font-family:"Noto Sans Kannada",sans-serif}
+.streak{display:inline-flex;align-items:center;gap:8px;background:var(--night-2);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:700;font-variant-numeric:tabular-nums}
+.tag{color:var(--muted);margin:0;font-size:18px}
+.tag b{color:var(--flame);font-weight:700}
+
+.today{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:780px){.today{grid-template-columns:1fr}}
+.video{position:relative;aspect-ratio:9/16;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 20px 50px -20px #000;border:1px solid var(--line);max-width:340px;width:100%;justify-self:center}
+.video iframe,.video img{position:absolute;inset:0;width:100%;height:100%;border:0;object-fit:cover}
+.video .soon{position:absolute;left:12px;right:12px;bottom:12px;background:rgba(28,20,66,.86);border-radius:14px;padding:10px 12px;font-size:15px;line-height:1.35;text-align:center}
+.cards{display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{background:var(--night-2);border:1px solid var(--line);border-radius:18px;padding:16px 18px;display:flex;flex-direction:column;gap:6px}
+.card p{margin:0}
+.card .k{display:flex;align-items:center;gap:10px}
+.card .k i{font-style:normal;width:30px;height:30px;border-radius:50%;background:var(--marigold);color:var(--night);display:grid;place-items:center;font-family:"Baloo 2",sans-serif;font-weight:800;font-size:17px;flex:none}
+
+/* shloka flip */
+.flip{perspective:1200px;cursor:pointer;border:0;padding:0;background:none;color:inherit;text-align:left;font:inherit;width:100%}
+.flip .in{position:relative;display:grid;transition:transform .6s;transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .f,.flip .b{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:18px;padding:18px;border:1px solid rgba(246,167,35,.4);background:linear-gradient(160deg,#3b2a12,#2a1f5c 70%);display:flex;flex-direction:column;gap:8px}
+.flip .b{transform:rotateY(180deg);background:linear-gradient(160deg,#2a1f5c,#1f3b2e)}
+.sk{font-family:var(--sanskrit);font-size:clamp(20px,2.6vw,24px);color:var(--flame);line-height:1.6;margin:0}
+.iast{font-style:italic;color:var(--muted);font-size:15px;margin:0}
+.hint{font-size:13px;color:var(--marigold);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+
+/* step + diyas */
+.stepbox{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.stepbox input{flex:1 1 220px;min-width:0;font:600 16px var(--body);color:var(--ink);background:var(--night);border:1.5px solid var(--line);border-radius:12px;padding:10px 12px}
+.week{display:flex;gap:6px;align-items:flex-end;flex-wrap:wrap;margin-top:6px}
+.dy{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;color:var(--muted);width:40px}
+.dy svg{width:36px;height:40px}
+.dy .fl{opacity:0;transform-origin:50% 100%;transition:opacity .4s}
+.dy.lit .fl{opacity:1;animation:flick 1.2s ease-in-out infinite alternate}
+@keyframes flick{to{transform:scaleY(1.12) scaleX(.92)}}
+.ok{color:var(--leaf);font-weight:700;margin:0;min-height:1.5em}
+
+/* reflection */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font:700 15px var(--body);border-radius:999px;padding:8px 16px;border:1.5px solid var(--line);background:var(--night-2);color:var(--ink);cursor:pointer}
+.chip.on{border-color:var(--flame);background:rgba(255,211,90,.14)}
+.tip{background:rgba(246,167,35,.1);border-left:4px solid var(--marigold);border-radius:10px;padding:12px 14px;margin:0;animation:up .35s both}
+@keyframes up{from{opacity:0;transform:translateY(8px)}}
+
+.share{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.tile{border-radius:16px;overflow:hidden;background:var(--night-2);border:1px solid var(--line);text-decoration:none;color:var(--ink);display:flex;flex-direction:column;transition:transform .2s}
+.tile:hover{transform:translateY(-4px)}
+.tile img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
+.tile .body{padding:10px 12px 12px;display:flex;flex-direction:column;gap:2px}
+.tile .body p{margin:0;color:var(--muted);font-size:14px}
+.tile.cur{outline:2px solid var(--marigold)}
+.tile.ghost{border-style:dashed;pointer-events:none}
+.tile.ghost .ph{aspect-ratio:16/9;display:grid;place-items:center;font-size:40px;background:linear-gradient(135deg,var(--night-3),var(--night-2))}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="wow-top" href="index.html" aria-label="World of Wonders home"><img src="img/wow_banner.jpg?v=2" alt="World of Wonders · Music · Stories · Creation · Inspiration"></a>
+
+<main class="wrap" id="app">
+  <section class="top">
+    <div class="toprow">
+      <span class="eyebrow" id="series"></span>
+      <div class="langs" role="group" aria-label="Language">
+        <button class="lang" data-l="en">English</button><button class="lang" data-l="hi">हिंदी</button><button class="lang" data-l="kn">ಕನ್ನಡ</button>
+      </div>
+    </div>
+    <h1 id="hook"></h1>
+    <p class="tag" id="tag"></p>
+    <div><span class="streak" id="streak"></span></div>
+  </section>
+
+  <section class="today">
+    <div class="video" id="video"></div>
+    <div class="cards">
+      <div class="card"><div class="k"><i>1</i><h3 id="lStory"></h3></div><p id="story"></p></div>
+      <div class="card"><div class="k"><i>2</i><h3 id="lToday"></h3></div><p id="todayTxt"></p></div>
+      <button class="flip" id="flip" aria-pressed="false">
+        <div class="in">
+          <div class="f"><span class="hint" id="lVerse"></span><p class="sk" id="sk"></p><p class="iast" id="iast"></p><span class="muted" id="lTap" style="font-size:14px"></span></div>
+          <div class="b"><span class="hint" id="lMeaning"></span><p id="meaning" style="font-size:19px"></p><span class="muted" id="lTapBack" style="font-size:14px"></span></div>
+        </div>
+      </button>
+      <div class="card"><div class="k"><i>3</i><h3 id="lStep"></h3></div><p id="step" style="font-weight:600"></p>
+        <div class="stepbox"><input id="note" maxlength="80"><button class="btn" id="did"></button></div>
+        <p class="ok" id="okmsg" role="status"></p>
+        <div class="week" id="week" aria-label="Last 7 days"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" style="gap:12px">
+    <h2 id="lQ"></h2>
+    <div class="chips" id="chips"></div>
+    <p class="tip" id="tip" hidden></p>
+  </section>
+
+  <section class="share">
+    <a class="btn" id="wa" target="_blank" rel="noopener"></a>
+    <button class="btn ghost" id="native" hidden></button>
+    <button class="btn ghost" id="copy"></button>
+    <span class="muted" id="copied" role="status"></span>
+  </section>
+
+  <section style="display:flex;flex-direction:column;gap:14px">
+    <h2 id="lMore"></h2>
+    <div class="shelf" id="archive"></div>
+  </section>
+</main>
+
+<footer class="wow-foot"><div class="wf-in">
+<a class="wf-brand" href="index.html"><img src="img/wow_logo.png" alt=""><span><b>World of Wonders Studio</b><small>Music · Stories · Creation · Inspiration</small></span></a>
+<nav class="wf-links"><a href="index.html">Home</a> · <a href="thought.html">A Thought a Day</a> · <a href="index.html#deepavali">Deepavali</a> · <a href="vedic-maths/">Vedic Maths</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
+<div class="wf-sis">Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></div>
+<div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
+</div></footer>
+
+<script>
+/* ---------- UI words ---------- */
+const UI={
+ en:{series:'A Thought a Day',tag:'One story. One shloka. <b>One small step.</b>',story:'The story',today:'Why it matters today',verse:'Bhagavad Gita',tap:'Tap to see the meaning',tapBack:'Tap to see the shloka',meaning:'What it means',step:'Your small step today',ph:'The one thing I will face today…',did:'🪔 I took my step',done:'Diya lit! See you tomorrow for the next small step.',again:'Already lit today. Well done!',streak:n=>n?`🪔 ${n}-day streak`:'🪔 Light your first diya today',q:'Which monkey is chasing you today?',wa:'Share on WhatsApp',native:'Share',copy:'Copy link',copied:'Link copied',more:'More thoughts',soon:'Video arriving on YouTube soon. Meanwhile, read the story here.',next:'Next thought soon',days:['Su','Mo','Tu','We','Th','Fr','Sa']},
+ hi:{series:'रोज़ एक विचार',tag:'एक कहानी। एक श्लोक। <b>एक छोटा क़दम।</b>',story:'कहानी',today:'आज के लिए',verse:'भगवद्गीता',tap:'अर्थ देखने के लिए छुएँ',tapBack:'श्लोक देखने के लिए छुएँ',meaning:'अर्थ',step:'आज का छोटा क़दम',ph:'आज मैं किसका सामना करूँगा / करूँगी…',did:'🪔 मैंने क़दम उठाया',done:'दीया जल गया! कल अगले छोटे क़दम के साथ मिलते हैं।',again:'आज का दीया जल चुका है। शाबाश!',streak:n=>n?`🪔 लगातार ${n} दिन`:'🪔 आज पहला दीया जलाइए',q:'आज कौन-सा बंदर आपका पीछा कर रहा है?',wa:'WhatsApp पर भेजें',native:'शेयर करें',copy:'लिंक कॉपी करें',copied:'लिंक कॉपी हो गया',more:'और विचार',soon:'वीडियो जल्द YouTube पर। तब तक कहानी यहाँ पढ़िए।',next:'अगला विचार जल्द',days:['र','सो','मं','बु','गु','शु','श']},
+ kn:{series:'ದಿನಕ್ಕೊಂದು ವಿಚಾರ',tag:'ಒಂದು ಕಥೆ. ಒಂದು ಶ್ಲೋಕ. <b>ಒಂದು ಪುಟ್ಟ ಹೆಜ್ಜೆ.</b>',story:'ಕಥೆ',today:'ಇಂದಿಗೆ',verse:'ಭಗವದ್ಗೀತೆ',tap:'ಅರ್ಥ ನೋಡಲು ಸ್ಪರ್ಶಿಸಿ',tapBack:'ಶ್ಲೋಕ ನೋಡಲು ಸ್ಪರ್ಶಿಸಿ',meaning:'ಅರ್ಥ',step:'ಇಂದಿನ ಪುಟ್ಟ ಹೆಜ್ಜೆ',ph:'ಇಂದು ನಾನು ಎದುರಿಸುವುದು…',did:'🪔 ನಾನು ಹೆಜ್ಜೆ ಇಟ್ಟೆ',done:'ದೀಪ ಬೆಳಗಿತು! ನಾಳೆ ಮುಂದಿನ ಪುಟ್ಟ ಹೆಜ್ಜೆಯೊಂದಿಗೆ ಸಿಗೋಣ.',again:'ಇಂದಿನ ದೀಪ ಈಗಾಗಲೇ ಬೆಳಗಿದೆ. ಶಭಾಷ್!',streak:n=>n?`🪔 ಸತತ ${n} ದಿನ`:'🪔 ಇಂದು ಮೊದಲ ದೀಪ ಬೆಳಗಿಸಿ',q:'ಇಂದು ಯಾವ ಕೋತಿ ನಿಮ್ಮನ್ನು ಬೆನ್ನಟ್ಟುತ್ತಿದೆ?',wa:'WhatsApp ನಲ್ಲಿ ಕಳುಹಿಸಿ',native:'ಹಂಚಿಕೊಳ್ಳಿ',copy:'ಲಿಂಕ್ ಕಾಪಿ ಮಾಡಿ',copied:'ಲಿಂಕ್ ಕಾಪಿ ಆಯಿತು',more:'ಇನ್ನಷ್ಟು ವಿಚಾರಗಳು',soon:'ವಿಡಿಯೋ ಶೀಘ್ರದಲ್ಲೇ YouTube ನಲ್ಲಿ. ಅಲ್ಲಿಯವರೆಗೆ ಕಥೆಯನ್ನು ಇಲ್ಲಿ ಓದಿ.',next:'ಮುಂದಿನ ವಿಚಾರ ಶೀಘ್ರದಲ್ಲೇ',days:['ಭಾ','ಸೋ','ಮಂ','ಬು','ಗು','ಶು','ಶ']}
+};
+
+/* ---------- Thoughts: add one entry per episode. date = day it goes live; yt = YouTube video IDs per language ---------- */
+const THOUGHTS=[
+ {n:1, date:'2026-11-05', img:'img/thought/ep01_hero.jpg', tile:'img/thought/tile.jpg', verse:'2.3',
+  yt:{en:'',hi:'',kn:''},
+  sk:['क्लैब्यं मा स्म गमः पार्थ नैतत्त्वय्युपपद्यते।','क्षुद्रं हृदयदौर्बल्यं त्यक्त्वोत्तिष्ठ परन्तप॥'],
+  iast:'klaibyaṁ mā sma gamaḥ pārtha naitat tvayy upapadyate · kṣudraṁ hṛdaya-daurbalyaṁ tyaktvottiṣṭha parantapa',
+  t:{
+   en:{title:'Face it',hook:'Run, and fear will <span style="color:var(--flame)">chase you.</span>',
+     story:'Banaras, many years ago. A young monk was walking by the ghats when a troop of monkeys came after him. He ran, and the faster he ran, the closer they came. Then an old sadhu shouted: “Stop! Turn! Face them!” He stopped, turned and looked them in the eye. The monkeys fled. That young monk was Swami Vivekananda.',
+     today:'We all have our monkeys: exam fear, the meeting with the boss, that one difficult conversation. The more we avoid them, the more they chase us.',
+     meaning:'O Partha, do not give in to cowardice; it does not suit you. Shake off this small weakness of the heart and rise, O scorcher of foes.',
+     step:'Today, turn towards the one task you have been running from.',
+     chips:[['📚 Exams','Open the book for just 10 minutes. Fear shrinks the moment you start.'],['💬 A difficult talk','Write down the first sentence you will say. Then say it today.'],['💼 Work or boss','Ask the one question you have been avoiding. Clarity beats worry.'],['🌀 Something else','Name it in one word. A named fear is already smaller.']],
+     share:'A Thought a Day: Run, and fear will chase you. Turn, and it shrinks. 🪔 One story, one shloka, one small step:'},
+   hi:{title:'सामना करो',hook:'भागोगे, तो डर <span style="color:var(--flame)">पीछा करेगा।</span>',
+     story:'बनारस, बहुत साल पहले। एक नौजवान संन्यासी घाट से गुज़र रहा था, तभी बंदरों का एक झुंड उसके पीछे पड़ गया। वो भागा, और जितना तेज़ भागा, बंदर उतने पास आते गए। तभी एक बूढ़े साधु ने पुकारा: “रुको! पलटो! सामना करो!” वो रुका, पलटा और सीधे उनकी आँखों में देखा। बंदर भाग गए। वो नौजवान थे स्वामी विवेकानंद।',
+     today:'हम सबके अपने बंदर हैं: परीक्षा का डर, बॉस की मीटिंग, वो एक मुश्किल बात। जितना टालते हैं, उतना पीछा करते हैं।',
+     meaning:'हे पार्थ, कायरता तुम्हें शोभा नहीं देती। दिल की इस छोटी-सी कमज़ोरी को छोड़ो, और उठो।',
+     step:'आज जिस काम से आप भाग रहे हैं, बस उसकी ओर पलटिए।',
+     chips:[['📚 परीक्षा','बस 10 मिनट किताब खोलिए। शुरू करते ही डर छोटा हो जाता है।'],['💬 मुश्किल बात','जो पहला वाक्य कहना है, लिख लीजिए। फिर आज ही कह दीजिए।'],['💼 काम या बॉस','जो सवाल टाल रहे हैं, वही पूछ लीजिए। साफ़ बात चिंता से बेहतर है।'],['🌀 कुछ और','उसे एक शब्द में नाम दीजिए। नाम मिलते ही डर छोटा हो जाता है।']],
+     share:'रोज़ एक विचार: भागोगे तो डर पीछा करेगा, पलटोगे तो छोटा हो जाएगा। 🪔 एक कहानी, एक श्लोक, एक छोटा क़दम:'},
+   kn:{title:'ಎದುರಿಸು',hook:'ಓಡಿದರೆ, ಭಯ <span style="color:var(--flame)">ಬೆನ್ನಟ್ಟುತ್ತದೆ.</span>',
+     story:'ಬನಾರಸ್, ಬಹಳ ವರ್ಷಗಳ ಹಿಂದೆ. ಒಬ್ಬ ಯುವ ಸಂನ್ಯಾಸಿ ಘಾಟಿನ ದಾರಿಯಲ್ಲಿ ನಡೆಯುತ್ತಿದ್ದಾಗ ಕೋತಿಗಳ ಗುಂಪೊಂದು ಅವರ ಬೆನ್ನಟ್ಟಿತು. ಅವರು ಓಡಿದರು; ಎಷ್ಟು ವೇಗವಾಗಿ ಓಡಿದರೋ, ಕೋತಿಗಳು ಅಷ್ಟು ಹತ್ತಿರ ಬಂದವು. ಆಗ ಒಬ್ಬ ಹಿರಿಯ ಸಾಧು ಕೂಗಿದರು: “ನಿಲ್ಲು! ತಿರುಗು! ಎದುರಿಸು!” ಅವರು ನಿಂತರು, ತಿರುಗಿದರು, ಕೋತಿಗಳ ಕಣ್ಣಲ್ಲಿ ಕಣ್ಣಿಟ್ಟು ನೋಡಿದರು. ಕೋತಿಗಳು ಓಡಿಹೋದವು. ಆ ಯುವಕ ಸ್ವಾಮಿ ವಿವೇಕಾನಂದರು.',
+     today:'ನಮಗೆಲ್ಲರಿಗೂ ನಮ್ಮದೇ ಕೋತಿಗಳಿವೆ: ಪರೀಕ್ಷೆಯ ಭಯ, ಬಾಸ್ ಜೊತೆಗಿನ ಮೀಟಿಂಗ್, ಆ ಒಂದು ಕಷ್ಟದ ಮಾತು. ಎಷ್ಟು ಮುಂದೂಡುತ್ತೇವೋ, ಅಷ್ಟು ಬೆನ್ನಟ್ಟುತ್ತವೆ.',
+     meaning:'ಹೇ ಪಾರ್ಥ, ಹೇಡಿತನ ನಿನಗೆ ತಕ್ಕದ್ದಲ್ಲ. ಮನಸ್ಸಿನ ಈ ಸಣ್ಣ ದೌರ್ಬಲ್ಯವನ್ನು ಬಿಟ್ಟು, ಎದ್ದೇಳು.',
+     step:'ಇಂದು ನೀವು ತಪ್ಪಿಸಿಕೊಳ್ಳುತ್ತಿರುವ ಆ ಒಂದು ಕೆಲಸದ ಕಡೆ ತಿರುಗಿ ನೋಡಿ.',
+     chips:[['📚 ಪರೀಕ್ಷೆ','ಕೇವಲ 10 ನಿಮಿಷ ಪುಸ್ತಕ ತೆರೆಯಿರಿ. ಶುರು ಮಾಡಿದ ಕೂಡಲೇ ಭಯ ಚಿಕ್ಕದಾಗುತ್ತದೆ.'],['💬 ಕಷ್ಟದ ಮಾತು','ಹೇಳಬೇಕಾದ ಮೊದಲ ವಾಕ್ಯವನ್ನು ಬರೆದುಕೊಳ್ಳಿ. ಇಂದೇ ಹೇಳಿ.'],['💼 ಕೆಲಸ ಅಥವಾ ಬಾಸ್','ತಪ್ಪಿಸುತ್ತಿರುವ ಆ ಪ್ರಶ್ನೆಯನ್ನೇ ಕೇಳಿ. ಸ್ಪಷ್ಟತೆ ಚಿಂತೆಗಿಂತ ಮೇಲು.'],['🌀 ಬೇರೆ ಏನೋ','ಅದಕ್ಕೆ ಒಂದು ಪದದ ಹೆಸರು ಕೊಡಿ. ಹೆಸರಿಟ್ಟ ಭಯ ಆಗಲೇ ಚಿಕ್ಕದು.']],
+     share:'ದಿನಕ್ಕೊಂದು ವಿಚಾರ: ಓಡಿದರೆ ಭಯ ಬೆನ್ನಟ್ಟುತ್ತದೆ, ತಿರುಗಿದರೆ ಚಿಕ್ಕದಾಗುತ್ತದೆ. 🪔 ಒಂದು ಕಥೆ, ಒಂದು ಶ್ಲೋಕ, ಒಂದು ಪುಟ್ಟ ಹೆಜ್ಜೆ:'}
+  }}
+];
+
+/* ---------- small helpers (storage is a per-browser convenience only) ---------- */
+const st={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+const $=id=>document.getElementById(id);
+const pad=n=>String(n).padStart(2,'0');
+const dkey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const todayKey=dkey(new Date());
+const live=THOUGHTS.filter(t=>t.date<=todayKey).sort((a,b)=>a.date<b.date?1:-1);
+const pickDefault=()=>live[0]||THOUGHTS[0];
+let L=['en','hi','kn'].includes(st.get('tad-lang','en'))?st.get('tad-lang','en'):'en';
+const qsLang=new URLSearchParams(location.search).get('lang'); if(['en','hi','kn'].includes(qsLang))L=qsLang;
+let cur=pickDefault();
+const hashN=parseInt((location.hash.match(/^#t(\d+)/)||[])[1]); if(hashN){const f=live.find(t=>t.n===hashN); if(f)cur=f}
+
+function streak(){const done=new Set(st.get('tad-done',[]));let n=0;const d=new Date();if(!done.has(dkey(d)))d.setDate(d.getDate()-1);while(done.has(dkey(d))){n++;d.setDate(d.getDate()-1)}return n}
+function week(){const done=new Set(st.get('tad-done',[]));const u=UI[L];let h='';for(let i=6;i>=0;i--){const d=new Date();d.setDate(d.getDate()-i);const lit=done.has(dkey(d));
+ h+=`<div class="dy ${lit?'lit':''}"><svg viewBox="0 0 36 40" aria-hidden="true"><g class="fl"><path d="M18 4 Q11 15 18 22 Q25 15 18 4Z" fill="#ffd35a"/><path d="M18 10 Q15 16 18 20 Q21 16 18 10Z" fill="#fff3c4"/></g><path d="M3 24 Q4 36 18 37 Q32 36 33 24 Q25 28 18 28 Q11 28 3 24Z" fill="${lit?'#e08a3c':'#5a4a8a'}"/><path d="M3 24 Q18 19 33 24 Q25 28 18 28 Q11 28 3 24Z" fill="${lit?'#f4c25b':'#6e5ea8'}"/></svg><span>${i===0?'●':u.days[d.getDay()]}</span></div>`}
+ $('week').innerHTML=h}
+
+function render(){
+ const u=UI[L], t=cur.t[L];
+ document.documentElement.lang=L; document.title=`${u.series}: ${t.title} · World of Wonders`;
+ document.querySelectorAll('.lang').forEach(b=>b.classList.toggle('on',b.dataset.l===L));
+ const d=new Date(cur.date+'T00:00:00');
+ $('series').textContent=`${u.series} · #${cur.n} · ${d.toLocaleDateString(L==='en'?'en-IN':L+'-IN',{day:'numeric',month:'long'})}`;
+ $('hook').innerHTML=t.hook; $('tag').innerHTML=u.tag; $('streak').textContent=u.streak(streak());
+ const id=cur.yt[L];
+ $('video').innerHTML=id?`<iframe src="https://www.youtube.com/embed/${id}?rel=0&playsinline=1" title="${t.title}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>`
+   :`<img src="${cur.img}" alt="${t.title}"><div class="soon">${u.soon}</div>`;
+ $('lStory').textContent=u.story; $('story').textContent=t.story;
+ $('lToday').textContent=u.today; $('todayTxt').textContent=t.today;
+ $('lVerse').textContent=`${u.verse} ${cur.verse}`; $('sk').innerHTML=cur.sk.join('<br>'); $('iast').textContent=cur.iast;
+ $('lTap').textContent='↻ '+u.tap; $('lTapBack').textContent='↻ '+u.tapBack; $('lMeaning').textContent=u.meaning; $('meaning').textContent=t.meaning;
+ $('lStep').textContent=u.step; $('step').textContent=t.step; $('note').placeholder=u.ph; $('note').value=st.get('tad-note-'+cur.n,'');
+ $('did').textContent=u.did; $('okmsg').textContent=st.get('tad-done',[]).includes(todayKey)?u.again:''; week();
+ $('lQ').textContent=u.q; $('tip').hidden=true;
+ $('chips').innerHTML=t.chips.map((c,i)=>`<button class="chip" data-i="${i}">${c[0]}</button>`).join('');
+ const url=`https://worldofwondersstudio.com/thought.html?lang=${L}#t${cur.n}`;
+ $('wa').textContent='💬 '+u.wa; $('wa').href='https://wa.me/?text='+encodeURIComponent(t.share+' '+url);
+ $('native').textContent=u.native; $('native').hidden=!navigator.share; $('copy').textContent=u.copy; $('copied').textContent='';
+ $('lMore').textContent=u.more;
+ $('archive').innerHTML=live.map(x=>`<a class="tile ${x===cur?'cur':''}" href="#t${x.n}"><img src="${x.tile}" alt="" loading="lazy"><div class="body"><span class="eyebrow">#${x.n} · ${u.verse} ${x.verse}</span><h3>${x.t[L].title}</h3><p>${x.t[L].hook.replace(/<[^>]+>/g,'')}</p></div></a>`).join('')
+   +`<div class="tile ghost"><div class="ph">🪔</div><div class="body"><h3>${u.next}</h3></div></div>`;
+}
+
+document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>{L=b.dataset.l;st.set('tad-lang',L);render()});
+$('flip').onclick=()=>{const f=$('flip');f.classList.toggle('on');f.setAttribute('aria-pressed',f.classList.contains('on'))};
+$('note').oninput=e=>st.set('tad-note-'+cur.n,e.target.value);
+$('did').onclick=()=>{const done=st.get('tad-done',[]);const u=UI[L];
+ if(!done.includes(todayKey)){done.push(todayKey);st.set('tad-done',done.slice(-400));$('okmsg').textContent=u.done}else $('okmsg').textContent=u.again;
+ $('streak').textContent=u.streak(streak()); week()};
+$('chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;document.querySelectorAll('.chip').forEach(c=>c.classList.toggle('on',c===b));
+ const tp=$('tip');tp.hidden=false;tp.textContent=cur.t[L].chips[+b.dataset.i][1];tp.style.animation='none';tp.offsetHeight;tp.style.animation=''};
+$('native').onclick=()=>{const t=cur.t[L];navigator.share({title:UI[L].series,text:t.share,url:`https://worldofwondersstudio.com/thought.html?lang=${L}#t${cur.n}`}).catch(()=>{})};
+$('copy').onclick=()=>{const url=`https://worldofwondersstudio.com/thought.html?lang=${L}#t${cur.n}`;(navigator.clipboard?navigator.clipboard.writeText(url):Promise.reject()).then(()=>$('copied').textContent=UI[L].copied).catch(()=>{$('copied').textContent=url})};
+addEventListener('hashchange',()=>{const n=parseInt((location.hash.match(/^#t(\d+)/)||[])[1]);const f=live.find(t=>t.n===n);if(f){cur=f;$('flip').classList.remove('on');render();scrollTo({top:0,behavior:'smooth'})}});
+render();
+</script>
+<script src="join.js?v=1" defer></script>
+</body>
+</html>
