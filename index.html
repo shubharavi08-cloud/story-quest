@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>World of Wonders · Watch &amp; Play</title>
-<meta property="og:title" content="World of Wonders · Watch & Play">
+<title>World of Wonders</title>
+<meta property="og:title" content="World of Wonders">
 <meta property="og:description" content="Animated stories and games on Bharat's festivals, epics and Vedic Maths, for every age.">
 <meta property="og:image" content="https://worldofwondersstudio.com/img/og_share.jpg">
 <meta property="og:url" content="https://worldofwondersstudio.com/">
@@ -55,6 +55,7 @@ h3{font-size:22px}
 .world{font:700 16px var(--body);border-radius:999px;padding:8px 18px;border:1.5px solid var(--line);background:transparent;color:var(--ink)}
 .world.on{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
 .world.soon{opacity:.6}
+.epnav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
 .wow-banner{display:block;margin:14px 0 22px;border-radius:18px;overflow:hidden;box-shadow:0 14px 40px -18px #000;border:1px solid var(--line)}
 .wow-banner img{width:100%;display:block}
 
@@ -138,15 +139,14 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 </head>
 <body>
 
-<div class="fam-bar"><span><a href="index.html" class="fam-home"><img class="fam-logo" src="img/wow_logo.png" alt=""><b>World of Wonders</b></a> · Watch &amp; Play</span><span class="fam">Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></span></div>
+<a class="wow-top" href="index.html" aria-label="World of Wonders home"><img src="img/wow_banner.jpg" alt="World of Wonders · Music · Stories · Creation · Inspiration"></a>
 
 <div class="wrap">
   <header class="bar">
-    <a class="logo" href="#home"><img src="img/wow_logo.png" alt="World of Wonders"><span><small>Studio · Watch &amp; Play</small><b>World of Wonders</b></span></a>
+    <span></span>
     <button class="music" id="music" type="button" aria-pressed="false">Music off</button>
   </header>
   <main id="view"></main>
-  <footer><span>Watch &amp; Play by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders Studio</a> · Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span><span>Watch the story. Play the quest. Learn and teach together.</span></footer>
 </div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="pal" id="pal" aria-live="polite"><img src="img/diya_wave.png" alt="Diya"><div class="bubble" id="bubble"></div></div>
@@ -229,7 +229,7 @@ function home(){
     ${s.img?`<img src="${s.img}" alt="">`:`<div class="ph" aria-hidden="true">${s.emoji}</div>`}
     <span class="chip ${s.open?'':'soon'}">${s.chip||(s.open?'Play now':'Coming soon')}</span>
     <div class="body"><span class="eyebrow">${s.group}</span><h3>${s.name}</h3><p>${s.blurb}</p></div></a>`).join('');
-  V.innerHTML=`<a class="wow-banner" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener"><img src="img/wow_banner.jpg" alt="World of Wonders · Music · Nature · Creation · Inspiration"></a><section class="hero">
+  V.innerHTML=`<section class="hero">
     <div><span class="eyebrow">Watch · Play · Learn</span><h1>Wonders of <span>Bharat</span> for every age</h1>
     <p class="lede" style="margin-top:12px">Festivals, epics, scriptures, wisdom tales and Vedic Maths, each told as a short animated story with a game to play together. Grandparents, parents and children: play, learn and teach each other. Diya the little lamp is your guide.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn" href="#deepavali">Start with Deepavali</a><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Our YouTube channel</a></div></div>
@@ -264,6 +264,10 @@ function deepavali(){
    <section class="finale"><div><span class="eyebrow">Grand finale</span><h2>Light Up Deepavali</h2><p class="lede">Quiz, the five days, Deepavali across India and a rangoli maker. Light all 24 diyas!</p></div>
    <a class="btn" href="finale.html">Play the finale</a></section>`;
 }
+function epNav(n){
+  const prev=DEEPAVALI.find(x=>x.n===n-1&&x.ready), next=DEEPAVALI.find(x=>x.n===n+1&&x.ready);
+  return `<nav class="epnav">${prev?`<a class="btn ghost" href="#dv${n-1}">← Episode ${n-1}</a>`:'<span></span>'}${next?`<a class="btn" href="#dv${n+1}">Next: Episode ${n+1} · ${next.title} →</a>`:`<a class="btn" href="finale.html">Grand finale →</a>`}</nav>`;
+}
 function episode(n){
   const e=DEEPAVALI.find(x=>x.n===n); if(!e||!e.ready){location.hash='deepavali';return}
   const enLive=e.yt&&(!e.ytFrom||Date.now()>=Date.parse(e.ytFrom)); const vers=[...(enLive?[['English',e.yt]]:[]),...(e.alts||[])];
@@ -276,7 +280,7 @@ function episode(n){
    <div class="step"><i>1</i><h2>Watch the story</h2></div>${tabs}<div class="video" id="vbox">${vid}</div><a class="muted small" id="ytlink" href="https://youtu.be/${vers[0]?vers[0][1]:''}" target="_blank" rel="noopener" style="${vers.length?'':'display:none'}">Open on YouTube ↗</a>
    <div class="step"><i>2</i><h2>Play: ${e.game}</h2></div>
    ${e.play?`<a class="bigplay" href="${e.play}"><img src="${e.playImg}" alt=""><div><span class="eyebrow">${e.playTag}</span><h3>${e.game}</h3><p class="muted">${e.playBlurb}</p><span class="btn">${e.playBtn}</span></div></a>`:''}
-   ${e.n===1?`<div class="step"><i>3</i><h2>Quick game: Light the Path</h2></div><section class="card" id="game"></section>`:''}`;
+   ${e.n===1?`<div class="step"><i>3</i><h2>Quick game: Light the Path</h2></div><section class="card" id="game"></section>`:''}${epNav(e.n)}`;
   if(e.n===1) lightThePath(document.getElementById('game'),e);
   wireVideo(e);
 }
@@ -340,5 +344,11 @@ function route(){
 addEventListener('hashchange',route);route();
 </script>
 
+<footer class="wow-foot"><div class="wf-in">
+<a class="wf-brand" href="index.html"><img src="img/wow_logo.png" alt=""><span><b>World of Wonders Studio</b><small>Music · Stories · Creation · Inspiration</small></span></a>
+<nav class="wf-links"><a href="index.html">Home</a> · <a href="index.html#deepavali">Deepavali</a> · <a href="vedic-maths/">Vedic Maths</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
+<div class="wf-sis">Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></div>
+<div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
+</div></footer>
 </body>
 </html>
