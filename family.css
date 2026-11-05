@@ -20,3 +20,16 @@
 .wow-foot .wf-brand img{width:56px;height:56px;border-radius:50%;box-shadow:0 0 0 2px #f6a72388}
 .wow-foot .wf-brand b{display:block;font-size:18px;color:#ffd35a}.wow-foot .wf-brand small{display:block;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:#c7bce6}
 .wow-foot .wf-c{font-size:12px;color:#a99fd0}
+.wow-foot .wf-join{width:100%;max-width:560px;background:rgba(11,8,32,.55);border:1px solid #f6a72355;border-radius:16px;padding:16px 16px 12px;margin:4px 0 6px;box-sizing:border-box}
+.wow-foot .wf-join h3{margin:0 0 2px;font:800 19px/1.2 "Baloo 2","Mukta",system-ui,sans-serif;color:#ffd35a}
+.wow-foot .wj-sub{margin:0 0 10px;font-size:13px;color:#c7bce6}
+.wow-foot .wf-join form{display:grid;grid-template-columns:1fr 1fr;gap:8px;text-align:left}
+.wow-foot .wf-join input[name=name]{grid-column:1/-1}
+.wow-foot .wf-join input:not([type=checkbox]){font:500 15px "Mukta",system-ui,sans-serif;padding:10px 12px;border-radius:10px;border:1px solid #ffffff33;background:#fff;color:#1c1442;min-width:0;width:100%;box-sizing:border-box}
+.wow-foot .wj-c{grid-column:1/-1;display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:#e9e2ff;line-height:1.4}
+.wow-foot .wj-c input{margin-top:2px;width:16px;height:16px;flex:none}
+.wow-foot .wf-join button{grid-column:1/-1;justify-self:center;font:700 16px "Mukta",system-ui,sans-serif;background:#f6a723;color:#1c1442;border:0;border-radius:999px;padding:10px 26px;cursor:pointer;min-height:44px}
+.wow-foot .wf-join button:disabled{opacity:.6}
+.wow-foot .wj-msg{grid-column:1/-1;margin:0;min-height:1em;text-align:center;font-size:13px;color:#ffd35a}
+.wow-foot .wj-ok{margin:0;font-weight:700;color:#ffd35a}
+@media (max-width:480px){.wow-foot .wf-join form{grid-template-columns:1fr}}
