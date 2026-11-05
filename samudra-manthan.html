@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Samudra Manthan · Story Quest</title>
+<title>Samudra Manthan · World of Wonders</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
 <style>
@@ -61,9 +61,9 @@ canvas#sea:active{cursor:grabbing}
 <link rel="stylesheet" href="family.css">
 </head>
 <body>
-<div class="fam-bar"><span><b>Story Quest</b> by World of Wonders · by OurSchoolHouse (OSH)</span><span class="fam">Our family: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span></div>
+<div class="fam-bar"><span><b>World of Wonders</b> · Watch &amp; Play · by OurSchoolHouse (OSH)</span><span class="fam">Our family: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span></div>
 <header class="top">
-  <a class="back" href="index.html#dv2" id="back">← Story Quest</a>
+  <a class="back" href="index.html#dv2" id="back">← World of Wonders</a>
   <h1><small id="t-eyebrow">Deepavali · Episode 2 game</small><span id="t-title">Samudra Manthan</span></h1>
   <div class="langs" role="group" aria-label="Language">
     <button class="pill" data-lang="en" aria-pressed="true">EN</button>
@@ -78,11 +78,11 @@ canvas#sea:active{cursor:grabbing}
   <div class="pulls"><button class="pull asura" id="pl"><span>◀</span><b id="t-pl">Asuras pull</b></button><button class="pull deva" id="pr"><b id="t-pr">Devas pull</b><span>▶</span></button></div>
   <div class="shelf" id="shelf"></div>
 </main>
-<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<p class="by">A game by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
 <div id="overlay"></div>
 <script>
 const L={
- en:{eyebrow:'Deepavali · Episode 2 game',title:'Samudra Manthan',back:'← Story Quest',
+ en:{eyebrow:'Deepavali · Episode 2 game',title:'Samudra Manthan',back:'← World of Wonders',
   howT:'Churn the ocean of milk!',pl:'Asuras pull',pr:'Devas pull',how:[['↔️','Tap ◀ and ▶ in turn (or drag the snake) to spin the mountain.'],['🐢','If the mountain sinks, tap the turtle!'],['☠️','Poison rises: tap every drop. Shiva will drink it.'],['🫧','Tap the treasure bubbles to collect them.']],
   together:'Play alone, or together: one churns, the others tap!',start:'Start churning 🌊',
   churn:'Tap ◀ then ▶, again and again, to churn!',other:'Now pull the other way!',sink:'Oh no, the mountain is sinking! Tap the turtle!',kurma:'Vishnu became Kurma, the turtle, and held the mountain up!',
@@ -91,7 +91,7 @@ const L={
   winT:'Lord Dhanvantari rises!',winP:'Holding the golden pot of amrit, the god of Ayurveda rises from the ocean. That is why, on Dhanteras, we pray for good health. The greatest wealth is good health.',
   time:t=>`Your time: ${t}`,best:t=>`Best: ${t}`,again:'Churn again',story:'Back to the story',
   T:{kamadhenu:['Kamadhenu','The wish-giving cow.'],horse:['Uchchaihshravas','The flying white horse.'],airavata:['Airavata','The white elephant of Indra.'],kalpa:['Kalpavriksha','The wish-fulfilling tree.'],moon:['Chandra','The moon rose from the ocean too.'],lakshmi:['Goddess Lakshmi','She rose on a lotus and chose Vishnu.']}},
- hi:{eyebrow:'दीपावली · एपिसोड 2 का खेल',title:'समुद्र मंथन',back:'← स्टोरी क्वेस्ट',
+ hi:{eyebrow:'दीपावली · एपिसोड 2 का खेल',title:'समुद्र मंथन',back:'← वर्ल्ड ऑफ़ वंडर्स',
   howT:'क्षीर सागर का मंथन करो!',pl:'असुर खींचें',pr:'देव खींचें',how:[['↔️','◀ और ▶ बारी-बारी से दबाओ (या साँप को खींचो), पर्वत घूमेगा।'],['🐢','पर्वत डूबने लगे तो कछुए को टैप करो!'],['☠️','विष उठे तो हर बूँद टैप करो। शिव उसे पी लेंगे।'],['🫧','रत्नों के बुलबुले टैप करके इकट्ठा करो।']],
   together:'अकेले खेलो या साथ में: एक मंथन करे, बाकी टैप करें!',start:'मंथन शुरू करें 🌊',
   churn:'◀ फिर ▶ बार-बार दबाकर मंथन करो!',other:'अब दूसरी तरफ़ खींचो!',sink:'अरे! पर्वत डूब रहा है! कछुए को टैप करो!',kurma:'विष्णु कूर्म (कछुआ) बने और पर्वत को अपनी पीठ पर उठा लिया!',
@@ -100,7 +100,7 @@ const L={
   winT:'भगवान धन्वंतरि प्रकट हुए!',winP:'अमृत का सुनहरा कलश लिए, आयुर्वेद के देवता सागर से प्रकट हुए। इसीलिए धनतेरस पर हम अच्छे स्वास्थ्य की प्रार्थना करते हैं। सबसे बड़ा धन अच्छा स्वास्थ्य है।',
   time:t=>`आपका समय: ${t}`,best:t=>`सबसे अच्छा: ${t}`,again:'फिर से मंथन',story:'कहानी पर वापस',
   T:{kamadhenu:['कामधेनु','इच्छा पूरी करने वाली गाय।'],horse:['उच्चैःश्रवा','उड़ने वाला सफ़ेद घोड़ा।'],airavata:['ऐरावत','इंद्र का सफ़ेद हाथी।'],kalpa:['कल्पवृक्ष','इच्छा पूरी करने वाला वृक्ष।'],moon:['चंद्रमा','चंद्रमा भी सागर से निकले।'],lakshmi:['देवी लक्ष्मी','कमल पर प्रकट हुईं और विष्णु को चुना।']}},
- kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 2 ಆಟ',title:'ಸಮುದ್ರ ಮಂಥನ',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 2 ಆಟ',title:'ಸಮುದ್ರ ಮಂಥನ',back:'← ವರ್ಲ್ಡ್ ಆಫ್ ವಂಡರ್ಸ್',
   howT:'ಕ್ಷೀರಸಾಗರವನ್ನು ಮಥಿಸಿ!',pl:'ಅಸುರರು ಎಳೆಯಿರಿ',pr:'ದೇವತೆಗಳು ಎಳೆಯಿರಿ',how:[['↔️','◀ ಮತ್ತು ▶ ಅನ್ನು ಸರದಿಯಾಗಿ ಒತ್ತಿ (ಅಥವಾ ಹಾವನ್ನು ಎಳೆಯಿರಿ), ಪರ್ವತ ತಿರುಗುತ್ತದೆ.'],['🐢','ಪರ್ವತ ಮುಳುಗಿದರೆ ಆಮೆಯನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ!'],['☠️','ವಿಷ ಏರಿದರೆ ಪ್ರತಿ ಹನಿಯನ್ನೂ ಟ್ಯಾಪ್ ಮಾಡಿ. ಶಿವ ಅದನ್ನು ಕುಡಿಯುತ್ತಾನೆ.'],['🫧','ರತ್ನಗಳ ಗುಳ್ಳೆಗಳನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ ಸಂಗ್ರಹಿಸಿ.']],
   together:'ಒಬ್ಬರೇ ಆಡಿ, ಅಥವಾ ಜೊತೆಯಾಗಿ: ಒಬ್ಬರು ಮಥಿಸಿ, ಉಳಿದವರು ಟ್ಯಾಪ್ ಮಾಡಿ!',start:'ಮಂಥನ ಶುರು 🌊',
   churn:'◀ ನಂತರ ▶ ಮತ್ತೆ ಮತ್ತೆ ಒತ್ತಿ ಮಥಿಸಿ!',other:'ಈಗ ಇನ್ನೊಂದು ಕಡೆ ಎಳೆಯಿರಿ!',sink:'ಅಯ್ಯೋ! ಪರ್ವತ ಮುಳುಗುತ್ತಿದೆ! ಆಮೆಯನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ!',kurma:'ವಿಷ್ಣು ಕೂರ್ಮ (ಆಮೆ) ಆಗಿ ಪರ್ವತವನ್ನು ಬೆನ್ನ ಮೇಲೆ ಎತ್ತಿದನು!',
