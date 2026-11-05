@@ -3,6 +3,11 @@
 <head>
 <meta charset="utf-8">
 <title>World of Wonders · Watch &amp; Play</title>
+<meta property="og:title" content="World of Wonders · Watch & Play">
+<meta property="og:description" content="Animated stories and games on Bharat's festivals, epics and Vedic Maths, for every age.">
+<meta property="og:image" content="https://worldofwondersstudio.com/img/og_share.jpg">
+<meta property="og:url" content="https://worldofwondersstudio.com/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="img/wow_logo.png">
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -50,6 +55,9 @@ h3{font-size:22px}
 .world{font:700 16px var(--body);border-radius:999px;padding:8px 18px;border:1.5px solid var(--line);background:transparent;color:var(--ink)}
 .world.on{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
 .world.soon{opacity:.6}
+.wow-banner{display:block;margin:14px 0 22px;border-radius:18px;overflow:hidden;box-shadow:0 14px 40px -18px #000;border:1px solid var(--line)}
+.wow-banner img{width:100%;display:block}
+
 .hero{margin-bottom:28px}
 .worlds{margin:0 0 26px}
 .hero .btn,.hero a.btn{margin-bottom:4px}
@@ -221,7 +229,7 @@ function home(){
     ${s.img?`<img src="${s.img}" alt="">`:`<div class="ph" aria-hidden="true">${s.emoji}</div>`}
     <span class="chip ${s.open?'':'soon'}">${s.chip||(s.open?'Play now':'Coming soon')}</span>
     <div class="body"><span class="eyebrow">${s.group}</span><h3>${s.name}</h3><p>${s.blurb}</p></div></a>`).join('');
-  V.innerHTML=`<section class="hero">
+  V.innerHTML=`<a class="wow-banner" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener"><img src="img/wow_banner.jpg" alt="World of Wonders · Music · Nature · Creation · Inspiration"></a><section class="hero">
     <div><span class="eyebrow">Watch · Play · Learn</span><h1>Wonders of <span>Bharat</span> for every age</h1>
     <p class="lede" style="margin-top:12px">Festivals, epics, scriptures, wisdom tales and Vedic Maths, each told as a short animated story with a game to play together. Grandparents, parents and children: play, learn and teach each other. Diya the little lamp is your guide.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn" href="#deepavali">Start with Deepavali</a><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Our YouTube channel</a></div></div>
