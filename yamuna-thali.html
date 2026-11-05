@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Yamuna's Thali · QUAD Story Quest</title>
+<title>Yamuna's Thali · Story Quest</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
 <style>
@@ -53,12 +53,12 @@ canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:non
 @keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
-<link rel="stylesheet" href="quad-theme.css">
+<link rel="stylesheet" href="family.css">
 </head>
 <body>
-<div class="quad-bar"><a href="index.html">QUAD Story Quest</a> by World of Wonders · by OurSchoolHouse (OSH) <span class="qb-host"><img src="img/quad_logo.jpg" alt="">on QUAD Academy</span></div>
+<div class="fam-bar"><span><b>Story Quest</b> by World of Wonders · by OurSchoolHouse (OSH)</span><span class="fam">Our family: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span></div>
 <header class="top">
-  <a class="back" href="index.html#dv8" id="back">← QUAD Story Quest</a>
+  <a class="back" href="index.html#dv8" id="back">← Story Quest</a>
   <h1><small id="t-eyebrow">Deepavali · Episode 8 game</small><span id="t-title">Yamuna's Thali</span></h1>
   <div class="langs" role="group" aria-label="Language">
     <button class="pill" data-lang="en" aria-pressed="true">EN</button>
@@ -72,13 +72,13 @@ canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:non
   <div class="stage"><canvas id="st" aria-label="Face-down cards and a golden thali. Flip two cards to find matching puja items and fill Yamuna's thali before Yamraj arrives."></canvas></div>
   <div class="score" id="score"></div>
 </main>
-<p class="by">QUAD Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
 <div id="overlay"></div>
 <script>
 const ITEMS=[['🪔','Lamp','दीया','ದೀಪ'],['🌼','Marigold','गेंदा','ಚೆಂಡು ಹೂ'],['🍬','Sweets','मिठाई','ಸಿಹಿ'],['🥥','Coconut','नारियल','ತೆಂಗಿನಕಾಯಿ'],['🍚','Rice','चावल','ಅಕ್ಕಿ'],['🔴','Kumkum for tilak','तिलक की रोली','ತಿಲಕದ ಕುಂಕುಮ'],
  ['🍌','Banana','केला','ಬಾಳೆಹಣ್ಣು'],['🪷','Lotus','कमल','ಕಮಲ'],['🔔','Bell','घंटी','ಗಂಟೆ'],['🌿','Betel leaf','पान','ವೀಳ್ಯದೆಲೆ'],['🥭','Mango','आम','ಮಾವು'],['🥛','Milk','दूध','ಹಾಲು'],['🏺','Kalash','कलश','ಕಲಶ'],['🌸','Flowers','फूल','ಹೂವು']];
 const L={
- en:{eyebrow:'Deepavali · Episode 8 game',title:"Yamuna's Thali",back:'← QUAD Story Quest',li:1,
+ en:{eyebrow:'Deepavali · Episode 8 game',title:"Yamuna's Thali",back:'← Story Quest',li:1,
   howT:'Yamraj is coming! Get the thali ready',
   how:[['🃏','Flip two cards. If they match, that item goes onto Yamuna\'s welcome thali.'],['🐃',"Yamraj is riding his buffalo to Yamuna's door. Fill the thali before he arrives!"],['🔥','Find pairs one after another for a streak bonus.'],['👫','Two players work as a team, brother and sister! Take turns; find a pair and you go again.']],
   solo:'One player',duo:'Brother & sister team',start:'Start!',
@@ -86,7 +86,7 @@ const L={
   coming:'Yamraj is on his way!',here:'Yamraj is here! Finish the thali!',ready:'The thali is ready!',streak:n=>`${n} in a row!`,
   winT:'Welcome home, brother!',winP:'Yamuna welcomed her brother with a tilak, an aarti and a meal made with love. Yamraj was so happy that he blessed every brother and sister who meet on this day. That is Bhai Dooj!',
   moves:'Turns',time:'Time',again:'Play again',story:'Back to the story',finale:'Play the grand finale ✨'},
- hi:{eyebrow:'दीपावली · एपिसोड 8 का खेल',title:'यमुना की थाली',back:'← QUAD स्टोरी क्वेस्ट',li:2,
+ hi:{eyebrow:'दीपावली · एपिसोड 8 का खेल',title:'यमुना की थाली',back:'← स्टोरी क्वेस्ट',li:2,
   howT:'यमराज आ रहे हैं! थाली सजाओ',
   how:[['🃏','दो पत्ते पलटो। जोड़ी मिली तो वह चीज़ यमुना की स्वागत थाली पर चली जाएगी।'],['🐃','यमराज भैंसे पर बैठकर यमुना के घर आ रहे हैं। उनके पहुँचने से पहले थाली सजा दो!'],['🔥','लगातार जोड़ियाँ ढूँढो, बोनस पाओ।'],['👫','दो खिलाड़ी एक टीम, भाई और बहन! बारी-बारी से खेलो; जोड़ी मिले तो फिर से तुम्हारी बारी।']],
   solo:'एक खिलाड़ी',duo:'भाई-बहन की टीम',start:'शुरू करो!',
@@ -94,7 +94,7 @@ const L={
   coming:'यमराज आ रहे हैं!',here:'यमराज आ गए! थाली पूरी करो!',ready:'थाली तैयार है!',streak:n=>`लगातार ${n}!`,
   winT:'स्वागत है, भैया!',winP:'यमुना ने अपने भाई का तिलक, आरती और प्यार से बने भोजन से स्वागत किया। यमराज इतने खुश हुए कि उन्होंने इस दिन मिलने वाले हर भाई-बहन को आशीर्वाद दिया। यही है भाई दूज!',
   moves:'चालें',time:'समय',again:'फिर से खेलें',story:'कहानी पर वापस',finale:'ग्रैंड फ़िनाले खेलें ✨'},
- kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 8 ಆಟ',title:'ಯಮುನೆಯ ತಟ್ಟೆ',back:'← QUAD ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',li:3,
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 8 ಆಟ',title:'ಯಮುನೆಯ ತಟ್ಟೆ',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',li:3,
   howT:'ಯಮರಾಜ ಬರುತ್ತಿದ್ದಾನೆ! ತಟ್ಟೆ ಸಿದ್ಧ ಮಾಡಿ',
   how:[['🃏','ಎರಡು ಕಾರ್ಡ್ ತಿರುಗಿಸಿ. ಜೋಡಿ ಸಿಕ್ಕರೆ ಆ ವಸ್ತು ಯಮುನೆಯ ಸ್ವಾಗತದ ತಟ್ಟೆಗೆ ಹೋಗುತ್ತದೆ.'],['🐃','ಯಮರಾಜ ಕೋಣದ ಮೇಲೆ ಯಮುನೆಯ ಮನೆಗೆ ಬರುತ್ತಿದ್ದಾನೆ. ಅವನು ಬರುವ ಮೊದಲೇ ತಟ್ಟೆ ತುಂಬಿಸಿ!'],['🔥','ಸತತವಾಗಿ ಜೋಡಿ ಹುಡುಕಿದರೆ ಬೋನಸ್.'],['👫','ಇಬ್ಬರು ಆಟಗಾರರು ಒಂದು ತಂಡ, ಅಣ್ಣ-ತಂಗಿ! ಸರದಿಯಾಗಿ ಆಡಿ; ಜೋಡಿ ಸಿಕ್ಕರೆ ಮತ್ತೆ ನಿಮ್ಮ ಸರದಿ.']],
   solo:'ಒಬ್ಬ ಆಟಗಾರ',duo:'ಅಣ್ಣ-ತಂಗಿ ತಂಡ',start:'ಶುರು ಮಾಡಿ!',
@@ -207,7 +207,7 @@ function finish(){ G.over=true; try{const pr=JSON.parse(localStorage.getItem('st
   const stars=G.late===0?3:G.late===1?2:1; const tot=G.scores.slice(0,G.players).reduce((a,b)=>a+b,0); const m=Math.floor(G.totalTime/60), s=Math.round(G.totalTime%60);
   $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep8_tathastu.jpg" alt=""><h3>${t('winT')}</h3><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${t('winP')}</p>
   <p><b>${tot}</b> ⭐ · ${t('moves')}: ${G.turns} · ${t('time')}: ${m}:${String(s).padStart(2,'0')}</p><button class="go" id="again">${t('again')}</button><a class="go alt" href="finale.html">${t('finale')}</a><a class="go alt" href="index.html#dv8">${t('story')}</a></div></div>`; $('#again').onclick=start }
-function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title')+' · QUAD Story Quest';
+function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title')+' · Story Quest';
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang)); renderScore() }
 document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||G.over)start() });
 $('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
