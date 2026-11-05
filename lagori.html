@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Lagori Strike · Story Quest</title>
+<title>Lagori Strike · World of Wonders</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
 <style>
@@ -56,9 +56,9 @@ canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:non
 <link rel="stylesheet" href="family.css">
 </head>
 <body>
-<div class="fam-bar"><span><b>Story Quest</b> by World of Wonders · by OurSchoolHouse (OSH)</span><span class="fam">Our family: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span></div>
+<div class="fam-bar"><span><b>World of Wonders</b> · Watch &amp; Play · by OurSchoolHouse (OSH)</span><span class="fam">Our family: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span></div>
 <header class="top">
-  <a class="back" href="index.html#dv3" id="back">← Story Quest</a>
+  <a class="back" href="index.html#dv3" id="back">← World of Wonders</a>
   <h1><small id="t-eyebrow">Deepavali · Episode 3 game</small><span id="t-title">Lagori Strike</span></h1>
   <div class="langs" role="group" aria-label="Language">
     <button class="pill" data-lang="en" aria-pressed="true">EN</button>
@@ -72,11 +72,11 @@ canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:non
   <div class="stage"><canvas id="st" aria-label="A Goa street at night with a tower of seven stones. Pull back and release to throw the ball, then tap the fallen stones from biggest to smallest to rebuild."></canvas></div>
   <div class="score" id="score"></div>
 </main>
-<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<p class="by">A game by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
 <div id="overlay"></div>
 <script>
 const L={
- en:{perfect:'PERFECT STRIKE! ×2',strike:'STRIKE!',newbest:'NEW BEST!',eyebrow:'Deepavali · Episode 3 game',title:'Lagori Strike',back:'← Story Quest',
+ en:{perfect:'PERFECT STRIKE! ×2',strike:'STRIKE!',newbest:'NEW BEST!',eyebrow:'Deepavali · Episode 3 game',title:'Lagori Strike',back:'← World of Wonders',
   howT:"Knock down Naraka's tower of pride!",
   how:[['🎯','Pull back on the ball, aim, and let go to throw. You get 3 balls.'],['🪨','Each stone you knock down is one of Naraka\'s faults.'],['🧱','Then rebuild fast: tap the stones from biggest to smallest. They turn into virtues!'],['⚡','Watch out for the bouncing ball while you rebuild.']],
   solo:'One player',duo:'Two players',start:"Let's play Lagori!",
@@ -88,7 +88,7 @@ const L={
   winT:'Pride falls, virtues stand!',winP:"Power without kindness turns into pride, and pride always falls. Like Queen Satyabhama, stand up for what is right!",
   total:'Total score',again:'Play again',story:'Back to the story',
   F:['Pride','Anger','Greed','Fear','Envy','Cruelty','Lies'],V:['Humility','Calm','Sharing','Courage','Kindness','Respect','Truth']},
- hi:{perfect:'परफ़ेक्ट स्ट्राइक! ×2',strike:'स्ट्राइक!',newbest:'नया रिकॉर्ड!',eyebrow:'दीपावली · एपिसोड 3 का खेल',title:'लगोरी स्ट्राइक',back:'← स्टोरी क्वेस्ट',
+ hi:{perfect:'परफ़ेक्ट स्ट्राइक! ×2',strike:'स्ट्राइक!',newbest:'नया रिकॉर्ड!',eyebrow:'दीपावली · एपिसोड 3 का खेल',title:'लगोरी स्ट्राइक',back:'← वर्ल्ड ऑफ़ वंडर्स',
   howT:'नरक के घमंड की मीनार गिराओ!',
   how:[['🎯','गेंद को पीछे खींचो, निशाना लगाओ और छोड़ दो। तुम्हारे पास 3 गेंदें हैं।'],['🪨','हर गिरा पत्थर नरक की एक बुराई है।'],['🧱','फिर जल्दी से बनाओ: सबसे बड़े से सबसे छोटे पत्थर तक टैप करो। वे गुण बन जाएँगे!'],['⚡','बनाते समय उछलती गेंद से बचो।']],
   solo:'एक खिलाड़ी',duo:'दो खिलाड़ी',start:'लगोरी खेलें!',
@@ -100,7 +100,7 @@ const L={
   winT:'घमंड गिरा, गुण खड़े हुए!',winP:'दया के बिना ताकत घमंड बन जाती है, और घमंड हमेशा गिरता है। रानी सत्यभामा की तरह, सही के लिए खड़े हो जाओ!',
   total:'कुल अंक',again:'फिर से खेलें',story:'कहानी पर वापस',
   F:['घमंड','क्रोध','लालच','डर','ईर्ष्या','क्रूरता','झूठ'],V:['विनम्रता','शांति','बाँटना','साहस','दया','सम्मान','सत्य']},
- kn:{perfect:'ಪರ್ಫೆಕ್ಟ್ ಸ್ಟ್ರೈಕ್! ×2',strike:'ಸ್ಟ್ರೈಕ್!',newbest:'ಹೊಸ ದಾಖಲೆ!',eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 3 ಆಟ',title:'ಲಗೋರಿ ಸ್ಟ್ರೈಕ್',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',
+ kn:{perfect:'ಪರ್ಫೆಕ್ಟ್ ಸ್ಟ್ರೈಕ್! ×2',strike:'ಸ್ಟ್ರೈಕ್!',newbest:'ಹೊಸ ದಾಖಲೆ!',eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 3 ಆಟ',title:'ಲಗೋರಿ ಸ್ಟ್ರೈಕ್',back:'← ವರ್ಲ್ಡ್ ಆಫ್ ವಂಡರ್ಸ್',
   howT:'ನರಕನ ಅಹಂಕಾರದ ಗೋಪುರವನ್ನು ಉರುಳಿಸಿ!',
   how:[['🎯','ಚೆಂಡನ್ನು ಹಿಂದಕ್ಕೆ ಎಳೆದು, ಗುರಿ ಇಟ್ಟು, ಬಿಡಿ. ನಿಮಗೆ 3 ಚೆಂಡುಗಳಿವೆ.'],['🪨','ಉರುಳುವ ಪ್ರತಿ ಕಲ್ಲೂ ನರಕನ ಒಂದು ದೋಷ.'],['🧱','ನಂತರ ಬೇಗ ಕಟ್ಟಿ: ದೊಡ್ಡ ಕಲ್ಲಿನಿಂದ ಚಿಕ್ಕದರವರೆಗೆ ಟ್ಯಾಪ್ ಮಾಡಿ. ಅವು ಸದ್ಗುಣಗಳಾಗುತ್ತವೆ!'],['⚡','ಕಟ್ಟುವಾಗ ಪುಟಿಯುವ ಚೆಂಡಿನಿಂದ ಎಚ್ಚರ.']],
   solo:'ಒಬ್ಬ ಆಟಗಾರ',duo:'ಇಬ್ಬರು ಆಟಗಾರರು',start:'ಲಗೋರಿ ಆಡೋಣ!',
