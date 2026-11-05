@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Lakshmi's Cowries · Story Quest</title>
+<title>Lakshmi's Cowries · World of Wonders</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
 <style>
@@ -56,9 +56,9 @@ canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:non
 <link rel="stylesheet" href="family.css">
 </head>
 <body>
-<div class="fam-bar"><span><b>Story Quest</b> by World of Wonders · by OurSchoolHouse (OSH)</span><span class="fam">Our family: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span></div>
+<div class="fam-bar"><span><b>World of Wonders</b> · Watch &amp; Play · by OurSchoolHouse (OSH)</span><span class="fam">Our family: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span></div>
 <header class="top">
-  <a class="back" href="index.html#dv5" id="back">← Story Quest</a>
+  <a class="back" href="index.html#dv5" id="back">← World of Wonders</a>
   <h1><small id="t-eyebrow">Deepavali · Episode 5 game</small><span id="t-title">Lakshmi's Cowries</span></h1>
   <div class="langs" role="group" aria-label="Language">
     <button class="pill" data-lang="en" aria-pressed="true">EN</button>
@@ -73,11 +73,11 @@ canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:non
   <div class="stage"><canvas id="st" aria-label="A wooden Pallanguzhi board with fourteen pits of cowrie shells in a lamp-lit shop. Tap a pit on your side to sow its shells."></canvas></div>
   <div class="score" id="score"></div>
 </main>
-<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<p class="by">A game by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
 <div id="overlay"></div>
 <script>
 const L={
- en:{eyebrow:'Deepavali · Episode 5 game',title:"Lakshmi's Cowries",back:'← Story Quest',
+ en:{eyebrow:'Deepavali · Episode 5 game',title:"Lakshmi's Cowries",back:'← World of Wonders',
   howT:'Pallanguzhi: the cowrie game of Deepavali night',
   how:[['👆','Tap a pit on YOUR side. Its cowries are sown one by one, around the board.'],['🔁','Where the last cowrie lands, look at the next pit: if it has cowries, pick them up and keep sowing!'],['✨','If the next pit is empty, you win the pit after it: Lakshmi\'s blessing!'],['4️⃣','Any pit that reaches exactly 4 cowries while sowing goes to the owner of that side.']],
   solo:'Play with Diya',duo:'Two players',start:'Start sowing!',
@@ -86,7 +86,7 @@ const L={
   winT:w=>`${w} wins Lakshmi's treasure!`,tie:"It's a tie! Lakshmi blesses both!",
   winP:'Lakshmi stays where there is light, honesty and sharing. Count fairly, play kindly, and every home becomes rich!',
   total:'Cowries',again:'Play again',story:'Back to the story',store:'Treasure'},
- hi:{eyebrow:'दीपावली · एपिसोड 5 का खेल',title:'लक्ष्मी की कौड़ियाँ',back:'← स्टोरी क्वेस्ट',
+ hi:{eyebrow:'दीपावली · एपिसोड 5 का खेल',title:'लक्ष्मी की कौड़ियाँ',back:'← वर्ल्ड ऑफ़ वंडर्स',
   howT:'पल्लांगुझी: दीपावली की रात का कौड़ी खेल',
   how:[['👆','अपनी तरफ़ का कोई गड्ढा छुओ। उसकी कौड़ियाँ एक-एक करके बोर्ड पर बोई जाएँगी।'],['🔁','जहाँ आख़िरी कौड़ी गिरे, उसके अगले गड्ढे को देखो: उसमें कौड़ियाँ हों तो उठाओ और बोते रहो!'],['✨','अगर अगला गड्ढा खाली है, तो उसके बाद वाले गड्ढे की सारी कौड़ियाँ तुम्हारी: लक्ष्मी का आशीर्वाद!'],['4️⃣','बोते समय जिस गड्ढे में ठीक 4 कौड़ियाँ हो जाएँ, वे उस तरफ़ वाले खिलाड़ी की।']],
   solo:'दिया के साथ खेलो',duo:'दो खिलाड़ी',start:'बोना शुरू करो!',
@@ -95,7 +95,7 @@ const L={
   winT:w=>`${w} ने लक्ष्मी का ख़ज़ाना जीता!`,tie:'बराबरी! लक्ष्मी दोनों को आशीर्वाद देती हैं!',
   winP:'लक्ष्मी वहीं रहती हैं जहाँ रोशनी, ईमानदारी और बाँटना हो। ईमानदारी से गिनो, प्यार से खेलो, और हर घर अमीर बन जाएगा!',
   total:'कौड़ियाँ',again:'फिर से खेलें',story:'कहानी पर वापस',store:'ख़ज़ाना'},
- kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 5 ಆಟ',title:'ಲಕ್ಷ್ಮಿಯ ಕವಡೆಗಳು',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 5 ಆಟ',title:'ಲಕ್ಷ್ಮಿಯ ಕವಡೆಗಳು',back:'← ವರ್ಲ್ಡ್ ಆಫ್ ವಂಡರ್ಸ್',
   howT:'ಅಳಗುಳಿ ಮನೆ: ದೀಪಾವಳಿ ರಾತ್ರಿಯ ಕವಡೆ ಆಟ',
   how:[['👆','ನಿಮ್ಮ ಕಡೆಯ ಒಂದು ಗುಳಿಯನ್ನು ಮುಟ್ಟಿ. ಅದರ ಕವಡೆಗಳು ಒಂದೊಂದಾಗಿ ಮಣೆಯ ಸುತ್ತ ಹಾಕಲ್ಪಡುತ್ತವೆ.'],['🔁','ಕೊನೆಯ ಕವಡೆ ಬಿದ್ದ ಮುಂದಿನ ಗುಳಿ ನೋಡಿ: ಕವಡೆ ಇದ್ದರೆ ಎತ್ತಿಕೊಂಡು ಮುಂದುವರಿಸಿ!'],['✨','ಮುಂದಿನ ಗುಳಿ ಖಾಲಿ ಇದ್ದರೆ, ಅದರ ಮುಂದಿನ ಗುಳಿಯ ಕವಡೆಗಳೆಲ್ಲ ನಿಮ್ಮವು: ಲಕ್ಷ್ಮಿಯ ಆಶೀರ್ವಾದ!'],['4️⃣','ಹಾಕುವಾಗ ಯಾವ ಗುಳಿಯಲ್ಲಿ ಸರಿಯಾಗಿ 4 ಕವಡೆ ಆಗುತ್ತದೋ, ಅವು ಆ ಕಡೆಯ ಆಟಗಾರನವು.']],
   solo:'ದಿಯಾ ಜೊತೆ ಆಡಿ',duo:'ಇಬ್ಬರು ಆಟಗಾರರು',start:'ಕವಡೆ ಹಾಕಿ!',
@@ -240,7 +240,7 @@ function finish(){ if(!G)return; G.over=true; try{const pr=JSON.parse(localStora
   const [a,b2]=G.st; const head=a===b2?t('tie'):t('winT')(name(a>b2?0:1)); const stars=G.players===2?3:(a>b2?3:(a===b2?2:1));
   $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep5_lakshmi.jpg" alt=""><h3>${head}</h3><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${t('winP')}</p>
   <p><b>${t('total')}:</b> ${name(0)} ${a} · ${name(1)} ${b2}</p><button class="go" id="again">${t('again')}</button><a class="go alt" href="index.html#dv5">${t('story')}</a></div></div>`; $('#again').onclick=start }
-function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title')+' · Story Quest';
+function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title')+' · World of Wonders';
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang)); renderScore() }
 document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||G.over)start() });
 $('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
