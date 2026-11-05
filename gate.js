@@ -53,6 +53,8 @@
   /* game-page mode */
   if(!ME||!ME.dataset.key)return;
   var key=ME.dataset.key; if(has(key))return;
+  /* arriving from a finished story video (Scam Alert guided flow) counts as watched */
+  if(/[?&]flow=1(&|$)/.test(location.search)){mark(key);return}
   var ids={};try{ids=JSON.parse(ME.dataset.yt||'{}')}catch(e){}
   var L=lang(), t=T[L], vid=ids[L]||ids.en||ids[Object.keys(ids)[0]];
   if(!vid)return; /* no video yet for this game: leave it open */
