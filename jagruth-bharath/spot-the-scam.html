@@ -43,7 +43,8 @@ h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;text-wrap:balance}
 .goes{background:var(--night-2);border:1px solid var(--line);border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:8px}
 .goes b{font-family:var(--display);font-size:18px}
 .goes .row{display:flex;gap:8px;flex-wrap:wrap}
-.goes .row a{font-size:15px;padding:8px 14px}
+.goes .row a,.goes .row button{font-size:15px;padding:8px 14px}
+#gv iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 </style>
 <script>try{var q=new URLSearchParams(location.search);var l=q.get('lang');if(l&&/^(en|hi|kn)$/.test(l))localStorage.setItem('jb_lang',l)}catch(e){}</script>
 </head>
@@ -237,6 +238,7 @@ if(U)start();else render();
 </script>
 
  <div class="goes" id="goes"></div>
+ <div id="gv" style="display:none;position:relative;width:100%;max-width:320px;margin:0 auto;aspect-ratio:9/16;border-radius:16px;overflow:hidden;background:#000"></div>
  <div class="help" id="help">📞 Lost money? Call 1930 in the first hour, or report at cybercrime.gov.in</div>
  <div class="foot"><div>Jagruth Bharath · World of Wonders Studio</div><div><a href="../index.html">Home</a> · <a href="./">Scam Alert</a> · <a href="https://jagruthbharath.blogspot.com" target="_blank" rel="noopener">Case files blog</a></div></div>
 </div>
@@ -248,8 +250,8 @@ hi:{h:'यह गेम इनके साथ है',w:'वीडियो द
 kn:{h:'ಈ ಆಟದ ಜೊತೆ',w:'ವಿಡಿಯೋ ನೋಡಿ',r:'ಕೇಸ್ ಫೈಲ್ ಓದಿ',help:'📞 ಹಣ ಹೋಯ್ತಾ? ಮೊದಲ ಗಂಟೆಯಲ್ಲೇ 1930ಕ್ಕೆ ಕರೆ ಮಾಡಿ ಅಥವಾ cybercrime.gov.in ನಲ್ಲಿ ದೂರು ಕೊಡಿ',bk:'← ಸ್ಕ್ಯಾಮ್ ಅಲರ್ಟ್'}};
 function draw(){var L='en';try{L=localStorage.getItem('jb_lang')||'en'}catch(e){}if(!T[L])L='en';var t=T[L];
  var h='<b>🎬📰 '+t.h+'</b>';G.forEach(function(c){var y=c.yt[L]||c.yt.en||c.yt[Object.keys(c.yt)[0]];var bl=c.blog[L]||c.blog.en;
-  h+='<div class="muted" style="font-size:15px">'+c.t[L]+' · '+c.ep[L]+'</div><div class="row"><a class="btn" target="_blank" rel="noopener" href="https://youtube.com/shorts/'+y+'">▶ '+t.w+'</a><a class="btn ghost" target="_blank" rel="noopener" href="'+BLOG+bl+'">📰 '+t.r+'</a><a class="btn ghost" href="./?lang='+L+'#'+c.id+'">'+t.bk.replace('← ','')+'</a></div>'});
- document.getElementById('goes').innerHTML=h;document.getElementById('help').textContent=t.help;document.getElementById('bk').textContent=t.bk;document.documentElement.lang=L}
+  h+='<div class="muted" style="font-size:15px">'+c.t[L]+' · '+c.ep[L]+'</div><div class="row"><button class="btn" data-y="'+y+'">▶ '+t.w+'</button><a class="btn ghost" target="_blank" rel="noopener" href="'+BLOG+bl+'">📰 '+t.r+'</a><a class="btn ghost" href="./?lang='+L+'#'+c.id+'">'+t.bk.replace('← ','')+'</a></div>'});
+ document.getElementById('goes').innerHTML=h;[].forEach.call(document.querySelectorAll('#goes button[data-y]'),function(b){b.onclick=function(){var box=document.getElementById('gv');box.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/'+b.getAttribute('data-y')+'?autoplay=1&rel=0&playsinline=1" title="Mauna video" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';box.style.display='block';box.scrollIntoView({behavior:'smooth',block:'center'})}});document.getElementById('help').textContent=t.help;document.getElementById('bk').textContent=t.bk;document.documentElement.lang=L}
 draw();document.addEventListener('click',function(e){if(e.target.closest('#jbg .langs button'))setTimeout(draw,0)});
 })();
 </script>
