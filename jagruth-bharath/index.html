@@ -78,6 +78,14 @@ h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;text-wrap:balance}
 .panel p{margin:0 0 10px;color:var(--muted);font-size:15px}
 .play .btn{width:100%;font-size:18px;padding:14px}
 .gname{font-weight:700;margin-bottom:8px}
+
+.flow-ov{position:absolute;inset:0;z-index:3;background:rgba(13,11,26,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:18px;text-align:center}
+.flow-ov p{margin:0;color:var(--muted);font-size:15px}
+.flow-ov b{font-family:var(--display);font-size:20px;line-height:1.15}
+.flow-ov .btn{font-size:17px;padding:12px 18px}
+.flow-ov small{color:var(--muted);font-size:13px}
+.lnk{all:unset;cursor:pointer;color:var(--gold);text-decoration:underline}
+.vid .flow-ov button.lnk{position:static;inset:auto;display:inline}
 </style>
 </head>
 <body>
@@ -125,7 +133,7 @@ function render(){
   bind();
 }
 function bind(){
-  document.querySelectorAll('.vid button').forEach(b=>b.onclick=()=>{const id=b.dataset.id;b.parentNode.innerHTML=`<iframe src="https://www.youtube.com/embed/${id}?autoplay=1&rel=0&playsinline=1" title="Mauna video" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`});
+  document.querySelectorAll('.vid button').forEach(b=>b.onclick=()=>playIn(b.parentNode,b.dataset.id));
   document.querySelectorAll('.vtabs button').forEach(b=>b.onclick=()=>{const c=D.cases.find(x=>x.id===b.dataset.c);const box=$('v-'+c.id);const id=c.yt[b.dataset.l];
     b.parentNode.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
     box.innerHTML=`<button aria-label="Play" data-id="${id}"><img src="${thumb(id)}" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${id}/hqdefault.jpg'" alt=""><span class="pl">▶</span></button>`;bind()});
@@ -133,6 +141,38 @@ function bind(){
 document.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>{L=b.dataset.l;try{localStorage.setItem('jb_lang',L)}catch(e){}render()});
 render();
 if(location.hash){const el=document.querySelector(location.hash);if(el)setTimeout(()=>el.scrollIntoView(),50)}
+</script>
+<script>
+/* flow: when a video ends, lead to its game; ?play=<case> opens that case's video */
+(function(){
+var FT={en:{done:'Video done! Now beat Mr. Promise:',go:'Play the game',cd:'Starting in {n}s',stay:'Stay here',again:'Watch again'},
+hi:{done:'वीडियो पूरा! अब मिस्टर प्रॉमिस को हराइए:',go:'गेम खेलिए',cd:'{n} सेकंड में शुरू',stay:'यहीं रहिए',again:'फिर से देखिए'},
+kn:{done:'ವಿಡಿಯೋ ಮುಗೀತು! ಈಗ ಮಿಸ್ಟರ್ ಪ್ರಾಮಿಸ್‌ನ ಸೋಲಿಸಿ:',go:'ಆಟ ಆಡಿ',cd:'{n} ಸೆಕೆಂಡ್‌ನಲ್ಲಿ ಶುರು',stay:'ಇಲ್ಲೇ ಇರಿ',again:'ಮತ್ತೆ ನೋಡಿ'}};
+var ready=false,queue=[];
+var prev=window.onYouTubeIframeAPIReady;
+window.onYouTubeIframeAPIReady=function(){ready=true;queue.splice(0).forEach(function(f){f()});if(prev)prev()};
+var tag=document.createElement('script');tag.src='https://www.youtube.com/iframe_api';document.head.appendChild(tag);
+window.playIn=function(box,id){
+ box.dataset.vid=id;
+ box.innerHTML='<iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0&playsinline=1&enablejsapi=1&origin='+encodeURIComponent(location.origin)+'" title="Mauna video" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+ var f=box.querySelector('iframe'),art=box.closest('.case');
+ var hook=function(){try{new YT.Player(f,{events:{onStateChange:function(e){if(e.data===0)ended(box,art.id)}}})}catch(x){}};
+ if(ready&&window.YT&&YT.Player)hook();else queue.push(hook);
+};
+function ended(box,cid){
+ if(box.querySelector('.flow-ov'))return;
+ var c=D.cases.find(function(x){return x.id===cid});if(!c)return;
+ var t=FT[L]||FT.en,n=8,url=c.game+(c.game.indexOf('?')>=0?'&':'?')+'lang='+L+'&flow=1';
+ var ov=document.createElement('div');ov.className='flow-ov';
+ ov.innerHTML='<p>🦉 '+t.done+'</p><b>🎮 '+c.gname[L]+'</b><a class="btn red" href="'+url+'">'+t.go+' ▶</a><small class="ctl"><span class="cd">'+t.cd.replace('{n}',n)+'</span> · <button class="lnk st">'+t.stay+'</button></small><button class="lnk ag">↺ '+t.again+'</button>';
+ box.appendChild(ov);
+ var tm=setInterval(function(){if(!document.contains(ov)){clearInterval(tm);return}n--;ov.querySelector('.cd').textContent=t.cd.replace('{n}',n);if(n<=0){clearInterval(tm);location.href=url}},1000);
+ ov.querySelector('.st').onclick=function(){clearInterval(tm);ov.querySelector('.ctl').remove()};
+ ov.querySelector('.ag').onclick=function(){clearInterval(tm);playIn(box,box.dataset.vid)};
+}
+try{var p=new URLSearchParams(location.search).get('play');if(p){var art=document.getElementById(p),b=art&&art.querySelector('.vid button');
+ if(b)setTimeout(function(){art.scrollIntoView({block:'start'});playIn(b.parentNode,b.dataset.id)},120)}}catch(e){}
+})();
 </script>
 </body>
 </html>

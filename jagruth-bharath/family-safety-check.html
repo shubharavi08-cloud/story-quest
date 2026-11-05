@@ -47,6 +47,15 @@ h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;text-wrap:balance}
 #gv iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 </style>
 <script>try{var q=new URLSearchParams(location.search);var l=q.get('lang');if(l&&/^(en|hi|kn)$/.test(l))localStorage.setItem('jb_lang',l)}catch(e){}</script>
+<style>
+.flow-nx{margin:14px 0;background:var(--night-3);border:2px solid var(--gold);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}
+.flow-nx .k{font-family:'Special Elite',monospace;color:var(--red);letter-spacing:.08em;font-size:13px;text-transform:uppercase}
+.flow-nx b{font-family:var(--display);font-size:21px;line-height:1.15;color:var(--ink)}
+.flow-nx p{margin:0;color:var(--muted);font-size:15px}
+.flow-nx .btn{font-size:17px;padding:12px 18px}
+.flow-nx small{color:var(--muted);font-size:13px}
+.flow-nx .lnk{all:unset;cursor:pointer;color:var(--gold);text-decoration:underline}
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -237,6 +246,37 @@ function draw(){var L='en';try{L=localStorage.getItem('jb_lang')||'en'}catch(e){
   h+='<div class="muted" style="font-size:15px">'+c.t[L]+' · '+c.ep[L]+'</div><div class="row"><button class="btn" data-y="'+y+'">▶ '+t.w+'</button><a class="btn ghost" target="_blank" rel="noopener" href="'+BLOG+bl+'">📰 '+t.r+'</a><a class="btn ghost" href="./?lang='+L+'#'+c.id+'">'+t.bk.replace('← ','')+'</a></div>'});
  document.getElementById('goes').innerHTML=h;[].forEach.call(document.querySelectorAll('#goes button[data-y]'),function(b){b.onclick=function(){var box=document.getElementById('gv');box.innerHTML='<iframe src="https://www.youtube.com/embed/'+b.getAttribute('data-y')+'?autoplay=1&rel=0&playsinline=1" title="Mauna video" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';box.style.display='block';box.scrollIntoView({behavior:'smooth',block:'center'})}});document.getElementById('help').textContent=t.help;document.getElementById('bk').textContent=t.bk;document.documentElement.lang=L}
 draw();document.addEventListener('click',function(e){if(e.target.closest('#jbf .langs button'))setTimeout(draw,0)});
+})();
+</script>
+<script>
+/* flow: when the game's result appears, lead to the next case's video */
+(function(){
+var NX=[{"id": "arrest", "icon": "🚔", "t": {"en": "The Video Call Arrest", "hi": "डिजिटल अरेस्ट", "kn": "ಡಿಜಿಟಲ್ ಅರೆಸ್ಟ್"}, "ep": {"en": "Mauna Ep 3", "hi": "मौना एपिसोड 3", "kn": "ಮೌನ ಸಂಚಿಕೆ 3"}}, {"id": "refund", "icon": "🛒", "t": {"en": "The ₹441 Refund", "hi": "₹441 का रिफ़ंड", "kn": "₹441 ರೀಫಂಡ್"}, "ep": {"en": "Mauna Ep 10", "hi": "मौना एपिसोड 10", "kn": "ಮೌನ ಸಂಚಿಕೆ 10"}}, {"id": "trading", "icon": "📈", "t": {"en": "The VIP Profit Group", "hi": "VIP प्रॉफ़िट ग्रुप", "kn": "VIP ಪ್ರಾಫಿಟ್ ಗ್ರೂಪ್"}, "ep": {"en": "Mauna Ep 7", "hi": "मौना एपिसोड 7", "kn": "ಮೌನ ಸಂಚಿಕೆ 7"}}, {"id": "family", "icon": "🛡️", "t": {"en": "Is Your Family Scam-Safe?", "hi": "क्या आपका परिवार सुरक्षित है?", "kn": "ನಿಮ್ಮ ಕುಟುಂಬ ಸುರಕ್ಷಿತವೇ?"}, "ep": {"en": "Mauna Ep 4", "hi": "मौना एपिसोड 4", "kn": "ಮೌನ ಸಂಚಿಕೆ 4"}}, {"id": "spot", "icon": "🔍", "t": {"en": "Spot the Scam", "hi": "स्कैम पहचानिए", "kn": "ಮೋಸ ಕಂಡುಹಿಡಿಯಿರಿ"}, "ep": {"en": "Mauna Ep 9", "hi": "मौना एपिसोड 9", "kn": "ಮೌನ ಸಂಚಿಕೆ 9"}}],KIND="safe",BLOG="https://jagruthbharath.blogspot.com";
+var ORDER=NX.map(function(c){return c.id});
+var FT={en:{next:'Next case',watch:'Watch the next video',cd:'Opening in {n}s',stay:'Stay here',allT:'All 5 cases done! 🦉',allM:'Mauna is proud of you. Now share these games with your family.',blog:'Read all case files',home:'Back to Scam Alert'},
+hi:{next:'अगला केस',watch:'अगला वीडियो देखिए',cd:'{n} सेकंड में खुलेगा',stay:'यहीं रहिए',allT:'पाँचों केस पूरे! 🦉',allM:'मौना को आप पर गर्व है। अब ये गेम अपने परिवार के साथ शेयर कीजिए।',blog:'सभी केस फ़ाइलें पढ़िए',home:'स्कैम अलर्ट पर वापस'},
+kn:{next:'ಮುಂದಿನ ಕೇಸ್',watch:'ಮುಂದಿನ ವಿಡಿಯೋ ನೋಡಿ',cd:'{n} ಸೆಕೆಂಡ್‌ನಲ್ಲಿ ತೆರೆಯುತ್ತೆ',stay:'ಇಲ್ಲೇ ಇರಿ',allT:'ಐದೂ ಕೇಸ್ ಮುಗೀತು! 🦉',allM:'ಮೌನಗೆ ನಿಮ್ಮ ಬಗ್ಗೆ ಹೆಮ್ಮೆ. ಈಗ ಈ ಆಟಗಳನ್ನು ನಿಮ್ಮ ಕುಟುಂಬದ ಜೊತೆ ಹಂಚಿಕೊಳ್ಳಿ.',blog:'ಎಲ್ಲಾ ಕೇಸ್ ಫೈಲ್‌ಗಳನ್ನು ಓದಿ',home:'ಸ್ಕ್ಯಾಮ್ ಅಲರ್ಟ್‌ಗೆ ವಾಪಸ್'}};
+var cur=KIND==='safe'?'family':KIND==='spot'?'spot':'arrest';
+if(KIND==='chat'){try{var q=new URLSearchParams(location.search).get('case');if(q&&ORDER.indexOf(q)>=0)cur=q}catch(e){}
+ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('#jbc .case[data-i]');if(b)cur=['arrest','refund','trading'][+b.getAttribute('data-i')]||cur},true)}
+var SEL={chat:'#jbc .result .end',safe:'#jbf .score',spot:'#g-body .badge'}[KIND];
+function lang(){var l='en';try{l=localStorage.getItem('jb_lang')||'en'}catch(e){}return FT[l]?l:'en'}
+function show(el){
+ var L=lang(),t=FT[L],i=ORDER.indexOf(cur),box=document.createElement('div');box.className='flow-nx';
+ if(i>=0&&i<ORDER.length-1){
+  var n=NX[i+1],url='./?lang='+L+'&play='+n.id+'#'+n.id,s=12;
+  box.innerHTML='<div class="k">'+t.next+' · '+n.icon+'</div><b>'+n.t[L]+'</b><p>🎬 '+n.ep[L]+'</p><a class="btn red" href="'+url+'">▶ '+t.watch+'</a><small class="ctl"><span class="cd">'+t.cd.replace('{n}',s)+'</span> · <button class="lnk">'+t.stay+'</button></small>';
+  var tm=setInterval(function(){if(!document.contains(box)){clearInterval(tm);return}s--;box.querySelector('.cd').textContent=t.cd.replace('{n}',s);if(s<=0){clearInterval(tm);location.href=url}},1000);
+  var stop=function(){clearInterval(tm);var c=box.querySelector('.ctl');if(c)c.remove();['pointerdown','wheel','keydown','touchstart'].forEach(function(ev){document.removeEventListener(ev,onAct,true)})};
+  var onAct=function(e){if(!box.contains(e.target))stop()};
+  box.querySelector('.lnk').onclick=stop;
+  setTimeout(function(){['pointerdown','wheel','keydown','touchstart'].forEach(function(ev){document.addEventListener(ev,onAct,true)})},400);
+ }else{
+  box.innerHTML='<b>'+t.allT+'</b><p>'+t.allM+'</p><a class="btn" target="_blank" rel="noopener" href="'+BLOG+'">📰 '+t.blog+' ↗</a><a class="lnk" href="./?lang='+L+'">'+t.home+'</a>';
+ }
+ el.parentNode.insertBefore(box,el.nextSibling);
+}
+new MutationObserver(function(){var el=document.querySelector(SEL);if(el&&!el.parentNode.querySelector('.flow-nx'))show(el)}).observe(document.body,{childList:true,subtree:true});
 })();
 </script>
 </body>
