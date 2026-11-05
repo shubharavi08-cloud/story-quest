@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Road to Ayodhya</title>
+<title>Road to Ayodhya · QUAD Story Quest</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
 <style>
@@ -90,9 +90,9 @@ canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-in
 <link rel="stylesheet" href="quad-theme.css">
 </head>
 <body>
-<div class="quad-bar"><a href="index.html">Story Quest</a> by World of Wonders · by OurSchoolHouse (OSH) <span class="qb-host"><img src="img/quad_logo.jpg" alt="">on QUAD Academy</span></div>
+<div class="quad-bar"><a href="index.html">QUAD Story Quest</a> by World of Wonders · by OurSchoolHouse (OSH) <span class="qb-host"><img src="img/quad_logo.jpg" alt="">on QUAD Academy</span></div>
 <header class="top">
-  <a class="back" href="index.html#dv1" id="back">← Story Quest</a>
+  <a class="back" href="index.html#dv1" id="back">← QUAD Story Quest</a>
   <h1><small id="t-eyebrow">Deepavali · Episode 1 game</small><span id="t-title">Road to Ayodhya</span></h1>
   <div class="langs" role="group" aria-label="Language">
     <button class="pill" data-lang="en" aria-pressed="true">EN</button>
@@ -130,14 +130,14 @@ canvas#fx{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-in
     <section class="panel"><div class="log" id="log"></div></section>
   </aside>
 </main>
-<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<p class="by">QUAD Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
 <canvas id="fx"></canvas>
 <div id="overlay"></div>
 
 <script>
 /* ================= content ================= */
 const L = {
- en:{eyebrow:'Deepavali · Episode 1 game',title:'Road to Ayodhya',back:'← Story Quest',roll:'Roll',rolling:'Rolling…',lamps:'Story lamps lit',
+ en:{eyebrow:'Deepavali · Episode 1 game',title:'Road to Ayodhya',back:'← QUAD Story Quest',roll:'Roll',rolling:'Rolling…',lamps:'Story lamps lit',
    yourTurn:n=>`${n}'s turn. Tap Roll!`,botTurn:n=>`${n} is thinking…`,rolled:(n,v)=>`${n} rolled ${v}.`,six:'A six! Roll again.',
    exact:v=>`Need exactly ${v} to reach Ayodhya.`,bounce:'Too far! Bounced back.',ladderTag:'Ladder of goodness',snakeTag:'Snake of trouble',
    climb:'Climb up!',slide:'Slide down…',storyTag:'Story lamp',right:'Right! You lit a story lamp and move 3 squares ahead.',wrong:a=>`Not quite. The answer is: ${a}`,
@@ -146,7 +146,7 @@ const L = {
    players:'Players',human:'Person',bot:'Diya (computer)',start:'Start the journey',name:i=>['Player 1','Player 2','Player 3','Player 4'][i],
    rules:'Roll the dice and race to square 100, Ayodhya. Ladders of goodness lift you up; snakes of trouble pull you down. Land on a lamp square to answer a story question.',
    badge:'New virtue diya collected:',youWord:'You'},
- hi:{eyebrow:'दीपावली · एपिसोड 1 खेल',title:'अयोध्या की राह',back:'← स्टोरी क्वेस्ट',roll:'पासा फेंको',rolling:'घूम रहा है…',lamps:'जले हुए कहानी-दीये',
+ hi:{eyebrow:'दीपावली · एपिसोड 1 खेल',title:'अयोध्या की राह',back:'← QUAD स्टोरी क्वेस्ट',roll:'पासा फेंको',rolling:'घूम रहा है…',lamps:'जले हुए कहानी-दीये',
    yourTurn:n=>`${n} की बारी। पासा फेंको!`,botTurn:n=>`${n} सोच रही है…`,rolled:(n,v)=>`${n} के ${v} आए।`,six:'छक्का! फिर से फेंको।',
    exact:v=>`अयोध्या पहुँचने के लिए ठीक ${v} चाहिए।`,bounce:'ज़्यादा हो गया! पीछे लौटे।',ladderTag:'अच्छाई की सीढ़ी',snakeTag:'मुसीबत का साँप',
    climb:'ऊपर चढ़ो!',slide:'नीचे फिसले…',storyTag:'कहानी का दीया',right:'सही! तुमने कहानी का दीया जलाया, 3 खाने आगे बढ़ो।',wrong:a=>`थोड़ा चूक गए। सही उत्तर: ${a}`,
@@ -155,7 +155,7 @@ const L = {
    players:'खिलाड़ी',human:'व्यक्ति',bot:'दिया (कंप्यूटर)',start:'यात्रा शुरू करें',name:i=>['खिलाड़ी 1','खिलाड़ी 2','खिलाड़ी 3','खिलाड़ी 4'][i],
    rules:'पासा फेंको और खाना 100, अयोध्या तक दौड़ो। अच्छाई की सीढ़ियाँ ऊपर ले जाती हैं, मुसीबत के साँप नीचे गिराते हैं। दीये वाले खाने पर कहानी का सवाल मिलेगा।',
    badge:'नया गुण-दीया मिला:',youWord:'आप'},
- kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 1 ಆಟ',title:'ಅಯೋಧ್ಯೆಯ ದಾರಿ',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',roll:'ದಾಳ ಎಸೆಯಿರಿ',rolling:'ಉರುಳುತ್ತಿದೆ…',lamps:'ಹಚ್ಚಿದ ಕಥೆಯ ದೀಪಗಳು',
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 1 ಆಟ',title:'ಅಯೋಧ್ಯೆಯ ದಾರಿ',back:'← QUAD ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',roll:'ದಾಳ ಎಸೆಯಿರಿ',rolling:'ಉರುಳುತ್ತಿದೆ…',lamps:'ಹಚ್ಚಿದ ಕಥೆಯ ದೀಪಗಳು',
    yourTurn:n=>`${n} ಅವರ ಸರದಿ. ದಾಳ ಎಸೆಯಿರಿ!`,botTurn:n=>`${n} ಯೋಚಿಸುತ್ತಿದ್ದಾಳೆ…`,rolled:(n,v)=>`${n} ಗೆ ${v} ಬಂತು.`,six:'ಆರು! ಮತ್ತೆ ಎಸೆಯಿರಿ.',
    exact:v=>`ಅಯೋಧ್ಯೆ ತಲುಪಲು ಸರಿಯಾಗಿ ${v} ಬೇಕು.`,bounce:'ಜಾಸ್ತಿ ಆಯಿತು! ಹಿಂದೆ ಬಂದಿರಿ.',ladderTag:'ಒಳ್ಳೆಯತನದ ಏಣಿ',snakeTag:'ತೊಂದರೆಯ ಹಾವು',
    climb:'ಮೇಲೆ ಹತ್ತಿ!',slide:'ಕೆಳಗೆ ಜಾರಿದಿರಿ…',storyTag:'ಕಥೆಯ ದೀಪ',right:'ಸರಿ! ನೀವು ಕಥೆಯ ದೀಪ ಹಚ್ಚಿದಿರಿ, 3 ಮನೆ ಮುಂದೆ ಹೋಗಿ.',wrong:a=>`ಸ್ವಲ್ಪದರಲ್ಲಿ ತಪ್ಪಿತು. ಸರಿಯಾದ ಉತ್ತರ: ${a}`,
@@ -335,7 +335,7 @@ function fxDraw(){ fc.clearRect(0,0,innerWidth,innerHeight); anim.parts=anim.par
 const $=s=>document.querySelector(s);
 function applyLang(){
   document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); $('#t-lamps').textContent=t('lamps');
-  document.title=t('title'); document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
+  document.title=t('title')+' · QUAD Story Quest'; document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
   if(G){ renderPlayers(); setHint(); } $('#roll').textContent=t('roll');
 }
 document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G)setup(); });
