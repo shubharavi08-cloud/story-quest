@@ -162,6 +162,7 @@ const DEEPAVALI = [
 const SECTIONS = [
  {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale.", img:'img/ayodhya.jpg', open:true},
  {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/'},
+ {k:'books', name:'Books', group:'Printable PDFs', blurb:'Vedic Maths Brain Speed! Level 1 · ₹199 · more levels and story books coming soon.', img:'img/book_vm1_cover.jpg', open:true, href:'books.html', chip:'New · ₹199'},
  {k:'gita', name:'Bhagavad Gita', group:'Scriptures', blurb:'Krishna and Arjuna, one chapter at a time.', emoji:'🪷'},
  {k:'panchatantra', name:'Panchatantra', group:'Wisdom tales', blurb:'Clever animals, smart lessons.', emoji:'🐒'},
  {k:'ramayana', name:'Ramayana', group:'Epics', blurb:'The journey of Shri Ram.', img:'img/exile.jpg'},
@@ -215,7 +216,7 @@ const V=document.getElementById('view');
 function home(){
   const groups=SECTIONS.map(s=>`<a class="tile ${s.open?'':'locked'}" href="${s.open?(s.href||'#'+s.k):'#home'}" ${s.open?'':'aria-disabled="true"'}>
     ${s.img?`<img src="${s.img}" alt="">`:`<div class="ph" aria-hidden="true">${s.emoji}</div>`}
-    <span class="chip ${s.open?'':'soon'}">${s.open?'Play now':'Coming soon'}</span>
+    <span class="chip ${s.open?'':'soon'}">${s.chip||(s.open?'Play now':'Coming soon')}</span>
     <div class="body"><span class="eyebrow">${s.group}</span><h3>${s.name}</h3><p>${s.blurb}</p></div></a>`).join('');
   V.innerHTML=`<section class="hero">
     <div><span class="eyebrow">Watch · Play · Learn</span><h1>Wonders of <span>Bharat</span> for every age</h1>
