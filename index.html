@@ -230,12 +230,12 @@ function saveProg(){try{localStorage.setItem('storyquest',JSON.stringify(prog))}
 /* ===== views ===== */
 const V=document.getElementById('view');
 function allGames(){
-  const g=DEEPAVALI.filter(e=>e.ready&&e.play).map(e=>({name:e.game,sub:'Deepavali · Ep '+e.n,img:e.img,href:e.play}));
+  const g=DEEPAVALI.filter(e=>e.ready&&e.play).map(e=>({name:e.game,sub:'▶ Deepavali · Ep '+e.n,img:e.img,href:'#dv'+e.n}));
   g.push({name:'Light Up Deepavali',sub:'Deepavali · Finale',img:'img/celebrate.jpg',href:'finale.html'},
     {name:'Vedic Maths Gurukul Games',sub:'Vedic Maths',img:'img/vm_tile.jpg',href:'vedic-maths/'},
-    {name:'Spot the Scam',sub:'Scam Alert',img:'jagruth-bharath/img/mauna.webp',href:'jagruth-bharath/spot-the-scam.html'},
-    {name:'Mr. Promise is calling',sub:'Scam Alert',img:'jagruth-bharath/img/mr-promise.webp',href:'jagruth-bharath/mr-promise-calling.html'},
-    {name:'Family Safety Check',sub:'Scam Alert',img:'jagruth-bharath/img/helpline.webp',href:'jagruth-bharath/family-safety-check.html'});
+    {name:'Spot the Scam',sub:'▶ Scam Alert',img:'jagruth-bharath/img/mauna.webp',href:'jagruth-bharath/'},
+    {name:'Mr. Promise is calling',sub:'▶ Scam Alert',img:'jagruth-bharath/img/mr-promise.webp',href:'jagruth-bharath/'},
+    {name:'Family Safety Check',sub:'▶ Scam Alert',img:'jagruth-bharath/img/helpline.webp',href:'jagruth-bharath/'});
   return g.map(x=>`<a class="tile mini" href="${x.href}"><img src="${x.img}" alt="" loading="lazy"><div class="body"><span class="eyebrow">${x.sub}</span><h3>${x.name}</h3></div></a>`).join('');
 }
 function home(){
@@ -250,7 +250,7 @@ function home(){
     <div class="art"><img class="scene" src="img/ayodhya.jpg" alt="Ayodhya glowing with rows of lamps"><img class="mascot" src="img/diya_wave.png" alt="Diya waving"></div></section>
     <div class="worlds"><span class="world on">🇮🇳 Bharat</span><span class="world soon">🌍 World · coming later</span></div>
     <section style="display:flex;flex-direction:column;gap:14px"><h2>Pick a topic</h2><div class="shelf">${groups}</div></section>
-    <section style="display:flex;flex-direction:column;gap:14px;margin-top:30px"><h2>All games</h2><p class="lede">Every game on World of Wonders. Tap one to jump straight in.</p><div class="shelf games">${allGames()}</div></section>`;
+    <section style="display:flex;flex-direction:column;gap:14px;margin-top:30px"><h2>Watch, then play</h2><p class="lede">Every story comes with a game. Watch the video first, and the game opens.</p><div class="shelf games">${allGames()}</div></section>`;
 }
 function trailSVG(){
   const done=n=>prog['dv'+n];const W=1000,H=230;
@@ -305,7 +305,7 @@ function wireVideo(e){
   const poster=()=>`<button class="watch" id="poster" aria-label="Play"><img src="${e.img}" alt=""><span class="playbtn" aria-hidden="true">▶</span></button>`;
   let cur=(document.querySelector('.lang.on')||{}).dataset?.id;
   const play=()=>{ try{if(musicOn)setMusic(false)}catch(_){}
-    box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${cur}?autoplay=1&rel=0&modestbranding=1&playsinline=1&vq=hd1080" title="Episode ${e.n}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>` };
+    box.innerHTML=`<iframe src="https://www.youtube.com/embed/${cur}?autoplay=1&rel=0&modestbranding=1&playsinline=1&vq=hd1080&enablejsapi=1&origin=${encodeURIComponent(location.origin)}" title="Episode ${e.n}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`; if(window.WOWGate&&e.play) WOWGate.track(box.querySelector('iframe'), e.play.replace('.html','')) };
   box.addEventListener('click',ev=>{ if(ev.target.closest('#poster')) play() });
   document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>{ document.querySelectorAll('.lang').forEach(x=>x.classList.toggle('on',x===b)); cur=b.dataset.id; if(link)link.href='https://youtu.be/'+cur; if(box.querySelector('iframe')) play(); else box.innerHTML=poster() });
 }
@@ -365,6 +365,7 @@ addEventListener('hashchange',route);route();
 <div class="wf-sis">Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></div>
 <div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
 </div></footer>
+<script src="gate.js?v=1"></script>
 <script src="join.js?v=1" defer></script>
 </body>
 </html>
