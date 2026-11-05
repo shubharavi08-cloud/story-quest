@@ -4,3 +4,6 @@
 .fam-bar a{color:#ffd35a;text-decoration:none}
 .fam-bar a:hover{text-decoration:underline}
 .fam-bar .fam{opacity:.85}
+
+.fam-bar .fam-home{display:inline-flex;align-items:center;gap:7px;color:#ffd35a;text-decoration:none}
+.fam-bar .fam-logo{width:28px;height:28px;border-radius:50%;box-shadow:0 0 0 2px #f6a72366}
