@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bali's Promise · Story Quest</title>
+<title>Bali's Promise · World of Wonders</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
 <style>
@@ -56,9 +56,9 @@ canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:non
 <link rel="stylesheet" href="family.css">
 </head>
 <body>
-<div class="fam-bar"><span><b>Story Quest</b> by World of Wonders · by OurSchoolHouse (OSH)</span><span class="fam">Our family: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span></div>
+<div class="fam-bar"><span><b>World of Wonders</b> · Watch &amp; Play · by OurSchoolHouse (OSH)</span><span class="fam">Our family: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span></div>
 <header class="top">
-  <a class="back" href="index.html#dv7" id="back">← Story Quest</a>
+  <a class="back" href="index.html#dv7" id="back">← World of Wonders</a>
   <h1><small id="t-eyebrow">Deepavali · Episode 7 game</small><span id="t-title">Bali's Promise</span></h1>
   <div class="langs" role="group" aria-label="Language">
     <button class="pill" data-lang="en" aria-pressed="true">EN</button>
@@ -72,11 +72,11 @@ canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:non
   <div class="stage"><canvas id="st" aria-label="A Navakankari board of three nested squares in King Bali's courtyard. Tap a dot to place or move your lamps; three in a line lets you take a lamp."></canvas></div>
   <div class="score" id="score"></div>
 </main>
-<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<p class="by">A game by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
 <div id="overlay"></div>
 <script>
 const L={
- en:{eyebrow:'Deepavali · Episode 7 game',title:"Bali's Promise",back:'← Story Quest',
+ en:{eyebrow:'Deepavali · Episode 7 game',title:"Bali's Promise",back:'← World of Wonders',
   howT:'Navakankari: the nine-lamp game',
   how:[['🪔',"Players of Karnataka have played Navakankari on temple floors for centuries. Each player has 9 lamps. Take turns to place them on the dots."],['✨','Three of your lamps in a straight line is a Promise! Then take away one of your friend\'s lamps.'],['👆','When all lamps are placed, slide one lamp to a free dot next to it along a line. With only 3 lamps left, you can jump anywhere.'],['🏆','Your friend loses when only 2 lamps are left, or no lamp can move.']],
   solo:'Play Deepu',duo:'Two players',start:"Let's play!",
@@ -86,7 +86,7 @@ const L={
   nomove:'No moves left!',winT:n=>n==='You'?'You win!':`${n} wins!`,
   winP:"King Bali kept his promise even when it cost him everything, and that is why he is welcomed home every year on Bali Padyami. Keep your promises, little and big!",
   again:'Play again',story:'Back to the story',diya:'Diya',tie:"It's a tie!"},
- hi:{eyebrow:'दीपावली · एपिसोड 7 का खेल',title:'बलि का वचन',back:'← स्टोरी क्वेस्ट',
+ hi:{eyebrow:'दीपावली · एपिसोड 7 का खेल',title:'बलि का वचन',back:'← वर्ल्ड ऑफ़ वंडर्स',
   howT:'नवकंकरी: नौ दीयों का खेल',
   how:[['🪔','कर्नाटक में सदियों से मंदिरों के फ़र्श पर नवकंकरी खेली जाती है। हर खिलाड़ी के पास 9 दीये हैं। बारी-बारी से उन्हें बिंदुओं पर रखो।'],['✨','अपने तीन दीये एक सीधी रेखा में = एक वचन! फिर दोस्त का एक दीया हटाओ।'],['👆','सब दीये रख दिए जाएँ, तो एक दीया रेखा पर पास के खाली बिंदु पर खिसकाओ। सिर्फ़ 3 बचें तो कहीं भी कूद सकते हो।'],['🏆','जिसके सिर्फ़ 2 दीये बचें, या कोई चाल न बचे, वह हारता है।']],
   solo:'दीपू से खेलो',duo:'दो खिलाड़ी',start:'चलो खेलें!',
@@ -96,7 +96,7 @@ const L={
   nomove:'कोई चाल नहीं बची!',winT:n=>n==='आप'?'आप जीते!':`${n} जीता!`,
   winP:'राजा बलि ने सब कुछ देकर भी अपना वचन निभाया, इसीलिए बलि प्रतिपदा पर हर साल उनका स्वागत होता है। छोटे-बड़े हर वचन को निभाओ!',
   again:'फिर से खेलें',story:'कहानी पर वापस',diya:'दिया',tie:'बराबरी!'},
- kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 7 ಆಟ',title:'ಬಲಿಯ ವಚನ',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 7 ಆಟ',title:'ಬಲಿಯ ವಚನ',back:'← ವರ್ಲ್ಡ್ ಆಫ್ ವಂಡರ್ಸ್',
   howT:'ನವಕಂಕರಿ: ಒಂಬತ್ತು ದೀಪಗಳ ಆಟ',
   how:[['🪔','ಕರ್ನಾಟಕದಲ್ಲಿ ಶತಮಾನಗಳಿಂದ ದೇವಾಲಯದ ನೆಲದ ಮೇಲೆ ನವಕಂಕರಿ ಆಡುತ್ತಾರೆ. ಪ್ರತಿ ಆಟಗಾರನಿಗೆ 9 ದೀಪಗಳು. ಸರದಿಯಾಗಿ ಚುಕ್ಕೆಗಳ ಮೇಲೆ ಇಡಿ.'],['✨','ನಿಮ್ಮ ಮೂರು ದೀಪಗಳು ಒಂದೇ ನೇರ ಗೆರೆಯಲ್ಲಿ = ಒಂದು ವಚನ! ಆಗ ಗೆಳೆಯನ ಒಂದು ದೀಪ ತೆಗೆಯಿರಿ.'],['👆','ಎಲ್ಲ ದೀಪ ಇಟ್ಟ ಮೇಲೆ, ಒಂದು ದೀಪವನ್ನು ಗೆರೆಯ ಮೇಲೆ ಪಕ್ಕದ ಖಾಲಿ ಚುಕ್ಕೆಗೆ ಸರಿಸಿ. 3 ಮಾತ್ರ ಉಳಿದರೆ ಎಲ್ಲಿಗಾದರೂ ಹಾರಬಹುದು.'],['🏆','2 ದೀಪ ಮಾತ್ರ ಉಳಿದವರು, ಅಥವಾ ಚಲಿಸಲು ಆಗದವರು ಸೋಲುತ್ತಾರೆ.']],
   solo:'ದೀಪುವಿನೊಂದಿಗೆ',duo:'ಇಬ್ಬರು ಆಟಗಾರರು',start:'ಆಡೋಣ!',
@@ -253,7 +253,7 @@ function finish(p){ if(!p){ G.over=true; $('#overlay').innerHTML=`<div class="ov
   const stars=p===1||G.players===2?(count(p)>=6?3:count(p)>=4?2:1):1;
   $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep7_bali_bows.jpg" alt=""><h3>${t('winT')(name(p))}</h3><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${t('winP')}</p>
   <button class="go" id="again">${t('again')}</button><a class="go alt" href="index.html#dv7">${t('story')}</a></div></div>`; $('#again').onclick=start }
-function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title')+' · Story Quest';
+function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title')+' · World of Wonders';
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang)); if(G&&!G.over)setMsg(); renderScore() }
 document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||G.over)start() });
 $('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
