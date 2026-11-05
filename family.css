@@ -7,3 +7,16 @@
 
 .fam-bar .fam-home{display:inline-flex;align-items:center;gap:7px;color:#ffd35a;text-decoration:none}
 .fam-bar .fam-logo{width:28px;height:28px;border-radius:50%;box-shadow:0 0 0 2px #f6a72366}
+
+/* ---- top banner (all pages) ---- */
+.wow-top{display:block;background:linear-gradient(rgba(11,8,32,.6),rgba(11,8,32,.6)),url(img/wow_banner.jpg) center/cover;border-bottom:3px solid #f6a723;line-height:0}
+.wow-top img{display:block;width:100%;max-width:1000px;margin:0 auto;height:auto}
+
+/* ---- footer band (all pages) ---- */
+.wow-foot{margin-top:40px;border-top:3px solid #f6a723;background:linear-gradient(rgba(11,8,32,.80),rgba(11,8,32,.93)),url(img/wow_banner.jpg) center/cover;color:#e9e2ff;font:500 14px/1.5 "Mukta","Segoe UI",system-ui,sans-serif;text-align:center;padding:26px 16px 22px}
+.wow-foot .wf-in{max-width:900px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:10px}
+.wow-foot a{color:#ffd35a;text-decoration:none}.wow-foot a:hover{text-decoration:underline}
+.wow-foot .wf-brand{display:inline-flex;align-items:center;gap:12px;color:#fdf3dc;text-align:left}
+.wow-foot .wf-brand img{width:56px;height:56px;border-radius:50%;box-shadow:0 0 0 2px #f6a72388}
+.wow-foot .wf-brand b{display:block;font-size:18px;color:#ffd35a}.wow-foot .wf-brand small{display:block;letter-spacing:.14em;text-transform:uppercase;font-size:11px;color:#c7bce6}
+.wow-foot .wf-c{font-size:12px;color:#a99fd0}
