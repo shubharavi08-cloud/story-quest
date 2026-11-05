@@ -234,7 +234,7 @@ button{font:inherit;cursor:pointer}
   <div class="hud"><div class="brand">Vedic Maths <span>· Gurukul Games</span></div><span class="chip">Stars <b id="hubStars">0</b>/54</span></div>
   <section class="hubhero">
     <div>
-      <div class="chip" style="display:inline-block;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35);color:#FFF8EA">Brain Speed! · Book 1 · Practice</div>
+      <div class="chip" style="display:inline-block;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35);color:#FFF8EA">Vedic Maths Level 1 · Practice</div>
       <h1>Gurukul <span>Games</span></h1>
       <p>Six Vedic Maths tricks, six adventures with Ganak and friends. Each game starts with a short lesson from Acharya ji, then you play using the sutra.</p>
     </div>
@@ -242,7 +242,7 @@ button{font:inherit;cursor:pointer}
   </section>
   <h2 style="font-size:1.6rem">Choose a game</h2>
   <div class="levels" id="levelCards"></div>
-  <p class="foot">Vedic Maths Brain Speed! Book 1 practice · Progress is saved on this device.</p>
+  <p class="foot">Vedic Maths Level 1 practice · Progress is saved on this device.</p>
 </div>
 
 <div class="wrap view" id="stepGame" hidden>
@@ -387,7 +387,7 @@ button{font:inherit;cursor:pointer}
       <div class="pad" id="pad"></div>
     </div>
   </section>
-  <p class="foot">A World of Wonders Studio game · Vedic Maths Brain Speed! Book 1 · Trick 4</p>
+  <p class="foot">A World of Wonders Studio game · Vedic Maths Level 1 · Trick 4</p>
 </div>
 
 <script>
@@ -931,7 +931,7 @@ const VIS = {
   guru:   { come: "guru_walk", idle: "guru_namaste", happy: ["guru_clap", "guru_laugh"], oops: "guru_point", late: "guru_walk", name: "Acharya ji", h: "76%" },
   chintu: { come: "chintu_sneaky", idle: "chintu_confused", happy: ["chintu_jump", "chintu_eat"], oops: "chintu_confused", late: "chintu_caught", name: "Chintu", h: "56%" },
 };
-const PRAISE = ["Shabash!", "Brain speed!", "Sutra power!", "Too fast!", "Perfect!"];
+const PRAISE = ["Shabash!", "Super fast!", "Sutra power!", "Too fast!", "Perfect!"];
 let SS = {};
 try { SS = JSON.parse(localStorage.getItem("gb-steps") || "{}"); } catch (e) {}
 const saveSS = () => { try { localStorage.setItem("gb-steps", JSON.stringify(SS)); } catch (e) {} };
@@ -1088,7 +1088,7 @@ function sEndRound() {
   const stars = sClean === 5 ? 3 : sClean >= 4 ? 2 : sClean >= 2 ? 1 : 0;
   SS[L.id] = SS[L.id] || {}; if (stars > (SS[L.id][sr + 1] || 0)) { SS[L.id][sr + 1] = stars; saveSS(); }
   $("#sEndStars").innerHTML = [0, 1, 2].map(i => `<span class="${i < stars ? "on" : ""}">★</span>`).join("");
-  $("#sEndTitle").textContent = stars === 3 ? "Brain speed champion!" : stars ? `Round ${sr + 1} complete!` : "Good try!";
+  $("#sEndTitle").textContent = stars === 3 ? "Sutra champion!" : stars ? `Round ${sr + 1} complete!` : "Good try!";
   $("#sEndImg").src = img(stars >= 2 ? "ganak_cheer" : stars ? "ganak_wave" : "ganak_think");
   $("#sEndText").innerHTML = `You solved <b>${sClean} of 5</b> with no mistakes and earned <b>${sCoins} coins</b>. ${stars === 3 ? "Try the next round!" : "Solve all 5 with no help for 3 stars."}`;
   $("#sNextRound").hidden = sr === 2;
@@ -1134,7 +1134,7 @@ function openStepLevel(lv) {
   $("#sIntroStory").textContent = L.story;
   $("#sIntroSutra").textContent = L.sutra;
   $("#sIntroImg").src = img({ t1: "guru_teach", t2: "meera_phone", t3: "chintu_eat", t5: "meera_thumbs", t6: "chintu_sneaky" }[L.id]);
-  $("#sFoot").textContent = `A World of Wonders Studio game · Vedic Maths Brain Speed! Book 1 · Trick ${L.n}: ${L.title}`;
+  $("#sFoot").textContent = `A World of Wonders Studio game · Vedic Maths Level 1 · Trick ${L.n}: ${L.title}`;
   const best = SS[L.id] || {};
   $("#sRoundBtns").innerHTML = L.rounds.map((r, i) => `<button class="rbtn" data-r="${i}">Round ${i + 1} <span class="st">${"★".repeat(best[i + 1] || 0)}</span><small>${r.label}</small></button>`).join("");
   $("#sRoundBtns").onclick = e => { const b = e.target.closest("button"); if (b) sStartRound(+b.dataset.r); };
