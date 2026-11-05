@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Catch Every Drop</title>
+<title>Catch Every Drop · QUAD Story Quest</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
 <style>
@@ -56,9 +56,9 @@ canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:non
 <link rel="stylesheet" href="quad-theme.css">
 </head>
 <body>
-<div class="quad-bar"><a href="index.html">Story Quest</a> by World of Wonders · by OurSchoolHouse (OSH) <span class="qb-host"><img src="img/quad_logo.jpg" alt="">on QUAD Academy</span></div>
+<div class="quad-bar"><a href="index.html">QUAD Story Quest</a> by World of Wonders · by OurSchoolHouse (OSH) <span class="qb-host"><img src="img/quad_logo.jpg" alt="">on QUAD Academy</span></div>
 <header class="top">
-  <a class="back" href="index.html#dv6" id="back">← Story Quest</a>
+  <a class="back" href="index.html#dv6" id="back">← QUAD Story Quest</a>
   <h1><small id="t-eyebrow">Deepavali · Episode 6 game</small><span id="t-title">Catch Every Drop</span></h1>
   <div class="langs" role="group" aria-label="Language">
     <button class="pill" data-lang="en" aria-pressed="true">EN</button>
@@ -72,11 +72,11 @@ canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:non
   <div class="stage"><canvas id="st" aria-label="A battlefield at dusk. Raktabeej stands at the top; move Maa Kali's bowl left and right to catch the falling drops before they touch the ground."></canvas></div>
   <div class="score" id="score"></div>
 </main>
-<p class="by">Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
+<p class="by">QUAD Story Quest by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> · by <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a></p>
 <div id="overlay"></div>
 <script>
 const L={
- en:{eyebrow:'Deepavali · Episode 6 game',title:'Catch Every Drop',back:'← Story Quest',
+ en:{eyebrow:'Deepavali · Episode 6 game',title:'Catch Every Drop',back:'← QUAD Story Quest',
   howT:'Help Maa Kali stop Raktabeej!',
   how:[['🥣',"Move Maa Kali's bowl left and right (drag, or the arrow keys) to catch every drop."],['👹','Every drop that touches the ground becomes a new Raktabeej! If 6 appear, he wins the round.'],['✨',"Golden drops are worth more. Catch 8 in a row and Kali's bowl grows wide!"],['👫','Two players: Maa Kali and Diya catch together. Left side or A/D for Kali, right side or arrow keys for Diya.']],
   solo:'One player',duo:'Two players',start:'Start!',
@@ -86,7 +86,7 @@ const L={
   clear:'Round cleared!',win:'Jai Maa Kali!',clones:'Clones',kali:'Maa Kali',diya:'Diya',
   winT:'Every drop caught!',winP:"Raktabeej's power was that every drop of his that fell became a new demon. Maa Kali caught the drops before they touched the ground, and the darkness was gone. On Amavasya, the darkest night, Bengal worships Maa Kali and lights lamps for courage.",
   total:'Total score',again:'Play again',story:'Back to the story'},
- hi:{eyebrow:'दीपावली · एपिसोड 6 का खेल',title:'हर बूँद पकड़ो',back:'← स्टोरी क्वेस्ट',
+ hi:{eyebrow:'दीपावली · एपिसोड 6 का खेल',title:'हर बूँद पकड़ो',back:'← QUAD स्टोरी क्वेस्ट',
   howT:'माँ काली के साथ रक्तबीज को रोको!',
   how:[['🥣','माँ काली का कटोरा बाएँ-दाएँ चलाओ (खींचो या तीर वाली कुंजियाँ) और हर बूँद पकड़ो।'],['👹','जो बूँद ज़मीन छू ले, वह नया रक्तबीज बन जाती है! 6 हो गए तो यह दौर उसका।'],['✨','सुनहरी बूँद के ज़्यादा अंक। लगातार 8 पकड़ो तो काली का कटोरा चौड़ा हो जाएगा!'],['👫','दो खिलाड़ी: माँ काली और दिया साथ पकड़ें। बायाँ हिस्सा या A/D काली के लिए, दायाँ हिस्सा या तीर वाली कुंजियाँ दिया के लिए।']],
   solo:'एक खिलाड़ी',duo:'दो खिलाड़ी',start:'शुरू करो!',
@@ -96,7 +96,7 @@ const L={
   clear:'दौर पूरा!',win:'जय माँ काली!',clones:'रक्तबीज',kali:'माँ काली',diya:'दिया',
   winT:'हर बूँद पकड़ ली!',winP:'रक्तबीज की शक्ति थी कि उसकी हर गिरती बूँद से नया राक्षस बन जाता था। माँ काली ने हर बूँद ज़मीन छूने से पहले पकड़ ली, और अँधेरा मिट गया। अमावस्या की सबसे अँधेरी रात को बंगाल माँ काली की पूजा करता है और साहस के दीप जलाता है।',
   total:'कुल अंक',again:'फिर से खेलें',story:'कहानी पर वापस'},
- kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 6 ಆಟ',title:'ಪ್ರತಿ ಹನಿ ಹಿಡಿಯಿರಿ',back:'← ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 6 ಆಟ',title:'ಪ್ರತಿ ಹನಿ ಹಿಡಿಯಿರಿ',back:'← QUAD ಸ್ಟೋರಿ ಕ್ವೆಸ್ಟ್',
   howT:'ಮಾ ಕಾಳಿಯ ಜೊತೆ ರಕ್ತಬೀಜನನ್ನು ತಡೆಯಿರಿ!',
   how:[['🥣','ಮಾ ಕಾಳಿಯ ಬಟ್ಟಲನ್ನು ಎಡ-ಬಲಕ್ಕೆ ಸರಿಸಿ (ಎಳೆಯಿರಿ ಅಥವಾ ಬಾಣದ ಕೀಲಿಗಳು), ಪ್ರತಿ ಹನಿ ಹಿಡಿಯಿರಿ.'],['👹','ನೆಲ ಮುಟ್ಟಿದ ಪ್ರತಿ ಹನಿ ಹೊಸ ರಕ್ತಬೀಜನಾಗುತ್ತದೆ! 6 ಆದರೆ ಈ ಸುತ್ತು ಅವನದು.'],['✨','ಚಿನ್ನದ ಹನಿಗೆ ಹೆಚ್ಚು ಅಂಕ. ಸತತ 8 ಹಿಡಿದರೆ ಕಾಳಿಯ ಬಟ್ಟಲು ಅಗಲವಾಗುತ್ತದೆ!'],['👫','ಇಬ್ಬರು ಆಟಗಾರರು: ಮಾ ಕಾಳಿ ಮತ್ತು ದಿಯಾ ಜೊತೆಯಾಗಿ ಹಿಡಿಯುತ್ತಾರೆ. ಎಡಭಾಗ ಅಥವಾ A/D ಕಾಳಿಗೆ, ಬಲಭಾಗ ಅಥವಾ ಬಾಣದ ಕೀಲಿಗಳು ದಿಯಾಗೆ.']],
   solo:'ಒಬ್ಬ ಆಟಗಾರ',duo:'ಇಬ್ಬರು ಆಟಗಾರರು',start:'ಶುರು ಮಾಡಿ!',
@@ -286,7 +286,7 @@ function finish(){ if(!G)return; G.over=true; G.phase='done'; try{const pr=JSON.
   const ratio=G.caught/Math.max(1,G.caught+G.missed), stars=ratio>=.85?3:ratio>=.6?2:1;
   $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep6_kali_hero.jpg" alt=""><h3>${t('winT')}</h3><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${t('winP')}</p>
   <p><b>${t('total')}:</b> ${G.scores.slice(0,G.players).map((s,i)=>(G.players===2?(i?t('diya'):t('kali'))+' ':'')+s).join(' · ')} · 💧 ${G.caught}/${G.caught+G.missed}</p><button class="go" id="again">${t('again')}</button><a class="go alt" href="index.html#dv6">${t('story')}</a></div></div>`; $('#again').onclick=start }
-function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title');
+function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title')+' · QUAD Story Quest';
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang)); renderScore() }
 document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||G.over)start() });
 $('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
