@@ -1,0 +1,1187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Free Vedic Maths practice games for Class 6–10 with Ganak, Meera, Acharya ji and Chintu. By World of Wonders Studio.">
+<link rel="icon" href="assets/wow_logo.png">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}[hidden]{display:none!important}body{margin:0}img{max-width:100%}</style>
+<title>Vedic Maths Gurukul Games · World of Wonders</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Mukta:wght@400;600;700&display=swap">
+<style>
+/* Layout: a game screen. A painted 16:9 stage where the characters act, and a wooden shop desk below it where the player works the sum. */
+:root{
+  --bg:#F5EEDC; --panel:#FFFDF6; --ink:#24180E; --muted:#6E5A45; --line:#E4D6BB;
+  --wood:#8A5426; --wood-d:#5C3514; --turmeric:#F2A516; --turmeric-d:#C47F00;
+  --leaf:#2F7D3A; --sindoor:#C93F27; --sky:#0D6E9C; --gold:#F7C948;
+  --f-display:'Baloo 2','Trebuchet MS',system-ui,sans-serif;
+  --f-body:'Mukta','Segoe UI',system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17120C; --panel:#241B12; --ink:#F5EBDD; --muted:#C9B59B; --line:#3B2E20;
+  --wood:#9B6232; --wood-d:#6B3F1A; --turmeric:#F5B43A; --turmeric-d:#D9920E;
+  --leaf:#5DBA6A; --sindoor:#F07055; --sky:#4FB6E6; --gold:#F7C948; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17120C; --panel:#241B12; --ink:#F5EBDD; --muted:#C9B59B; --line:#3B2E20;
+  --wood:#9B6232; --wood-d:#6B3F1A; --turmeric:#F5B43A; --turmeric-d:#D9920E;
+  --leaf:#5DBA6A; --sindoor:#F07055; --sky:#4FB6E6; --gold:#F7C948; color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.45;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1,h2,h3{font-family:var(--f-display);margin:0;line-height:1.05;text-wrap:balance}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--turmeric);outline-offset:2px}
+.wrap{max-width:1100px;margin:0 auto;padding-block:12px 28px;display:flex;flex-direction:column;gap:12px}
+
+.hud{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.hud .brand{font-family:var(--f-display);font-weight:800;font-size:1.25rem}
+.hud .brand span{color:var(--turmeric-d)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{font-family:var(--f-display);font-weight:700;background:var(--panel);border:2px solid var(--line);border-radius:999px;padding:2px 12px;font-size:.95rem;white-space:nowrap}
+.chip b{color:var(--turmeric-d)}
+.iconbtn{background:var(--panel);border:2px solid var(--line);border-radius:999px;padding:2px 12px;color:var(--ink);font-family:var(--f-display);font-weight:700}
+
+/* stage */
+.stage{position:relative;width:100%;aspect-ratio:16/9;max-height:64vh;border-radius:20px;overflow:hidden;background:#cfe3b8 url(assets/bg_orchard.webp) center/cover;border:3px solid var(--wood-d);box-shadow:0 8px 24px rgba(60,35,10,.18)}
+.sprite{position:absolute;bottom:3%;transform-origin:bottom center;will-change:transform}
+.sprite img{display:block;height:100%;width:auto;filter:drop-shadow(0 6px 6px rgba(0,0,0,.28))}
+.sprite.flip img{transform:scaleX(-1)}
+#cust{height:74%;left:12%;transition:transform 1.5s cubic-bezier(.3,.7,.3,1)}
+#ganak{height:70%;left:56%}
+#thief{height:46%;left:100%;bottom:4%;transition:transform 1.3s linear;transform:translateX(10%)}
+#guruHelp{height:76%;left:-2%;transition:transform .7s ease-out;transform:translateX(-120%)}
+#sVis{height:74%;left:12%;transition:transform 1.5s cubic-bezier(.3,.7,.3,1);transform:translateX(-170%)}
+#sGanak{height:70%;left:58%}
+#sGuru{height:76%;left:-2%;transition:transform .7s ease-out;transform:translateX(-120%)}
+#sPat{left:12%}
+#sVisSay{left:4%}
+#sGanakSay{right:3%}
+.hop{animation:hop .7s ease-out}
+@keyframes hop{35%{translate:0 -14%}70%{translate:0 0}85%{translate:0 -3%}}
+.bubble{position:absolute;top:4%;max-width:42%;background:#FFFDF6;color:#24180E;border:3px solid #24180E;border-radius:18px;padding:8px 12px;font-size:clamp(.72rem,1.7vw,1.05rem);line-height:1.35;box-shadow:4px 4px 0 rgba(36,24,14,.85);opacity:0;transform:translateY(6px) scale(.96);transition:opacity .25s, transform .25s}
+.bubble.show{opacity:1;transform:none}
+.bubble b{color:#B5470F}
+.bubble .who{display:block;font-family:var(--f-display);font-weight:800;font-size:.8em;letter-spacing:.04em;text-transform:uppercase;color:#6E5A45}
+#custSay{left:4%}
+#ganakSay{right:3%}
+.note{position:absolute;left:30%;bottom:38%;width:clamp(70px,13%,150px);aspect-ratio:2.1;border-radius:6px;background:linear-gradient(135deg,#E9D3F5,#C9A6E0);border:2px solid #5E3B78;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;color:#3B2350;font-size:clamp(.75rem,1.8vw,1.15rem);transform:rotate(-8deg) scale(0);transition:transform .35s cubic-bezier(.3,1.6,.5,1);box-shadow:0 4px 10px rgba(0,0,0,.25)}
+.note.show{transform:rotate(-8deg) scale(1)}
+.note.n100{background:linear-gradient(135deg,#D8E9F7,#A9C9E8);border-color:#2C5A82;color:#1C3B56}
+.note.n10000{background:linear-gradient(135deg,#F7E3B5,#E8C06A);border-color:#7A5210;color:#4A3207}
+.patience{position:absolute;left:12%;bottom:80%;width:18%;height:10px;border-radius:999px;background:rgba(255,255,255,.75);border:2px solid #24180E;overflow:hidden;opacity:0;transition:opacity .3s}
+.patience.show{opacity:1}
+.patience i{display:block;height:100%;width:100%;background:#2F9E44;transition:width .25s linear, background .3s}
+.coin{position:absolute;width:clamp(14px,2.4%,26px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFF3B0,#F2B705 55%,#B07800);border:2px solid #8A5A00;z-index:4;transition:left .7s cubic-bezier(.4,.1,.3,1), top .7s cubic-bezier(.3,-.6,.4,1), opacity .3s}
+.toast{position:absolute;left:50%;top:40%;translate:-50% -50%;font-family:var(--f-display);font-weight:800;font-size:clamp(1.4rem,5vw,3rem);color:#FFF;text-shadow:0 3px 0 #24180E, 0 0 12px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .3s, scale .3s;scale:.8}
+.toast.show{opacity:1;scale:1}
+
+/* desk */
+.desk{background:linear-gradient(180deg,var(--wood),var(--wood-d));border-radius:20px;padding:12px;display:grid;grid-template-columns:1.2fr 1fr;gap:12px}
+.card{background:var(--panel);border-radius:14px;padding:14px 16px;min-width:0}
+.bill{display:flex;flex-direction:column;gap:8px}
+.bill .row{display:flex;justify-content:space-between;gap:10px;font-size:1rem;color:var(--muted)}
+.bill .row b{font-family:var(--f-display);font-size:1.25rem;color:var(--ink);font-variant-numeric:tabular-nums}
+.eq{font-family:var(--f-display);font-weight:800;font-size:clamp(1.6rem,4.4vw,2.6rem);display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:4px;font-variant-numeric:tabular-nums}
+.slots{display:inline-flex;gap:6px}
+.slot{width:1.25em;height:1.5em;border-radius:10px;border:3px solid var(--line);display:grid;place-items:center;background:var(--bg);color:var(--ink)}
+.slot.fill{border-color:var(--turmeric)}
+.slot.cur{border-color:var(--ink);box-shadow:0 0 0 3px color-mix(in srgb,var(--turmeric) 45%,transparent)}
+.slots.shake{animation:shake .4s}
+@keyframes shake{25%{translate:-8px}50%{translate:8px}75%{translate:-4px}}
+.slots.good .slot{border-color:var(--leaf);background:color-mix(in srgb,var(--leaf) 14%,var(--bg))}
+.board{--ph:44px;--fh:24px;--ah:52px;--bf:2.1rem;display:flex;gap:8px;flex-wrap:nowrap;align-items:flex-start;margin-top:4px}
+.board .lbl{display:flex;flex-direction:column;gap:6px;font-size:.85rem;color:var(--muted);font-weight:600;padding-top:8px}
+.board .lbl span:nth-child(1){height:var(--ph)} .board .lbl span:nth-child(2){height:var(--fh)} .board .lbl span:nth-child(3){height:var(--ah)}
+.board .lbl span{display:flex;align-items:center}
+.col{display:flex;flex-direction:column;align-items:center;gap:6px;border-radius:14px;padding:6px 4px;border:2px solid transparent;transition:background .2s,border-color .2s;min-width:0}
+.col .pd{font-family:var(--f-display);font-weight:800;font-size:var(--bf);height:var(--ph);line-height:var(--ph);font-variant-numeric:tabular-nums}
+.col .pd.pad0{color:var(--muted);opacity:.55}
+.col .from{font-family:var(--f-display);font-weight:800;font-size:.9rem;height:var(--fh);display:flex;align-items:center;border-radius:999px;padding:0 10px;background:var(--bg);border:2px solid var(--line);white-space:nowrap}
+.col .from.ten{border-color:var(--sindoor);color:var(--sindoor)}
+.col .ad{width:46px;height:var(--ah);border-radius:10px;border:3px solid var(--line);display:grid;place-items:center;background:var(--bg);font-family:var(--f-display);font-weight:800;font-size:var(--bf)}
+.col.cur{background:color-mix(in srgb,var(--turmeric) 18%,transparent);border-color:var(--turmeric)}
+.col.cur .ad{border-color:var(--ink)}
+.col.done .ad{border-color:var(--leaf);background:color-mix(in srgb,var(--leaf) 16%,var(--bg));color:var(--leaf)}
+.col.helped .ad{border-color:var(--turmeric-d);color:var(--turmeric-d)}
+.col.shake{animation:shake .4s}
+.ask{font-family:var(--f-display);font-weight:800;font-size:clamp(1.1rem,3vw,1.5rem);min-height:1.4em;color:var(--ink)}
+.ask .q{background:var(--ink);color:var(--panel);border-radius:10px;padding:0 10px}
+.msg{min-height:1.5em;font-weight:600}
+.msg.good{color:var(--leaf)} .msg.bad{color:var(--sindoor)}
+.hint{display:flex;gap:12px;align-items:center;background:color-mix(in srgb,var(--turmeric) 16%,var(--panel));border:2px dashed var(--turmeric-d);border-radius:12px;padding:10px 12px}
+.hint img{height:84px;flex:none}
+.hint[hidden]{display:none!important}
+.hint .steps{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.hint .steps span{font-family:var(--f-display);font-weight:800;background:var(--panel);border:2px solid var(--line);border-radius:10px;padding:2px 10px;font-variant-numeric:tabular-nums}
+.hint .steps span.last{border-color:var(--sindoor)}
+.hint p{font-size:.95rem}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.key{font-family:var(--f-display);font-weight:800;font-size:1.5rem;padding:8px 0;border-radius:12px;border:none;background:var(--panel);color:var(--ink);box-shadow:0 4px 0 color-mix(in srgb,var(--ink) 40%,transparent);transition:transform .08s, box-shadow .08s}
+.key:active{transform:translateY(3px);box-shadow:0 1px 0 color-mix(in srgb,var(--ink) 40%,transparent)}
+.key.go{grid-column:span 3;background:var(--turmeric);color:#2A1A04;font-size:1.1rem}
+.key.help{background:color-mix(in srgb,var(--panel) 70%,var(--turmeric));font-size:1rem}
+.key[disabled]{opacity:.45;cursor:default}
+
+/* overlays */
+.overlay{position:absolute;inset:0;background:rgba(24,14,4,.55);display:grid;place-items:center;padding:4%;z-index:8}
+.overlay[hidden]{display:none!important}
+.ovcard{background:var(--panel);color:var(--ink);border-radius:20px;border:3px solid var(--wood-d);padding:clamp(12px,3vw,26px);max-width:720px;width:100%;max-height:100%;overflow:auto;display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.ovcard img{height:clamp(110px,22vw,220px)}
+.ovcard h2{font-size:clamp(1.4rem,4vw,2.3rem);font-weight:800}
+.ovcard p{margin:.4em 0;font-size:clamp(.85rem,1.9vw,1.05rem)}
+.rounds{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.rbtn{border:3px solid var(--ink);background:var(--bg);color:var(--ink);border-radius:14px;padding:6px 12px;font-family:var(--f-display);font-weight:700;text-align:left;box-shadow:3px 3px 0 var(--ink)}
+.rbtn small{display:block;font-family:var(--f-body);font-weight:400;color:var(--muted)}
+.rbtn .st{color:var(--turmeric-d)}
+.lesson{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.lesson .board{justify-content:flex-start}
+.lesson .cap{font-weight:600;min-height:2.8em}
+.sutra{font-family:var(--f-display);font-weight:700;background:var(--bg);border-radius:12px;padding:6px 10px;display:inline-block}
+.bigstars{font-size:clamp(1.8rem,6vw,3rem);color:var(--line);letter-spacing:4px}
+.bigstars .on{color:var(--turmeric)}
+.cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.btn{border:3px solid var(--ink);border-radius:999px;padding:6px 18px;font-family:var(--f-display);font-weight:800;background:var(--turmeric);color:#2A1A04;box-shadow:3px 3px 0 var(--ink)}
+.btn.alt{background:var(--panel);color:var(--ink)}
+.confetti{position:fixed;top:-12px;width:10px;height:14px;z-index:50;border-radius:2px;pointer-events:none;animation:fall 2.4s linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
+.foot{font-size:.85rem;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition-duration:.01s!important}}
+@media (max-width:760px){
+  .desk{grid-template-columns:1fr}
+  .stage{max-height:none}
+  .bubble{max-width:48%;padding:5px 8px;border-width:2px;box-shadow:2px 2px 0 rgba(36,24,14,.85)}
+  .ovcard{grid-template-columns:1fr;text-align:center;justify-items:center}
+  .rounds{justify-content:center}
+  .hint img{height:64px}
+  .board{--ph:34px;--fh:20px;--ah:42px;--bf:1.55rem;gap:4px}
+  .board .lbl{display:none}
+  .col{padding:4px 2px}
+  .col .from{font-size:.72rem;padding:0 6px}
+  .col .ad{width:38px}
+  .stage{aspect-ratio:4/3}
+  #cust{left:2%;height:62%}
+  #ganak{left:50%;height:60%}
+  #sVis{left:2%}
+  #sGanak{left:52%;height:60%}
+  #sPat{left:4%;width:30%;bottom:68%}
+  .note{left:30%;bottom:40%}
+  .patience{left:4%;width:30%;bottom:68%}
+  .bubble{top:3%;font-size:.72rem}
+}
+
+/* hub */
+.view[hidden]{display:none!important}
+.hubhero{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end;border-radius:22px;overflow:hidden;position:relative;min-height:220px;padding:22px;background:#2b1a0c url(assets/bg_hall.webp) center/cover;color:#FFF8EA}
+.hubhero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(28,16,6,.86) 0%,rgba(28,16,6,.55) 55%,rgba(28,16,6,.1) 100%)}
+.hubhero>*{position:relative}
+.hubhero h1{font-size:clamp(2.2rem,6vw,3.8rem);font-weight:800}
+.hubhero h1 span{color:var(--gold)}
+.hubhero p{max-width:46ch;margin:.4em 0 0;font-size:1.05rem}
+.hubhero .gang{display:flex;align-items:flex-end;gap:0}
+.hubhero .gang img{height:clamp(110px,22vw,210px);filter:drop-shadow(0 6px 8px rgba(0,0,0,.4))}
+.levels{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.lvl{position:relative;border-radius:18px;overflow:hidden;border:3px solid var(--wood-d);background:var(--panel);text-decoration:none;color:var(--ink);display:flex;flex-direction:column;transition:transform .15s;min-width:0}
+.lvl:hover{transform:translateY(-3px)}
+.lvl .pic{position:relative;aspect-ratio:16/8;background-size:cover;background-position:center}
+.lvl .pic img{position:absolute;bottom:0;right:6%;height:92%;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))}
+.lvl .num{position:absolute;top:8px;left:8px;width:34px;height:34px;border-radius:50%;display:grid;place-items:center;color:#fff;font-family:var(--f-display);font-weight:800;border:2px solid #fff}
+.lvl .body{padding:10px 14px 12px;display:flex;flex-direction:column;gap:2px}
+.lvl .place{font-size:.85rem;color:var(--muted);font-weight:600}
+.lvl h3{font-size:1.3rem}
+.lvl .st{font-size:1.1rem;letter-spacing:2px;color:var(--line)}
+.lvl .st .on{color:var(--turmeric)}
+.backbtn{background:var(--panel);border:2px solid var(--line);border-radius:999px;padding:2px 12px;color:var(--ink);font-family:var(--f-display);font-weight:700;text-decoration:none}
+
+/* step game desk */
+.work{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.wline{display:flex;gap:8px;align-items:center;font-family:var(--f-display);font-weight:700;font-size:clamp(1rem,2.6vw,1.25rem);color:var(--leaf);font-variant-numeric:tabular-nums}
+.wline.helped{color:var(--turmeric-d)}
+.wline::before{content:"✓";display:inline-grid;place-items:center;width:1.3em;height:1.3em;border-radius:50%;background:color-mix(in srgb,currentColor 16%,transparent);font-size:.8em}
+.wnow{border:2px solid var(--turmeric);background:color-mix(in srgb,var(--turmeric) 14%,transparent);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.wnow .pr{font-family:var(--f-display);font-weight:800;font-size:clamp(1.15rem,3vw,1.55rem);font-variant-numeric:tabular-nums}
+.wnow .step{font-size:.8rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.boxes{display:flex;gap:6px;flex-wrap:wrap}
+.boxes.shake{animation:shake .4s}
+.box{width:42px;height:50px;border-radius:10px;border:3px solid var(--line);display:grid;place-items:center;background:var(--bg);font-family:var(--f-display);font-weight:800;font-size:1.8rem}
+.box.cur{border-color:var(--ink)}
+.box.fill{border-color:var(--turmeric)}
+.dots{display:flex;gap:6px;align-items:center;min-height:22px;font-weight:700;color:var(--muted);font-size:.9rem}
+.dots i{width:16px;height:16px;border-radius:50%;background:#C2286E;display:inline-block;animation:pop .3s}
+@keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.3)}}
+.choice2[hidden],.pad[hidden]{display:none!important}
+.choice2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.choice2 button{font-family:var(--f-display);font-weight:800;font-size:1.3rem;padding:14px 0;border-radius:14px;border:3px solid var(--ink);box-shadow:0 4px 0 var(--ink)}
+.choice2 .r{background:#DFF3E2;color:#1C5A27}
+.choice2 .w{background:#FBE1DA;color:#8A2414}
+.lessonlist{display:flex;flex-direction:column;gap:6px;margin-top:6px}
+.lessonlist .wline.future{visibility:hidden}
+@media (max-width:760px){.overlay{position:fixed;z-index:40;align-items:start;overflow:auto;padding:max(16px,env(safe-area-inset-top,0px)) 16px 16px}.ovcard{max-height:none}.levels{grid-template-columns:1fr 1fr}.hubhero{grid-template-columns:1fr}.hubhero .gang{justify-content:center}}
+@media (max-width:480px){.levels{grid-template-columns:1fr}.box{width:36px;height:44px;font-size:1.5rem}}
+.wowbrand{display:flex;align-items:center;gap:10px}
+.wowbrand img{width:46px;height:46px;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.wowbrand small{display:block;font-family:var(--f-body);font-weight:600;font-size:.78rem;color:var(--muted);letter-spacing:.04em}
+.wowfoot{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+.wowfoot img{width:28px;height:28px;border-radius:50%}
+.wowfoot a{color:var(--turmeric-d);font-weight:700;text-decoration:none}
+</style>
+
+</head>
+<body>
+<div class="wrap view" id="hub">
+  <div class="hud"><div class="brand wowbrand"><img src="assets/wow_logo.png" alt="World of Wonders"><span>Vedic Maths <span>· Gurukul Games</span><small>by World of Wonders Studio</small></span></div><span class="chip">Stars <b id="hubStars">0</b>/54</span></div>
+  <section class="hubhero">
+    <div>
+      <div class="chip" style="display:inline-block;background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.35);color:#FFF8EA">Brain Speed! · Book 1 · Practice</div>
+      <h1>Gurukul <span>Games</span></h1>
+      <p>Six Vedic Maths tricks, six adventures with Ganak and friends. Each game starts with a short lesson from Acharya ji, then you play using the sutra.</p>
+    </div>
+    <div class="gang"><img src="assets/meera_thumbs.webp" alt=""><img src="assets/ganak_wave.webp" alt=""><img src="assets/chintu_jump.webp" alt="" style="height:clamp(80px,15vw,150px)"></div>
+  </section>
+  <h2 style="font-size:1.6rem">Choose a game</h2>
+  <div class="levels" id="levelCards"></div>
+  <p class="foot wowfoot"><img src="assets/wow_logo.png" alt=""><span>A <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders Studio</a> game · Vedic Maths Brain Speed! Book 1 · <a href="../">More stories &amp; games on World of Wonders</a> · Progress is saved on this device.</span></p>
+</div>
+
+<div class="wrap view" id="stepGame" hidden>
+  <div class="hud">
+    <div class="chips"><a class="backbtn" href="#home">← All games</a><div class="brand" id="sTitle">Vedic Maths</div></div>
+    <div class="chips">
+      <span class="chip" id="sRoundChip">Round 1</span>
+      <span class="chip">Challenge <b id="sNo">0</b>/5</span>
+      <span class="chip">Coins <b id="sCoins">0</b></span>
+    </div>
+  </div>
+  <section class="stage" id="sStage" aria-label="Game scene">
+    <div class="sprite" id="sGuru"><img alt="Acharya ji" src="assets/guru_teach.webp"></div>
+    <div class="sprite" id="sVis"><img alt="Visitor" src="assets/meera_phone.webp"></div>
+    <div class="sprite flip" id="sGanak"><img alt="Ganak" src="assets/ganak_wave.webp"></div>
+    <div class="patience" id="sPat"><i></i></div>
+    <div class="bubble" id="sVisSay"></div>
+    <div class="bubble" id="sGanakSay"></div>
+    <div class="toast" id="sToast"></div>
+    <div class="overlay" id="sIntro">
+      <div class="ovcard">
+        <img id="sIntroImg" src="assets/ganak_cheer.webp" alt="">
+        <div>
+          <h2 id="sIntroTitle"></h2>
+          <p id="sIntroStory"></p>
+          <p>Sutra: <span class="sutra" id="sIntroSutra"></span></p>
+          <div class="rounds" id="sRoundBtns"></div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay" id="sLesson" hidden>
+      <div class="ovcard">
+        <img id="sLessonImg" src="assets/guru_teach.webp" alt="Acharya ji">
+        <div>
+          <h2>Learn it with Acharya ji</h2>
+          <div class="eq" id="sLessonEq"></div>
+          <div class="lessonlist" id="sLessonList"></div>
+          <p class="cap" id="sLessonCap" style="font-weight:600;min-height:2.6em"></p>
+          <div class="cta"><button class="btn alt" id="sLessonNext">Next step</button><button class="btn" id="sLessonGo">Let's play</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay" id="sEnd" hidden>
+      <div class="ovcard">
+        <img id="sEndImg" src="assets/ganak_cheer.webp" alt="">
+        <div>
+          <h2 id="sEndTitle"></h2>
+          <div class="bigstars" id="sEndStars"></div>
+          <p id="sEndText"></p>
+          <div class="cta"><button class="btn" id="sNextRound">Next round</button><button class="btn alt" id="sAgain">Play again</button><a class="btn alt" href="#home" style="text-decoration:none">All games</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="desk" aria-label="Work slate">
+    <div class="card">
+      <div class="eq" id="sHead" style="font-size:clamp(1.3rem,3.6vw,2rem)"></div>
+      <div class="dots" id="sDots"></div>
+      <div class="work" id="sWork"></div>
+      <div class="msg" id="sMsg"></div>
+      <div class="hint" id="sHint" hidden><img src="assets/guru_point.webp" alt="Acharya ji"><div><p id="sHintText"></p></div></div>
+    </div>
+    <div class="card"><div class="pad" id="sPad"></div><div class="choice2" id="sChoice" hidden><button class="r" data-c="right">Right ✓</button><button class="w" data-c="wrong">Wrong ✗</button></div></div>
+  </section>
+  <p class="foot" id="sFoot"></p>
+</div>
+
+<div class="wrap view" id="cartGame" hidden>
+  <div class="hud">
+    <div class="chips"><a class="backbtn" href="#home">← All games</a><div class="brand">Trick 4 <span>· Ganak's Mango Cart</span></div></div>
+    <div class="chips">
+      <span class="chip" id="roundChip">Round 1</span>
+      <span class="chip">Customer <b id="custNo">0</b>/5</span>
+      <span class="chip">Coins <b id="coins">0</b></span>
+      <button class="iconbtn" id="soundBtn" aria-pressed="true">Sound on</button>
+    </div>
+  </div>
+
+  <section class="stage" id="stage" aria-label="Mango cart scene">
+    <div class="sprite" id="guruHelp"><img alt="Acharya ji" src="assets/guru_teach.webp"></div>
+    <div class="sprite" id="cust"><img alt="Customer" src="assets/meera_phone.webp"></div>
+    <div class="sprite flip" id="ganak"><img alt="Ganak" src="assets/ganak_wave.webp"></div>
+    <div class="sprite" id="thief"><img alt="Chintu" src="assets/chintu_sneaky.webp"></div>
+    <div class="patience" id="patience"><i></i></div>
+    <div class="note" id="note">₹1000</div>
+    <div class="bubble" id="custSay"></div>
+    <div class="bubble" id="ganakSay"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="overlay" id="intro">
+      <div class="ovcard">
+        <img src="assets/ganak_cheer.webp" alt="Ganak cheering">
+        <div>
+          <h2>Ganak's Mango Cart</h2>
+          <p>Ganak sells mangoes at the orchard. Customers pay with big notes, and <b>you</b> give the change before they get impatient.</p>
+          <p>Your secret weapon is the Vedic sutra <span class="sutra">All from 9, Last from 10</span>: take every digit from 9 and the last digit from 10.</p>
+          <div class="rounds" id="roundBtns"></div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay" id="lessonCard" hidden>
+      <div class="ovcard">
+        <img id="lessonImg" src="assets/guru_teach.webp" alt="Acharya ji">
+        <div>
+          <h2 id="lessonTitle">Watch the sutra first</h2>
+          <div class="lesson">
+            <div class="eq" id="lessonEq"></div>
+            <div class="board" id="lessonBoard"></div>
+            <p class="cap" id="lessonCap"></p>
+          </div>
+          <div class="cta"><button class="btn alt" id="lessonNext">Next step</button><button class="btn" id="lessonGo">Open the cart</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="overlay" id="endCard" hidden>
+      <div class="ovcard">
+        <img id="endImg" src="assets/ganak_cheer.webp" alt="">
+        <div>
+          <h2 id="endTitle">Round complete!</h2>
+          <div class="bigstars" id="endStars"></div>
+          <p id="endText"></p>
+          <div class="cta"><button class="btn" id="nextRoundBtn">Next round</button><button class="btn alt" id="againBtn">Play again</button><button class="btn alt" id="menuBtn">All rounds</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="desk" aria-label="Shop desk">
+    <div class="card bill">
+      <div class="row"><span>Mangoes cost</span><b id="price">₹–</b></div>
+      <div class="row"><span>Customer pays</span><b id="paid">₹–</b></div>
+      <div class="eq"><span id="eqLeft">Change =</span></div>
+      <div class="board" id="board"></div>
+      <div class="ask" id="ask"></div>
+      <div class="msg" id="msg">Choose a round on the cart screen.</div>
+      <div class="hint" id="hint" hidden>
+        <img src="assets/guru_point.webp" alt="Acharya ji">
+        <div><p id="hintText"></p><div class="steps" id="hintSteps"></div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="pad" id="pad"></div>
+    </div>
+  </section>
+  <p class="foot">A World of Wonders Studio game · Vedic Maths Brain Speed! Book 1 · Trick 4</p>
+</div>
+
+<script>
+// Level definitions. Each challenge is a list of steps the player solves IN THE SUTRA'S ORDER.
+// step: { full: guided prompt, short: faded prompt, ans: number | "right"/"wrong", tip, line: text shown once solved }
+const RI = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const MN = "−";
+const fmt = n => n.toLocaleString("en-IN");
+const ds = n => n % 9;                                   // seed number (9 counts as 0)
+const dsLine = n => { const d = String(n).split("").map(Number), t = d.reduce((a, b) => a + b, 0); return t > 9 ? `${d.join("+")} = ${t} → ${ds(n)}` : `${d.join("+")} = ${t}${t === 9 ? " → 0" : ""}`; };
+
+function noZeroEnd(lo, hi) { let x; do { x = RI(lo, hi); } while (x % 10 === 0); return x; }
+
+const LEVELS = [
+  {
+    id: "t1", n: 1, title: "Add from the Left", place: "Mango Count", bg: "orchard", color: "#0277BD",
+    sutra: "Big digits first, then the rest",
+    story: "Baskets of mangoes arrive at the orchard. Count them before the cart leaves, starting from the biggest digits.",
+    who: ["guru", "meera", "chintu"],
+    ask: (p, w) => ({ guru: `This basket has ${p.a}, that one ${p.b}. How many mangoes in all?`, meera: `I picked ${p.a} and Chintu picked ${p.b}. Total?`, chintu: `${p.a} mangoes plus ${p.b} mangoes… that's a LOT. How many?` })[w],
+    rounds: [
+      { label: "2-digit baskets", gen: () => ({ a: RI(23, 89), b: RI(14, 79) }) },
+      { label: "3-digit baskets", gen: () => ({ a: RI(120, 899), b: RI(105, 899) }) },
+      { label: "4-digit baskets", gen: () => ({ a: RI(1200, 6999), b: RI(1100, 2999) }) },
+    ],
+    example: { a: 347, b: 256 },
+    head: p => `${p.a} + ${p.b}`,
+    steps(p) {
+      const k = String(Math.max(p.a, p.b)).length, out = [];
+      let run = 0;
+      const names = ["ones", "tens", "hundreds", "thousands"];
+      for (let i = k - 1; i >= 0; i--) {
+        const u = 10 ** i, x = Math.floor(p.a / u) % 10 * u, y = Math.floor(p.b / u) % 10 * u;
+        const prev = run; run += x + y;
+        out.push(i === k - 1
+          ? { full: `${names[i]}: ${fmt(x)} + ${fmt(y)} = ?`, short: `Start with the ${names[i]}`, ans: run, tip: `Add only the biggest place first: ${fmt(x)} + ${fmt(y)}.`, line: `${fmt(x)} + ${fmt(y)} = ${fmt(run)}` }
+          : { full: `${fmt(prev)} + ${fmt(x + y)} (${names[i]}) = ?`, short: `Now add the ${names[i]}`, ans: run, tip: `The ${names[i]} digits make ${fmt(x)} + ${fmt(y)} = ${fmt(x + y)}. Add that to ${fmt(prev)}.`, line: `${fmt(prev)} + ${fmt(x + y)} = ${fmt(run)}` });
+      }
+      return out;
+    },
+    result: p => p.a + p.b,
+    done: p => `${fmt(p.a + p.b)} mangoes!`,
+  },
+  {
+    id: "t2", n: 2, title: "Round Up, Take Back", place: "Meera's Online Cart", bg: "living", color: "#6D44D0",
+    sutra: "Round it up, then pay it back",
+    story: "Meera is shopping online from home. Prices end in 9 and 8. Round them up, add, then take back what you borrowed.",
+    who: ["meera", "meera", "guru"],
+    ask: (p, w) => ({ meera: `My cart has something for ₹${p.x} and something for ₹${p.y}. What's the total?`, guru: `Meera, before you pay ₹${p.x} + ₹${p.y}, what is the total?` })[w],
+    rounds: [
+      { label: "₹ 28 to ₹ 99", gen: () => { const base = 10 * RI(3, 9), d = RI(1, 2); return { x: base - d, base, d, y: RI(12, 68) }; } },
+      { label: "₹ 198 to ₹ 799", gen: () => { const base = 100 * RI(2, 8), d = RI(1, 3); return { x: base - d, base, d, y: RI(112, 589) }; } },
+      { label: "₹ 1998 to ₹ 4999", gen: () => { const base = 1000 * RI(2, 5), d = RI(1, 3); return { x: base - d, base, d, y: RI(1123, 3876) }; } },
+    ],
+    example: { x: 199, base: 200, d: 1, y: 246 },
+    head: p => `₹${p.x} + ₹${p.y}`,
+    steps: p => [
+      { full: `${p.x} is close to which round number?`, short: `Round ${p.x} up to…`, ans: p.base, tip: `${p.x} is just ${p.d} less than a round number. Which one?`, line: `${p.x} → ${fmt(p.base)} (borrowed ${p.d})` },
+      { full: `${fmt(p.base)} + ${p.y} = ?`, short: `Add the round number`, ans: p.base + p.y, tip: `Round numbers are easy: ${fmt(p.base)} + ${p.y}.`, line: `${fmt(p.base)} + ${p.y} = ${fmt(p.base + p.y)}` },
+      { full: `Take back the ${p.d}: ${fmt(p.base + p.y)} ${MN} ${p.d} = ?`, short: `Now take back what you borrowed`, ans: p.x + p.y, tip: `You borrowed ${p.d} to make ${p.x} round. Take it back.`, line: `${fmt(p.base + p.y)} ${MN} ${p.d} = ${fmt(p.x + p.y)}` },
+    ],
+    result: p => p.x + p.y,
+    done: p => `Total ₹${fmt(p.x + p.y)}!`,
+  },
+  {
+    id: "t3", n: 3, title: "The Dot Method", place: "Chintu's Banana Pile", bg: "hall", color: "#C2286E",
+    sutra: "Past ten? Dot it, keep the rest",
+    story: "Chintu keeps piling bananas on the Gurukul table. Add them one by one. Every time you pass 10, drop a dot and keep only what's left.",
+    who: ["chintu", "chintu", "meera"],
+    ask: (p, w) => ({ chintu: `I brought ${p.nums.join(", ")} bananas! How many altogether?`, meera: `Chintu's bananas: ${p.nums.join(", ")}. Help me count!` })[w],
+    rounds: [
+      { label: "5 bunches", gen: () => ({ nums: Array.from({ length: 5 }, () => RI(3, 9)) }) },
+      { label: "7 bunches", gen: () => ({ nums: Array.from({ length: 7 }, () => RI(2, 9)) }) },
+      { label: "9 bunches", gen: () => ({ nums: Array.from({ length: 9 }, () => RI(2, 9)) }) },
+    ],
+    example: { nums: [8, 7, 6, 9, 5] },
+    head: p => p.nums.join(" + "),
+    steps(p) {
+      const out = []; let keep = p.nums[0], dots = 0;
+      for (let i = 1; i < p.nums.length; i++) {
+        const t = keep + p.nums[i];
+        const passed = t >= 10;
+        const nk = passed ? t - 10 : t;
+        out.push({ full: `${keep} + ${p.nums[i]} = ${t}. ${passed ? "Past ten: dot! Keep ?" : "Keep ?"}`, short: `${keep} + ${p.nums[i]} → keep ?`,
+          ans: nk, dot: passed, tip: passed ? `${keep} + ${p.nums[i]} = ${t}. That's past ten, so drop a dot and keep only ${t} ${MN} 10.` : `${keep} + ${p.nums[i]} = ${t}. Not past ten, so keep it all.`,
+          line: `${keep} + ${p.nums[i]} = ${t}${passed ? ` → • keep ${nk}` : ""}` });
+        if (passed) dots++;
+        keep = nk;
+      }
+      out.push({ full: `${dots} dot${dots === 1 ? "" : "s"} = ${dots * 10}. ${dots * 10} + ${keep} = ?`, short: `Count the dots, add what you kept`, ans: dots * 10 + keep,
+        tip: `Each dot is one ten. ${dots} dots = ${dots * 10}. Add the ${keep} you kept.`, line: `${dots} dots + ${keep} = ${dots * 10 + keep}` });
+      return out;
+    },
+    result: p => p.nums.reduce((a, b) => a + b, 0),
+    done: p => `${p.nums.reduce((a, b) => a + b, 0)} bananas!`,
+  },
+  { id: "t4", n: 4, title: "All from 9, Last from 10", place: "Ganak's Mango Cart", bg: "orchard", color: "#0B7A75", cart: true,
+    sutra: "Nikhilam Navataścaramaṁ Daśataḥ", story: "Customers pay with big notes. Give the change using the sutra." },
+  {
+    id: "t5", n: 5, title: "Take Too Much, Give Back", place: "The Piggy Bank", bg: "living", color: "#D9670B",
+    sutra: "Take too much, then give it back",
+    story: "Meera is spending her piggy-bank savings. Subtract prices like ₹298 by taking away a round number, then giving back the extra.",
+    who: ["meera", "meera", "guru"],
+    ask: (p, w) => p.kind === "A"
+      ? ({ meera: `I have ₹${fmt(p.a)} saved. This costs ₹${fmt(p.sub)}. What's left?`, guru: `Meera has ₹${fmt(p.a)}. She spends ₹${fmt(p.sub)}. How much remains?` })[w]
+      : ({ meera: `I have ₹${fmt(p.big)}. A bicycle costs ₹${fmt(p.x)}. What's left?`, guru: `From ₹${fmt(p.big)}, Meera pays ₹${fmt(p.x)}. What remains?` })[w],
+    rounds: [
+      { label: "Give back (₹98, ₹199…)", gen: () => { const round = 10 * RI(4, 9), d = RI(1, 3), sub = round - d; return { kind: "A", a: RI(sub + 25, sub + 80), sub, round, d }; } },
+      { label: "Give back (₹298, ₹497…)", gen: () => { const round = 100 * RI(2, 6), d = RI(1, 3), sub = round - d; return { kind: "A", a: RI(sub + 60, sub + 600), sub, round, d }; } },
+      { label: "Split the round number", gen: () => { const k = Math.random() < .5 ? 4 : 3, unit = 10 ** (k - 1), big = unit * RI(3, 9); let x; do { x = RI(unit + 1, big - 1); } while (x % 10 === 0 || x % unit === 0); return { kind: "B", big, x, unit }; } },
+    ],
+    example: { kind: "A", a: 523, sub: 298, round: 300, d: 2 },
+    head: p => p.kind === "A" ? `${fmt(p.a)} ${MN} ${fmt(p.sub)}` : `${fmt(p.big)} ${MN} ${fmt(p.x)}`,
+    steps(p) {
+      if (p.kind === "A") return [
+        { full: `${p.sub} is close to which round number?`, short: `Round ${p.sub} up to…`, ans: p.round, tip: `${p.sub} is ${p.d} less than a round number.`, line: `${p.sub} → ${p.round} (${p.d} too many)` },
+        { full: `${fmt(p.a)} ${MN} ${p.round} = ?`, short: `Subtract the round number`, ans: p.a - p.round, tip: `Easy subtraction: ${fmt(p.a)} ${MN} ${p.round}.`, line: `${fmt(p.a)} ${MN} ${p.round} = ${fmt(p.a - p.round)}` },
+        { full: `You took ${p.d} too many. Give back: ${fmt(p.a - p.round)} + ${p.d} = ?`, short: `Give back the extra`, ans: p.a - p.sub, tip: `You subtracted ${p.d} more than needed. Add it back.`, line: `${fmt(p.a - p.round)} + ${p.d} = ${fmt(p.a - p.sub)}` },
+      ];
+      const rest = p.x % p.unit, front = p.x - rest, left = p.big - p.unit;
+      return [
+        { full: `Split ${fmt(p.big)} = ? + ${fmt(p.unit)}`, short: `Split ${fmt(p.big)} into ? + ${fmt(p.unit)}`, ans: left, tip: `Keep one ${fmt(p.unit)} aside. What's left of ${fmt(p.big)}?`, line: `${fmt(p.big)} = ${fmt(left)} + ${fmt(p.unit)}` },
+        { full: `Sutra: ${fmt(p.unit)} ${MN} ${rest} = ?`, short: `Use All from 9, Last from 10`, ans: p.unit - rest, tip: `Each digit of ${String(rest).padStart(String(p.unit).length - 1, "0")} from 9, the last from 10.`, line: `${fmt(p.unit)} ${MN} ${rest} = ${p.unit - rest}` },
+        { full: `${fmt(left)} ${MN} ${fmt(front)} = ?`, short: `Subtract the front part`, ans: left - front, tip: `${fmt(left)} ${MN} ${fmt(front)}: only the front digits change.`, line: `${fmt(left)} ${MN} ${fmt(front)} = ${fmt(left - front)}` },
+        { full: `${fmt(left - front)} + ${p.unit - rest} = ?`, short: `Put the two parts together`, ans: p.big - p.x, tip: `Join the two answers.`, line: `${fmt(left - front)} + ${p.unit - rest} = ${fmt(p.big - p.x)}` },
+      ];
+    },
+    result: p => p.kind === "A" ? p.a - p.sub : p.big - p.x,
+    done: p => `₹${fmt(p.kind === "A" ? p.a - p.sub : p.big - p.x)} left!`,
+  },
+  {
+    id: "t6", n: 6, title: "The Digit-Sum Detective", place: "Chintu's Slate", bg: "hall", color: "#2E8540",
+    sutra: "Nines vanish, digits add. No match means the answer's bad!",
+    story: "Chintu claims he solved sums on his slate. Use seed numbers (digit sums) to catch his mistakes without redoing the sum.",
+    who: ["chintu", "chintu", "chintu"],
+    ask: (p) => `I solved it! ${fmt(p.a)} ${p.op} ${fmt(p.b)} = ${fmt(p.shown)}. Banana please?`,
+    rounds: [
+      { label: "2-digit sums", gen: () => mk6(RI(12, 89), RI(11, 89), "+") },
+      { label: "3-digit sums", gen: () => mk6(RI(120, 899), RI(110, 899), "+") },
+      { label: "Add & subtract", gen: () => Math.random() < .5 ? mk6(RI(1200, 8999), RI(1100, 2999), "+") : mk6(RI(5000, 9999), RI(1100, 4899), MN) },
+    ],
+    example: { a: 347, b: 256, op: "+", real: 603, shown: 613 },
+    head: p => `${fmt(p.a)} ${p.op} ${fmt(p.b)} = ${fmt(p.shown)} ?`,
+    steps(p) {
+      const sa = ds(p.a), sb = ds(p.b), comb = p.op === "+" ? ds(sa + sb) : ((sa - sb) % 9 + 9) % 9;
+      return [
+        { full: `Seed of ${fmt(p.a)}: ${String(p.a).split("").join(" + ")} → ?`, short: `Seed of ${fmt(p.a)}`, ans: sa, seed: true, tip: `Add the digits: ${dsLine(p.a)}. A 9 counts as 0.`, line: `${fmt(p.a)} → ${sa}` },
+        { full: `Seed of ${fmt(p.b)}: ${String(p.b).split("").join(" + ")} → ?`, short: `Seed of ${fmt(p.b)}`, ans: sb, seed: true, tip: `Add the digits: ${dsLine(p.b)}.`, line: `${fmt(p.b)} → ${sb}` },
+        { full: p.op === "+" ? `${sa} + ${sb} → seed ?` : `${sa} ${MN} ${sb} → seed ? (add 9 if negative)`, short: `Combine the two seeds (${p.op})`, ans: comb, seed: true,
+          tip: p.op === "+" ? `${sa} + ${sb} = ${sa + sb}${sa + sb > 9 ? `, then ${dsLine(sa + sb)}` : ""}${sa + sb === 9 ? " → 0" : ""}.` : `${sa} ${MN} ${sb} = ${sa - sb}${sa - sb < 0 ? `, add 9 → ${sa - sb + 9}` : ""}.`, line: `${sa} ${p.op} ${sb} → ${comb}` },
+        { full: `Seed of Chintu's answer ${fmt(p.shown)} → ?`, short: `Seed of ${fmt(p.shown)}`, ans: ds(p.shown), seed: true, tip: `Add the digits: ${dsLine(p.shown)}.`, line: `${fmt(p.shown)} → ${ds(p.shown)}` },
+        { full: `${comb} and ${ds(p.shown)}: is Chintu right or wrong?`, short: `Right or wrong?`, ans: comb === ds(p.shown) ? "right" : "wrong", choice: true,
+          tip: `Matching seeds mean the answer is probably right. Different seeds mean it is definitely wrong.`, line: comb === ds(p.shown) ? `${comb} = ${ds(p.shown)} → Right ✓` : `${comb} ≠ ${ds(p.shown)} → Wrong! (real answer ${fmt(p.real)})` },
+      ];
+    },
+    result: p => p.real,
+    done: p => p.shown === p.real ? "Chintu was right this time!" : `Caught! The answer is ${fmt(p.real)}.`,
+  },
+];
+
+function mk6(a, b, op) {
+  const real = op === "+" ? a + b : a - b;
+  let shown = real;
+  if (Math.random() < .55) {
+    const deltas = [10, -10, 20, -20, 100, -100, 1, -1, 2];
+    do { shown = real + deltas[RI(0, deltas.length - 1)]; } while (ds(shown) === ds(real) || shown <= 0);
+  }
+  return { a, b, op, real, shown };
+}
+
+if (typeof module !== "undefined") module.exports = { LEVELS, ds };
+
+</script>
+<script>
+const $ = s => document.querySelector(s);
+const R = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+const ROUNDS = [
+  { n: 1, note: 100,   label: "₹100 notes",    hint: "2 digits", time: 26 },
+  { n: 2, note: 1000,  label: "₹1000 notes",   hint: "3 digits", time: 32 },
+  { n: 3, note: 10000, label: "₹10,000 notes", hint: "4 digits", time: 40 },
+];
+const CAST = {
+  meera:  { walk: "meera_phone", idle: "meera_think", happy: ["meera_cheer", "meera_thumbs"], oops: "meera_shrug", late: "meera_shock",
+            hello: q => `Hi Ganak! ${q} mangoes for my family, please.`, thanks: "Perfect change! You're faster than my phone.", wrong: "Hmm, that doesn't look right. Count again?", gone: "Oh no, I'm late for class!" },
+  guru:   { walk: "guru_walk", idle: "guru_namaste", happy: ["guru_clap", "guru_laugh"], oops: "guru_point", late: "guru_walk",
+            hello: q => `Namaste, Ganak. ${q} ripe mangoes for the Gurukul, please.`, thanks: "Shabash! The sutra worked beautifully.", wrong: "Not quite, child. Remember: nine, nine… and ten at the end.", gone: "I must go for the evening lesson." },
+  chintu: { walk: "chintu_sneaky", idle: "chintu_confused", happy: ["chintu_jump", "chintu_eat"], oops: "chintu_confused", late: "chintu_caught",
+            hello: q => `Mangoes! ${q} mangoes for Chintu! Don't ask where I found this money.`, thanks: "Yay! Mango time!", wrong: "Hee hee, even I know that's wrong!", gone: "Booo, too slow! I'm going to the banana tree." },
+};
+const ORDER = ["meera", "guru", "chintu", "meera", "guru"];
+const img = n => `assets/${n}.webp`;
+
+let S = { best: {} };
+try { S = Object.assign(S, JSON.parse(localStorage.getItem("gb-change") || "{}")); } catch (e) {}
+const save = () => { try { localStorage.setItem("gb-change", JSON.stringify(S)); } catch (e) {} };
+
+let round = ROUNDS[0], idx = 0, coins = 0, firstTry = 0, prob = null, typed = "", tries = 0, hinted = false,
+    timer = null, tLeft = 0, busy = true, sound = true, ac = null;
+
+// ---------- sound (starts only after a tap) ----------
+function tone(f, d, type = "sine", v = .12, when = 0) {
+  if (!sound) return;
+  try {
+    ac = ac || new (window.AudioContext || window.webkitAudioContext)();
+    const o = ac.createOscillator(), g = ac.createGain(), t = ac.currentTime + when;
+    o.type = type; o.frequency.value = f; g.gain.setValueAtTime(v, t); g.gain.exponentialRampToValueAtTime(.001, t + d);
+    o.connect(g).connect(ac.destination); o.start(t); o.stop(t + d);
+  } catch (e) {}
+}
+const chime = () => { tone(988, .15, "triangle"); tone(1319, .25, "triangle", .1, .1); };
+const boop = () => tone(196, .3, "square", .06);
+const tick = () => tone(660, .05, "square", .03);
+$("#soundBtn").onclick = () => { sound = !sound; $("#soundBtn").textContent = sound ? "Sound on" : "Sound off"; $("#soundBtn").setAttribute("aria-pressed", sound); };
+
+// ---------- helpers ----------
+function say(el, who, text, ms) {
+  el.innerHTML = `<span class="who">${who}</span>${text}`;
+  el.classList.add("show");
+  if (ms) setTimeout(() => el.classList.remove("show"), ms);
+}
+const hush = () => { $("#custSay").classList.remove("show"); $("#ganakSay").classList.remove("show"); };
+function pose(el, name, flip) { el.querySelector("img").src = img(name); if (flip !== undefined) el.classList.toggle("flip", flip); }
+function hop(el) { el.classList.remove("hop"); void el.offsetWidth; el.classList.add("hop"); }
+function toast(t) { const el = $("#toast"); el.textContent = t; el.classList.add("show"); setTimeout(() => el.classList.remove("show"), 1100); }
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const rupee = n => "₹" + n.toLocaleString("en-IN");
+
+function makeProblem() {
+  const k = String(round.note).length - 1;
+  let len = k, p;
+  if (round.n === 3 && idx === 3) len = 3;           // one short price: needs a zero in front
+  if (round.n === 2 && idx === 4) len = 2;
+  do { p = R(10 ** (len - 1) + 1, 10 ** len - 1); } while (p % 10 === 0);
+  const qty = R(2, 12);
+  return { price: p, note: round.note, ans: round.note - p, k, qty };
+}
+
+// ---------- desk: the sutra board ----------
+// Columns are filled left to right. Each answer digit = 9 − price digit, except the last = 10 − price digit.
+let colIdx = 0, colMiss = 0, mistakes = 0, guided = false;
+const padPrice = () => String(prob.price).padStart(prob.k, "0").split("").map(Number);
+const target = i => { const d = padPrice(); return i === d.length - 1 ? 10 - d[i] : 9 - d[i]; };
+const baseOf = i => (i === prob.k - 1 ? 10 : 9);
+
+function boardHTML(digits, filled, cur, helped, shortLen) {
+  const k = digits.length;
+  return `<div class="lbl"><span>Price</span><span>Sutra</span><span>Change</span></div>` + digits.map((d, i) => {
+    const last = i === k - 1, isPad = i < k - shortLen;
+    const f = filled[i];
+    return `<div class="col ${i === cur ? "cur" : ""} ${f !== undefined ? (helped[i] ? "helped done" : "done") : ""}" data-i="${i}">
+      <span class="pd ${isPad ? "pad0" : ""}">${d}</span>
+      <span class="from ${last ? "ten" : ""}">from ${last ? 10 : 9}</span>
+      <span class="ad">${f ?? ""}</span></div>`;
+  }).join("");
+}
+let filled = [], helped = [];
+function drawBoard() {
+  if (!prob) { $("#board").innerHTML = ""; $("#ask").innerHTML = ""; return; }
+  $("#board").innerHTML = boardHTML(padPrice(), filled, colIdx, helped, String(prob.price).length);
+  if (colIdx < prob.k) {
+    const d = padPrice()[colIdx];
+    $("#ask").innerHTML = guided
+      ? `<span class="q">${baseOf(colIdx)} − ${d} = ?</span>`
+      : `Digit ${colIdx + 1}: ${d} from <span class="q">?</span>`;
+  } else $("#ask").innerHTML = "";
+}
+function buildPad() {
+  const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "?"];
+  $("#pad").innerHTML = keys.map(k => k === "⌫" ? `<button class="key" data-k="back" aria-label="Undo last digit">⌫</button>`
+    : k === "?" ? `<button class="key help" data-k="hint">Ask Acharya ji</button>` : `<button class="key" data-k="${k}">${k}</button>`).join("")
+    + `<button class="key go" data-k="how">Show me the sutra again</button>`;
+  $("#pad").onclick = e => { const b = e.target.closest("button"); if (b) press(b.dataset.k); };
+}
+document.addEventListener("keydown", e => {
+  if (!$("#lessonCard").hidden) return;
+  if (/^[0-9]$/.test(e.key)) press(e.key);
+  else if (e.key === "Backspace") press("back");
+});
+function press(k) {
+  if (k === "how") { if (!busy || !prob) openLesson(false); return; }
+  if (busy || !prob) return;
+  if (k === "hint") { guided = true; tipFor(colIdx, true); drawBoard(); return; }
+  if (k === "back") { if (colIdx > 0 && !helped[colIdx - 1]) { colIdx--; filled.length = colIdx; } drawBoard(); return; }
+  enterDigit(Number(k));
+}
+function tipFor(i, slideIn) {
+  const d = padPrice()[i], b = baseOf(i);
+  const short = String(prob.price).length < prob.k && i < prob.k - String(prob.price).length;
+  $("#hintText").innerHTML = (short ? `₹${prob.price} has fewer digits than the zeros in ${prob.note}, so we put <b>0</b> in front. ` : "")
+    + (i === prob.k - 1
+      ? `This is the <b>last digit</b>, so take it from <b>10</b>. Count up from ${d} to 10.`
+      : `Take this digit from <b>9</b>. Count up from ${d} to 9.`);
+  $("#hintSteps").innerHTML = `<span class="${i === prob.k - 1 ? "last" : ""}">${b} − ${d} = ?</span>`;
+  $("#hint").hidden = false;
+  if (slideIn && prob.who !== "guru") { const g = $("#guruHelp"); g.style.transform = "translateX(0)"; setTimeout(() => { g.style.transform = "translateX(-120%)"; }, 2400); }
+}
+function enterDigit(v) {
+  const want = target(colIdx), C = CAST[prob.who];
+  if (v === want) {
+    filled[colIdx] = v; tick(); colIdx++; colMiss = 0; $("#hint").hidden = true;
+    $("#msg").className = "msg good";
+    $("#msg").textContent = colIdx < prob.k ? `Yes! ${baseOf(colIdx - 1)} − ${padPrice()[colIdx - 1]} = ${v}` : "";
+    drawBoard();
+    if (colIdx === prob.k) solved();
+    return;
+  }
+  mistakes++; colMiss++; boop();
+  const col = document.querySelector(`.col[data-i="${colIdx}"]`);
+  if (col) { col.classList.remove("shake"); void col.offsetWidth; col.classList.add("shake"); }
+  pose($("#cust"), C.oops, false);
+  pose($("#ganak"), "ganak_think", true);
+  say($("#custSay"), NAME(prob.who), C.wrong);
+  guided = true;
+  if (colMiss >= 2) {
+    // fill it in for them, with the reason
+    filled[colIdx] = want; helped[colIdx] = true;
+    $("#msg").className = "msg bad";
+    $("#msg").textContent = `${baseOf(colIdx)} − ${padPrice()[colIdx]} = ${want}. Ganak filled this one. Keep going!`;
+    colIdx++; colMiss = 0; $("#hint").hidden = true;
+    drawBoard();
+    if (colIdx === prob.k) solved();
+    return;
+  }
+  $("#msg").className = "msg bad";
+  $("#msg").textContent = "Not that one. Use the sutra on this digit.";
+  tipFor(colIdx, true); drawBoard();
+}
+
+// ---------- lesson: a worked example before each round ----------
+let lessonStep = 0, lessonEx = null, lessonTimer = null;
+function openLesson(first) {
+  const k = String(round.note).length - 1;
+  const ex = { 1: 37, 2: 387, 3: 2468 }[round.n];
+  lessonEx = { price: ex, note: round.note, k };
+  lessonStep = 0;
+  $("#lessonTitle").textContent = first ? `Round ${round.n}: learn the sutra` : "The sutra, step by step";
+  $("#lessonGo").textContent = first ? "Open the cart" : "Back to the cart";
+  $("#lessonCard").hidden = false;
+  stopTimerSilently();
+  drawLesson();
+}
+function drawLesson() {
+  const L = lessonEx, digits = String(L.price).padStart(L.k, "0").split("").map(Number);
+  const fill = [], n = Math.min(lessonStep, L.k);
+  for (let i = 0; i < n; i++) fill[i] = i === L.k - 1 ? 10 - digits[i] : 9 - digits[i];
+  $("#lessonEq").textContent = `${L.note} − ${L.price} = ?`;
+  $("#lessonBoard").innerHTML = boardHTML(digits, fill, lessonStep < L.k ? lessonStep : -1, [], String(L.price).length);
+  let cap;
+  if (lessonStep === 0) cap = `Sutra: <b>All from 9, Last from 10.</b> ${L.note} has ${L.k} zeros, so we work with ${L.k} digits of the price. No borrowing, no carrying!`;
+  else if (lessonStep < L.k) { const i = lessonStep - 1; cap = `${digits[i]} from 9 → <b>${9 - digits[i]}</b>. Next digit…`; }
+  else if (lessonStep === L.k) { const i = L.k - 1; cap = `Last digit: ${digits[i]} from <b>10</b> → <b>${10 - digits[i]}</b>. Change = <b>${rupee(L.note - L.price)}</b>!`; }
+  else cap = `Check: ${L.price} + ${L.note - L.price} = ${L.note} ✓  Now you try it with real customers.`;
+  $("#lessonCap").innerHTML = cap;
+  $("#lessonImg").src = img(lessonStep > L.k ? "guru_clap" : lessonStep ? "guru_point" : "guru_teach");
+  $("#lessonNext").hidden = lessonStep > L.k;
+  $("#lessonNext").textContent = lessonStep === 0 ? "Start" : "Next step";
+}
+$("#lessonNext").onclick = () => { lessonStep++; tick(); drawLesson(); };
+$("#lessonGo").onclick = () => {
+  $("#lessonCard").hidden = true;
+  if (!prob) nextCustomer(); else if (!busy) startTimer(tLeft);
+};
+
+// ---------- patience ----------
+function stopTimerSilently() { clearInterval(timer); }
+function startTimer(resume) {
+  tLeft = resume || round.time;
+  const bar = $("#patience i"); $("#patience").classList.add("show");
+  bar.style.width = "100%"; bar.style.background = "#2F9E44";
+  clearInterval(timer);
+  timer = setInterval(() => {
+    tLeft -= .25;
+    const f = Math.max(0, tLeft / round.time);
+    bar.style.width = f * 100 + "%";
+    bar.style.background = f > .5 ? "#2F9E44" : f > .25 ? "#E8A317" : "#D9412B";
+    if (tLeft <= 0) { clearInterval(timer); timeout(); }
+  }, 250);
+}
+const stopTimer = () => { clearInterval(timer); $("#patience").classList.remove("show"); };
+
+// ---------- flow ----------
+async function nextCustomer() {
+  const g = cGen;
+  hush(); $("#hint").hidden = true; $("#msg").className = "msg"; $("#msg").textContent = "";
+  filled = []; helped = []; colIdx = 0; colMiss = 0; mistakes = 0; busy = true;
+  if (idx >= 5) return endRound();
+  prob = makeProblem();
+  const who = ORDER[idx], C = CAST[who];
+  prob.who = who;
+  $("#custNo").textContent = idx + 1;
+  $("#price").textContent = "₹–"; $("#paid").textContent = "₹–";
+  $("#eqLeft").textContent = `${round.note} − ? =`;
+  guided = round.n === 1 && idx < 2 || idx === 0;
+  drawBoard();
+  pose($("#ganak"), "ganak_wave", true);
+  const c = $("#cust");
+  c.style.transition = "none"; c.style.transform = "translateX(-160%)";
+  c.style.height = who === "chintu" ? "56%" : "74%";
+  pose(c, C.walk, who === "guru" ? true : false);
+  void c.offsetWidth;
+  c.style.transition = ""; c.style.transform = "translateX(0)";
+  await wait(1500); if (g !== cGen) return;
+  pose(c, C.idle, false);
+  say($("#custSay"), who === "guru" ? "Acharya ji" : who === "meera" ? "Meera" : "Chintu", C.hello(prob.qty));
+  await wait(1300); if (g !== cGen) return;
+  say($("#ganakSay"), "Ganak", `That's <b>${rupee(prob.price)}</b>, please!`);
+  $("#price").textContent = rupee(prob.price);
+  await wait(900); if (g !== cGen) return;
+  const n = $("#note"); n.className = "note n" + round.note; n.textContent = rupee(round.note); void n.offsetWidth; n.classList.add("show");
+  $("#paid").textContent = rupee(round.note);
+  $("#eqLeft").textContent = `Change = ${round.note} − ${prob.price}`;
+  drawBoard();
+  $("#msg").className = "msg"; $("#msg").textContent = guided ? "Fill the change one digit at a time, left to right." : "Use the sutra on each digit. Ask Acharya ji if you get stuck.";
+  pose($("#ganak"), "ganak_think", true);
+  busy = false; startTimer();
+}
+
+async function solved() {
+  const g = cGen;
+  const C = CAST[prob.who], c = $("#cust");
+  busy = true; stopTimer(); chime();
+  const clean = mistakes === 0 && !helped.some(Boolean);
+  const fast = tLeft / round.time > .5;
+  const gain = clean ? (fast ? 15 : 10) : 5;
+  if (clean) firstTry++;
+  coins += gain; $("#coins").textContent = coins;
+  $("#msg").className = "msg good";
+  $("#msg").textContent = `${rupee(prob.ans)} change! +${gain} coins${clean && fast ? " (speed bonus!)" : ""}`;
+  $("#ask").innerHTML = `Check: ${prob.price} + ${prob.ans} = ${prob.note} ✓`;
+  flyCoins();
+  pose($("#ganak"), "ganak_cheer", true); hop($("#ganak"));
+  pose(c, C.happy[idx % 2], false); hop(c);
+  $("#note").classList.remove("show");
+  say($("#custSay"), NAME(prob.who), C.thanks);
+  say($("#ganakSay"), "Ganak", clean ? ["Shabash!", "Sutra power!", "No borrowing needed!"][idx % 3] : "Got there! Next one, no mistakes.");
+  toast(clean ? "Perfect change!" : "Change given!");
+  await wait(2600); if (g !== cGen) return;
+  await leave(); if (g !== cGen) return;
+  idx++; nextCustomer();
+}
+
+async function timeout() {
+  const g = cGen;
+  busy = true;
+  const C = CAST[prob.who], c = $("#cust");
+  pose(c, C.late, false);
+  say($("#custSay"), NAME(prob.who), C.gone);
+  $("#msg").className = "msg bad"; $("#msg").textContent = "Too slow! And look who's sneaking up on the cart…";
+  stopTimer();
+  filled = padPrice().map((_, i) => target(i)); colIdx = prob.k; drawBoard();
+  $("#ask").innerHTML = `The change was ${rupee(prob.ans)}`;
+  $("#note").classList.remove("show");
+  await wait(1200); if (g !== cGen) return;
+  if (prob.who !== "chintu") await thief(); if (g !== cGen) return;
+  await wait(1600); if (g !== cGen) return; await leave(); if (g !== cGen) return; idx++; nextCustomer();
+}
+
+async function thief() {
+  const t = $("#thief");
+  pose(t, "chintu_sneaky", false);
+  t.style.transition = "transform 1.2s ease-in-out"; t.style.transform = "translateX(-125%)";
+  await wait(1300);
+  pose(t, "chintu_eat"); say($("#ganakSay"), "Ganak", "Hey! Chintu took a mango!");
+  await wait(1100);
+  pose(t, "chintu_runaway", true);
+  t.style.transition = "transform 1s ease-in"; t.style.transform = "translateX(10%)";
+  coins = Math.max(0, coins - 3); $("#coins").textContent = coins;
+  await wait(1000);
+}
+
+async function leave() {
+  hush();
+  const c = $("#cust"), C = CAST[prob.who];
+  pose(c, C.walk, prob.who !== "guru");
+  c.style.transform = "translateX(-170%)";
+  await wait(1100);
+  $("#hint").hidden = true;
+}
+
+function flyCoins() {
+  const st = $("#stage"), r = st.getBoundingClientRect();
+  for (let i = 0; i < 8; i++) {
+    const c = document.createElement("i"); c.className = "coin";
+    c.style.left = 62 + Math.random() * 6 + "%"; c.style.top = 52 + Math.random() * 8 + "%";
+    st.appendChild(c);
+    setTimeout(() => { c.style.left = 20 + Math.random() * 10 + "%"; c.style.top = 45 + Math.random() * 10 + "%"; }, 30 + i * 70);
+    setTimeout(() => { c.style.opacity = 0; }, 900 + i * 70);
+    setTimeout(() => c.remove(), 1400 + i * 70);
+  }
+}
+const NAME = w => ({ meera: "Meera", guru: "Acharya ji", chintu: "Chintu" }[w]);
+
+function confetti() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cols = ["#F2A516", "#C93F27", "#2F7D3A", "#6D44D0", "#0D6E9C", "#F7C948"];
+  for (let i = 0; i < 50; i++) {
+    const d = document.createElement("i"); d.className = "confetti";
+    d.style.left = Math.random() * 100 + "vw"; d.style.background = cols[i % cols.length];
+    d.style.animationDelay = Math.random() * .6 + "s"; d.style.animationDuration = 1.8 + Math.random() * 1.2 + "s";
+    document.body.appendChild(d); setTimeout(() => d.remove(), 3500);
+  }
+}
+
+function endRound() {
+  busy = true; prob = null; hush();
+  const stars = firstTry === 5 ? 3 : firstTry >= 4 ? 2 : firstTry >= 2 ? 1 : 0;
+  const was = S.best[round.n] || 0;
+  if (stars > was) { S.best[round.n] = stars; save(); }
+  $("#endStars").innerHTML = [0, 1, 2].map(i => `<span class="${i < stars ? "on" : ""}">★</span>`).join("");
+  $("#endTitle").textContent = stars === 3 ? "Master shopkeeper!" : stars ? `Round ${round.n} complete!` : "Good try!";
+  $("#endImg").src = img(stars >= 2 ? "ganak_cheer" : stars ? "ganak_wave" : "ganak_think");
+  $("#endText").innerHTML = `You gave perfect change with no mistakes to <b>${firstTry} of 5</b> customers and earned <b>${coins} coins</b>. ` +
+    (stars === 3 ? "Every digit right with the sutra. Try the next round!" : "Fill every digit right with no help for 3 stars.");
+  $("#nextRoundBtn").hidden = round.n === 3;
+  $("#endCard").hidden = false;
+  pose($("#ganak"), stars ? "ganak_cheer" : "ganak_think", true);
+  if (stars >= 2) confetti();
+}
+
+function startRound(n) {
+  cGen++;
+  round = ROUNDS[n - 1]; idx = 0; coins = 0; firstTry = 0;
+  $("#coins").textContent = 0; $("#roundChip").textContent = `Round ${n} · ${round.label}`;
+  $("#intro").hidden = true; $("#endCard").hidden = true; prob = null;
+  tone(523, .1, "triangle", .08); tone(784, .15, "triangle", .08, .1);
+  openLesson(true);
+}
+function drawRounds() {
+  $("#roundBtns").innerHTML = ROUNDS.map(r => `<button class="rbtn" data-r="${r.n}">Round ${r.n} <span class="st">${"★".repeat(S.best[r.n] || 0)}</span><small>${r.label} · ${r.hint}</small></button>`).join("");
+  $("#roundBtns").onclick = e => { const b = e.target.closest("button"); if (b) startRound(+b.dataset.r); };
+}
+$("#nextRoundBtn").onclick = () => startRound(Math.min(3, round.n + 1));
+$("#againBtn").onclick = () => startRound(round.n);
+$("#menuBtn").onclick = () => { $("#endCard").hidden = true; drawRounds(); $("#intro").hidden = false; };
+
+buildPad(); drawRounds(); drawBoard();
+
+// =================== STEP GAMES (tricks 1, 2, 3, 5, 6) ===================
+const VIS = {
+  meera:  { come: "meera_phone", idle: "meera_think", happy: ["meera_cheer", "meera_thumbs"], oops: "meera_shrug", late: "meera_shock", name: "Meera", h: "74%" },
+  guru:   { come: "guru_walk", idle: "guru_namaste", happy: ["guru_clap", "guru_laugh"], oops: "guru_point", late: "guru_walk", name: "Acharya ji", h: "76%" },
+  chintu: { come: "chintu_sneaky", idle: "chintu_confused", happy: ["chintu_jump", "chintu_eat"], oops: "chintu_confused", late: "chintu_caught", name: "Chintu", h: "56%" },
+};
+const PRAISE = ["Shabash!", "Brain speed!", "Sutra power!", "Too fast!", "Perfect!"];
+let SS = {};
+try { SS = JSON.parse(localStorage.getItem("gb-steps") || "{}"); } catch (e) {}
+const saveSS = () => { try { localStorage.setItem("gb-steps", JSON.stringify(SS)); } catch (e) {} };
+
+let sGen = 0, cGen = 0;
+let L = null, sr = 0, sIdx = 0, sCoins = 0, sClean = 0, sp = null, steps = [], si = 0, sTyped = "", sMiss = 0, sMist = 0, sHelped = 0,
+    sGuided = false, sBusy = true, sTimer = null, sLeft = 0, dotsN = 0, done = [];
+const ROUND_TIME = [40, 55, 70];
+
+function sTimerStart(resume) {
+  sLeft = resume || ROUND_TIME[sr] + steps.length * 4;
+  const total = ROUND_TIME[sr] + steps.length * 4, bar = $("#sPat i");
+  $("#sPat").classList.add("show"); clearInterval(sTimer);
+  sTimer = setInterval(() => {
+    sLeft -= .25; const f = Math.max(0, sLeft / total);
+    bar.style.width = f * 100 + "%"; bar.style.background = f > .5 ? "#2F9E44" : f > .25 ? "#E8A317" : "#D9412B";
+    if (sLeft <= 0) { clearInterval(sTimer); sTimeout(); }
+  }, 250);
+}
+const sTimerStop = () => { clearInterval(sTimer); $("#sPat").classList.remove("show"); };
+
+function sDraw() {
+  $("#sDots").innerHTML = L && L.id === "t3" && sp ? `Dots: ${Array.from({ length: dotsN }, () => "<i></i>").join("")}${dotsN ? "" : " none yet"}` : "";
+  let h = done.map(d => `<div class="wline ${d.h ? "helped" : ""}">${d.t}</div>`).join("");
+  if (sp && si < steps.length) {
+    const st = steps[si];
+    const prompt = sGuided ? st.full : st.short;
+    const len = st.choice ? 0 : String(st.ans).length;
+    const boxes = st.choice ? "" : `<div class="boxes" id="sBoxes">${Array.from({ length: len }, (_, i) => `<span class="box ${sTyped[i] ? "fill" : ""} ${i === sTyped.length ? "cur" : ""}">${sTyped[i] ?? ""}</span>`).join("")}</div>`;
+    h += `<div class="wnow"><span class="step">Step ${si + 1} of ${steps.length}</span><span class="pr">${prompt}</span>${boxes}</div>`;
+    $("#sPad").hidden = !!st.choice; $("#sChoice").hidden = !st.choice;
+  } else { $("#sPad").hidden = false; $("#sChoice").hidden = true; }
+  $("#sWork").innerHTML = h;
+}
+function sBuildPad() {
+  const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "⌫", "0", "?"];
+  $("#sPad").innerHTML = keys.map(k => k === "⌫" ? `<button class="key" data-k="back" aria-label="Delete">⌫</button>`
+    : k === "?" ? `<button class="key help" data-k="hint">Ask Acharya ji</button>` : `<button class="key" data-k="${k}">${k}</button>`).join("")
+    + `<button class="key go" data-k="how">Show me the trick again</button>`;
+  $("#sPad").onclick = e => { const b = e.target.closest("button"); if (b) sPress(b.dataset.k); };
+  $("#sChoice").onclick = e => { const b = e.target.closest("button"); if (b && !sBusy && sp) sAnswer(b.dataset.c); };
+}
+document.addEventListener("keydown", e => {
+  if ($("#stepGame").hidden || !$("#sLesson").hidden) return;
+  if (/^[0-9]$/.test(e.key)) sPress(e.key); else if (e.key === "Backspace") sPress("back");
+});
+function sPress(k) {
+  if (k === "how") { if (!sBusy || !sp) sOpenLesson(false); return; }
+  if (sBusy || !sp) return;
+  const st = steps[si];
+  if (k === "hint") { sGuided = true; sTip(st); sDraw(); return; }
+  if (k === "back") { sTyped = sTyped.slice(0, -1); sDraw(); return; }
+  if (st.choice) return;
+  const len = String(st.ans).length;
+  if (sTyped.length < len) { sTyped += k; tick(); }
+  sDraw();
+  if (sTyped.length === len) setTimeout(() => sAnswer(Number(sTyped)), 120);
+}
+function sTip(st) {
+  $("#sHintText").innerHTML = st.tip; $("#sHint").hidden = false;
+  if (sp && sp.who === "guru") return;              // Acharya ji is already on stage
+  const g = $("#sGuru"); g.style.transform = "translateX(0)"; setTimeout(() => { g.style.transform = "translateX(-120%)"; }, 2400);
+}
+function sOk(st, v) {
+  if (st.choice) return v === st.ans;
+  if (st.seed && v === 9 && st.ans === 0) return true;
+  return v === st.ans;
+}
+function sAnswer(v) {
+  const st = steps[si], V = VIS[sp.who];
+  if (sOk(st, v)) {
+    tick();
+    done.push({ t: st.line, h: false }); if (st.dot) dotsN++;
+    si++; sTyped = ""; sMiss = 0; $("#sHint").hidden = true;
+    $("#sMsg").className = "msg good"; $("#sMsg").textContent = si < steps.length ? "Yes! Next step." : "";
+    pose($("#sGanak"), si < steps.length ? "ganak_point" : "ganak_cheer", true);
+    sDraw();
+    if (si === steps.length) sSolved();
+    return;
+  }
+  sMist++; sMiss++; boop(); sTyped = "";
+  const b = $("#sBoxes"); if (b) { b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); }
+  pose($("#sVis"), V.oops, false); pose($("#sGanak"), "ganak_think", true);
+  sGuided = true;
+  if (sMiss >= 2) {
+    done.push({ t: st.line + " (with help)", h: true }); if (st.dot) dotsN++;
+    sHelped++; si++; sMiss = 0; $("#sHint").hidden = true;
+    $("#sMsg").className = "msg bad"; $("#sMsg").textContent = "Acharya ji showed this step. Keep going!";
+    sDraw(); if (si === steps.length) sSolved(); return;
+  }
+  $("#sMsg").className = "msg bad"; $("#sMsg").textContent = "Not quite. Use the trick on this step.";
+  sTip(st); sDraw();
+}
+async function sSolved() {
+  const g = sGen;
+  sBusy = true; sTimerStop(); chime();
+  const V = VIS[sp.who], v = $("#sVis");
+  const clean = sMist === 0 && sHelped === 0;
+  const total = ROUND_TIME[sr] + steps.length * 4, fast = sLeft / total > .5;
+  const gain = clean ? (fast ? 15 : 10) : 5;
+  if (clean) sClean++;
+  sCoins += gain; $("#sCoins").textContent = sCoins;
+  $("#sMsg").className = "msg good"; $("#sMsg").textContent = `${L.done(sp)} +${gain} coins${clean && fast ? " (speed bonus!)" : ""}`;
+  pose($("#sGanak"), "ganak_cheer", true); hop($("#sGanak"));
+  pose(v, V.happy[sIdx % 2], false); hop(v);
+  say($("#sVisSay"), V.name, L.id === "t6" ? (sp.shown === sp.real ? "Told you! Banana time!" : "Uh oh… you caught me!") : ["Wow, so quick!", "That's right! Thank you!", "Shabash!"][sIdx % 3]);
+  say($("#sGanakSay"), "Ganak", clean ? PRAISE[sIdx % PRAISE.length] : "Got it! Next one with no help.");
+  sToastShow(clean ? "Perfect!" : "Solved!");
+  await wait(2500); if (g !== sGen) return; await sLeave(); if (g !== sGen) return; sIdx++; sNext();
+}
+async function sTimeout() {
+  const g = sGen;
+  sBusy = true; const V = VIS[sp.who];
+  pose($("#sVis"), V.late, false);
+  say($("#sVisSay"), V.name, "Too slow! I have to go.");
+  steps.slice(si).forEach(st => done.push({ t: st.line, h: true })); si = steps.length; sDraw();
+  $("#sMsg").className = "msg bad"; $("#sMsg").textContent = "Time's up! Here's the full working. Read it, then try the next one.";
+  await wait(3800); if (g !== sGen) return; await sLeave(); if (g !== sGen) return; sIdx++; sNext();
+}
+function sToastShow(t) { const el = $("#sToast"); el.textContent = t; el.classList.add("show"); setTimeout(() => el.classList.remove("show"), 1100); }
+async function sLeave() {
+  $("#sVisSay").classList.remove("show"); $("#sGanakSay").classList.remove("show");
+  const v = $("#sVis"), V = VIS[sp.who];
+  pose(v, V.come, sp.who !== "guru"); v.style.transform = "translateX(-170%)";
+  await wait(1100); $("#sHint").hidden = true;
+}
+async function sNext() {
+  const g = sGen;
+  $("#sVisSay").classList.remove("show"); $("#sGanakSay").classList.remove("show");
+  $("#sHint").hidden = true; $("#sMsg").className = "msg"; $("#sMsg").textContent = "";
+  sBusy = true;
+  if (sIdx >= 5) return sEndRound();
+  sp = L.rounds[sr].gen(); sp.who = L.who[sIdx % L.who.length];
+  steps = L.steps(sp); si = 0; sTyped = ""; sMiss = 0; sMist = 0; sHelped = 0; dotsN = 0; done = [];
+  sGuided = sIdx < 2 && sr === 0 || sIdx === 0;
+  $("#sNo").textContent = sIdx + 1; $("#sHead").textContent = ""; sDraw();
+  const V = VIS[sp.who], v = $("#sVis");
+  v.style.transition = "none"; v.style.transform = "translateX(-160%)"; v.style.height = V.h;
+  pose(v, V.come, sp.who === "guru"); void v.offsetWidth;
+  v.style.transition = ""; v.style.transform = "translateX(0)";
+  pose($("#sGanak"), "ganak_wave", true);
+  await wait(1500); if (g !== sGen) return;
+  pose(v, V.idle, false);
+  say($("#sVisSay"), V.name, L.ask(sp, sp.who));
+  await wait(1100); if (g !== sGen) return;
+  say($("#sGanakSay"), "Ganak", ["Let's use the trick!", "Easy with the sutra!", "Watch this!"][sIdx % 3]);
+  $("#sHead").textContent = L.head(sp);
+  pose($("#sGanak"), "ganak_think", true);
+  $("#sMsg").textContent = sGuided ? "Solve it step by step, the sutra way." : "Remember the trick? Ask Acharya ji if you need help.";
+  sDraw(); sBusy = false; sTimerStart();
+}
+function sEndRound() {
+  sp = null; sBusy = true; sDraw();
+  const stars = sClean === 5 ? 3 : sClean >= 4 ? 2 : sClean >= 2 ? 1 : 0;
+  SS[L.id] = SS[L.id] || {}; if (stars > (SS[L.id][sr + 1] || 0)) { SS[L.id][sr + 1] = stars; saveSS(); }
+  $("#sEndStars").innerHTML = [0, 1, 2].map(i => `<span class="${i < stars ? "on" : ""}">★</span>`).join("");
+  $("#sEndTitle").textContent = stars === 3 ? "Brain speed champion!" : stars ? `Round ${sr + 1} complete!` : "Good try!";
+  $("#sEndImg").src = img(stars >= 2 ? "ganak_cheer" : stars ? "ganak_wave" : "ganak_think");
+  $("#sEndText").innerHTML = `You solved <b>${sClean} of 5</b> with no mistakes and earned <b>${sCoins} coins</b>. ${stars === 3 ? "Try the next round!" : "Solve all 5 with no help for 3 stars."}`;
+  $("#sNextRound").hidden = sr === 2;
+  $("#sEnd").hidden = false;
+  if (stars >= 2) confetti();
+}
+function sStartRound(r) {
+  sGen++;
+  sr = r; sIdx = 0; sCoins = 0; sClean = 0; sp = null;
+  $("#sCoins").textContent = 0; $("#sRoundChip").textContent = `Round ${r + 1} · ${L.rounds[r].label}`;
+  $("#sIntro").hidden = true; $("#sEnd").hidden = true;
+  sOpenLesson(true);
+}
+// lesson: walk through the level's worked example one step at a time
+let lStep = 0, lSteps = [];
+function sOpenLesson(first) {
+  lStep = 0; lSteps = L.steps(L.example);
+  sTimerStop();
+  $("#sLessonGo").textContent = first ? "Let's play" : "Back to the game";
+  $("#sLesson").hidden = false; sLessonDraw();
+}
+function sLessonDraw() {
+  $("#sLessonEq").textContent = L.head(L.example);
+  $("#sLessonList").innerHTML = lSteps.map((st, i) => `<div class="wline ${i < lStep ? "" : "future"}">${st.line}</div>`).join("");
+  $("#sLessonCap").innerHTML = lStep === 0 ? `<b>${L.sutra}.</b> Watch how Acharya ji solves this, one step at a time.`
+    : lStep <= lSteps.length ? lSteps[lStep - 1].tip : "";
+  if (lStep > lSteps.length) $("#sLessonCap").innerHTML = `${L.done(L.example)} Now it's your turn.`;
+  $("#sLessonImg").src = img(lStep > lSteps.length ? "guru_clap" : lStep ? "guru_point" : "guru_teach");
+  $("#sLessonNext").hidden = lStep > lSteps.length;
+  $("#sLessonNext").textContent = lStep === 0 ? "Start" : lStep === lSteps.length ? "Finish" : "Next step";
+}
+$("#sLessonNext").onclick = () => { lStep++; tick(); sLessonDraw(); };
+$("#sLessonGo").onclick = () => { $("#sLesson").hidden = true; if (!sp) sNext(); else if (!sBusy) sTimerStart(sLeft); };
+$("#sNextRound").onclick = () => sStartRound(Math.min(2, sr + 1));
+$("#sAgain").onclick = () => sStartRound(sr);
+
+function openStepLevel(lv) {
+  sGen++;
+  L = lv; sp = null; sBusy = true; sTimerStop();
+  $("#sStage").style.backgroundImage = `url(assets/bg_${L.bg}.webp)`;
+  $("#sTitle").innerHTML = `Trick ${L.n} <span>· ${L.place}</span>`;
+  $("#sIntroTitle").textContent = `${L.place}`;
+  $("#sIntroStory").textContent = L.story;
+  $("#sIntroSutra").textContent = L.sutra;
+  $("#sIntroImg").src = img({ t1: "guru_teach", t2: "meera_phone", t3: "chintu_eat", t5: "meera_thumbs", t6: "chintu_sneaky" }[L.id]);
+  $("#sFoot").textContent = `A World of Wonders Studio game · Vedic Maths Brain Speed! Book 1 · Trick ${L.n}: ${L.title}`;
+  const best = SS[L.id] || {};
+  $("#sRoundBtns").innerHTML = L.rounds.map((r, i) => `<button class="rbtn" data-r="${i}">Round ${i + 1} <span class="st">${"★".repeat(best[i + 1] || 0)}</span><small>${r.label}</small></button>`).join("");
+  $("#sRoundBtns").onclick = e => { const b = e.target.closest("button"); if (b) sStartRound(+b.dataset.r); };
+  $("#sHead").textContent = ""; $("#sWork").innerHTML = ""; $("#sDots").innerHTML = ""; $("#sMsg").textContent = "Choose a round to start.";
+  $("#sIntro").hidden = false; $("#sLesson").hidden = true; $("#sEnd").hidden = true;
+  const v = $("#sVis"); v.style.transition = "none"; v.style.transform = "translateX(-170%)";
+  pose($("#sGanak"), "ganak_wave", true);
+}
+
+// =================== HUB + ROUTER ===================
+const HUBPIC = { t1: "guru_teach", t2: "meera_phone", t3: "chintu_eat", t4: "ganak_point", t5: "meera_thumbs", t6: "chintu_sneaky" };
+function starsOf(id) {
+  if (id === "t4") return [1, 2, 3].reduce((a, r) => a + (S.best[r] || 0), 0);
+  const b = SS[id] || {}; return [1, 2, 3].reduce((a, r) => a + (b[r] || 0), 0);
+}
+function drawHub() {
+  let tot = 0;
+  $("#levelCards").innerHTML = LEVELS.map(lv => {
+    const st = starsOf(lv.id); tot += st;
+    return `<a class="lvl" href="#${lv.id}">
+      <div class="pic" style="background-image:url(assets/bg_${lv.bg}.webp)"><span class="num" style="background:${lv.color}">${lv.n}</span><img src="${img(HUBPIC[lv.id])}" alt=""></div>
+      <div class="body"><span class="place">${lv.place}</span><h3>${lv.title}</h3><span class="st">${Array.from({ length: 9 }, (_, i) => `<span class="${i < st ? "on" : ""}">★</span>`).join("")}</span></div></a>`;
+  }).join("");
+  $("#hubStars").textContent = tot;
+}
+function routeAll() {
+  cGen++; sGen++;
+  const h = (location.hash || "#home").slice(1);
+  // pause anything running
+  busy = true; stopTimerSilently(); $("#patience").classList.remove("show");
+  sBusy = true; sTimerStop();
+  $("#hub").hidden = $("#stepGame").hidden = $("#cartGame").hidden = true;
+  const lv = LEVELS.find(x => x.id === h);
+  if (lv && lv.cart) {
+    $("#cartGame").hidden = false; prob = null;
+    $("#endCard").hidden = true; $("#lessonCard").hidden = true; drawRounds(); drawBoard(); $("#intro").hidden = false;
+    $("#cust").style.transform = "translateX(-170%)";
+  } else if (lv) { $("#stepGame").hidden = false; openStepLevel(lv); }
+  else { $("#hub").hidden = false; drawHub(); }
+  window.scrollTo(0, 0);
+}
+sBuildPad();
+window.addEventListener("hashchange", routeAll);
+routeAll();
+
+// preload sprites
+["meera_cheer","meera_thumbs","meera_shrug","meera_shock","meera_think","guru_walk","guru_namaste","guru_clap","guru_laugh","guru_point",
+ "chintu_jump","chintu_eat","chintu_confused","chintu_caught","chintu_runaway","ganak_cheer","ganak_think"].forEach(n => { const i = new Image(); i.src = img(n); });
+</script>
+
+</body>
+</html>
