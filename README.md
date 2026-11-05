@@ -1,3 +1,3 @@
-# Story Quest
+# World of Wonders · Watch & Play
 
-Stories of Bharat to watch and play, by World of Wonders, a unit of OurSchoolHouse (OSH) · https://ourschoolhouse.in
+Animated stories and games on Bharat's festivals, epics, scriptures and Vedic Maths, by World of Wonders Studio · https://worldofwondersstudio.com
