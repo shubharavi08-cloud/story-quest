@@ -5,7 +5,7 @@
 <title>World of Wonders · Watch &amp; Play</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="World of Wonders, an OurSchoolHouse (OSH) initiative: animated stories and games on Bharat's festivals, epics, scriptures and Vedic Maths for every age. Watch, play, learn and teach together.">
+<meta name="description" content="World of Wonders Studio: animated stories and games on Bharat's festivals, epics, scriptures and Vedic Maths for every age. Watch, play, learn and teach together.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&display=swap">
 <style>
@@ -126,15 +126,15 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 </head>
 <body>
 
-<div class="fam-bar"><span><b>World of Wonders</b> · Watch &amp; Play · by OurSchoolHouse (OSH)</span><span class="fam">Our family: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span></div>
+<div class="fam-bar"><span><b>World of Wonders</b> · Watch &amp; Play</span><span class="fam">Sister site: <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></span></div>
 
 <div class="wrap">
   <header class="bar">
-    <a class="logo" href="#home"><img src="img/wow_logo.png" alt="World of Wonders"><span><small>by OurSchoolHouse</small><b>World of Wonders</b></span></a>
+    <a class="logo" href="#home"><img src="img/wow_logo.png" alt="World of Wonders"><span><small>Studio · Watch &amp; Play</small><b>World of Wonders</b></span></a>
     <button class="music" id="music" type="button" aria-pressed="false">Music off</button>
   </header>
   <main id="view"></main>
-  <footer><span>Watch &amp; Play by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders Studio</a>, a unit of <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse (OSH)</a> · Sister site: <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span><span>Watch the story. Play the quest. Learn and teach together.</span></footer>
+  <footer><span>Watch &amp; Play by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders Studio</a> · Sister site: <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></span><span>Watch the story. Play the quest. Learn and teach together.</span></footer>
 </div>
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="pal" id="pal" aria-live="polite"><img src="img/diya_wave.png" alt="Diya"><div class="bubble" id="bubble"></div></div>
@@ -161,7 +161,7 @@ const DEEPAVALI = [
 ];
 const SECTIONS = [
  {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale.", img:'img/ayodhya.jpg', open:true},
- {k:'vedicmaths', name:'Vedic Maths', group:'Maths', blurb:'Brain Speed! Lightning-fast mental maths with Ganak: book, videos and games.', emoji:'🧮'},
+ {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/'},
  {k:'gita', name:'Bhagavad Gita', group:'Scriptures', blurb:'Krishna and Arjuna, one chapter at a time.', emoji:'🪷'},
  {k:'panchatantra', name:'Panchatantra', group:'Wisdom tales', blurb:'Clever animals, smart lessons.', emoji:'🐒'},
  {k:'ramayana', name:'Ramayana', group:'Epics', blurb:'The journey of Shri Ram.', img:'img/exile.jpg'},
@@ -213,7 +213,7 @@ function saveProg(){try{localStorage.setItem('storyquest',JSON.stringify(prog))}
 /* ===== views ===== */
 const V=document.getElementById('view');
 function home(){
-  const groups=SECTIONS.map(s=>`<a class="tile ${s.open?'':'locked'}" href="${s.open?'#'+s.k:'#home'}" ${s.open?'':'aria-disabled="true"'}>
+  const groups=SECTIONS.map(s=>`<a class="tile ${s.open?'':'locked'}" href="${s.open?(s.href||'#'+s.k):'#home'}" ${s.open?'':'aria-disabled="true"'}>
     ${s.img?`<img src="${s.img}" alt="">`:`<div class="ph" aria-hidden="true">${s.emoji}</div>`}
     <span class="chip ${s.open?'':'soon'}">${s.open?'Play now':'Coming soon'}</span>
     <div class="body"><span class="eyebrow">${s.group}</span><h3>${s.name}</h3><p>${s.blurb}</p></div></a>`).join('');
