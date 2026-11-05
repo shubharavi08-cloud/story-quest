@@ -277,7 +277,7 @@ function wireVideo(e){
   const poster=()=>`<button class="watch" id="poster" aria-label="Play"><img src="${e.img}" alt=""><span class="playbtn" aria-hidden="true">▶</span></button>`;
   let cur=(document.querySelector('.lang.on')||{}).dataset?.id;
   const play=()=>{ try{if(musicOn)setMusic(false)}catch(_){}
-    box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${cur}?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="Episode ${e.n}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>` };
+    box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${cur}?autoplay=1&rel=0&modestbranding=1&playsinline=1&vq=hd1080" title="Episode ${e.n}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>` };
   box.addEventListener('click',ev=>{ if(ev.target.closest('#poster')) play() });
   document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>{ document.querySelectorAll('.lang').forEach(x=>x.classList.toggle('on',x===b)); cur=b.dataset.id; if(link)link.href='https://youtu.be/'+cur; if(box.querySelector('iframe')) play(); else box.innerHTML=poster() });
 }
