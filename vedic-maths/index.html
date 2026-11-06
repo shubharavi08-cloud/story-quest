@@ -230,8 +230,32 @@ button{font:inherit;cursor:pointer}
 <link rel="canonical" href="https://worldofwondersstudio.com/vedic-maths/">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Vedic Maths Gurukul Games","url":"https://worldofwondersstudio.com/vedic-maths/","description":"Free Vedic Maths practice games for Class 6–10: six mental-maths tricks, each a game with a short lesson from Acharya ji.","learningResourceType":"Game","educationalLevel":"Class 6–10","teaches":"Vedic Maths","isAccessibleForFree":true,"inLanguage":"en","publisher":{"@id":"https://worldofwondersstudio.com/#org"}}</script>
 <!-- geo:end -->
+<!-- osh-mode:start -->
+<script>
+(function(){
+  var osh = /[?&]site=osh\b/.test(location.search);
+  try { if (osh) sessionStorage.setItem('vm-site','osh'); else if (sessionStorage.getItem('vm-site')==='osh' && window.self!==window.top) osh = true; } catch(e) {}
+  window.VM_SITE = osh ? 'osh' : 'wow';
+  window.VM_BRAND = osh ? 'An OurSchoolHouse game' : 'A World of Wonders Studio game';
+  if (osh) {
+    document.documentElement.classList.add('site-osh');
+    document.title = 'Vedic Maths – Brain Speed! Games · OurSchoolHouse';
+  }
+})();
+</script>
+<style>
+.osh-top{display:none}
+.site-osh .wow-top,.site-osh .wow-foot,.site-osh .wow-join,.site-osh [class*="join-"]{display:none!important}
+.site-osh .osh-top{display:block;background:#0f4c5c;border-bottom:3px solid #22c1d6;color:#fff;
+  font:700 15px/1.3 "Mukta","Segoe UI",system-ui,sans-serif;text-align:center;padding:10px 14px}
+.site-osh .osh-top span{color:#7fe3ef;font-weight:600}
+</style>
+<!-- osh-mode:end -->
 </head>
 <body>
+<!-- osh-mode:start -->
+<div class="osh-top">Vedic Maths – Brain Speed! <span>· free practice games by OurSchoolHouse</span></div>
+<!-- osh-mode:end -->
 <link rel="stylesheet" href="../family.css?v=20261105c">
 <a class="wow-top" href="../index.html" aria-label="World of Wonders home"><img src="../img/wow_banner.jpg?v=2" alt="World of Wonders · Music · Stories · Creation · Inspiration"></a>
 <div class="wrap view" id="hub">
@@ -1138,7 +1162,7 @@ function openStepLevel(lv) {
   $("#sIntroStory").textContent = L.story;
   $("#sIntroSutra").textContent = L.sutra;
   $("#sIntroImg").src = img({ t1: "guru_teach", t2: "meera_phone", t3: "chintu_eat", t5: "meera_thumbs", t6: "chintu_sneaky" }[L.id]);
-  $("#sFoot").textContent = `A World of Wonders Studio game · Vedic Maths Level 1 · Trick ${L.n}: ${L.title}`;
+  $("#sFoot").textContent = `${window.VM_BRAND} · Vedic Maths Level 1 · Trick ${L.n}: ${L.title}`;
   const best = SS[L.id] || {};
   $("#sRoundBtns").innerHTML = L.rounds.map((r, i) => `<button class="rbtn" data-r="${i}">Round ${i + 1} <span class="st">${"★".repeat(best[i + 1] || 0)}</span><small>${r.label}</small></button>`).join("");
   $("#sRoundBtns").onclick = e => { const b = e.target.closest("button"); if (b) sStartRound(+b.dataset.r); };
@@ -1195,6 +1219,30 @@ routeAll();
 <div class="wf-sis">Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></div>
 <div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
 </div></footer>
-<script src="../join.js?v=2" defer></script>
+<script>if(window.VM_SITE!=="osh"){var j=document.createElement("script");j.src="../join.js?v=2";j.defer=true;document.body.appendChild(j)}</script>
+<!-- osh-mode:start -->
+<script>
+(function(){
+  if (window.VM_SITE !== 'osh') return;
+  // In-page credits
+  document.querySelectorAll('.foot').forEach(function(p){
+    p.textContent = p.textContent.replace('A World of Wonders Studio game', window.VM_BRAND);
+  });
+  // Visit count for the OSH embed (no cookies, no personal data)
+  try { if (!sessionStorage.getItem('vm-osh-hit')) { sessionStorage.setItem('vm-osh-hit','1');
+    new Image().src = 'https://hits.sh/worldofwondersstudio.com/vedic-maths-osh.svg?r=' + Date.now(); } } catch(e) {}
+  // Tell the parent page our height so the embed can auto-resize
+  // Content height (not scrollHeight, which never shrinks below the frame height)
+  function contentHeight(){ var h=0; Array.prototype.forEach.call(document.body.children, function(el){
+      if (el.tagName==='SCRIPT' || el.tagName==='LINK' || el.tagName==='STYLE') return;
+      var r=el.getBoundingClientRect(); if (r.height) h=Math.max(h, r.bottom + window.scrollY); });
+    return Math.ceil(h) + 24; }
+  var last=0; function send(){ var h=contentHeight(); if (Math.abs(h-last)<4) return; last=h;
+    try { parent.postMessage({vmHeight: h}, '*'); } catch(e) {} }
+  window.addEventListener('load', send); window.addEventListener('hashchange', function(){ setTimeout(send, 60); });
+  if (window.ResizeObserver) new ResizeObserver(send).observe(document.body); else setInterval(send, 1000);
+})();
+</script>
+<!-- osh-mode:end -->
 </body>
 </html>
