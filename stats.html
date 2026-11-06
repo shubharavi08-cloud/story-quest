@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>WoW site stats</title>
+<style>body{font-family:system-ui,sans-serif;background:#120d33;color:#f5efe0;margin:0;padding:18px;max-width:640px;margin:auto}h1{font-size:20px}h2{font-size:15px;color:#ffd35a;margin:22px 0 8px}.r{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #ffffff1a;gap:8px}.r span{font-size:14px}.r img{height:20px}p{font-size:13px;opacity:.75}</style></head><body>
+<h1>World of Wonders: site stats</h1>
+<p>Counts started 6 Nov 2026, 10:45 PM. Each row shows today / all-time. Opening this page adds 1 to every counter, so subtract your own checks.</p>
+<div id="s"></div>
+<script>
+var G=[['Visitors',[['visits','All visits (once per visit)'],['visits-from-ad','From the ad'],['visits-from-youtube','From YouTube links']]],
+['Sign-ups',[['joins','Joined the family'],['joins-from-ad','Joined, came from the ad'],['join-prompt-clicks','Tapped "Join free" after a game']]],
+['Playing',[['video-starts','Story videos started (unlocks games)'],['game-ends','Games finished'],['game-ends-from-ad','Games finished, came from the ad']]],
+['Games finished, by game',['road-to-ayodhya','samudra-manthan','lagori','archery','pallanguzhi','catch-drops','navakankari','yamuna-thali'].map(function(g){return['game-end-'+g,g]})],
+['Pages',['index','road-to-ayodhya','samudra-manthan','lagori','archery','pallanguzhi','catch-drops','navakankari','yamuna-thali','finale','thought','books','about'].map(function(g){return['page-'+g,g]})]];
+document.getElementById('s').innerHTML=G.map(function(g){return '<h2>'+g[0]+'</h2>'+g[1].map(function(r){return '<div class="r"><span>'+r[1]+'</span><img alt="" src="https://hits.sh/worldofwondersstudio.com/'+r[0]+'.svg?view=today-total&label=&color=2ec4a0"></div>'}).join('')}).join('');
+</script></body></html>

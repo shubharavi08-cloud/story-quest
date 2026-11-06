@@ -7,7 +7,7 @@
   var ME=document.currentScript;
   var KEYP='wow-watched-';
   function has(k){try{return localStorage.getItem(KEYP+k)==='1'}catch(e){return false}}
-  function mark(k){try{localStorage.setItem(KEYP+k,'1')}catch(e){}}
+  function mark(k){try{if(!localStorage.getItem(KEYP+k)&&window.WOWHit){WOWHit('video-starts');WOWHit('video-start-'+k)}localStorage.setItem(KEYP+k,'1')}catch(e){}}
   function lang(){var l='en';try{l=localStorage.getItem('jb_lang')||localStorage.getItem('wow-lang')||'en'}catch(e){}return /^(en|hi|kn)$/.test(l)?l:'en'}
   var T={
     en:{h:'First, watch the story',p:'Press play on the story to unlock the game. When the video ends, the game opens by itself. You only need to do this once.',bar:'Story',go:'▶ Play the game',done:'Unlocked! Your game is ready.',yt:'Watch on YouTube ↗',back:'← Back'},
