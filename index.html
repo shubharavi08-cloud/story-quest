@@ -70,29 +70,35 @@ h3{font-size:22px}
 .gfilter button small{opacity:.7;font-weight:600}
 .gfilter button[aria-pressed="true"]{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
 .gfilter .gsurprise{margin-left:auto;border-color:var(--flame);color:var(--flame)}
-.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
-.gcard{background:var(--night-2);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s,box-shadow .2s}
-.gcard:hover{transform:translateY(-4px);box-shadow:0 18px 40px -18px #000}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.gcard{background:var(--night-2);border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column;text-decoration:none;color:var(--ink);transition:transform .2s,box-shadow .2s}
+.gcard:hover{transform:translateY(-5px);box-shadow:0 20px 44px -18px #000,0 0 0 2px #ffd35a55}
 .gcard[hidden]{display:none}
 .gcard.pick{outline:3px solid var(--flame);box-shadow:0 0 0 6px #ffd35a33}
-.gpicwrap{position:relative;display:block}
-.gpic{aspect-ratio:16/9;overflow:hidden}
-.gpic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
-.gcard:hover .gpic img{transform:scale(1.05)}
-.gpic.split{background-size:cover;background-position:center;display:flex;justify-content:center;align-items:flex-end}
-.gpic.split img{width:auto;height:96%;object-fit:contain;filter:drop-shadow(0 6px 14px #0008)}
-.gpicwrap .chip{position:absolute;top:10px;right:10px;left:auto}
-.gbody{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
-.gbody h3{font-size:23px}
-.gbody p{margin:0;color:var(--ink);font-size:15.5px}
-.gkind{font-size:13px;font-weight:700;color:var(--leaf)}
-.gfact{background:#ffd35a14;border-left:3px solid var(--flame);border-radius:10px;padding:8px 11px;font-size:14.5px;color:var(--muted)}
-.gfact b{color:var(--flame)}
-.glearn{display:flex;gap:6px;flex-wrap:wrap}
-.glearn span{font-size:12.5px;font-weight:700;border-radius:999px;padding:3px 10px;background:#46b88222;color:#9be3bf}
-.glearn span:first-child::before{content:"🧠 "}
-.gbody .btn{align-self:flex-start;margin-top:auto}
-@media (max-width:520px){.gfilter .gsurprise{margin-left:0}.ggrid{grid-template-columns:1fr}}
+.gpic{position:relative;aspect-ratio:16/9;overflow:hidden;background:#120c30}
+.gpic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
+.gcard:hover .gpic img{transform:scale(1.07)}
+.gplay{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;display:grid;place-items:center;font-size:24px;background:#f6a723ee;color:var(--night);box-shadow:0 0 0 8px #f6a72344;opacity:0;transform:scale(.7);transition:.25s}
+.gcard:hover .gplay,.gcard:focus-visible .gplay{opacity:1;transform:scale(1)}
+.gpic .chip{top:10px;right:10px;left:auto}
+.glock{position:absolute;left:10px;bottom:10px;font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:#1c1442d9;color:var(--flame);border:1px solid #ffd35a66}
+.glock.on{color:#9be3bf;border-color:#46b88288}
+.gbody{padding:12px 16px 16px;display:flex;flex-direction:column;gap:6px;flex:1}
+.gbody h3{font-size:24px}
+.gbody p{margin:0;color:var(--muted);font-size:15.5px}
+.gbody .btn{align-self:flex-start;margin-top:auto;padding:8px 20px}
+.gpop{position:fixed;inset:0;z-index:50;background:#0b0820cc;display:grid;place-items:center;padding:18px;animation:gfade .2s}
+@keyframes gfade{from{opacity:0}}
+.gpop-in{position:relative;max-width:440px;width:100%;background:linear-gradient(170deg,#362a72,#1c1442);border:2px solid var(--flame);border-radius:24px;padding:18px 20px 20px;text-align:center;display:flex;flex-direction:column;gap:10px;box-shadow:0 30px 70px -20px #000;animation:gpop .35s cubic-bezier(.2,1.6,.4,1)}
+@keyframes gpop{from{transform:scale(.6) rotate(-4deg);opacity:0}}
+.gpop-pic{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:16px;display:block}
+.gpop-diya{position:absolute;width:86px;left:-22px;top:-34px;filter:drop-shadow(0 0 18px #ffb84a99);animation:bob 1.4s ease-in-out infinite alternate}
+.gpop h2{font-size:26px;color:var(--flame)}
+.gpop p{margin:0;color:var(--ink)}
+.gpop .gpop-g{color:var(--muted);font-size:15px}
+.gpop-b{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:4px}
+.bar .btn{padding:8px 18px}
+@media (max-width:520px){.gfilter .gsurprise{margin-left:0}.ggrid{grid-template-columns:1fr}.gpop-diya{width:64px;left:-8px}}
 .tile.mini h3{font-size:18px}
 .tile{position:relative;border-radius:18px;overflow:hidden;background:var(--night-2);border:1px solid var(--line);text-decoration:none;color:var(--ink);display:flex;flex-direction:column;min-width:0;transition:transform .2s}
 .tile:hover{transform:translateY(-4px)}
@@ -179,7 +185,7 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 
 <div class="wrap">
   <header class="bar">
-    <span></span>
+    <a class="btn" href="#games">🎮 Games</a>
     <button class="music" id="music" type="button" aria-pressed="false">Music off</button>
   </header>
   <main id="view"></main>
@@ -187,6 +193,7 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="pal" id="pal" aria-live="polite"><img src="img/diya_wave.png" alt="Diya"><div class="bubble" id="bubble"></div></div>
 
+<script src="game-info.js?v=1"></script>
 <script>
 /* ===== content ===== */
 const DEEPAVALI = [
@@ -283,74 +290,43 @@ function saveProg(){try{localStorage.setItem('storyquest',JSON.stringify(prog))}
 
 /* ===== views ===== */
 const V=document.getElementById('view');
-/* ===== game gallery: every game with a picture, how to play, a little history, and what it teaches ===== */
-const GAME_INFO = {
- 1:{how:'Roll the dice and race Shri Ram home on the old board of ladders and snakes. Ladders are good deeds, snakes are bad habits.',
-    fact:'Snakes and Ladders began in India as <b>Moksha Patam</b>. Each ladder stood for a virtue and each snake for a vice. Travellers took it to England in the 1800s.',
-    learn:['Counting','Good habits','Taking turns']},
- 2:{how:'Devas and Asuras pull the serpent Vasuki in turns. Keep the rhythm to churn the ocean and win its 14 treasures.',
-    fact:'The <b>Samudra Manthan</b> story is told in the Bhagavata and Vishnu Puranas. Lord Vishnu became Kurma, the turtle, to hold Mount Mandara on his back.',
-    learn:['Rhythm','Teamwork','Patience']},
- 3:{how:"Knock down the tower of seven stones, then rebuild it, biggest stone first, before the ball hits you.",
-    fact:'This street game has many names across India: <b>Lagori</b> in Karnataka, <b>Pitthu</b> in the North, <b>Sat Patthar</b> in the West. All you need is a ball and seven flat stones.',
-    learn:['Aim','Quick thinking','Sorting by size']},
- 4:{how:"Draw Queen Satyabhama's bow. Break the walls of mountain, fire and water, then face Narakasura. Three hits wins!",
-    fact:'Ancient India had a whole science of archery called <b>Dhanurveda</b>. In the Deepavali story, Satyabhama fights beside Krishna to free 16,000 captives.',
-    learn:['Aim','Wind and angles','Courage']},
- 5:{how:'Sow the cowrie shells pit by pit, keep the chain going, and capture the most shells. Play against Diya or a friend.',
-    fact:'<b>Pallanguzhi</b> is played on a 14-pit board with cowries or tamarind seeds. Karnataka calls it <b>Alaguli Mane</b>; grandmothers used it to teach counting.',
-    learn:['Counting','Planning ahead','Strategy']},
- 6:{how:"Move Maa Kali's bowl and catch every drop of Raktabeej before it touches the ground and becomes a new demon.",
-    fact:'This story comes from the <b>Devi Mahatmya</b>, a 1,500-year-old scripture recited during Navratri. It shows evil can be stopped before it spreads.',
-    learn:['Reflexes','Focus','Hand–eye skill']},
- 7:{how:'Place and move your lamps. Make three in a line to keep a Promise and take a lamp from your rival.',
-    fact:'<b>Navakankari</b> boards are carved into the floors and steps of old South Indian temples. The same game is played around the world as Nine Men\'s Morris.',
-    learn:['Strategy','Pattern spotting','Thinking two moves ahead']},
- 8:{how:"Flip the cards and match the puja items to fill Yamuna's welcome thali before Yamraj arrives.",
-    fact:'<b>Bhai Dooj</b> is also called <b>Yama Dwitiya</b>. The story says Yamuna welcomed her brother Yama with tilak and food, and he blessed every brother and sister.',
-    learn:['Memory','Puja items','Family values']}
-};
-const VM_GAMES = [
- {id:'t1',title:'Add from the Left',place:'Mango Count',bg:'orchard',pic:'guru_teach',how:'Count baskets of mangoes before the cart leaves: add the biggest digits first, then the rest.',fact:'We read and say numbers from the left, so Vedic Maths adds from the left too. You get the answer faster and almost never lose a carry.',learn:['Mental addition','Place value']},
- {id:'t2',title:'Round Up, Take Back',place:"Meera's Online Cart",bg:'living',pic:'meera_phone',how:'Prices end in 9 and 8. Round them up, add, then take back what you borrowed.',fact:'Shops price things at ₹199 because it looks much cheaper than ₹200. This trick turns that shop trick into easy maths.',learn:['Rounding','Money sense']},
- {id:'t3',title:'The Dot Method',place:"Chintu's Banana Pile",bg:'hall',pic:'chintu_eat',how:'Add a long list of numbers. Each time you pass 10, drop a dot and keep only what is left.',fact:'Old Indian accountants added long columns in their <i>bahi-khata</i> ledgers with tricks like this, all in their heads.',learn:['Adding long lists','Tens']},
- {id:'t4',title:'All from 9, Last from 10',place:"Ganak's Mango Cart",bg:'orchard',pic:'ganak_point',how:'Customers pay with big notes. Give the right change in seconds using the sutra.',fact:'This is the <b>Nikhilam</b> sutra, one of 16 sutras collected by Swami Bharati Krishna Tirtha. His book <i>Vedic Mathematics</i> came out in 1965.',learn:['Subtraction','Giving change']},
- {id:'t5',title:'Take Too Much, Give Back',place:'The Piggy Bank',bg:'living',pic:'meera_thumbs',how:'Subtract prices like ₹298: take away a round number, then give back the extra.',fact:'Your brain works faster with round numbers. Mental-maths champions use tricks like this to subtract in a flash.',learn:['Subtraction','Rounding']},
- {id:'t6',title:'The Digit-Sum Detective',place:"Chintu's Slate",bg:'hall',pic:'chintu_sneaky',how:'Chintu says he solved the sums. Use digit sums to catch his mistakes without redoing them.',fact:'Checking answers by adding digits is called <b>casting out nines</b>. Indian mathematicians and traders used it for centuries before calculators.',learn:['Checking answers','Number patterns']}
-];
-const JB_GAMES = [
- {name:'Spot the Scam',href:'jagruth-bharath/spot-the-scam.html',img:'jagruth-bharath/img/mauna.webp',players:'1 player or family',how:'Twelve real-style messages. Scam or safe? Test yourself, then test your family.',fact:'Lost money to a scam? Call <b>1930</b>, India\'s cybercrime helpline, at once, or report at cybercrime.gov.in. The first hours matter most.',learn:['Online safety','Reading carefully']},
- {name:'Mr. Promise is calling',href:'jagruth-bharath/mr-promise-calling.html',img:'jagruth-bharath/img/mr-promise.webp',players:'1 player',how:'Chat with a scammer and try to escape. Three real Indian scam cases.',fact:'There is no such thing as a <b>"digital arrest"</b>. Police and courts never arrest anyone or ask for money over a video call.',learn:['Saying no','Staying calm']},
- {name:'Family Safety Check',href:'jagruth-bharath/family-safety-check.html',img:'jagruth-bharath/img/helpline.webp',players:'Whole family',how:'Ten quick questions: how scam-safe is your family? Get a free to-do list and a share card.',fact:'Banks never ask for your OTP, PIN or CVV, not even "to stop a fraud". Anyone who asks is a scammer.',learn:['Family safety','Good habits']}
-];
-function gameList(){
-  const tagOf=t=>(t||'').split('·').map(s=>s.trim());
-  const dv=DEEPAVALI.filter(e=>e.ready&&e.play).map(e=>{const i=GAME_INFO[e.n]||{},t=tagOf(e.playTag);
-    return {cat:'deepavali',catName:'Deepavali · Ep '+e.n+' · '+e.place.split(/[,&]/)[0].trim(),kind:t[0],players:t[1],name:e.game,img:e.playImg||e.img,href:'#dv'+e.n,btn:'Watch & play',...i}});
-  dv.push({cat:'deepavali',catName:'Deepavali · Grand finale',kind:'4 mini-games',players:'1 player',name:'Light Up Deepavali',img:'img/celebrate.jpg',href:'finale.html',btn:'Play now',
-    how:'Fly across India with Diya and play four mini-games to light all 24 diyas.',fact:'<b>Deepavali</b> means "a row of lamps" (deepa + avali). People in Ayodhya lit rows of lamps to welcome Shri Ram home.',learn:['Mixed skills','Indian festivals']});
-  const vm=VM_GAMES.map((v,k)=>({cat:'vedicmaths',catName:'Vedic Maths · Trick '+(k+1)+' · '+v.place,kind:'Maths game',players:'Class 6–10',name:v.title,bg:'vedic-maths/assets/bg_'+v.bg+'.webp',img:'vedic-maths/assets/'+v.pic+'.webp',href:'vedic-maths/#'+v.id,btn:'Play now',how:v.how,fact:v.fact,learn:v.learn}));
-  const jb=JB_GAMES.map(j=>({cat:'scamalert',catName:'Scam Alert · Jagruth Bharath',kind:'Safety game',btn:'Play now',...j}));
-  return [...dv,...vm,...jb];
-}
+/* ===== game gallery: big gameplay pictures; full "how to play" + history live on each game page (game-info.js) ===== */
 const GAME_CATS=[['all','All games'],['deepavali','🪔 Deepavali'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert']];
+const gameList=()=>window.WOW_GAMES||[];
+const gUnlocked=g=>{if(!g.gate)return true;try{return localStorage.getItem('wow-watched-'+g.gate)==='1'}catch(e){return false}};
 function gameCard(g){
-  const pic=g.bg?`<div class="gpic split" style="background-image:url(${g.bg})"><img src="${g.img}" alt="" loading="lazy"></div>`:`<div class="gpic"><img src="${g.img}" alt="" loading="lazy"></div>`;
-  return `<article class="gcard" data-cat="${g.cat}">
-    <a href="${g.href}" class="gpicwrap" aria-label="${g.btn}: ${g.name}">${pic}${g.players?`<span class="chip">${g.players}</span>`:''}</a>
-    <div class="gbody"><span class="eyebrow">${g.catName}</span><h3>${g.name}</h3>${g.kind?`<span class="gkind">${g.kind}</span>`:''}
-      <p>${g.how}</p>
-      <div class="gfact"><b>📜 Did you know?</b> ${g.fact}</div>
-      <div class="glearn">${(g.learn||[]).map(l=>`<span>${l}</span>`).join('')}</div>
-      <a class="btn" href="${g.href}">${g.btn} ▶</a></div></article>`;
+  const open=gUnlocked(g);
+  return `<a class="gcard" data-cat="${g.cat}" data-id="${g.id}" href="${g.href}">
+    <div class="gpic"><img src="${g.img}" alt="${g.name} game screen" loading="lazy"><span class="gplay" aria-hidden="true">▶</span>
+      <span class="chip">${g.players}</span>${g.gate?`<span class="glock ${open?'on':''}">${open?'🔓 Unlocked':'🎬 Watch to unlock'}</span>`:'<span class="glock on">✨ Free to play</span>'}</div>
+    <div class="gbody"><span class="eyebrow">${g.tag}</span><h3>${g.name}</h3><p>${g.hook}</p><span class="btn">Play ▶</span></div></a>`;
 }
 function allGames(){
   const L=gameList(),n=c=>c==='all'?L.length:L.filter(g=>g.cat===c).length;
   return `<div class="gfilter" role="group" aria-label="Show games">${GAME_CATS.map(([k,t],i)=>`<button type="button" data-f="${k}" aria-pressed="${i===0}">${t} <small>${n(k)}</small></button>`).join('')}<button type="button" class="gsurprise" id="gSurprise">🎲 Surprise me</button></div>
    <div class="ggrid" id="gGrid">${L.map(gameCard).join('')}</div>`;
 }
+/* first tap on a locked game: a short, fun nudge to watch its story video once */
+const UNLOCK_LINES=[
+ ['🪔 Psst… this game has a magic lock!','Watch its short story video just once and the game is yours forever. Diya promises it is worth it!'],
+ ['🎬 Story first, then the fun!','Every game here begins with a little cartoon. Watch it once, and the game unlocks for good. No waiting next time!'],
+ ['✨ Unlock it in one go!','Press play on the short story. When it ends, the game opens by itself and stays open forever on this phone.']];
+function unlockPop(g){
+  let seen={};try{seen=JSON.parse(localStorage.getItem('wow-pop')||'{}')}catch(e){}
+  if(gUnlocked(g)||seen[g.id]){location.href=g.href;return}
+  seen[g.id]=1;try{localStorage.setItem('wow-pop',JSON.stringify(seen))}catch(e){}
+  const [h,t]=UNLOCK_LINES[Math.floor(Math.random()*UNLOCK_LINES.length)];
+  const d=document.createElement('div');d.className='gpop';d.setAttribute('role','dialog');d.setAttribute('aria-modal','true');d.setAttribute('aria-label',h);
+  d.innerHTML=`<div class="gpop-in"><img class="gpop-diya" src="img/diya_wave.png" alt=""><img class="gpop-pic" src="${g.img}" alt=""><h2>${h}</h2><p>${t}</p>
+    <p class="gpop-g"><b>${g.name}</b> · ${g.players}</p>
+    <div class="gpop-b"><a class="btn" href="${g.href}">🎬 Watch &amp; unlock</a><button type="button" class="btn ghost" data-x>Maybe later</button></div></div>`;
+  document.body.appendChild(d);const[x,y]=[innerWidth/2,innerHeight/2];burst(x,y,'spark',40);try{sfx.right()}catch(e){}
+  const close=()=>d.remove();d.querySelector('[data-x]').onclick=close;d.onclick=e=>{if(e.target===d)close()};
+  addEventListener('keydown',function k(e){if(e.key==='Escape'){close();removeEventListener('keydown',k)}});d.querySelector('a.btn').focus();
+}
 function wireGames(){
   const grid=document.getElementById('gGrid');if(!grid)return;
+  grid.querySelectorAll('.gcard').forEach(c=>c.onclick=e=>{const g=gameList().find(x=>x.id===c.dataset.id);if(!g||e.metaKey||e.ctrlKey)return;e.preventDefault();unlockPop(g)});
   document.querySelectorAll('.gfilter [data-f]').forEach(b=>b.onclick=()=>{const f=b.dataset.f;
     document.querySelectorAll('.gfilter [data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));
     grid.querySelectorAll('.gcard').forEach(c=>c.hidden=!(f==='all'||c.dataset.cat===f))});
@@ -369,8 +345,9 @@ function home(){
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn" href="#deepavali">Start with Deepavali</a><a class="btn ghost" href="#games">🎮 All games</a><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Our YouTube channel</a></div></div>
     <div class="art"><img class="scene" src="img/ayodhya.jpg" alt="Ayodhya glowing with rows of lamps"><img class="mascot" src="img/diya_wave.png" alt="Diya waving"></div></section>
     <div class="worlds"><span class="world on">🇮🇳 Bharat</span><span class="world soon">🌍 World · coming later</span></div>
+    <section id="games" style="display:flex;flex-direction:column;gap:14px;margin:0 0 30px"><span class="eyebrow">Free · No sign-up · English, हिंदी, ಕನ್ನಡ</span><h2>Play, laugh, learn: ${gameList().length} games</h2><p class="lede">Old Indian board games, festival stories, Vedic Maths tricks and scam-busting with Mauna the owl. Tap a game to play. Each one comes with a short story video and a little history to learn.</p>${allGames()}</section>
     <section style="display:flex;flex-direction:column;gap:14px"><h2>Pick a topic</h2><div class="shelf">${groups}</div></section>
-    <section id="games" style="display:flex;flex-direction:column;gap:14px;margin-top:30px"><span class="eyebrow">Free · No sign-up · English, हिंदी, ಕನ್ನಡ</span><h2>Play, laugh, learn: ${gameList().length} games</h2><p class="lede">Old Indian board games, festival stories, Vedic Maths tricks and scam-busting with Mauna the owl. Every game tells you a little history too. Story games open after you watch their video.</p>${allGames()}</section>`;
+    `;
   wireGames();
 }
 function trailSVG(){
