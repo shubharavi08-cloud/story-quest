@@ -137,7 +137,7 @@ const FY=()=>H-6;                                // her feet
 const CY=()=>FY()-KH()*(1-KB.by);                // catch line = Kali's bowl
 const KW=()=>KH()*KB.w/KB.h;
 const RH=()=>H*(portrait?.27:.40);            // Raktabeej height
-const WAVES=[{n:18,iv:1.15,g:300,gold:.12,throw:0,split:0},{n:26,iv:.9,g:350,gold:.14,throw:5.2,split:0},{n:34,iv:.72,g:400,gold:.16,throw:4,split:.22}];
+const WAVES=[{n:16,iv:1.55,g:250,gold:.14,throw:0,split:0},{n:22,iv:1.25,g:290,gold:.15,throw:7,split:0},{n:28,iv:1.05,g:330,gold:.16,throw:6,split:.1}];
 const MAXC=6;
 /* ---------- state ---------- */
 let G=null, mode='solo';
@@ -171,7 +171,7 @@ function spawnDrop(fromX,fromY,up){ const c=cfg(), s=W/1280, gold=Math.random()<
   G.drops.push({x:fromX,y:fromY,vx,vy,gold,r:gold?15:13,split:!gold&&Math.random()<c.split,ph:Math.random()*6,trail:[]}) }
 function rakSpray(){ const [x,y]=rakPos(); G.rak.hitk=1; spawnDrop(x+(Math.random()-.5)*40,y); G.spawned++; SFX.spray(); burst(x,y,'#ff3d5a',8) }
 /* ---------- catching ---------- */
-function bowlR(p){ return (p.roar>0?118:58)*(portrait?.95:1) }
+function bowlR(p){ return (p.roar>0?130:80)*(portrait?.95:1) }
 function caught(d,i,byTongue){ const p=G.pl[i]; p.streak++; p.bump=1; G.caught++; let pts=(d.gold?25:10)+(byTongue?5:0); if(byTongue){ popup(d.x,d.y-40,t('lick'),'#ffe08a'); burst(d.x,d.y,'#ffd35a',12) } if(p.streak>=5) pts+=Math.min(10,p.streak-4)*2; G.scores[i]+=pts; renderScore();
   popup(d.x,CY()-40,'+'+pts,d.gold?'#ffe066':'#fff'); burst(d.x,CY()-10,d.gold?'#ffd35a':'#ff8a9a',d.gold?22:12); SFX.catch_(Math.min(9,p.streak-1)); if(d.gold){SFX.gold(); G.big={txt:t('gold'),k:0}} vib(15);
   if(p.roar<=0){ p.meter=Math.min(8,p.meter+1); if(p.meter>=8){ p.roar=6; p.meter=0; G.big={txt:t('roar'),k:0}; SFX.roar(); G.flash=.5; vib([30,30,60]) } }
@@ -199,25 +199,25 @@ function update(dt){ if(!G)return; G.el+=dt;
   const R=G.rak; if(R.hitk>0)R.hitk=Math.max(0,R.hitk-dt*3); if(R.gone>0)R.gone+=dt;
   const range=portrait?W*.28:W*.3; R.x=W/2+Math.sin(G.el*(.45+G.wave*.15))*range;
   // players
-  const sp=(portrait?820:1000);
+  const sp=(portrait?1300:1600);
   G.pl.forEach((p,i)=>{ let kv=0; const solo=G.players===1;
     if(keys['a']||(solo&&keys['arrowleft']))kv-=(i===0?1:0); if(keys['d']||(solo&&keys['arrowright']))kv+=(i===0?1:0);
     if(i===1){ if(keys['arrowleft'])kv=-1; if(keys['arrowright'])kv=1 }
-    if(kv){ p.tx=p.x+kv*sp*dt*1.2 }
+    if(kv){ p.tx=p.x+kv*sp*dt*1.4 }
     const kw=KW(), lo=G.players===2?(i===0?kw*.62:W*.5+20):kw*.62, hi=G.players===2?(i===0?W*.5-20:W-50):W-kw*.3; p.tx=Math.max(lo,Math.min(hi,p.tx));
-    const d=p.tx-p.x, mv=Math.sign(d)*Math.min(Math.abs(d),sp*dt*1.6); p.x+=mv; p.kv=mv/dt/sp;
+    const d=p.tx-p.x, mv=Math.sign(d)*Math.min(Math.abs(d),sp*dt*2.4); p.x+=mv; p.kv=mv/dt/sp;
     if(p.roar>0)p.roar=Math.max(0,p.roar-dt); if(p.tcd>0)p.tcd=Math.max(0,p.tcd-dt); if(p.glow>0)p.glow=Math.max(0,p.glow-dt*2.5); if(p.bump>0)p.bump=Math.max(0,p.bump-dt*4) });
   if(G.phase==='play'){ const c=cfg();
-    G.spT-=dt; if(G.spT<=0&&G.spawned<c.n){ rakSpray(); G.spT=c.iv*(.75+Math.random()*.5); if(G.wave===2&&Math.random()<.3){ setTimeout(()=>{ if(G&&G.phase==='play'&&G.spawned<cfg().n) rakSpray() },180) } }
+    G.spT-=dt; if(G.spT<=0&&G.spawned<c.n){ rakSpray(); G.spT=c.iv*(.75+Math.random()*.5); if(G.wave===2&&Math.random()<.12){ setTimeout(()=>{ if(G&&G.phase==='play'&&G.spawned<cfg().n) rakSpray() },180) } }
     for(const cl of G.clones){ if(cl.dead||!c.throw)continue; cl.thr-=dt; if(cl.thr<=0){ cl.thr=c.throw*(.8+Math.random()*.5); cl.thrk=1; spawnDrop(cl.x,GY()-RH()*.42,420+Math.random()*160); SFX.throw_() } }
     if(G.spawned>=c.n&&!G.drops.length) endWave(true) }
   for(const cl of G.clones){ cl.born=Math.min(1,cl.born+dt*2.5); if(cl.thrk>0)cl.thrk=Math.max(0,cl.thrk-dt*3); if(cl.dead>0)cl.dead+=dt }
   // drops
   const g=(G.phase==='play'?cfg().g:400)*(W/1280)*(portrait?1.1:1), cy=CY();
-  for(const d of G.drops){ const py=d.y; d.vy+=g*dt; d.x+=d.vx*dt; d.y+=d.vy*dt; if(d.x<12){d.x=12;d.vx=Math.abs(d.vx)} if(d.x>W-12){d.x=W-12;d.vx=-Math.abs(d.vx)}
+  for(const d of G.drops){ const py=d.y; d.vy+=g*dt; d.x+=d.vx*dt; d.y+=d.vy*dt; const wl=KW()*.62, wr=G.players===2?W-50:W-KW()*.3; if(d.x<wl){d.x=wl;d.vx=Math.abs(d.vx)} if(d.x>wr){d.x=wr;d.vx=-Math.abs(d.vx)}
     d.trail.push([d.x,d.y]); if(d.trail.length>7)d.trail.shift();
     if(d.split&&d.vy>0&&py<=d.y&&d.vy-g*dt<=0){ d.split=false; G.drops.push({x:d.x,y:d.y,vx:-d.vx*.9,vy:d.vy,gold:false,r:12,split:false,ph:0,trail:[]}); burst(d.x,d.y,'#ff5a70',8); tone(500,.1,'sine',.05,.5) }
-    if(!d.done&&d.vy>0){ const k=G.pl[0], [mx,my]=mouth(k); if(Math.hypot(d.x-mx,d.y-my)<KH()*.075+d.r){ d.done=1; k.glow=1; caught(d,0,true) } }
+    if(!d.done&&d.vy>0){ const k=G.pl[0], [mx,my]=mouth(k); if(Math.hypot(d.x-mx,d.y-my)<KH()*.1+d.r){ d.done=1; k.glow=1; caught(d,0,true) } }
     if(!d.done&&d.vy>0&&py<cy+6&&d.y>=cy-14){ for(let i=0;i<G.players;i++){ const p=G.pl[i]; if(Math.abs(d.x-p.x)<bowlR(p)){ d.done=1; caught(d,i); break } } }
     if(!d.done&&d.y>=GY()){ d.done=1; landed(d) } }
   G.drops=G.drops.filter(d=>!d.done);
