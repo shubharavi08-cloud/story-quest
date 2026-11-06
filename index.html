@@ -77,6 +77,15 @@ h3{font-size:22px}
 .grow-b{padding:6px 14px;font-size:14px;white-space:nowrap}
 .grow .game{white-space:nowrap}
 .shelf .gsticker{width:104px}
+.step .gsticker{width:110px;margin-left:6px}
+.djgoal{margin:14px 0 0;display:inline-block;line-height:1.9;background:#f6a72322;border:1.5px solid var(--marigold);border-radius:14px;padding:10px 14px;font-weight:700;color:var(--ink)}
+.djgoal b{color:var(--flame)}
+.djgoal span{margin-left:8px;white-space:nowrap;font-size:14px;background:var(--marigold);color:var(--night);border-radius:999px;padding:2px 10px}
+.gbunch{display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:10px;border-top:1px dashed var(--line)}
+.gb-pics{display:flex;flex-wrap:wrap;padding-left:8px}
+.tile .gb-pics img{width:62px;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:2px solid #fff8e6;margin:0 0 4px -8px;box-shadow:0 4px 10px -3px #000c;transform:rotate(var(--r));transition:transform .2s}
+.tile:hover .gb-pics img{transform:rotate(0) translateY(-2px)}
+.gb-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .shelf .grow{gap:12px}
 @keyframes gwig{0%,80%,100%{transform:rotate(-4deg)}85%{transform:rotate(3deg) scale(1.05)}90%{transform:rotate(-7deg)}95%{transform:rotate(-3deg)}}
 @media (prefers-reduced-motion:reduce){.gsticker{animation:none}}
@@ -251,10 +260,10 @@ const DASARA_MORE = [
 ];
 const ytImg=id=>`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 const SECTIONS = [
- {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale.", img:'img/ayodhya.jpg', open:true, sticker:'img/games/road-to-ayodhya.webp', stickerName:'9 games'},
+ {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale. Watch them all and play them all to complete Diya's Journey!", img:'img/ayodhya.jpg', open:true, gcat:'deepavali'},
  {k:'dasara', name:'Dasara · Navratri', group:'Festivals', blurb:'Nine nights, nine forms of Maa Durga, and the victory of good over evil: 14 story and song videos in Hindi, Kannada and Telugu.', img:'https://i.ytimg.com/vi/RvEnFEjnCCg/hqdefault.jpg', open:true, chip:'Watch now'},
- {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/', sticker:'img/games/vm-t4.webp', stickerName:'6 games'},
- {k:'scamalert', name:'Scam Alert', group:'Jagruth Bharath', blurb:'Real scam cases with Mauna the detective owl: watch the video, read the case file, then play. Can Mr. Promise trick you?', img:'jagruth-bharath/img/tile.jpg', open:true, href:'jagruth-bharath/', sticker:'jagruth-bharath/img/mr-promise.webp', stickerName:'3 games'},
+ {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/', gcat:'vedicmaths'},
+ {k:'scamalert', name:'Scam Alert', group:'Jagruth Bharath', blurb:'Real scam cases with Mauna the detective owl: watch the video, read the case file, then play. Can Mr. Promise trick you?', img:'jagruth-bharath/img/tile.jpg', open:true, href:'jagruth-bharath/', gcat:'scamalert'},
  {k:'thought', name:'A Thought a Day', group:'Wisdom · Daily', blurb:'One story. One shloka. One small step. A new thought for your day, in English, Hindi and Kannada.', img:'img/thought/tile.jpg', open:true, href:'thought.html'},
  {k:'songs', name:'Songs', group:'Music · Bhajans', blurb:'All our bhajans and festival songs: Deepavali, Rajyotsava, Navratri and Dasara, and more.', img:'img/celebrate.jpg', open:true, chip:'Listen now'},
  {k:'books', name:'Books', group:'Read', blurb:'Vedic Maths workbooks and story books from World of Wonders.', img:'img/book_vm1_cover.jpg', open:true, href:'books.html', chip:'Coming soon'},
@@ -310,6 +319,7 @@ const V=document.getElementById('view');
 /* ===== game gallery: big gameplay pictures; full "how to play" + history live on each game page (game-info.js) ===== */
 const GAME_CATS=[['all','All games'],['deepavali','🪔 Deepavali'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert']];
 const gameList=()=>window.WOW_GAMES||[];
+const gBunch=(cat,cta)=>{const L=gameList().filter(g=>g.cat===cat);return `<span class="gbunch"><span class="gb-pics">${L.map((g,i)=>`<img src="${g.img}" alt="${g.name}" title="${g.name}" loading="lazy" style="--r:${[-6,4,-2,6,-5,3,-4,5,-3][i%9]}deg">`).join('')}</span><span class="gb-foot"><span class="game">🎮 ${L.length} game${L.length>1?'s':''} inside</span><span class="btn grow-b">${cta} ▶</span></span></span>`};
 const gRow=(src,name,cta)=>`<span class="grow">${gSticker(src,name)}<span class="grow-t"><span class="game">🎮 ${name}</span><span class="btn grow-b">${cta} ▶</span></span></span>`;
 const gSticker=(src,alt)=>`<span class="gsticker" title="${alt||'Game inside'}"><img src="${src}" alt="${alt||'Game inside'}" loading="lazy"><b>🎮 Game</b></span>`;
 const gUnlocked=g=>{if(!g.gate)return true;try{return localStorage.getItem('wow-watched-'+g.gate)==='1'}catch(e){return false}};
@@ -357,7 +367,7 @@ function home(){
   const groups=SECTIONS.map(s=>`<a class="tile ${s.open?'':'locked'}" href="${s.open?(s.href||'#'+s.k):'#home'}" ${s.open?'':'aria-disabled="true"'}>
     ${s.img?`<img src="${s.img}" alt="">`:`<div class="ph" aria-hidden="true">${s.emoji}</div>`}
     <span class="chiprow"><span class="chip ${s.open?'':'soon'}">${s.chip||(s.open?'Play now':'Coming soon')}</span></span>
-    <div class="body"><span class="eyebrow">${s.group}</span><h3>${s.name}</h3><p>${s.blurb}</p>${s.sticker?gRow(s.sticker,s.stickerName,'Play now'):''}</div></a>`).join('');
+    <div class="body"><span class="eyebrow">${s.group}</span><h3>${s.name}</h3><p>${s.blurb}</p>${s.gcat?gBunch(s.gcat,'Play now'):''}</div></a>`).join('');
   V.innerHTML=`<section class="hero">
     <div><span class="eyebrow">Watch · Play · Learn</span><h1>Wonders of <span>Bharat</span> for every age</h1>
     <p class="lede" style="margin-top:12px">Festivals, epics, scriptures, wisdom tales, Vedic Maths and scam alerts, each told as a short animated story with a game to play together. Grandparents, parents and children: play, learn and teach each other. Diya the little lamp is your guide.</p>
@@ -389,7 +399,8 @@ function deepavali(){
      <div class="body"><span class="num">Episode ${e.n} · ${e.place}</span><h3>${e.title}</h3>${e.play&&e.ready?gRow('img/games/'+e.play.replace('.html','.webp'),e.game,'Watch & play'):`<span class="game">Game: ${e.game}</span>`}</div></a>`).join('');
   V.innerHTML=`<a href="#home" class="muted">← All quests</a>
    <section class="hero"><div><span class="eyebrow">Festivals · Deepavali</span><h1>Why do we celebrate <span>Deepavali?</span></h1>
-   <p class="lede" style="margin-top:12px">Fly across India with Diya. Every place has its own Deepavali story. Watch each episode, play its game, and light a lamp on Diya's journey.</p></div>
+   <p class="lede" style="margin-top:12px">Fly across India with Diya. Every place has its own Deepavali story. Watch each episode, play its game, and light a lamp on Diya's journey.</p>
+   <p class="djgoal">🪔 Watch all 8 stories and play all 8 games to complete <b>Diya's Journey</b>! <span>${lit} of 8 lamps lit${lit===8?' · 🎉 Journey complete!':''}</span></p></div>
    <div class="art"><img class="scene" src="img/river.jpg" alt="Diya beside the river Saraayu lit with lamps"></div></section>
    <section class="trail"><div class="legend"><h2>Diya's journey</h2><span class="count"><b>${lit}</b> / 8 lamps lit</span></div>${trailSVG()}</section>
    <section style="display:flex;flex-direction:column;gap:14px"><h2>Episodes</h2><div class="eps">${eps}</div></section>
@@ -437,8 +448,8 @@ function episode(n){
   V.innerHTML=`<a href="#deepavali" class="muted">← Deepavali</a>
    <div><span class="eyebrow">Episode ${e.n} · ${e.place}</span><h1>${e.title}</h1></div>
    <div class="step"><i>1</i><h2>Watch the story</h2></div>${tabs}<div class="video" id="vbox">${vid}</div><a class="muted small" id="ytlink" href="https://youtu.be/${vers[0]?vers[0][1]:''}" target="_blank" rel="noopener" style="${vers.length?'':'display:none'}">Open on YouTube ↗</a>
-   <div class="step"><i>2</i><h2>Play: ${e.game}</h2></div>
-   ${e.play?`<a class="bigplay" href="${e.play}"><img src="${e.playImg}" alt=""><div><span class="eyebrow">${e.playTag}</span><h3>${e.game}</h3><p class="muted">${e.playBlurb}</p><span class="btn">${e.playBtn}</span></div></a>`:''}
+   <div class="step"><i>2</i><h2>Play: ${e.game}</h2>${e.play?gSticker('img/games/'+e.play.replace('.html','.webp'),e.game):''}</div>
+   ${e.play?`<a class="bigplay" href="${e.play}"><img src="img/games/${e.play.replace('.html','.webp')}" alt="${e.game} game screen"><div><span class="eyebrow">${e.playTag}</span><h3>${e.game}</h3><p class="muted">${e.playBlurb}</p><span class="btn">${e.playBtn}</span></div></a>`:''}
    ${e.n===1?`<div class="step"><i>3</i><h2>Quick game: Light the Path</h2></div><section class="card" id="game"></section>`:''}${epNav(e.n)}`;
   if(e.n===1) lightThePath(document.getElementById('game'),e);
   wireVideo(e);

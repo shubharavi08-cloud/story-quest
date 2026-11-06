@@ -77,7 +77,8 @@ h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;text-wrap:balance}
 .panel .pic{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:12px;display:block;margin-bottom:10px}
 .panel p{margin:0 0 10px;color:var(--muted);font-size:15px}
 .play .btn{width:100%;font-size:18px;padding:14px}
-.gname{font-weight:700;margin-bottom:8px}
+.gname{font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.gpeek{width:84px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:2px solid #fff8e6;box-shadow:0 5px 12px -4px #000a;transform:rotate(-4deg);flex:0 0 auto}
 
 .flow-ov{position:absolute;inset:0;z-index:3;background:rgba(13,11,26,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:18px;text-align:center}
 .flow-ov p{margin:0;color:var(--muted);font-size:15px}
@@ -133,7 +134,7 @@ function render(){
     return `<article class="case" id="${c.id}"><div><div class="num">CASE ${String(i+1).padStart(2,'0')} · ${c.icon}</div><h2>${c.t[L]}</h2><p class="hook">${c.hook[L]}</p></div>
      <div class="grid"><div><div class="step"><i>1</i><b>${u.s1}</b></div>${vidHTML(c,L)}</div>
       <div class="side"><div class="panel"><div class="step"><i>2</i><b>${u.s2}</b></div>${c.img?`<img class="pic" src="${c.img}" alt="" loading="lazy">`:''}<a class="btn ghost" href="${D.blog+bl}" target="_blank" rel="noopener">📰 ${u.read}${blOnly} ↗</a></div>
-       <div class="panel play"><div class="step"><i>3</i><b>${u.s3}</b></div><div class="gname">🎮 ${c.gname[L]}</div><a class="btn red" href="${g}">${u.play} ▶</a></div></div></div></article>`}).join('');
+       <div class="panel play"><div class="step"><i>3</i><b>${u.s3}</b></div><div class="gname"><img class="gpeek" src="${({"spot-the-scam.html":"img/mauna.webp","mr-promise-calling.html":"img/mr-promise.webp","family-safety-check.html":"img/helpline.webp"})[c.game.split("?")[0]]||"img/tile.jpg"}" alt="" loading="lazy">🎮 ${c.gname[L]}</div><a class="btn red" href="${g}">${u.play} ▶</a></div></div></div></article>`}).join('');
   bind();
 }
 function bind(){

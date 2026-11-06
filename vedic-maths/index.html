@@ -251,6 +251,7 @@ button{font:inherit;cursor:pointer}
 .site-osh .osh-top span{color:#7fe3ef;font-weight:600}
 </style>
 <!-- osh-mode:end -->
+<style>.vmh{display:flex;align-items:center;gap:10px}.vmh .gpeek{width:78px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:2px solid #fff8e6;box-shadow:0 5px 12px -4px #0008;transform:rotate(-4deg);flex:0 0 auto}</style>
 </head>
 <body>
 <!-- osh-mode:start -->
@@ -1184,7 +1185,7 @@ function drawHub() {
     const st = starsOf(lv.id); tot += st;
     return `<a class="lvl" href="#${lv.id}">
       <div class="pic" style="background-image:url(assets/bg_${lv.bg}.webp)"><span class="num" style="background:${lv.color}">${lv.n}</span><img src="${img(HUBPIC[lv.id])}" alt=""></div>
-      <div class="body"><span class="place">${lv.place}</span><h3>${lv.title}</h3><span class="st">${Array.from({ length: 9 }, (_, i) => `<span class="${i < st ? "on" : ""}">★</span>`).join("")}</span></div></a>`;
+      <div class="body"><span class="place">${lv.place}</span><h3 class="vmh"><img class="gpeek" src="../img/games/vm-${lv.id}.webp" alt="" loading="lazy">${lv.title}</h3><span class="st">${Array.from({ length: 9 }, (_, i) => `<span class="${i < st ? "on" : ""}">★</span>`).join("")}</span></div></a>`;
   }).join("");
   $("#hubStars").textContent = tot;
 }
