@@ -82,9 +82,9 @@ h3{font-size:22px}
 .djgoal b{color:var(--flame)}
 .djgoal span{margin-left:8px;white-space:nowrap;font-size:14px;background:var(--marigold);color:var(--night);border-radius:999px;padding:2px 10px}
 .gbunch{display:flex;flex-direction:column;gap:10px;margin-top:auto;padding-top:10px;border-top:1px dashed var(--line)}
-.gb-pics{display:flex;flex-wrap:wrap;padding-left:8px}
-.tile .gb-pics img{width:62px;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:6px;border:2px solid #fff8e6;margin:0 0 4px -8px;box-shadow:0 4px 10px -3px #000c;transform:rotate(var(--r));transition:transform .2s}
-.tile:hover .gb-pics img{transform:rotate(0) translateY(-2px)}
+.gb-pics{display:grid;grid-template-columns:repeat(var(--c,5),minmax(0,46px));gap:7px}
+.tile .gb-pics img{width:100%;height:auto;aspect-ratio:1;object-fit:cover;border-radius:50%;border:2px solid var(--flame);box-shadow:0 0 0 2px var(--night-2),0 4px 10px -3px #000c;transition:transform .2s}
+.tile:hover .gb-pics img{transform:scale(1.1)}
 .gb-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .shelf .grow{gap:12px}
 @keyframes gwig{0%,80%,100%{transform:rotate(-4deg)}85%{transform:rotate(3deg) scale(1.05)}90%{transform:rotate(-7deg)}95%{transform:rotate(-3deg)}}
@@ -319,7 +319,7 @@ const V=document.getElementById('view');
 /* ===== game gallery: big gameplay pictures; full "how to play" + history live on each game page (game-info.js) ===== */
 const GAME_CATS=[['all','All games'],['deepavali','🪔 Deepavali'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert']];
 const gameList=()=>window.WOW_GAMES||[];
-const gBunch=(cat,cta)=>{const L=gameList().filter(g=>g.cat===cat);return `<span class="gbunch"><span class="gb-pics">${L.map((g,i)=>`<img src="${g.img}" alt="${g.name}" title="${g.name}" loading="lazy" style="--r:${[-6,4,-2,6,-5,3,-4,5,-3][i%9]}deg">`).join('')}</span><span class="gb-foot"><span class="game">🎮 ${L.length} game${L.length>1?'s':''} inside</span><span class="btn grow-b">${cta} ▶</span></span></span>`};
+const gBunch=(cat,cta)=>{const L=gameList().filter(g=>g.cat===cat);return `<span class="gbunch"><span class="gb-pics" style="--c:${Math.min(5,Math.ceil(L.length/(L.length>3?2:1)))}">${L.map((g,i)=>`<img src="${g.img}" alt="${g.name}" title="${g.name}" loading="lazy">`).join('')}</span><span class="gb-foot"><span class="game">🎮 ${L.length} game${L.length>1?'s':''} inside</span><span class="btn grow-b">${cta} ▶</span></span></span>`};
 const gRow=(src,name,cta)=>`<span class="grow">${gSticker(src,name)}<span class="grow-t"><span class="game">🎮 ${name}</span><span class="btn grow-b">${cta} ▶</span></span></span>`;
 const gSticker=(src,alt)=>`<span class="gsticker" title="${alt||'Game inside'}"><img src="${src}" alt="${alt||'Game inside'}" loading="lazy"><b>🎮 Game</b></span>`;
 const gUnlocked=g=>{if(!g.gate)return true;try{return localStorage.getItem('wow-watched-'+g.gate)==='1'}catch(e){return false}};
