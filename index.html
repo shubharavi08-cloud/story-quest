@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>World of Wonders</title>
 <meta property="og:title" content="World of Wonders">
-<meta property="og:description" content="Animated stories and games on Bharat's festivals, epics and Vedic Maths, for every age.">
+<meta property="og:description" content="Animated stories and games on Bharat's festivals, epics, Vedic Maths and scam alerts, for every age.">
 <meta property="og:image" content="https://worldofwondersstudio.com/img/og_share.jpg">
 <meta property="og:url" content="https://worldofwondersstudio.com/">
 <meta name="twitter:card" content="summary_large_image">
@@ -63,6 +63,8 @@ h3{font-size:22px}
 .worlds{margin:0 0 26px}
 .hero .btn,.hero a.btn{margin-bottom:4px}
 .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.shelf.games{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+.tile.mini h3{font-size:18px}
 .tile{position:relative;border-radius:18px;overflow:hidden;background:var(--night-2);border:1px solid var(--line);text-decoration:none;color:var(--ink);display:flex;flex-direction:column;min-width:0;transition:transform .2s}
 .tile:hover{transform:translateY(-4px)}
 .tile img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
@@ -174,6 +176,9 @@ const DEEPAVALI = [
 const SECTIONS = [
  {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale.", img:'img/ayodhya.jpg', open:true},
  {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/'},
+ {k:'scamalert', name:'Scam Alert', group:'Jagruth Bharath', blurb:'Real scam cases with Mauna the detective owl: watch the video, read the case file, then play. Can Mr. Promise trick you?', img:'jagruth-bharath/img/tile.jpg', open:true, href:'jagruth-bharath/'},
+ {k:'thought', name:'A Thought a Day', group:'Wisdom · Daily', blurb:'One story. One shloka. One small step. A new thought for your day, in English, Hindi and Kannada.', img:'img/thought/tile.jpg', open:true, href:'thought.html'},
+ {k:'books', name:'Books', group:'Read', blurb:'Vedic Maths workbooks and story books from World of Wonders.', img:'img/book_vm1_cover.jpg', open:true, href:'books.html', chip:'Coming soon'},
  {k:'gita', name:'Bhagavad Gita', group:'Scriptures', blurb:'Krishna and Arjuna, one chapter at a time.', emoji:'🪷'},
  {k:'panchatantra', name:'Panchatantra', group:'Wisdom tales', blurb:'Clever animals, smart lessons.', emoji:'🐒'},
  {k:'ramayana', name:'Ramayana', group:'Epics', blurb:'The journey of Shri Ram.', img:'img/exile.jpg'},
@@ -224,6 +229,15 @@ function saveProg(){try{localStorage.setItem('storyquest',JSON.stringify(prog))}
 
 /* ===== views ===== */
 const V=document.getElementById('view');
+function allGames(){
+  const g=DEEPAVALI.filter(e=>e.ready&&e.play).map(e=>({name:e.game,sub:'▶ Deepavali · Ep '+e.n,img:e.img,href:'#dv'+e.n}));
+  g.push({name:'Light Up Deepavali',sub:'Deepavali · Finale',img:'img/celebrate.jpg',href:'finale.html'},
+    {name:'Vedic Maths Gurukul Games',sub:'Vedic Maths',img:'img/vm_tile.jpg',href:'vedic-maths/'},
+    {name:'Spot the Scam',sub:'▶ Scam Alert',img:'jagruth-bharath/img/mauna.webp',href:'jagruth-bharath/'},
+    {name:'Mr. Promise is calling',sub:'▶ Scam Alert',img:'jagruth-bharath/img/mr-promise.webp',href:'jagruth-bharath/'},
+    {name:'Family Safety Check',sub:'▶ Scam Alert',img:'jagruth-bharath/img/helpline.webp',href:'jagruth-bharath/'});
+  return g.map(x=>`<a class="tile mini" href="${x.href}"><img src="${x.img}" alt="" loading="lazy"><div class="body"><span class="eyebrow">${x.sub}</span><h3>${x.name}</h3></div></a>`).join('');
+}
 function home(){
   const groups=SECTIONS.map(s=>`<a class="tile ${s.open?'':'locked'}" href="${s.open?(s.href||'#'+s.k):'#home'}" ${s.open?'':'aria-disabled="true"'}>
     ${s.img?`<img src="${s.img}" alt="">`:`<div class="ph" aria-hidden="true">${s.emoji}</div>`}
@@ -231,11 +245,12 @@ function home(){
     <div class="body"><span class="eyebrow">${s.group}</span><h3>${s.name}</h3><p>${s.blurb}</p></div></a>`).join('');
   V.innerHTML=`<section class="hero">
     <div><span class="eyebrow">Watch · Play · Learn</span><h1>Wonders of <span>Bharat</span> for every age</h1>
-    <p class="lede" style="margin-top:12px">Festivals, epics, scriptures, wisdom tales and Vedic Maths, each told as a short animated story with a game to play together. Grandparents, parents and children: play, learn and teach each other. Diya the little lamp is your guide.</p>
+    <p class="lede" style="margin-top:12px">Festivals, epics, scriptures, wisdom tales, Vedic Maths and scam alerts, each told as a short animated story with a game to play together. Grandparents, parents and children: play, learn and teach each other. Diya the little lamp is your guide.</p>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn" href="#deepavali">Start with Deepavali</a><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Our YouTube channel</a></div></div>
     <div class="art"><img class="scene" src="img/ayodhya.jpg" alt="Ayodhya glowing with rows of lamps"><img class="mascot" src="img/diya_wave.png" alt="Diya waving"></div></section>
     <div class="worlds"><span class="world on">🇮🇳 Bharat</span><span class="world soon">🌍 World · coming later</span></div>
-    <section style="display:flex;flex-direction:column;gap:14px"><h2>Pick a topic</h2><div class="shelf">${groups}</div></section>`;
+    <section style="display:flex;flex-direction:column;gap:14px"><h2>Pick a topic</h2><div class="shelf">${groups}</div></section>
+    <section style="display:flex;flex-direction:column;gap:14px;margin-top:30px"><h2>Watch, then play</h2><p class="lede">Every story comes with a game. Watch the video first, and the game opens.</p><div class="shelf games">${allGames()}</div></section>`;
 }
 function trailSVG(){
   const done=n=>prog['dv'+n];const W=1000,H=230;
@@ -290,7 +305,7 @@ function wireVideo(e){
   const poster=()=>`<button class="watch" id="poster" aria-label="Play"><img src="${e.img}" alt=""><span class="playbtn" aria-hidden="true">▶</span></button>`;
   let cur=(document.querySelector('.lang.on')||{}).dataset?.id;
   const play=()=>{ try{if(musicOn)setMusic(false)}catch(_){}
-    box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${cur}?autoplay=1&rel=0&modestbranding=1&playsinline=1&vq=hd1080" title="Episode ${e.n}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>` };
+    box.innerHTML=`<iframe src="https://www.youtube.com/embed/${cur}?autoplay=1&rel=0&modestbranding=1&playsinline=1&vq=hd1080&enablejsapi=1&origin=${encodeURIComponent(location.origin)}" title="Episode ${e.n}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`; if(window.WOWGate&&e.play) WOWGate.track(box.querySelector('iframe'), e.play.replace('.html','')) };
   box.addEventListener('click',ev=>{ if(ev.target.closest('#poster')) play() });
   document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>{ document.querySelectorAll('.lang').forEach(x=>x.classList.toggle('on',x===b)); cur=b.dataset.id; if(link)link.href='https://youtu.be/'+cur; if(box.querySelector('iframe')) play(); else box.innerHTML=poster() });
 }
@@ -346,10 +361,11 @@ addEventListener('hashchange',route);route();
 
 <footer class="wow-foot"><div class="wf-in">
 <a class="wf-brand" href="index.html"><img src="img/wow_logo.png" alt=""><span><b>World of Wonders Studio</b><small>Music · Stories · Creation · Inspiration</small></span></a>
-<nav class="wf-links"><a href="index.html">Home</a> · <a href="index.html#deepavali">Deepavali</a> · <a href="vedic-maths/">Vedic Maths</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
+<nav class="wf-links"><a href="index.html">Home</a> · <a href="thought.html">A Thought a Day</a> · <a href="index.html#deepavali">Deepavali</a> · <a href="vedic-maths/">Vedic Maths</a> · <a href="jagruth-bharath/">Scam Alert</a> · <a href="books.html">Books</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
 <div class="wf-sis">Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></div>
 <div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
 </div></footer>
+<script src="gate.js?v=3"></script>
 <script src="join.js?v=1" defer></script>
 </body>
 </html>
