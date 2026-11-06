@@ -198,6 +198,7 @@ const SECTIONS = [
  {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/'},
  {k:'scamalert', name:'Scam Alert', group:'Jagruth Bharath', blurb:'Real scam cases with Mauna the detective owl: watch the video, read the case file, then play. Can Mr. Promise trick you?', img:'jagruth-bharath/img/tile.jpg', open:true, href:'jagruth-bharath/'},
  {k:'thought', name:'A Thought a Day', group:'Wisdom · Daily', blurb:'One story. One shloka. One small step. A new thought for your day, in English, Hindi and Kannada.', img:'img/thought/tile.jpg', open:true, href:'thought.html'},
+ {k:'songs', name:'Songs', group:'Music · Bhajans', blurb:'All our bhajans and festival songs: Deepavali, Rajyotsava, Navratri and Dasara, and more.', img:'img/celebrate.jpg', open:true, chip:'Listen now'},
  {k:'books', name:'Books', group:'Read', blurb:'Vedic Maths workbooks and story books from World of Wonders.', img:'img/book_vm1_cover.jpg', open:true, href:'books.html', chip:'Coming soon'},
  {k:'gita', name:'Bhagavad Gita', group:'Scriptures', blurb:'Krishna and Arjuna, one chapter at a time.', emoji:'🪷'},
  {k:'panchatantra', name:'Panchatantra', group:'Wisdom tales', blurb:'Clever animals, smart lessons.', emoji:'🐒'},
@@ -396,10 +397,66 @@ function win(root,e){
   say('You did it!','Next stop: Rajasthan!');
 }
 
+/* ===== songs (World of Wonders music videos) ===== */
+const SONGS = [
+ {k:'deepavali', name:'Deepavali & Lakshmi Puja', blurb:'Lakshmi bhajans, Sanskrit stutis and the 108 names, for the five days of light.', items:[
+  {yt:'4Nbm4Gn-cb8', t:'Lakshmi Puja Songs 2026 · Bhajans & 108 Names (jukebox)', lang:'हिंदी · ಕನ್ನಡ · संस्कृत', from:'2026-11-07T00:00:00+05:30'},
+  {yt:'0XkpE5ACYj8', t:'श्री लक्ष्मी अष्टोत्तर शतनामावली · 108 Names of Lakshmi', lang:'संस्कृत', from:'2026-11-07T00:00:00+05:30'},
+  {yt:'YE4N82lUPqE', t:'ಶ್ರೀ ಲಕ್ಷ್ಮೀ ಅಷ್ಟೋತ್ತರ ಶತನಾಮಾವಳಿ · 108 Names of Lakshmi', lang:'ಕನ್ನಡ', from:'2026-11-07T00:00:00+05:30'},
+  {yt:'cYWI8bYghWo', t:'दीपलक्ष्मीस्तुतिः · Deepa Lakshmi Stuti', lang:'संस्कृत'},
+  {yt:'se41d3jmqw8', t:'ಬೆಳಗಲಿ ದೀಪ · Belagali Deepa', lang:'ಕನ್ನಡ'},
+  {yt:'wPmdkWNJP2o', t:'दीपोत्सवपञ्चकम् · Five Days of Deepavali', lang:'संस्कृत'},
+  {yt:'Uv1SA1I2LnE', t:'कमलमुखि · Kamalamukhi', lang:'संस्कृत'}]},
+ {k:'rajyotsava', name:'Kannada Rajyotsava', blurb:'Songs for Karnataka: from the Kaveri to Banavasi, Basavanna to every Kannadiga far from home.', items:[
+  {yt:'hjmwTk5WPKc', t:'ರಾಜ್ಯೋತ್ಸವ ಹಾಡುಗಳು · Rajyotsava Songs Jukebox', lang:'ಕನ್ನಡ'},
+  {yt:'0g9qxEbZgxs', t:'ನನ್ನ ನುಡಿ ಕನ್ನಡ · Nanna Nudi Kannada', lang:'ಕನ್ನಡ'},
+  {yt:'XDAHfYgld78', t:'ಕಾವೇರಿಯಿಂದ ಗೋದಾವರಿವರೆಗೆ · Kaveriyinda Godavarivarege', lang:'ಕನ್ನಡ'},
+  {yt:'HAOko8Lr2Ws', t:'ಬನವಾಸಿ ನೆನಪು · Banavasi Nenapu', lang:'ಕನ್ನಡ'},
+  {yt:'HI6SFdi_Rfk', t:'ಕಳಬೇಡ ಕೊಲಬೇಡ · Basavanna Vachana (folk fusion)', lang:'ಕನ್ನಡ'}]},
+ {k:'navratri', name:'Navratri & Dasara', blurb:'A bhajan and katha for each of the nine Devis, Vijayadashami and Namma Dasara.', items:[
+  {yt:'T96jKddkIhw', t:'Day 1 · माँ शैलपुत्री', lang:'हिंदी'},
+  {yt:'w82yu_nCdC8', t:'Day 2 · माँ ब्रह्मचारिणी भजन', lang:'हिंदी'},
+  {yt:'lgTVdgoBnQ0', t:'Day 3 · माँ चंद्रघंटा भजन', lang:'हिंदी'},
+  {yt:'H2eKJBSJWgs', t:'Day 4 · माँ कूष्मांडा भजन', lang:'हिंदी'},
+  {yt:'24KpyntW_PI', t:'Day 5 · माँ स्कंदमाता की लोरी', lang:'हिंदी'},
+  {yt:'JFBAewcgXAw', t:'Day 6 · जय जय कात्यायनी माँ', lang:'हिंदी'},
+  {yt:'O5hzHeRdcuk', t:'Day 7 · माँ कालरात्रि की कथा और गीत', lang:'हिंदी'},
+  {yt:'UdkvXp0aGn4', t:'Day 7 · ಮಾ ಕಾಳರಾತ್ರಿ', lang:'ಕನ್ನಡ'},
+  {yt:'ENnj9owzuTo', t:'Day 8 · माँ महागौरी', lang:'हिंदी'},
+  {yt:'kNOyNNz4qSo', t:'Day 8 · ಬೆಳಕಾಗಿ ಬಾ ಮಹಾಗೌರಿ ತಾಯಿ', lang:'ಕನ್ನಡ'},
+  {yt:'RvEnFEjnCCg', t:'Day 9 · जय माँ सिद्धिदात्री', lang:'हिंदी'},
+  {yt:'BjGvA4_Ao0E', t:'Day 9 · ಸಿದ್ಧಿದಾತ್ರಿ ತಾಯಿ', lang:'ಕನ್ನಡ'},
+  {yt:'TbioMfM7okE', t:'Day 10 · Vijayadashami: Victory of Truth', lang:'हिंदी'},
+  {yt:'hWY3vC7N6jg', t:'ನಮ್ಮ ದಸರಾ · Namma Dasara (Karnataka Dasara song)', lang:'ಕನ್ನಡ'},
+  {yt:'ipJzTYEOeKE', t:'नवरात्रि की दिव्य कथा · Navratri musical story', lang:'हिंदी'},
+  {yt:'-kvqQwSjuNk', t:'ನವರಾತ್ರಿಯ ದಿವ್ಯ ಕಥೆ · Navaratri musical story', lang:'ಕನ್ನಡ'},
+  {yt:'B-DeYpuN3EI', t:'నవరాత్రి దివ్య కథ · Navaratri musical story', lang:'తెలుగు'},
+  {yt:'0eJxLH5QNqk', t:'नवरात्रि सम्पूर्ण कथा · All 9 days with bhajans', lang:'हिंदी'}]},
+ {k:'saints', name:'Saints & Wisdom Songs', blurb:'Old wisdom in new music: Purandara Dasa and the Bhagavad Gita.', items:[
+  {yt:'m6Vml3Vmbak', t:'ಆಚಾರವಿಲ್ಲದ ನಾಲಿಗೆ · Purandara Dasa (folk fusion)', lang:'ಕನ್ನಡ'},
+  {yt:'GvV_FnnKU2M', t:'ಏಕೆ ಮನವೇ · Yeke Manave (Bhagavad Gita song)', lang:'ಕನ್ನಡ'}]},
+];
+function songs(){
+  if(!document.getElementById('songs-css')){const st=document.createElement('style');st.id='songs-css';st.textContent=`.songs{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px} .song{background:rgba(255,255,255,.06);border:1px solid rgba(199,188,230,.18);border-radius:16px;overflow:hidden;display:flex;flex-direction:column} .song .watch{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;margin:0;background:#120c30;cursor:pointer;overflow:hidden} .song .watch img{width:100%;height:100%;object-fit:cover;display:block} .song .watch .chip{position:absolute;top:8px;left:8px} .song .body{padding:10px 12px 12px} .song h3{font-size:16px;line-height:1.3;margin:4px 0 0} .song .video{aspect-ratio:16/9;width:100%}.song .video iframe{width:100%;height:100%;border:0;display:block} .song.locked .watch{cursor:default;filter:saturate(.6)} .worlds a.world{text-decoration:none} .song .watch .playbtn{width:56px;height:56px;font-size:22px} .song .watch img{filter:brightness(.85)}`;document.head.appendChild(st)}
+  const live=s=>!s.from||Date.now()>=Date.parse(s.from);
+  const card=s=>live(s)
+    ?`<div class="song"><button class="watch" data-id="${s.yt}" aria-label="Play ${s.t.replace(/"/g,'')}"><img src="https://i.ytimg.com/vi/${s.yt}/hqdefault.jpg" alt="" loading="lazy"><span class="playbtn" aria-hidden="true">▶</span></button><div class="body"><span class="eyebrow">${s.lang}</span><h3>${s.t}</h3></div></div>`
+    :`<div class="song locked"><div class="watch"><img src="https://i.ytimg.com/vi/${s.yt}/hqdefault.jpg" alt="" loading="lazy" onerror="this.style.visibility='hidden'"><span class="chip soon">${new Date(s.from).toLocaleDateString(undefined,{day:'numeric',month:'short'})}</span></div><div class="body"><span class="eyebrow">${s.lang}</span><h3>${s.t}</h3></div></div>`;
+  const nav=SONGS.map(g=>`<a class="world" href="#songs-${g.k}">${g.name}</a>`).join('');
+  V.innerHTML=`<a href="#home" class="muted">← All quests</a>
+   <div><span class="eyebrow">Music · Bhajans · Festival songs</span><h1>World of Wonders <span>Songs</span></h1>
+   <p class="lede" style="margin-top:12px">Every song from our channel, grouped by festival. Tap a song to play it here. Sing along together!</p></div>
+   <div class="worlds" style="flex-wrap:wrap">${nav}</div>
+   ${SONGS.map(g=>`<section id="songs-${g.k}" style="display:flex;flex-direction:column;gap:12px;margin-top:26px"><h2>${g.name}</h2><p class="muted" style="margin:0">${g.blurb}</p><div class="songs">${g.items.filter(live).map(card).join('')}</div></section>`).join('')}
+   <section class="finale" style="margin-top:30px"><div><span class="eyebrow">New songs every festival</span><h2>Subscribe on YouTube</h2></div><a class="btn" href="https://www.youtube.com/@WorldofWondersstudio?sub_confirmation=1" target="_blank" rel="noopener">Subscribe</a></section>`;
+  V.querySelectorAll('.song .watch[data-id]').forEach(b=>b.onclick=()=>{ try{if(musicOn)setMusic(false)}catch(_){}
+    b.outerHTML=`<div class="video"><iframe src="https://www.youtube.com/embed/${b.dataset.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="Song" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`; });
+}
+
 /* ===== router ===== */
 function route(){
   const h=(location.hash||'#home').slice(1);
-  if(h==='deepavali')deepavali(); else if(h==='dasara')dasara(); else if(h.startsWith('ds-'))dasaraItem(h.slice(3)); else if(/^dv\d$/.test(h))episode(+h.slice(2)); else home();
+  if(h==='songs'||h.startsWith('songs-')){songs(); const el=h!=='songs'&&document.getElementById(h); if(el){el.scrollIntoView();return}} else if(h==='deepavali')deepavali(); else if(h==='dasara')dasara(); else if(h.startsWith('ds-'))dasaraItem(h.slice(3)); else if(/^dv\d$/.test(h))episode(+h.slice(2)); else home();
   scrollTo(0,0);
 }
 addEventListener('hashchange',route);route();
