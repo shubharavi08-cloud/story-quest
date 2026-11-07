@@ -50,6 +50,26 @@ var G=[
   how:'Fly across India with Diya and play four mini-games (quiz, five days, across India and rangoli) to light all 24 diyas.',
   fact:'<b>Deepavali</b> means "a row of lamps" (deepa + avali). People in Ayodhya lit rows of lamps to welcome Shri Ram home.',
   learn:['Quiz','Indian festivals','Rangoli']},
+ {id:'navadurga-match',cat:'dasara',tag:'Dasara · Start here',name:'Navadurga Match',href:'navadurga-match.html',img:'https://i.ytimg.com/vi/IlBi-hGGF9E/hqdefault.jpg',players:'1 player',gate:'navadurga-match',
+  hook:'Slide the pieces back together and meet all nine forms of Maa Durga!',
+  how:'A storm has broken the pictures of the nine Devis into pieces. Tap a piece next to the empty space to slide it in, or tap one in the same row or column to slide a whole line. Finish all nine pictures. Easy 3 × 3 or hard 4 × 4.',
+  fact:'Sliding puzzles became a craze in the <b>1880s</b>, when the "15 puzzle" swept America and Europe. Exactly half of all mixed-up boards can never be solved, so ours are always mixed with real moves.',
+  learn:['Planning ahead','Visual memory','The nine Devis']},
+ {id:'climb-himalaya',cat:'dasara',tag:'Dasara · Day 1',name:'Climb the Himalaya',href:'climb-himalaya.html',img:'https://i.ytimg.com/vi/T96jKddkIhw/hqdefault.jpg',players:'1 player',gate:'climb-himalaya',
+  hook:'Bounce Diya up the snowy peaks to reach Maa Shailaputri!',
+  how:'Diya bounces by herself. Hold your finger to her left or right to steer, or use the arrow keys. Ice ledges crack after one bounce and wooden ledges slide. Collect lotus flowers, pass three camps and reach the summit.',
+  fact:'<b>Shailaputri</b> means "daughter of the mountain". The Himalaya, "home of snow" in Sanskrit, has the world\'s highest peaks, and it is still growing a few millimetres every year.',
+  learn:['Hand–eye timing','Steady focus','Day 1 story']},
+ {id:'japa-mala',cat:'dasara',tag:'Dasara · Day 2',name:'Japa Mala Beads',href:'japa-mala.html',img:'https://i.ytimg.com/vi/w82yu_nCdC8/hqdefault.jpg',players:'1 player',gate:'japa-mala',
+  hook:'Watch the beads of the mala glow, then repeat the pattern!',
+  how:"Eight big beads of Maa Brahmacharini's mala glow one by one, each with its own musical note (Sa Re Ga Ma Pa Dha Ni Sa). Touch them in the same order. Every round adds one bead. Ten rounds complete the tapasya.",
+  fact:'A <b>japa mala</b> has <b>108</b> beads plus a guru bead called the <b>meru</b>. When you reach the meru you turn the mala around instead of crossing it.',
+  learn:['Memory','Listening','Patience']},
+ {id:'ring-the-bell',cat:'dasara',tag:'Dasara · Day 3',name:'Ring the Bell',href:'ring-the-bell.html',img:'https://i.ytimg.com/vi/lgTVdgoBnQ0/hqdefault.jpg',players:'1 player',gate:'ring-the-bell',
+  hook:"Ring Maa Chandraghanta's moon bell and chase the shadows away!",
+  how:'The temple bell swings by itself. Tap when it passes through the gold zone. Right in the middle is PERFECT and the sound wave clears every shadow. Keep the shadows away from the lamp for five levels.',
+  fact:'<b>Chandraghanta</b> means "moon bell". Temple bells are cast from a mix of metals, so one ring keeps humming for several seconds. Ringing the bell before prayer fills the mind with that one sound and quiets other thoughts.',
+  learn:['Timing','Calm focus','Day 3 story']},
  {id:'t1',cat:'vedicmaths',tag:'Vedic Maths · Trick 1',name:'Add from the Left',href:'vedic-maths/#t1',img:'img/games/vm-t1.webp',players:'Class 6–10',
   hook:'Count the mangoes before the cart leaves!',
   how:'Baskets of mangoes arrive at the orchard. Add the biggest digits first, then the rest, and count them before the cart leaves.',
@@ -125,7 +145,7 @@ function render(){
   box.innerHTML='<div class="ab"><div><span class="ey">About this game · '+g.tag+'</span><h2>'+g.name+'</h2><h3>🎮 How to play</h3><p>'+g.how+'</p>'+
    '<div class="tags">'+g.learn.map(function(l,i){return '<span>'+(i?'':'🧠 You learn: ')+l+'</span>'}).join('')+'</div></div>'+
    '<div class="fact"><h3>📜 Did you know?</h3><p>'+g.fact+'</p></div>'+
-   '<div class="more"><span class="ey" style="grid-column:1/-1">🎲 Play next</span>'+others(g).map(function(o){return '<a href="'+root+o.href+'"><img src="'+root+o.img+'" alt="" loading="lazy"><span>'+o.name+'</span></a>'}).join('')+'</div></div>';
+   '<div class="more"><span class="ey" style="grid-column:1/-1">🎲 Play next</span>'+others(g).map(function(o){return '<a href="'+root+o.href+'"><img src="'+(/^https?:/.test(o.img)?'':root)+o.img+'" alt="" loading="lazy"><span>'+o.name+'</span></a>'}).join('')+'</div></div>';
   var f=document.querySelector('footer');if(f)f.parentNode.insertBefore(box,f);else document.body.appendChild(box);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();

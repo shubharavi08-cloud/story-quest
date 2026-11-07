@@ -226,7 +226,7 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="pal" id="pal" aria-live="polite"><img src="img/diya_wave.png" alt="Diya"><div class="bubble" id="bubble"></div></div>
 
-<script src="game-info.js?v=1"></script>
+<script src="game-info.js?v=2"></script>
 <script>
 /* ===== content ===== */
 const DEEPAVALI = [
@@ -248,10 +248,10 @@ const DEEPAVALI = [
    playImg:'img/ep8_tilak.jpg', playTag:'Memory game · 1 player or brother & sister team · English, हिंदी, ಕನ್ನಡ', playBlurb:"Yamraj is riding to his sister's door! Flip the cards, match the puja items and fill Yamuna's welcome thali before he arrives. Play alone or as a brother and sister team.", playBtn:'Play now 🪔'},
 ];
 const DASARA = [
- {k:'intro', day:'Start here', title:'9 Nights, 9 Forms of Maa Durga', yt:[['हिंदी','IlBi-hGGF9E']], game:'Navadurga Match'},
- {k:'d1', day:'Day 1', title:'Maa Shailaputri, Daughter of the Mountain', yt:[['हिंदी','T96jKddkIhw']], game:'Climb the Himalaya'},
- {k:'d2', day:'Day 2', title:'Maa Brahmacharini and the Power of Patience', yt:[['हिंदी','w82yu_nCdC8']], game:'Japa Mala Beads'},
- {k:'d3', day:'Day 3', title:'Maa Chandraghanta and the Moon Bell', yt:[['हिंदी','lgTVdgoBnQ0']], game:'Ring the Bell'},
+ {k:'intro', day:'Start here', title:'9 Nights, 9 Forms of Maa Durga', yt:[['हिंदी','IlBi-hGGF9E']], game:'Navadurga Match', play:'navadurga-match.html'},
+ {k:'d1', day:'Day 1', title:'Maa Shailaputri, Daughter of the Mountain', yt:[['हिंदी','T96jKddkIhw']], game:'Climb the Himalaya', play:'climb-himalaya.html'},
+ {k:'d2', day:'Day 2', title:'Maa Brahmacharini and the Power of Patience', yt:[['हिंदी','w82yu_nCdC8']], game:'Japa Mala Beads', play:'japa-mala.html'},
+ {k:'d3', day:'Day 3', title:'Maa Chandraghanta and the Moon Bell', yt:[['हिंदी','lgTVdgoBnQ0']], game:'Ring the Bell', play:'ring-the-bell.html'},
  {k:'d4', day:'Day 4', title:'Maa Kushmanda, Who Smiled the Universe into Being', yt:[['हिंदी','H2eKJBSJWgs']], game:'Light the Cosmos'},
  {k:'d5', day:'Day 5', title:'Maa Skandamata and the Lullaby', yt:[['हिंदी','24KpyntW_PI']], game:'Lotus Pond'},
  {k:'d6', day:'Day 6', title:'Maa Katyayani, the Warrior Mother', yt:[['हिंदी','JFBAewcgXAw']], game:"The Lion's Ride"},
@@ -324,11 +324,13 @@ function saveProg(){try{localStorage.setItem('storyquest',JSON.stringify(prog))}
 /* ===== views ===== */
 const V=document.getElementById('view');
 /* ===== game gallery: big gameplay pictures; full "how to play" + history live on each game page (game-info.js) ===== */
-const GAME_CATS=[['all','All games'],['deepavali','🪔 Deepavali'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert']];
+const GAME_CATS=[['all','All games'],['deepavali','🪔 Deepavali'],['dasara','🔱 Dasara'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert']];
 const gameList=()=>window.WOW_GAMES||[];
 const gSoon=()=>`<span class="gsoon" aria-label="Game yet to come"><span>YET TO<br>COME</span></span>`;
-const gSoonBunch=()=>{const n=[...DASARA,...DASARA_MORE].filter(e=>e.game&&!e.play).length;if(!n)return '';const k=Math.min(n,5);
-  return `<span class="gbunch"><span class="gb-pics" style="--c:5">${Array.from({length:k},gSoon).join('')}</span><span class="gb-foot"><span class="game">🎮 ${n} games planned</span><span class="soonlbl">Yet to come</span></span></span>`};
+const dsGameImg=e=>{const g=gameList().find(x=>x.href===e.play);return g?g.img:ytImg(e.yt[0][1])};
+const gSoonBunch=()=>{const all=[...DASARA,...DASARA_MORE].filter(e=>e.game),ready=all.filter(e=>e.play),n=all.length-ready.length;if(!all.length)return '';
+  const pics=ready.map(e=>`<img src="${dsGameImg(e)}" alt="${e.game}" title="${e.game}" loading="lazy">`).join('')+Array.from({length:Math.max(0,Math.min(n,5-Math.min(ready.length,5)))},gSoon).join('');
+  return `<span class="gbunch"><span class="gb-pics" style="--c:5">${pics}</span><span class="gb-foot"><span class="game">🎮 ${ready.length?ready.length+' game'+(ready.length>1?'s':'')+' ready':''}${ready.length&&n?' · ':''}${n?n+' coming':''}</span>${ready.length?'<span class="btn grow-b">Play now ▶</span>':'<span class="soonlbl">Yet to come</span>'}</span></span>`};
 const gBunch=(cat,cta)=>{const L=gameList().filter(g=>g.cat===cat);return `<span class="gbunch"><span class="gb-pics" style="--c:${Math.min(5,Math.ceil(L.length/(L.length>3?2:1)))}">${L.map((g,i)=>`<img src="${g.img}" alt="${g.name}" title="${g.name}" loading="lazy">`).join('')}</span><span class="gb-foot"><span class="game">🎮 ${L.length} game${L.length>1?'s':''} inside</span><span class="btn grow-b">${cta} ▶</span></span></span>`};
 const gRow=(src,name,cta)=>`<span class="grow">${gSticker(src,name)}<span class="grow-t"><span class="game">🎮 ${name}</span><span class="btn grow-b">${cta} ▶</span></span></span>`;
 const gSticker=(src,alt)=>`<span class="gsticker" title="${alt||'Game inside'}"><img src="${src}" alt="${alt||'Game inside'}" loading="lazy"><b>🎮 Game</b></span>`;
@@ -418,8 +420,8 @@ function deepavali(){
    <a class="btn" href="finale.html">Play the finale</a></section>`;
 }
 function dsTile(e){return `<a class="tile ep" href="#ds-${e.k}">
-     <img src="${ytImg(e.yt[0][1])}" alt="" loading="lazy"><span class="chip">${e.game?'Watch · game soon':'Watch'}</span>
-     <div class="body"><span class="num">${e.day} · ${e.yt.map(v=>v[0]).join(' · ')}</span><h3>${e.title}</h3>${e.game?(e.play?`<span class="game">Game: ${e.game}</span>`:`<span class="grow">${gSoon()}<span class="grow-t"><span class="game">🎮 ${e.game}</span><span class="soonlbl">Game coming soon</span></span></span>`):''}</div></a>`}
+     <img src="${ytImg(e.yt[0][1])}" alt="" loading="lazy"><span class="chip">${e.game?(e.play?'Watch & play':'Watch · game soon'):'Watch'}</span>
+     <div class="body"><span class="num">${e.day} · ${e.yt.map(v=>v[0]).join(' · ')}</span><h3>${e.title}</h3>${e.game?(e.play?gRow(dsGameImg(e),e.game,'Watch & play'):`<span class="grow">${gSoon()}<span class="grow-t"><span class="game">🎮 ${e.game}</span><span class="soonlbl">Game coming soon</span></span></span>`):''}</div></a>`}
 function dasara(){
   V.innerHTML=`<a href="#home" class="muted">← All quests</a>
    <section class="hero"><div><span class="eyebrow">Festivals · Dasara · Navratri</span><h1>Nine nights of <span>Shakti</span></h1>

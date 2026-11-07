@@ -138,6 +138,12 @@ DEEPAVALI = [  # (file, title, episode)
     ("pallanguzhi.html", "Lakshmi's Cowries", 5), ("catch-drops.html", "Catch Every Drop", 6),
     ("navakankari.html", "Bali's Promise", 7), ("yamuna-thali.html", "Yamuna's Thali", 8)]
 
+DASARA_GAMES = [  # (file, title, day label, Devi)
+    ("navadurga-match.html", "Navadurga Match", "Start here", "the nine forms of Maa Durga"),
+    ("climb-himalaya.html", "Climb the Himalaya", "Day 1", "Maa Shailaputri"),
+    ("japa-mala.html", "Japa Mala Beads", "Day 2", "Maa Brahmacharini"),
+    ("ring-the-bell.html", "Ring the Bell", "Day 3", "Maa Chandraghanta")]
+
 FAQ = [
     ("What is World of Wonders Studio?",
      "World of Wonders Studio makes free animated stories, games, devotional songs and daily thoughts on Bharat's "
@@ -151,6 +157,11 @@ FAQ = [
      "finds each region's own Deepavali story. Every episode has a game: Road to Ayodhya, Samudra Manthan, Lagori "
      "Strike, Satyabhama's Arrow, Lakshmi's Cowries, Catch Every Drop, Bali's Promise and Yamuna's Thali, plus the "
      "Light Up Deepavali finale where you light 24 diyas. Each game opens after you watch its story video."),
+    ("What Dasara games are there?",
+     "A game for each day of Navratri, each with its own way of playing and a short story of that day's Devi: "
+     "Navadurga Match (a sliding picture puzzle of the nine Devis), Climb the Himalaya (Day 1, Maa Shailaputri), "
+     "Japa Mala Beads (Day 2, Maa Brahmacharini) and Ring the Bell (Day 3, Maa Chandraghanta). More days are coming. "
+     "Each game opens after you watch its Navratri video."),
     ("What is Vedic Maths Gurukul Games?",
      "Free Vedic Maths practice games for Classes 6–10. Six tricks for fast mental maths, each a game adventure with "
      "Ganak, Meera, Acharya ji and Chintu that starts with a short lesson from Acharya ji. Progress is saved on your "
@@ -178,6 +189,7 @@ def about_html():
     import html as h
     qa = "\n".join(f"<details><summary>{h.escape(q)}</summary><p>{h.escape(a)}</p></details>" for q, a in FAQ)
     games = "\n".join(f'<li><a href="{f}">{h.escape(t)}</a> · Episode {n} game</li>' for f, t, n in DEEPAVALI)
+    games += "\n" + "\n".join(f'<li><a href="{f}">{h.escape(t)}</a> · Dasara {h.escape(d)} game</li>' for f, t, d, _ in DASARA_GAMES)
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -251,7 +263,7 @@ summary{{cursor:pointer;font-weight:700}} details p{{margin:8px 0 0;color:var(--
 <div class="wf-sis">Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></div>
 <div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
 </div></footer>
-<script src="join.js?v=1" defer></script>
+<script src="join.js?v=2" defer></script>
 </body>
 </html>
 """
@@ -260,6 +272,7 @@ summary{{cursor:pointer;font-weight:700}} details p{{margin:8px 0 0;color:var(--
 def wow_llms():
     g = "\n".join(f"- [{t}]({W}{f}): Deepavali Episode {n} game, English/Hindi/Kannada" for f, t, n in DEEPAVALI)
     faq = "\n".join(f"- **{q}** {a}" for q, a in FAQ)
+    dg = "\n".join(f"- [{t}]({W}{f}): Dasara {d} game about {v}, English/Hindi/Kannada" for f, t, d, v in DASARA_GAMES)
     return f"""# World of Wonders Studio
 
 > Free animated stories, games, devotional songs and daily thoughts on Bharat's festivals, epics, scriptures and Vedic Maths, for children and families, in English, Hindi and Kannada. Watch the story, play the game, learn together. Sister site of OurSchoolHouse (ourschoolhouse.in) and QUAD Academy (quadacademy.org).
@@ -276,6 +289,9 @@ def wow_llms():
 ## Deepavali: Diya ki Bharat Yatra (8 episodes + finale)
 {g}
 - [Light Up Deepavali]({W}finale.html): finale, four mini-games, light 24 diyas
+
+## Dasara · Navratri games (one per day, more coming)
+{dg}
 
 ## Scam Alert games
 - [Spot the Scam]({W}jagruth-bharath/spot-the-scam.html): 12 real-style messages, scam or safe?
@@ -303,6 +319,17 @@ def game(f, t, n):
                         "publisher": {"@id": W + "#org"}}]}
 
 
+def dgame(f, t, d, v):
+    return {"path": f, "priority": 0.6,
+            "description": f"{t}: a free Dasara game for Navratri ({d}) about {v}, by World of Wonders Studio. "
+                           "Watch the story, then play. English, Hindi and Kannada.",
+            "jsonld": [{"@type": "VideoGame", "name": t, "url": W + f, "genre": "Educational",
+                        "gamePlatform": "Web browser", "inLanguage": LANGS, "isAccessibleForFree": True,
+                        "audience": {"@type": "Audience", "audienceType": "Children and families"},
+                        "isPartOf": {"@type": "CreativeWorkSeries", "name": "Dasara · Navratri games"},
+                        "publisher": {"@id": W + "#org"}}]}
+
+
 SITES["wow"] = {
     "base": W,
     "llms": wow_llms(),
@@ -311,9 +338,8 @@ SITES["wow"] = {
         {"path": "index.html", "priority": 1.0,
          "jsonld": [WORG, {"@type": "WebSite", "name": "World of Wonders Studio", "url": W,
                            "inLanguage": LANGS, "publisher": {"@id": W + "#org"}}],
-         "replace": [('<a href="books.html">Books</a> · <a href="https://www.youtube.com/@WorldofWondersstudio"',
-                      '<a href="books.html">Books</a> · <a href="about.html">About</a> · '
-                      '<a href="https://www.youtube.com/@WorldofWondersstudio"')]},
+         "replace": [('<a href="books.html">Books</a> · <a href="',
+                      '<a href="books.html">Books</a> · <a href="about.html">About</a>')]},
         {"path": "about.html", "priority": 0.9, "jsonld": [faq_ld(FAQ)]},
         {"path": "vedic-maths/index.html", "priority": 0.9,
          "jsonld": [{"@type": "LearningResource", "name": "Vedic Maths Gurukul Games", "url": W + "vedic-maths/",
@@ -332,6 +358,7 @@ SITES["wow"] = {
         {"path": "thought.html", "priority": 0.8, "jsonld": []},
         {"path": "books.html", "priority": 0.5, "jsonld": []},
         *[game(f, t, n) for f, t, n in DEEPAVALI],
+        *[dgame(*g) for g in DASARA_GAMES],
         {"path": "finale.html",
          "description": "Light Up Deepavali: fly across India with Diya and play four mini-games to light 24 diyas. "
                         "A free game by World of Wonders Studio.", "jsonld": []},
