@@ -18,19 +18,25 @@ DK.onLang=function(cb){langCbs.push(cb)};
 DK.setLang=function(l){if(LANGS.indexOf(l)<0)return;lang=l;try{localStorage.setItem('sq_lang',l)}catch(e){}document.documentElement.lang=l;
   document.querySelectorAll('[data-lang]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.lang===l)});langCbs.forEach(function(cb){try{cb(l)}catch(e){console.error(e)}})};
 
-/* ---------- art: YouTube thumbnails of our own Navratri videos ---------- */
+/* ---------- art: clean, word-free paintings taken from our own Navratri videos (img/dasara/, made by
+   _tools/art/extract_paintings.py). Keyed by the day's YouTube id; any other id falls back to its thumbnail. ---------- */
+DK.LOCAL={'IlBi-hGGF9E':'img/dasara/navadurga.jpg','T96jKddkIhw':'img/dasara/d1.jpg','w82yu_nCdC8':'img/dasara/d2.jpg','lgTVdgoBnQ0':'img/dasara/d3.jpg',
+  'H2eKJBSJWgs':'img/dasara/d4.jpg','24KpyntW_PI':'img/dasara/d5.jpg','JFBAewcgXAw':'img/dasara/d6.jpg','O5hzHeRdcuk':'img/dasara/d7.jpg',
+  'ENnj9owzuTo':'img/dasara/d8.jpg','RvEnFEjnCCg':'img/dasara/d9.jpg'};
 var artCache={};
 DK.art=function(id){
   if(artCache[id])return artCache[id];
-  var sizes=['maxresdefault','sddefault','hqdefault'];
   artCache[id]=new Promise(function(res){
+    var local=DK.LOCAL[id];
+    if(local){var li=new Image();li.onload=function(){res({img:li,crop:{sx:0,sy:0,sw:li.naturalWidth,sh:li.naturalHeight},src:li.src,id:id})};li.onerror=function(){res(null)};li.src=local;return}
+    var sizes=['maxresdefault','sddefault','hqdefault'];
     (function tryAt(i){
       if(i>=sizes.length){res(null);return}
       var im=new Image();
       im.onload=function(){
         if(im.naturalWidth<200){tryAt(i+1);return}
         var w=im.naturalWidth,h=im.naturalHeight,crop={sx:0,sy:0,sw:w,sh:h};
-        if(Math.abs(w/h-4/3)<.05){var ch=w*9/16;crop={sx:0,sy:(h-ch)/2,sw:w,sh:ch}} /* 4:3 sizes carry black bars */
+        if(Math.abs(w/h-4/3)<.05){var ch=w*9/16;crop={sx:0,sy:(h-ch)/2,sw:w,sh:ch}} /* 4:3 thumbnail sizes carry black bars */
         res({img:im,crop:crop,src:im.src,id:id});
       };
       im.onerror=function(){tryAt(i+1)};
@@ -40,20 +46,20 @@ DK.art=function(id){
   return artCache[id];
 };
 /* where Maa sits in each thumbnail (fraction across, down): used when a picture is cropped to a circle or a tall box */
-DK.FOCUS={'IlBi-hGGF9E':[.5,.25,.6],'T96jKddkIhw':[.74,.45,.76],'w82yu_nCdC8':[.77,.42,.62],'lgTVdgoBnQ0':[.72,.45,.78],'H2eKJBSJWgs':[.73,.45,.76],'24KpyntW_PI':[.68,.5,.85],
-  'JFBAewcgXAw':[.5,.45,.62],'O5hzHeRdcuk':[.81,.42,.6],'ENnj9owzuTo':[.49,.32,.5],'RvEnFEjnCCg':[.5,.4,.8]};
-DK.focusCSS=function(id){var f=DK.FOCUS[id]||[.5,.5];return Math.round(f[0]*100)+'% '+Math.round(f[1]*100)+'%'};
+DK.FOCUS={'IlBi-hGGF9E':[.5,.5,1]};
+DK.FOCUS_DEFAULT=[.5,.36,.74]; /* Maa sits in the middle of every painting, face in the upper third */
+DK.focusCSS=function(id){var f=DK.FOCUS[id]||DK.FOCUS_DEFAULT;return Math.round(f[0]*100)+'% '+Math.round(f[1]*100)+'%'};
 /* CSS for a round portrait of Maa from a 16:9 thumbnail: zoomed onto her (use on a square element) */
-DK.portraitCSS=function(id,src){var f=DK.FOCUS[id]||[.5,.5,1],z=f[2]||1,bw=1/(.5625*z)*100,bh=100/z;
-  var px=Math.max(0,Math.min(1,(f[0]-.5625*z/2)/(1-.5625*z))),py=Math.max(0,Math.min(1,(f[1]-z/2)/(1-z||1)));
+DK.portraitCSS=function(id,src){var f=DK.FOCUS[id]||DK.FOCUS_DEFAULT,z=f[2]||1,ar=.75,bw=1/(ar*z)*100,bh=100/z;
+  var px=Math.max(0,Math.min(1,(f[0]-ar*z/2)/(1-ar*z))),py=Math.max(0,Math.min(1,(f[1]-z/2)/(1-z||1)));
   return {backgroundImage:'url("'+src+'")',backgroundSize:bw.toFixed(1)+'% '+bh.toFixed(1)+'%',backgroundPosition:(px*100).toFixed(1)+'% '+(py*100).toFixed(1)+'%'}};
 /* draw a round/square portrait of Maa zoomed onto her */
-DK.portrait=function(cx,a,x,y,w,h){if(!a)return;var c=a.crop,f=DK.FOCUS[a.id]||[.5,.5,1],z=f[2]||1,sh=c.sh*z,sw=sh*w/h;
+DK.portrait=function(cx,a,x,y,w,h){if(!a)return;var c=a.crop,f=DK.FOCUS[a.id]||DK.FOCUS_DEFAULT,z=f[2]||1,sh=c.sh*z,sw=sh*w/h;
   var sx=c.sx+Math.max(0,Math.min(c.sw-sw,f[0]*c.sw-sw/2)),sy=c.sy+Math.max(0,Math.min(c.sh-sh,f[1]*c.sh-sh/2));cx.drawImage(a.img,sx,sy,sw,sh,x,y,w,h)};
 /* draw a picture "cover"-fitted into a box (crop = 16:9 region of the source) */
 DK.cover=function(cx,a,x,y,w,h,fx,fy){
   if(!a)return;var c=a.crop,s=Math.max(w/c.sw,h/c.sh),sw=w/s,sh=h/s;
-  var F=DK.FOCUS[a.id]||[.5,.5];if(fx==null)fx=F[0];if(fy==null)fy=F[1];var sx=c.sx+(c.sw-sw)*fx,sy=c.sy+(c.sh-sh)*fy;
+  var F=DK.FOCUS[a.id]||DK.FOCUS_DEFAULT;if(fx==null)fx=F[0];if(fy==null)fy=F[1];var sx=c.sx+(c.sw-sw)*fx,sy=c.sy+(c.sh-sh)*fy;
   cx.drawImage(a.img,sx,sy,sw,sh,x,y,w,h);
 };
 
@@ -160,7 +166,7 @@ DK.isOpen=function(){return !!ov().firstChild};
 function heroHTML(art,label){return '<div class="hero" data-art="'+(art||'')+'">'+(label?'<span>'+esc(label)+'</span>':'')+'</div>'}
 function paintHeroes(){ov().querySelectorAll('.hero[data-art]').forEach(function(h){var id=h.dataset.art;if(!id)return;
   if(/\.(jpe?g|png|webp)$/.test(id)){h.style.backgroundImage='url("'+id+'")';return}
-  DK.art(id).then(function(a){if(a)h.style.backgroundImage='url("'+a.src+'")'})})}
+  DK.art(id).then(function(a){if(a){h.style.backgroundImage='url("'+a.src+'")';h.style.backgroundPosition='50% 28%'}})})}
 /* card({art, label, title, paras:[], how:[[icon,text]], opts:{name, items:[[value,label]], value}, buttons:[{label, cls, href, on}]}) */
 DK.card=function(c){
   var h='<div class="dk-ov" role="dialog" aria-modal="true"><div class="dk-card">'+heroHTML(c.art,c.label)+(c.stars!=null?'<div class="dk-stars">'+'⭐'.repeat(c.stars)+'☆'.repeat(3-c.stars)+'</div>':'')+
