@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
 <meta name="robots" content="noindex">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Aangan — Home Stories · World of Wonders Studio</title>
 <meta name="description" content="Come home to Ajji's old house. Play carrom on the verandah, make crisp dosas, and bring the courtyard back to life.">
@@ -904,7 +904,8 @@ const Mango=(()=>{const cv=$('mv'),g=cv.getContext('2d');let W,H,lv,lvIdx,raf,la
 GAMES.mango=Mango;
 /* ===================== MITHAI MATCH (endless match-3 core) ===================== */
 const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,ox,oy,grid,mask,pots,types,lvN,moves,goals,state,anim=[],sel=null,drag=null,idleT=0,hintMv=null,raf,lastT,bg=null,combo=0,score=0;
- const THEMES=[{n:'Deepavali',a:'#3b1f5e',b:'#d97706',g:['#f59e0b','#fde047'],p:'#ffd36b'},{n:'Holi',a:'#7c1d5c',b:'#f472b6',g:['#ec4899','#a3e635'],p:'#f9a8d4'},{n:'Sankranti',a:'#0e4a7a',b:'#f59e0b',g:['#fb923c','#38bdf8'],p:'#fde68a'},{n:'Onam',a:'#14532d',b:'#facc15',g:['#facc15','#f97316'],p:'#bef264'},{n:'Dasara',a:'#7f1d1d',b:'#eab308',g:['#dc2626','#fbbf24'],p:'#fcd34d'},{n:'Ugadi',a:'#065f46',b:'#84cc16',g:['#65a30d','#fde047'],p:'#d9f99d'},{n:'Ganesha',a:'#9a3412',b:'#fbbf24',g:['#f97316','#ef4444'],p:'#fed7aa'}];
+ function mixC(a,b,t){const p=h=>[1,3,5].map(i=>parseInt(h.substr(i,2),16));const A=p(a),B=p(b);return'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(',')+')'}
+ const THEMES=[{n:'Deepavali',c1:'#6d28d9',c2:'#7c3aed',a:'#3b1f5e',b:'#d97706',g:['#f59e0b','#fde047'],p:'#ffd36b'},{n:'Holi',c1:'#0e7490',c2:'#0891b2',a:'#7c1d5c',b:'#f472b6',g:['#ec4899','#a3e635'],p:'#f9a8d4'},{n:'Sankranti',c1:'#1d4ed8',c2:'#2563eb',a:'#0e4a7a',b:'#f59e0b',g:['#fb923c','#38bdf8'],p:'#fde68a'},{n:'Onam',c1:'#1e3a8a',c2:'#1e40af',a:'#14532d',b:'#facc15',g:['#facc15','#f97316'],p:'#bef264'},{n:'Dasara',c1:'#115e59',c2:'#0f766e',a:'#7f1d1d',b:'#eab308',g:['#dc2626','#fbbf24'],p:'#fcd34d'},{n:'Ugadi',c1:'#3730a3',c2:'#4338ca',a:'#065f46',b:'#84cc16',g:['#65a30d','#fde047'],p:'#d9f99d'},{n:'Ganesha',c1:'#7e22ce',c2:'#9333ea',a:'#9a3412',b:'#fbbf24',g:['#f97316','#ef4444'],p:'#fed7aa'}];
  let theme=THEMES[0],tgt=[1,2,3],parts=[],started=false;
  const SW=['s_laddoo','s_jalebi','s_barfi','s_jamun','s_peda','s_katli'];const SP={rocketH:'x_rocket',rocketV:'x_rocket',bomb:'x_anaar',rainbow:'x_kalash'};
  const im={};[...SW,'x_rocket','x_anaar','x_kalash','x_pot'].forEach(k=>{const i=new Image();i.src='assets/'+k+'.webp';im[k]=i});
@@ -915,7 +916,7 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
  function size(){[W,H]=canvasSize(cv,g);const land=W>H;const top=land?70:110,bot=land?20:30;const avail=Math.min(land?W*.6:W*.96,H-top-bot);cell=Math.floor(avail/8);ox=(W-cell*8)/2+(land?W*.08:0);oy=top+((H-top-bot)-cell*8)/2}
  addEventListener('resize',()=>{if($('mithai').classList.contains('on'))size()});
  const bgi={};
- function start(n){lvN=n;const L=levelDef(n);if(!L){comingSoon();return}types=L.types;moves=L.moves;goals=L.goals.map(x=>({...x,got:0}));state='intro';theme=THEMES[n%THEMES.length];score=0;const tot=goals.reduce((a,g)=>a+g.need,0);const m=Math.max(moves*45,tot*40);tgt=[m*.9,m*1.8,m*2.6].map(v=>Math.round(v/50)*50);parts=[];anim=[];sel=null;combo=0;
+ function start(n){lvN=n;const L=levelDef(n);if(!L){comingSoon();return}types=L.types;moves=L.moves;goals=L.goals.map(x=>({...x,got:0}));state='intro';theme=THEMES[n%THEMES.length];score=0;const tot=goals.reduce((a,g)=>a+g.need,0);const ez=n<10?.8:n<25?.9:1;tgt=[moves*25,moves*50*ez,moves*75*ez].map(v=>Math.round(v/50)*50);parts=[];anim=[];sel=null;combo=0;
   mask=[];grid=[];pots=[];for(let y=0;y<M;y++){mask.push([]);grid.push([]);pots.push([]);for(let x=0;x<N;x++){mask[y].push(L.mask?L.mask[y][x]:true);grid[y].push(null);pots[y].push(0)}}
   L.pots.forEach(([x,y,hp])=>{if(mask[y]&&mask[y][x])pots[y][x]=hp});
   for(let y=0;y<M;y++)for(let x=0;x<N;x++)if(mask[y][x]&&!pots[y][x]){let t;do{t=Math.random()*types|0}while((x>1&&grid[y][x-1]&&grid[y][x-2]&&grid[y][x-1].t===t&&grid[y][x-2].t===t)||(y>1&&grid[y-1][x]&&grid[y-2][x]&&grid[y-1][x].t===t&&grid[y-2][x].t===t));grid[y][x]={t,sp:null,dy:0,sc:1}}
@@ -984,7 +985,7 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
   let k=0;const bonus=()=>{if(moves>0){moves--;score+=60;const x=Math.random()*N|0,y=Math.random()*M|0;if(inB(x,y)){burst(x,y,1);A.pluck(784+k*40,.05)}k++;hud();setTimeout(bonus,110)}else{const stars=score>=tgt[2]?3:score>=tgt[1]?2:1;A.win(stars);const r=cv.getBoundingClientRect();sparkle(r.left+W/2,r.top+H/2,90);setTimeout(()=>finishM(lvN,stars,true,score),800)}};if(moves>0)toastM(t('bonusMoves'));setTimeout(bonus,600)}
  function burst(x,y,big){const cx=ox+(x+.5)*cell,cy=oy+(y+.5)*cell;for(let i=0;i<(big?14:6);i++){const a=Math.random()*6.283,s=1+Math.random()*(big?5:3);parts.push({x:cx,y:cy,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,l:1,c:i%2?theme.p:theme.g[i%2],r:2+Math.random()*3})}}
  function lose(){state='end';setTimeout(()=>finishM(lvN,0,false),500)}
- function drawTile(c,x,y,scale=1,alpha=1){const k=c.sp?SP[c.sp]:SW[c.t];const img=im[k];const s=cell*.84*scale*(c.sc||1);const cx=ox+(x+.5)*cell,cy=oy+(y+.5)*cell+(c.dy||0);g.globalAlpha=alpha;
+ function drawTile(c,x,y,scale=1,alpha=1){const k=c.sp?SP[c.sp]:SW[c.t];const img=im[k];const s=cell*.92*scale*(c.sc||1);const cx=ox+(x+.5)*cell,cy=oy+(y+.5)*cell+(c.dy||0);g.globalAlpha=alpha;
   if(ok(img)){g.save();g.translate(cx,cy);if(c.sp==='rocketH')g.rotate(Math.PI/2);if(c.sp==='rainbow')g.rotate(performance.now()/900);g.drawImage(img,-s/2,-s/2,s,s);g.restore()}else{g.fillStyle=c.sp?'#fff':FALLBACK[c.t];g.beginPath();g.arc(cx,cy,s*.42,0,6.283);g.fill()}
   if(c.sp&&c.sp!=='rainbow'&&ok(im[SW[c.t]])){const s2=s*.45;g.drawImage(im[SW[c.t]],cx+s*.12,cy+s*.12,s2,s2)}g.globalAlpha=1}
  function drawBack(now,dt){g.clearRect(0,0,W,H);const gr=g.createLinearGradient(0,0,W,H);gr.addColorStop(0,theme.a);gr.addColorStop(1,theme.b);g.fillStyle=gr;g.fillRect(0,0,W,H);
@@ -994,7 +995,7 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
   if(!drawBack.f||drawBack.th!==theme){drawBack.th=theme;drawBack.f=[...Array(26)].map(()=>({x:Math.random()*W,y:Math.random()*H,s:3+Math.random()*7,v:8+Math.random()*18,ph:Math.random()*6,k:Math.random()<.35}))}
   drawBack.f.forEach(f=>{f.y-=f.v*dt;f.ph+=dt;if(f.y<-20){f.y=H+20;f.x=Math.random()*W}const x=f.x+Math.sin(f.ph)*14;if(f.k){const gl=g.createRadialGradient(x,f.y,0,x,f.y,f.s*3);gl.addColorStop(0,'rgba(255,220,120,.9)');gl.addColorStop(.3,'rgba(255,170,60,.35)');gl.addColorStop(1,'rgba(255,170,60,0)');g.fillStyle=gl;g.beginPath();g.arc(x,f.y,f.s*3,0,6.283);g.fill()}else{g.fillStyle=theme.p;g.globalAlpha=.55;g.beginPath();g.ellipse(x,f.y,f.s,f.s*.5,f.ph,0,6.283);g.fill();g.globalAlpha=1}})}
  function drawBoardFrame(now){const bw=cell*N,bh=cell*M,p=14;g.save();g.shadowColor='rgba(0,0,0,.55)';g.shadowBlur=30;g.shadowOffsetY=10;const fg=g.createLinearGradient(ox,oy-p,ox,oy+bh+p);fg.addColorStop(0,'#f6d27a');fg.addColorStop(.5,'#b7791f');fg.addColorStop(1,'#f6d27a');g.fillStyle=fg;g.beginPath();g.roundRect(ox-p,oy-p,bw+2*p,bh+2*p,22);g.fill();g.restore();
-  g.fillStyle='rgba(40,16,6,.82)';g.beginPath();g.roundRect(ox-5,oy-5,bw+10,bh+10,16);g.fill();
+  g.fillStyle=mixC(theme.c1,'#000000',.45);g.beginPath();g.roundRect(ox-5,oy-5,bw+10,bh+10,16);g.fill();
   // kolam dots on frame
   g.fillStyle='#fff7e0';for(let i=0;i<=N*2;i++){const x=ox-p/2+i*(bw+p)/(N*2);g.beginPath();g.arc(x,oy-p/2-1,1.8,0,6.283);g.arc(x,oy+bh+p/2+1,1.8,0,6.283);g.fill()}
   // marigold garland toran
@@ -1003,7 +1004,7 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
   [[ox-p,oy+bh+p],[ox+bw+p,oy+bh+p]].forEach(([x,y])=>{const fl=1+Math.sin(now/120+x)*.15;g.fillStyle='#8b4513';g.beginPath();g.ellipse(x,y,cell*.28,cell*.12,0,0,Math.PI);g.fill();const gl=g.createRadialGradient(x,y-cell*.2,0,x,y-cell*.2,cell*.6);gl.addColorStop(0,'rgba(255,220,120,.9)');gl.addColorStop(1,'rgba(255,170,60,0)');g.fillStyle=gl;g.beginPath();g.arc(x,y-cell*.2,cell*.6,0,6.283);g.fill();g.fillStyle='#ffcc33';g.beginPath();g.ellipse(x,y-cell*.18*fl,cell*.06,cell*.14*fl,0,0,6.283);g.fill()})}
  function loop(now){now=now||performance.now();const dt=Math.min(.05,(now-lastT)/1000);lastT=now;
   drawBack(now,dt);drawBoardFrame(now);
-  for(let y=0;y<M;y++)for(let x=0;x<N;x++){if(!mask[y][x])continue;g.fillStyle=(x+y)%2?'rgba(255,240,215,.20)':'rgba(255,240,215,.30)';g.beginPath();g.roundRect(ox+x*cell+2,oy+y*cell+2,cell-4,cell-4,8);g.fill()}
+  for(let y=0;y<M;y++)for(let x=0;x<N;x++){if(!mask[y][x])continue;const X0=ox+x*cell+2,Y0=oy+y*cell+2,cs=cell-4;const cg=g.createLinearGradient(X0,Y0,X0,Y0+cs);const c1=(x+y)%2?theme.c1:theme.c2;cg.addColorStop(0,mixC(c1,'#ffffff',.22));cg.addColorStop(1,c1);g.fillStyle=cg;g.beginPath();g.roundRect(X0,Y0,cs,cs,9);g.fill();g.strokeStyle='rgba(255,215,120,.55)';g.lineWidth=1.5;g.stroke();g.fillStyle='rgba(255,255,255,.10)';g.beginPath();g.roundRect(X0+3,Y0+3,cs-6,cs*.32,7);g.fill()}
   if(sel){g.strokeStyle='#ffd36b';g.lineWidth=3;g.beginPath();g.roundRect(ox+sel[0]*cell+2,oy+sel[1]*cell+2,cell-4,cell-4,8);g.stroke()}
   // pots
   for(let y=0;y<M;y++)for(let x=0;x<N;x++)if(pots[y][x]){const s=cell*.9;if(ok(im.x_pot))g.drawImage(im.x_pot,ox+x*cell+(cell-s)/2,oy+y*cell+(cell-s)/2,s,s);else{g.fillStyle='#a0522d';g.fillRect(ox+x*cell+6,oy+y*cell+6,cell-12,cell-12)}if(pots[y][x]>1){g.fillStyle='#fff';g.font=`900 ${cell*.3}px Nunito`;g.textAlign='center';g.fillText('×2',ox+(x+.78)*cell,oy+(y+.32)*cell)}}
@@ -1021,7 +1022,7 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
  $('xBack').onclick=()=>{stop();goHome()};
  function comingSoon(){goHome();modal(`<h2>🍬 ${t('allLevels')}</h2><p>${t('newMonthly')}</p>`,[[t('home'),'g']])}
  function more(n){moves+=n;state='play';hud()}
- return{start,stop,more,levels:{length:Infinity},dbg:()=>({grid,mask,pots,goals,moves,findMove,trySwap,ox,oy,cell})}})();
+ return{start,stop,more,levels:{length:Infinity},dbg:()=>({grid,mask,pots,goals,moves,findMove,trySwap,ox,oy,cell,score,tgt,state})}})();
 GAMES.mithai=Mithai;
 function finishM(n,stars,ok,sc){let gained=ok?stars:0;const bonus=[];
  if(ok){if(S.bless!==today()){S.bless=today();gained+=2;bonus.push(t('blessGot'))}S.mithai=Math.max(S.mithai,n+1)}
