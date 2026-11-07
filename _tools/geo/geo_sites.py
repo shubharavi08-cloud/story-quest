@@ -17,34 +17,38 @@ QORG = {"@type": "EducationalOrganization", "@id": Q + "#org", "name": "QUAD Aca
         "sameAs": [YT_QUAD, WA_QUAD],
         "founder": [{"@type": "Person", "name": "Shubha M", "jobTitle": "Co-founder, OurSchoolHouse & QUAD Academy"},
                     {"@type": "Person", "name": "Mihir R Shreshti",
-                     "jobTitle": "Co-founder and Board-Exam Coach", "alumniOf": "IIT Madras"}]}
+                     "jobTitle": "Co-founder and Board-Exam Coach", "alumniOf": "IIT Madras"},
+                    {"@type": "Person", "name": "Shwetha J", "jobTitle": "Co-founder and Board-Exam Coach (Maths)"}]}
 MIHIR = {"@type": "Person", "name": "Mihir R Shreshti"}
+SHWETHA = {"@type": "Person", "name": "Shwetha J"}
 
 
-def q_course(name, code, days, early, regular):
+def q_course(name, code, days, early, regular, teacher=MIHIR):
     return {"@type": "Course", "name": f"QUAD {name} Board Boost · CBSE Class 10 ({code})",
             "description": f"Six-week live online CBSE Class 10 {name} revision batch: 18 live classes "
                            f"({days}, 6:30–7:30 pm IST), 6 weekly board-pattern mock tests, parent score "
                            "reports on WhatsApp, a doubt group, answer books and notes.",
             "provider": {"@id": Q + "#org"}, "educationalLevel": "Class 10", "inLanguage": "en-IN",
             "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online",
-                                  "startDate": "2026-12-07", "endDate": "2027-01-16", "instructor": MIHIR},
+                                  "startDate": "2026-12-07", "endDate": "2027-01-16", "instructor": teacher},
             "offers": [{"@type": "Offer", "price": early, "priceCurrency": "INR", "category": "Early bird",
                         "validThrough": "2026-11-25", "url": Q + "board-boost/#reserve"},
                        {"@type": "Offer", "price": regular, "priceCurrency": "INR", "validFrom": "2026-11-26",
                         "url": Q + "board-boost/#reserve"}]}
 
 
-def q_master(subject, date):
+def q_master(subject, date, teacher=MIHIR):
     return {"@type": "Event", "name": f"QUAD ₹49 Board Masterclass · Class 10 {subject}",
             "description": "Two-hour live online class: the 20 questions that come almost every year, solved live, "
                            "with a PDF to keep and a doubt session.",
             "startDate": f"{date}T10:30:00+05:30", "endDate": f"{date}T12:30:00+05:30",
             "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
             "eventStatus": "https://schema.org/EventScheduled",
-            "location": {"@type": "VirtualLocation", "url": Q + "board-boost/#masterclass"},
-            "organizer": {"@id": Q + "#org"}, "performer": MIHIR,
-            "offers": {"@type": "Offer", "price": 49, "priceCurrency": "INR", "url": Q + "board-boost/#masterclass"}}
+            "location": {"@type": "VirtualLocation", "url": Q + "masterclass/"},
+            "organizer": {"@id": Q + "#org"}, "performer": teacher,
+            "offers": {"@type": "Offer", "price": 49, "priceCurrency": "INR", "url": Q + "masterclass/",
+                       "availability": "https://schema.org/InStock", "validFrom": "2026-11-01T00:00:00+05:30"},
+            "image": Q + "quad_logo.jpg"}
 
 
 QUAD_LLMS = """# QUAD Academy
@@ -53,28 +57,31 @@ QUAD_LLMS = """# QUAD Academy
 
 ## Board Boost · Batch 1 (CBSE Class 10, Board 2027)
 - Dates: Mon 7 Dec 2026 to Sat 16 Jan 2027 (6 weeks), live online, 25–40 students per batch
-- Maths Board Boost (Maths Standard 041): Mon, Wed, Fri, 6:30–7:30 pm IST, teacher Mihir R Shreshti
+- Maths Board Boost (Maths Standard 041): Mon, Wed, Fri, 6:30–7:30 pm IST, teacher Shwetha J
 - Science Board Boost (086): Tue, Thu, Sat, 6:30–7:30 pm IST, teacher Mihir R Shreshti
 - Each batch: 18 live classes, 6 weekly board-pattern mocks (Sunday, 90 min), 6 parent score reports on WhatsApp, 24×7 doubt group, answer books and notes, a free last-week doubt clinic
 - Fees: one subject ₹1,499 (early bird to 25 Nov 2026; ₹1,999 after); both subjects ₹2,499 (₹2,999 after). Bring a friend: both get ₹500 off. Full refund if the child leaves after the first class.
 - Every class is recorded; live classes and long-answer marking are done by a real teacher, not AI.
 
 ## Try first
-- ₹49 Board Masterclass (2 hours live): Maths Sun 22 Nov 2026, Science Sun 29 Nov 2026, 10:30 am–12:30 pm IST. The ₹49 is adjusted if you join a batch.
+- [₹49 Board Masterclass](https://quadacademy.org/masterclass/) (2 hours live; Maths: Shwetha J, Science: Mihir R Shreshti): the 20 questions that come almost every year, solved live, with a PDF to keep and a doubt session. Maths Sun 22 Nov 2026, Science Sun 29 Nov 2026, 10:30 am–12:30 pm IST. Book on WhatsApp; the ₹49 is adjusted if you join a batch.
 - Free Sunday Board Booster: 45-minute class on the QUAD YouTube channel, Sundays 6:00–6:45 pm IST.
 - Winter Break Intensive: Sat 26 Dec 2026 to Sun 3 Jan 2027, Maths 10–11 am, Science 11:15 am–12:15 pm, ₹499 per subject, ₹899 both, free for Batch 1 students.
 - One-to-one tuition is available on request.
 
 ## Teachers
-- Mihir R Shreshti: co-founder, IIT Madras alumnus, homeschooled and cleared Class 10 and 12 through NIOS; teaches both batches.
+- Shwetha J: co-founder of QUAD Academy, MA, MEd, 15+ years teaching Class 8–10 Maths and Science across CBSE, ICSE, State Board and NIOS; founder of Learn with Shwetha (one-to-one board-exam tuition, Bangalore); teaches the Maths batch.
+- Mihir R Shreshti: co-founder, IIT Madras alumnus, homeschooled and cleared Class 10 and 12 through NIOS; teaches the Science batch.
 - Shubha M: co-founder of OurSchoolHouse and QUAD Academy, 25+ years of teaching and content creation; plans courses, sets and marks mocks, writes parent reports, handles admissions.
 
 ## Free revision
 - [QUAD Academy home](https://quadacademy.org/): free important-question videos for every Class 10 Maths and Science chapter, chapter notes and PDFs, board paper walkthroughs
 - [QUAD Quest](https://quadacademy.org/quest.html): free chapter-by-chapter practice game with real board questions, points and streaks
+- [QUAD Blog](https://quadacademy.org/blog/): free articles with real CBSE Class 10 board questions solved step by step, common mistakes and study plans
 
 ## Links
 - [Board Boost page](https://quadacademy.org/board-boost/): batches, timetable, fees, FAQ
+- [₹49 Masterclass page](https://quadacademy.org/masterclass/): dates, what you get, how to book
 - [Reserve a seat on WhatsApp](https://wa.me/918088443156): +91 80884 43156
 - [QUAD Academy on YouTube](https://www.youtube.com/channel/UCHbt889LZLim6aD4bz8XrLA): chapter-wise important questions and past-paper walkthroughs, Class 10 Maths and Science
 - [QUAD WhatsApp channel](https://whatsapp.com/channel/0029Vb9DNhtADTOEAMwyH723)
@@ -85,6 +92,8 @@ SITES = {}
 SITES["quad"] = {
     "base": Q,
     "llms": QUAD_LLMS,
+    "manifest": "blog/posts.json",
+    "llms_posts_heading": "## Blog posts (newest first)",
     "pages": [
         {"path": "index.html", "priority": 1.0,
          "title": "QUAD Academy · Free CBSE Class 10 Maths & Science Revision Videos",
@@ -98,9 +107,8 @@ SITES["quad"] = {
         {"path": "board-boost/index.html", "priority": 0.9,
          "title": "QUAD Board Boost · CBSE Class 10 Maths & Science Live Batches 2027",
          "faq_from_details": True,
-         "jsonld": [q_course("Maths", "Maths Standard 041", "Mon, Wed, Fri", 1499, 1999),
+         "jsonld": [q_course("Maths", "Maths Standard 041", "Mon, Wed, Fri", 1499, 1999, SHWETHA),
                     q_course("Science", "Science 086", "Tue, Thu, Sat", 1499, 1999),
-                    q_master("Maths", "2026-11-22"), q_master("Science", "2026-11-29"),
                     {"@type": "Course", "name": "QUAD Winter Break Intensive · Class 10 Maths & Science",
                      "description": "Nine days of daily practice on the most-asked board questions, ending with a "
                                     "full mock paper.", "provider": {"@id": Q + "#org"},
@@ -109,6 +117,8 @@ SITES["quad"] = {
                      "offers": {"@type": "Offer", "price": 499, "priceCurrency": "INR", "url": Q + "board-boost/"}}],
          "replace": [('<meta property="og:url" content="https://quadacademy.org/">',
                       '<meta property="og:url" content="https://quadacademy.org/board-boost/">')]},
+        {"path": "masterclass/index.html", "priority": 0.9, "faq_from_details": True,
+         "jsonld": [q_master("Maths", "2026-11-22", SHWETHA), q_master("Science", "2026-11-29")]},
     ],
 }
 

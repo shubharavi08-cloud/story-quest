@@ -14,6 +14,8 @@ What it does (idempotent: safe to re-run after any site edit):
   * adds a meta description where a page has none
   * (wow) writes about.html, a crawlable About + FAQ page
 Facts live in geo_sites.py; edit there when dates, prices or pages change.
+QUAD blog posts are read automatically from quad-site/blog/posts.json (written by quad-site/_tools/build_site.py),
+so a new daily post needs no change here: run build_site.py, then this.
 """
 import json, re, subprocess, sys, pathlib, html
 from geo_sites import SITES
@@ -106,16 +108,29 @@ def main():
     for name, content in site.get("extra_files", {}).items():
         (repo / name).write_text(content, encoding="utf-8")
         print("wrote", name)
+    pages = list(site["pages"])
+    llms = site["llms"]
+    if site.get("manifest"):
+        # pages built by the site's own tools (e.g. quad-site _tools/build_site.py writes blog/posts.json)
+        mf = repo / site["manifest"]
+        if mf.exists():
+            data = json.loads(mf.read_text(encoding="utf-8"))
+            pages += data.get("pages", [])
+            if data.get("posts") and site.get("llms_posts_heading"):
+                llms = llms.rstrip("\n") + "\n\n" + site["llms_posts_heading"] + "\n" + "".join(
+                    f"- [{p['title']}]({p['url']}) ({p['date']}): {p['description']}\n" for p in data["posts"])
+        else:
+            print("note: no", site["manifest"], "- run the site's build tool first")
     changed = []
-    for page in site["pages"]:
+    for page in pages:
         f = repo / page["path"]
         if not f.exists():
             sys.exit(f"missing page {f}")
         if patch_page(f, base, page):
             changed.append(page["path"])
     (repo / "robots.txt").write_text(robots(base), encoding="utf-8")
-    (repo / "sitemap.xml").write_text(sitemap(repo, base, site["pages"]), encoding="utf-8")
-    (repo / "llms.txt").write_text(site["llms"], encoding="utf-8")
+    (repo / "sitemap.xml").write_text(sitemap(repo, base, pages), encoding="utf-8")
+    (repo / "llms.txt").write_text(llms, encoding="utf-8")
     print("wrote robots.txt, sitemap.xml, llms.txt")
     print("patched:", ", ".join(changed) or "nothing (already up to date)")
 
