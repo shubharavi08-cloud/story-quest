@@ -47,7 +47,11 @@ DK.art=function(id){
 };
 /* where Maa sits in each thumbnail (fraction across, down): used when a picture is cropped to a circle or a tall box */
 DK.FOCUS={'IlBi-hGGF9E':[.5,.5,1]};
-DK.FOCUS_DEFAULT=[.5,.36,.74]; /* Maa sits in the middle of every painting, face in the upper third */
+/* width of the sharp painting inside each 960x720 picture (the sides are a soft blur of it): used for puzzles */
+DK.PANEL={'T96jKddkIhw':590/960,'w82yu_nCdC8':509/960,'lgTVdgoBnQ0':634/960,'H2eKJBSJWgs':602/960,'24KpyntW_PI':528/960,'JFBAewcgXAw':555/960,'O5hzHeRdcuk':503/960,'ENnj9owzuTo':496/960,'RvEnFEjnCCg':471/960};
+/* a sharp 4:3 window on Maa (face and upper body) for picture puzzles */
+DK.puzzleCrop=function(a){var f=DK.PANEL[a.id];if(!f)return a.crop;var W=a.img.naturalWidth,H=a.img.naturalHeight,sw=W*f,sh=sw*3/4;return{sx:(W-sw)/2,sy:Math.min(H-sh,H*.03),sw:sw,sh:sh}};
+DK.FOCUS_DEFAULT=[.5,.22,.45]; /* Maa stands in the middle of every painting (img/dasara, made by _tools/art/panel_from_thumb.py), face near the top */
 DK.focusCSS=function(id){var f=DK.FOCUS[id]||DK.FOCUS_DEFAULT;return Math.round(f[0]*100)+'% '+Math.round(f[1]*100)+'%'};
 /* CSS for a round portrait of Maa from a 16:9 thumbnail: zoomed onto her (use on a square element) */
 DK.portraitCSS=function(id,src){var f=DK.FOCUS[id]||DK.FOCUS_DEFAULT,z=f[2]||1,ar=.75,bw=1/(ar*z)*100,bh=100/z;
