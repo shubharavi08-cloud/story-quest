@@ -1,6 +1,6 @@
 /* World of Wonders · Dasara games kit (shared by every Dasara game page).
    - Art: Maa's pictures come from the World of Wonders Navratri videos (YouTube thumbnails, best size first).
-   - Music: plays audio/dasara/<key>.mp3 (a soft loop cut from our own Navratri bhajan) when that file exists,
+   - Music: loops audio/dasara/<key>.mp3 (a soft loop cut from our own Navratri bhajan by _tools/bgm/make_bgm.py) when that file exists,
      otherwise a gentle tanpura + flute bed made in the browser. Mute button is remembered.
    - Story: a story popup at the start, story moments during play, and an end card.
    - Language: EN / हिं / ಕ, same storage key as the other World of Wonders games (sq_lang). */
@@ -68,7 +68,7 @@ function ac(){
 DK.ac=ac;
 DK.sound=function(){return soundOn};
 DK.setSound=function(on){soundOn=!!on;try{localStorage.setItem('dk-sound',on?'1':'0')}catch(e){}
-  if(master)master.gain.setTargetAtTime(on?1:0,AC.currentTime,.05);if(mp3)mp3.muted=!on;
+  if(master)master.gain.setTargetAtTime(on?1:0,AC.currentTime,.05);
   var b=document.getElementById('sound');if(b){b.setAttribute('aria-pressed',on);b.textContent=on?'🔊':'🔇'}};
 DK.tone=function(f,d,type,v,slide,when){if(!soundOn||!ac())return;var n=AC.currentTime+(when||0),o=AC.createOscillator(),g=AC.createGain();
   o.type=type||'sine';o.frequency.setValueAtTime(f,n);if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(30,f*slide),n+(d||.2));
@@ -114,17 +114,20 @@ function startBed(){
 function stopBed(){bedOn=false;clearTimeout(bedTimer);(startBed.drone||[]).forEach(function(o){try{o.stop()}catch(e){}});startBed.drone=null}
 DK.music=function(key,opt){musicKey=key;musicOpt=opt||{}};
 DK.startMusic=function(){
-  ac();if(mp3||bedOn)return;
+  if(!ac())return;if(mp3||bedOn||DK._loading)return;
   if(!musicKey){startBed();return}
-  var a=new Audio();a.loop=true;a.volume=.32;a.muted=!soundOn;a.preload='auto';
-  var settled=false;
-  a.addEventListener('canplay',function(){if(settled)return;settled=true;mp3=a;a.play().catch(function(){mp3=null;startBed()})},{once:true});
-  a.addEventListener('error',function(){if(settled)return;settled=true;startBed()},{once:true});
-  setTimeout(function(){if(!settled){settled=true;try{a.src=''}catch(e){}startBed()}},3500);
-  a.src='audio/dasara/'+musicKey+'.mp3';
+  DK._loading=true;var gaveUp=false,t=setTimeout(function(){gaveUp=true;DK._loading=false;if(!mp3)startBed()},6000);
+  /* our own bhajan loop: decoded and looped sample-exactly (an <audio loop> leaves a gap on MP3) */
+  fetch('audio/dasara/'+musicKey+'.mp3').then(function(r){if(!r.ok)throw 0;return r.arrayBuffer()})
+   .then(function(buf){return new Promise(function(res,rej){AC.decodeAudioData(buf,res,rej)})})
+   .then(function(ab){clearTimeout(t);DK._loading=false;if(gaveUp&&bedOn)stopBed();if(mp3)return;
+     var s=AC.createBufferSource(),g=AC.createGain();s.buffer=ab;s.loop=true;s.loopStart=.05;s.loopEnd=Math.max(1,ab.duration-.05);
+     g.gain.setValueAtTime(0,AC.currentTime);g.gain.linearRampToValueAtTime(1.1,AC.currentTime+2);s.connect(g);g.connect(musicBus);s.start(0,.05);mp3={src:s,g:g}})
+   .catch(function(){clearTimeout(t);DK._loading=false;if(!gaveUp)startBed()});
 };
-DK.duck=function(on){if(mp3)mp3.volume=on?.12:.32;if(musicBus&&AC)musicBus.gain.setTargetAtTime(on?.2:.55,AC.currentTime,.2)};
-document.addEventListener('visibilitychange',function(){if(document.hidden){if(mp3)mp3.pause();if(AC&&AC.state==='running')AC.suspend()}else{if(mp3&&soundOn)mp3.play().catch(function(){});if(AC)AC.resume()}});
+DK.musicState=function(){return mp3?'song':bedOn?'bed':'none'};
+DK.duck=function(on){if(musicBus&&AC)musicBus.gain.setTargetAtTime(on?.2:.55,AC.currentTime,.2)};
+document.addEventListener('visibilitychange',function(){if(!AC)return;if(document.hidden){if(AC.state==='running')AC.suspend()}else AC.resume()});
 
 /* ---------- overlay cards ---------- */
 var css=document.createElement('style');
