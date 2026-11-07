@@ -384,7 +384,7 @@ function prefLang(){try{return localStorage.getItem('wow-lang')||''}catch(e){ret
 function orderByPref(vers){const p=prefLang();const i=vers.findIndex(v=>v[0]===p);return i>0?[vers[i],...vers.slice(0,i),...vers.slice(i+1)]:vers}
 function langPicker(vers,note=''){
   if(!vers.length)return note;
-  if(vers.length===1)return `<div class="lpick one"><span class="lp-q">🗣️ This video is in</span><span class="lbtn on" style="--lc:${LCOL[vers[0][0]]||'#ffd35a'}"><b>${LGLYPH[vers[0][0]]||'🌐'}</b>${vers[0][0]}</span>${note}</div>`;
+  if(vers.length===1)return `<div class="lpick one"><span class="lp-q">🗣️ This video is in</span><span class="lang lbtn on" data-id="${vers[0][1]}" data-l="${vers[0][0]}" style="--lc:${LCOL[vers[0][0]]||'#ffd35a'}"><b>${LGLYPH[vers[0][0]]||'🌐'}</b>${vers[0][0]}</span>${note}</div>`;
   return `<div class="lpick" role="group" aria-label="Choose the video language">
     <span class="lp-q">🗣️ Pick your language! <small>भाषा चुनें · ಭಾಷೆ ಆರಿಸಿ</small></span>
     <div class="lp-row">${vers.map(([l,id],i)=>`<button type="button" class="lang lbtn${i?'':' on'}" data-id="${id}" data-l="${l}" aria-pressed="${!i}" style="--lc:${LCOL[l]||'#ffd35a'}"><b>${LGLYPH[l]||'🌐'}</b>${l}<i aria-hidden="true">✓</i></button>`).join('')}</div>${note}</div>`;

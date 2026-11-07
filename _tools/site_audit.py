@@ -20,6 +20,11 @@ async def visit(ctx, url, rep, ids, mobile):
     except Exception as e:
         rep.append((url, "LOAD FAIL " + str(e)[:120])); await pg.close(); return []
     await pg.wait_for_timeout(1300)
+    vid = await pg.evaluate("""async()=>{const p=document.querySelector('#poster');if(!p)return null;p.click();await new Promise(r=>setTimeout(r,400));
+      const f=document.querySelector('#vbox iframe');return f?f.getAttribute('src'):'NO IFRAME'}""")
+    if vid is not None and not re.search(r"/embed/[A-Za-z0-9_-]{11}\?", vid or ""): rep.append((url, "VIDEO DOES NOT LOAD: " + str(vid)[:90]))
+    others = await pg.evaluate("""async()=>{const bad=[];for(const b of [...document.querySelectorAll('.lang[data-id]')]){if(!/^[A-Za-z0-9_-]{11}$/.test(b.dataset.id||''))bad.push(b.textContent.trim())}return bad}""")
+    for o in others: rep.append((url, "LANGUAGE BUTTON WITHOUT VIDEO: " + o))
     # scroll to trigger lazy images
     await pg.evaluate("window.scrollTo(0,document.body.scrollHeight)"); await pg.wait_for_timeout(500); await pg.evaluate("window.scrollTo(0,0)")
     info = await pg.evaluate("""()=>{
