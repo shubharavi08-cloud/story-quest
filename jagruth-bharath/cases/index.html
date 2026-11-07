@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mauna's Case Book · Solve the scam · Jagruth Bharath</title>
+<meta name="description" content="Watch a 1-minute Mauna video, spot the red flags, answer 3 quick questions and earn your Case Solved stamp. Real Indian scams explained in English, Hindi and Kannada.">
+<meta property="og:title" content="Mauna's Case Book · Can you solve the scam?">
+<meta property="og:description" content="Watch, spot the red flag, solve the case. Free scam-safety game for the whole family.">
+<meta property="og:image" content="https://worldofwondersstudio.com/jagruth-bharath/img/banner.webp">
+<link rel="icon" href="../../img/wow_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Noto+Sans+Kannada:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#fff6e5;--ink:#2b2140;--muted:#6b5f86;--card:#ffffff;--line:#f1e3c4;--pink:#ff5d8f;--sun:#ffb703;--mint:#06d6a0;--sky:#118ab2;--grape:#8338ec;--orange:#fb5607;--blue:#3a86ff;--red:#ef476f;--c:#8338ec;
+ --display:"Baloo 2","Noto Sans Kannada","Trebuchet MS",system-ui,sans-serif;--body:"Mukta","Noto Sans Kannada","Segoe UI",system-ui,sans-serif}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:18px;line-height:1.5;padding:0 max(14px,env(safe-area-inset-left,0px)) 70px;
+ background-image:radial-gradient(circle at 12% 8%,#ffd6e4 0 90px,transparent 91px),radial-gradient(circle at 92% 14%,#c9f7e9 0 120px,transparent 121px),radial-gradient(circle at 80% 92%,#dcd0ff 0 140px,transparent 141px),radial-gradient(circle at 6% 70%,#ffe7a8 0 100px,transparent 101px);background-attachment:fixed}
+a{color:var(--grape)}
+h1,h2,h3{font-family:var(--display);line-height:1.08;margin:0;text-wrap:balance}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-top:14px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo img{width:42px;height:42px;border-radius:50%;box-shadow:0 3px 0 #0002}
+.logo b{font-family:var(--display);font-size:22px;line-height:1}
+.logo small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--pink);font-weight:800}
+.langs{display:flex;gap:6px}
+.langs button{font:800 16px var(--body);border:3px solid var(--ink);background:#fff;color:var(--ink);border-radius:999px;padding:4px 14px;min-height:44px;cursor:pointer;box-shadow:0 3px 0 var(--ink);transition:transform .15s}
+.langs button.on{background:var(--sun)}
+.langs button:active{transform:translateY(3px);box-shadow:none}
+.card{background:var(--card);border:3px solid var(--ink);border-radius:26px;padding:20px;box-shadow:0 7px 0 var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:6px;font:800 13px var(--body);letter-spacing:.06em;text-transform:uppercase;background:var(--c);color:#fff;border-radius:999px;padding:4px 12px}
+.btn{font:800 18px var(--body);background:var(--sun);color:var(--ink);border:3px solid var(--ink);border-radius:999px;padding:10px 22px;cursor:pointer;text-decoration:none;display:inline-flex;gap:8px;align-items:center;justify-content:center;box-shadow:0 5px 0 var(--ink);min-height:52px;transition:transform .12s}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.btn.alt{background:#fff}.btn.wa{background:#25d366;color:#fff}
+.muted{color:var(--muted)}
+/* hero */
+.hero{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;background:linear-gradient(135deg,var(--c),#ff5d8f);color:#fff;border:3px solid var(--ink);border-radius:30px;padding:22px;box-shadow:0 7px 0 var(--ink);position:relative;overflow:hidden}
+.hero h1{font-size:clamp(30px,6vw,46px);text-shadow:0 3px 0 #0003}
+.hero p{margin:8px 0 0;font-size:19px;font-weight:600}
+.hero .pill{background:#fff;color:var(--ink)}
+.hero img{width:clamp(96px,22vw,150px);filter:drop-shadow(0 6px 0 #0004);animation:bob 3s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-3deg)}}
+/* progress */
+.prog{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.bar2{flex:1;min-width:160px;height:20px;background:#fff;border:3px solid var(--ink);border-radius:99px;overflow:hidden}
+.bar2 i{display:block;height:100%;background:repeating-linear-gradient(45deg,var(--mint) 0 14px,#3be8b6 14px 28px);width:0;transition:width .8s}
+.rank{font:800 17px var(--display)}
+/* book grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+.tile{position:relative;text-decoration:none;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:22px;overflow:hidden;box-shadow:0 6px 0 var(--ink);transition:transform .15s;display:flex;flex-direction:column}
+.tile:hover{transform:translateY(-4px) rotate(-.6deg)}
+.tile .th{aspect-ratio:16/10;background:var(--c) center/cover;position:relative}
+.tile .th::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,#0006)}
+.tile .no{position:absolute;left:10px;top:10px;z-index:1;font:800 13px var(--body);background:#fff;border:2px solid var(--ink);border-radius:99px;padding:2px 10px}
+.tile .ic{position:absolute;right:10px;bottom:6px;z-index:1;font-size:34px}
+.tile .tx{padding:12px 54px 14px 14px;display:flex;flex-direction:column;gap:4px}
+.tile b{font:800 19px/1.15 var(--display)}
+.tile small{color:var(--muted);font-weight:600}
+.tile.locked .th{filter:grayscale(.7) blur(1px)}
+.stamp{position:absolute;top:44%;left:50%;z-index:2;transform:translate(-50%,-50%) rotate(-14deg);font:800 18px var(--display);color:#d62839;border:4px solid #d62839;border-radius:10px;padding:2px 10px;background:#fffc;letter-spacing:.06em;white-space:nowrap}
+.weekly{background:linear-gradient(135deg,#118ab2,#06d6a0)}
+/* case view */
+.bubble{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center}
+.bubble img{width:92px}
+.say{position:relative;background:#fff3c4;border:3px solid var(--ink);border-radius:22px;padding:14px 18px;font:700 20px/1.35 var(--body)}
+.say::before{content:"";position:absolute;left:-14px;top:30px;border:12px solid transparent;border-right-color:var(--ink)}
+.say small{display:block;font:800 13px var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}
+.vtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.vtabs button{font:800 15px var(--body);border:3px solid var(--ink);background:#fff;border-radius:99px;padding:4px 14px;cursor:pointer;min-height:42px}
+.vtabs button.on{background:var(--c);color:#fff}
+.vid{position:relative;aspect-ratio:9/16;max-width:340px;margin:0 auto;border:3px solid var(--ink);border-radius:20px;overflow:hidden;background:#000}
+.vid.wide{aspect-ratio:16/9;max-width:none}
+.vid button{all:unset;cursor:pointer;position:absolute;inset:0;display:grid;place-items:center;background:center/cover}
+.vid button span{width:84px;height:84px;border-radius:50%;background:#ff0033;border:4px solid #fff;display:grid;place-items:center;font-size:34px;color:#fff;box-shadow:0 6px 18px #0007;animation:pulse 1.6s infinite}
+@keyframes pulse{50%{transform:scale(1.08)}}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.soon{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#fff;background:#2b2140e6;font:800 22px var(--display);padding:20px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.flip{perspective:800px;height:120px;cursor:pointer}
+.flip>div{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip.open>div{transform:rotateY(180deg)}
+.flip .f,.flip .b{position:absolute;inset:0;backface-visibility:hidden;border:3px solid var(--ink);border-radius:18px;display:grid;place-items:center;text-align:center;padding:10px;font:800 18px/1.2 var(--display)}
+.flip .f{background:var(--c);color:#fff;font-size:30px}
+.flip .f small{display:block;font:700 13px var(--body);opacity:.9}
+.flip .b{background:#fff;transform:rotateY(180deg)}
+.flip .b em{display:block;font:800 12px var(--body);font-style:normal;color:var(--pink);letter-spacing:.08em}
+.q{display:flex;flex-direction:column;gap:12px}
+.qh{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dots{display:flex;gap:6px}.dots i{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);background:#fff}.dots i.ok{background:var(--mint)}.dots i.no{background:var(--red)}.dots i.cur{background:var(--sun)}
+.q h3{font-size:clamp(21px,4vw,26px)}
+.opt{font:700 18px/1.3 var(--body);text-align:left;background:#fff;border:3px solid var(--ink);border-radius:16px;padding:12px 16px;cursor:pointer;box-shadow:0 4px 0 var(--ink);transition:transform .1s;color:var(--ink)}
+.opt:hover:not([disabled]){transform:translateY(-2px);background:#fff8dd}
+.opt.right{background:var(--mint);color:#06281f}.opt.wrong{background:#ffd0d9;animation:shake .4s}
+.opt[disabled]{cursor:default}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.why{display:none;grid-template-columns:auto 1fr;gap:10px;align-items:center;background:#e9fff7;border:3px dashed var(--mint);border-radius:16px;padding:10px 14px;font-weight:600}
+.why.show{display:grid}.why img{width:54px}
+.result{text-align:center;display:flex;flex-direction:column;gap:12px;align-items:center}
+.bigstamp{font:800 clamp(28px,7vw,44px) var(--display);color:#d62839;border:6px solid #d62839;border-radius:16px;padding:6px 20px;transform:rotate(-8deg);animation:slam .5s cubic-bezier(.2,1.6,.4,1)}
+@keyframes slam{from{transform:scale(3) rotate(-8deg);opacity:0}}
+.rules{display:flex;flex-direction:column;gap:8px;margin:0;padding:0;list-style:none}
+.rules li{background:#f0fff9;border:2px solid #06d6a0;border-radius:14px;padding:8px 12px 8px 40px;position:relative;font-weight:600}
+.rules li::before{content:"✅";position:absolute;left:10px}
+.helpc{display:flex;gap:14px;align-items:center;background:#ffe3ea;border:3px solid var(--ink);border-radius:20px;padding:14px 18px}
+.helpc b{font:800 42px var(--display);color:#d62839}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.foot{text-align:center;color:var(--muted);font-size:14px;display:flex;flex-direction:column;gap:6px;margin-top:10px}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+.blogline{background:#fff;border:3px dashed var(--grape);border-radius:18px;padding:10px 16px;font-weight:600;text-align:center}
+.hero img{border-radius:22px;border:3px solid #fff}
+@media (max-width:560px){.hero{grid-template-columns:1fr auto;padding:18px}.hero img{width:84px;align-self:start}.hero p{font-size:17px}.bubble img{width:64px}.say{font-size:18px}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="wrap">
+ <header class="bar"><a class="logo" href="../../index.html"><img src="../img/mauna.webp" alt=""><span><small>Jagruth Bharath</small><b id="brand">Mauna's Case Book</b></span></a>
+  <div class="langs" role="group" aria-label="Language"><button data-l="en">English</button><button data-l="hi">हिन्दी</button><button data-l="kn">ಕನ್ನಡ</button></div></header>
+ <main id="app" class="wrap" style="gap:20px"></main>
+ <div class="foot"><div><a href="https://www.youtube.com/channel/UCQHpj5OWL4VXSR9UmMofMQw" target="_blank" rel="noopener">YouTube: Jagruth Bharath</a> · <a href="https://jagruthbharath.blogspot.com" target="_blank" rel="noopener">Jagruth Bharath blog</a> · <a href="https://whatsapp.com/channel/0029VbE8UbfIXnlyGVUePh2j" target="_blank" rel="noopener">WhatsApp channel</a></div>
+  <div><a href="../">Scam Alert games</a> · <a href="../../index.html">World of Wonders home</a></div>
+  <div>Stories are based on real reported scam patterns; pictures are illustrations, not real people. Lost money? Call 1930 or visit cybercrime.gov.in.</div></div>
+</div>
+<script src="cases.js"></script>
+<script>
+const E=window.JB_EPS||[], W=window.JB_WEEKLY||[];
+const UI={
+ en:{book:"Mauna's Case Book",lede:"Watch a 1-minute case, spot Mr. Promise's trick, answer 3 quick questions and earn your CASE SOLVED stamp!",solved:"cases solved",ranks:["Rookie","Junior Detective","Sharp Eye","Mauna's Deputy","Master Detective"],case:"Case",weekly:"Weekly Crime Report",soon:"Opens",watch:"1 · Watch the case",freeze:"2 · Mauna freezes the trick: tap each card",quiz:"3 · Solve the case",says:"Mr. Promise says",step:"Step",q:"Question",next:"Next question",right:"Right! 🎉",wrong:"Not quite…",done:"CASE SOLVED",again:"Try again",tryall:"Get all 3 right to earn the stamp. You got",of:"of",rules:"Mauna's rules",help:"Lost money? Call now",helpc:"National Cyber Crime Helpline · cybercrime.gov.in",help2:"National Consumer Helpline",share:"Share with family",nextc:"Next case ▶",back:"◀ All cases",blog:"📖 Read the full story on the Jagruth Bharath blog",lang:"Video language",tapflip:"Tap!",lock:"Watch the video first, then solve!",shareText:"I solved Mauna's case: {t}. Can you spot the scam? 🦉"},
+ hi:{book:"मौना की केस बुक",lede:"1 मिनट का केस देखिए, मिस्टर प्रॉमिस की चाल पकड़िए, 3 आसान सवालों के जवाब दीजिए और पाइए केस सॉल्व्ड का ठप्पा!",solved:"केस सॉल्व किए",ranks:["नया जासूस","जूनियर जासूस","तेज़ नज़र","मौना के साथी","मास्टर जासूस"],case:"केस",weekly:"हफ़्ते की क्राइम रिपोर्ट",soon:"खुलेगा",watch:"1 · केस देखिए",freeze:"2 · मौना ने चाल रोक दी: हर कार्ड पर टैप कीजिए",quiz:"3 · केस सॉल्व कीजिए",says:"मिस्टर प्रॉमिस कहते हैं",step:"चाल",q:"सवाल",next:"अगला सवाल",right:"सही! 🎉",wrong:"थोड़ा चूक गए…",done:"केस सॉल्व्ड",again:"फिर से कोशिश कीजिए",tryall:"ठप्पा पाने के लिए तीनों सही कीजिए। आपके सही",of:"में से",rules:"मौना के नियम",help:"पैसे गए? अभी कॉल कीजिए",helpc:"राष्ट्रीय साइबर क्राइम हेल्पलाइन · cybercrime.gov.in",help2:"राष्ट्रीय उपभोक्ता हेल्पलाइन",share:"परिवार को भेजिए",nextc:"अगला केस ▶",back:"◀ सारे केस",blog:"📖 पूरी कहानी जागृत भारत ब्लॉग पर पढ़िए",lang:"वीडियो की भाषा",tapflip:"टैप!",lock:"पहले वीडियो देखिए, फिर सॉल्व कीजिए!",shareText:"मैंने मौना का केस सॉल्व किया: {t}। क्या आप स्कैम पकड़ पाएँगे? 🦉"},
+ kn:{book:"ಮೌನಾಳ ಕೇಸ್ ಬುಕ್",lede:"1 ನಿಮಿಷದ ಕೇಸ್ ನೋಡಿ, ಮಿಸ್ಟರ್ ಪ್ರಾಮಿಸ್‌ನ ತಂತ್ರ ಹಿಡಿಯಿರಿ, 3 ಸುಲಭ ಪ್ರಶ್ನೆಗಳಿಗೆ ಉತ್ತರಿಸಿ, ಕೇಸ್ ಸಾಲ್ವ್ಡ್ ಮುದ್ರೆ ಪಡೆಯಿರಿ!",solved:"ಕೇಸ್ ಬಗೆಹರಿಸಿದ್ದೀರಿ",ranks:["ಹೊಸ ಪತ್ತೇದಾರ","ಜೂನಿಯರ್ ಪತ್ತೇದಾರ","ಚುರುಕು ಕಣ್ಣು","ಮೌನಾಳ ಸಹಾಯಕ","ಮಾಸ್ಟರ್ ಪತ್ತೇದಾರ"],case:"ಕೇಸ್",weekly:"ವಾರದ ಕ್ರೈಮ್ ವರದಿ",soon:"ತೆರೆಯುವುದು",watch:"1 · ಕೇಸ್ ನೋಡಿ",freeze:"2 · ಮೌನಾ ತಂತ್ರವನ್ನು ನಿಲ್ಲಿಸಿದಳು: ಪ್ರತಿ ಕಾರ್ಡ್ ಟ್ಯಾಪ್ ಮಾಡಿ",quiz:"3 · ಕೇಸ್ ಬಗೆಹರಿಸಿ",says:"ಮಿಸ್ಟರ್ ಪ್ರಾಮಿಸ್ ಹೇಳುತ್ತಾನೆ",step:"ತಂತ್ರ",q:"ಪ್ರಶ್ನೆ",next:"ಮುಂದಿನ ಪ್ರಶ್ನೆ",right:"ಸರಿ! 🎉",wrong:"ಸ್ವಲ್ಪ ತಪ್ಪಿತು…",done:"ಕೇಸ್ ಸಾಲ್ವ್ಡ್",again:"ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ",tryall:"ಮುದ್ರೆ ಪಡೆಯಲು ಮೂರೂ ಸರಿ ಮಾಡಿ. ನಿಮ್ಮ ಸರಿ ಉತ್ತರ",of:"ರಲ್ಲಿ",rules:"ಮೌನಾಳ ನಿಯಮಗಳು",help:"ಹಣ ಹೋಯಿತೇ? ಈಗಲೇ ಕರೆ ಮಾಡಿ",helpc:"ರಾಷ್ಟ್ರೀಯ ಸೈಬರ್ ಕ್ರೈಮ್ ಸಹಾಯವಾಣಿ · cybercrime.gov.in",help2:"ರಾಷ್ಟ್ರೀಯ ಗ್ರಾಹಕ ಸಹಾಯವಾಣಿ",share:"ಕುಟುಂಬಕ್ಕೆ ಕಳಿಸಿ",nextc:"ಮುಂದಿನ ಕೇಸ್ ▶",back:"◀ ಎಲ್ಲ ಕೇಸ್‌ಗಳು",blog:"📖 ಪೂರ್ಣ ಕಥೆಯನ್ನು ಜಾಗೃತ ಭಾರತ ಬ್ಲಾಗ್‌ನಲ್ಲಿ ಓದಿ",lang:"ವಿಡಿಯೋ ಭಾಷೆ",tapflip:"ಟ್ಯಾಪ್!",lock:"ಮೊದಲು ವಿಡಿಯೋ ನೋಡಿ, ನಂತರ ಬಗೆಹರಿಸಿ!",shareText:"ನಾನು ಮೌನಾಳ ಕೇಸ್ ಬಗೆಹರಿಸಿದೆ: {t}. ನೀವು ಸ್ಕ್ಯಾಮ್ ಹಿಡಿಯಬಲ್ಲಿರಾ? 🦉"}
+};
+const LN={en:"English",hi:"हिन्दी",kn:"ಕನ್ನಡ"};
+const qs=new URLSearchParams(location.search);
+let L='en';try{L=qs.get('lang')||localStorage.getItem('jb_lang')||localStorage.getItem('wow-lang')||'en'}catch(e){}
+if(!UI[L])L='en';
+const store={get(){try{return JSON.parse(localStorage.getItem('jb_cases_solved')||'{}')}catch(e){return{}}},set(o){try{localStorage.setItem('jb_cases_solved',JSON.stringify(o))}catch(e){}}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const T=o=>o?(o[L]||o.en||''):'';
+const thumb=id=>`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+const isOpen=e=>!e.sched||Date.now()>=Date.parse(e.sched);
+const fmtDate=s=>new Date(s).toLocaleString(L==='en'?'en-IN':L==='hi'?'hi-IN':'kn-IN',{weekday:'short',day:'numeric',month:'short',hour:'numeric',minute:'2-digit',timeZone:'Asia/Kolkata'});
+function rank(n){const r=UI[L].ranks;return n>=15?r[4]:n>=10?r[3]:n>=5?r[2]:n>=1?r[1]:r[0]}
+function setLang(l){L=l;try{localStorage.setItem('jb_lang',l);localStorage.setItem('wow-lang',l)}catch(e){}document.documentElement.lang=l;render()}
+document.querySelectorAll('.langs button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
+
+function progressHTML(){const s=store.get();const n=E.filter(e=>s[e.n]).length;const total=E.length;
+ return `<div class="card prog"><span style="font-size:34px">🏅</span><div style="flex:1;min-width:160px"><div class="rank">${esc(rank(n))} · ${n}/${total} ${esc(UI[L].solved)}</div><div class="bar2"><i style="width:${total?Math.round(n/total*100):0}%"></i></div></div></div>`}
+
+function renderBook(){
+ const u=UI[L], s=store.get();
+ document.title=u.book+' · Jagruth Bharath';
+ const tiles=[...E].reverse().map(e=>{const open=isOpen(e);const href=open?`?ep=${e.n}`:'#';
+  return `<a class="tile${open?'':' locked'}" href="${href}" style="--c:${e.color}" ${open?'':'aria-disabled="true" onclick="return false"'}><div class="th" style="background-image:url(${thumb(e.yt[L]||e.yt.en)})">${s[e.n]?`<span class="stamp">✔ ${esc(u.done)}</span>`:''}</div>
+  <span class="no">${esc(u.case)} ${String(e.n).padStart(2,'0')}</span><span class="ic">${e.icon}</span>
+  <div class="tx"><b>${esc(T(e.t))}</b><small>${open?esc(T(e.bait)).slice(0,70):'🔒 '+esc(u.soon)+' '+esc(fmtDate(e.sched))}</small></div></a>`}).join('');
+ const wk=W.map(w=>{const open=isOpen(w);return `<a class="tile weekly${open?'':' locked'}" href="${open?'?weekly='+w.n:'#'}" style="--c:${w.color||'#118ab2'}" ${open?'':'onclick="return false"'}><div class="th" style="background-image:url(${thumb(w.yt[L]||w.yt.en)})"></div><span class="no">📰 ${esc(u.weekly)} #${w.n}</span><span class="ic">${w.icon||'🗞️'}</span><div class="tx"><b>${esc(T(w.t))}</b><small>${open?'':'🔒 '+esc(u.soon)+' '+esc(fmtDate(w.sched))}</small></div></a>`}).join('');
+ $('#app').innerHTML=`<section class="hero" style="--c:#8338ec"><div><span class="pill">🦉 Jagruth Bharath</span><h1>${esc(u.book)}</h1><p>${esc(u.lede)}</p></div><img src="../img/mauna.webp" alt="Mauna the detective owl"></section>
+ ${progressHTML()}
+ ${wk?`<div class="grid">${wk}</div>`:''}
+ <div class="grid">${tiles}</div>
+ ${helpHTML('1930')}`;
+}
+
+function helpHTML(h){const u=UI[L];if(h==='')h='1930';
+ return `<div class="helpc"><b>${h}</b><div><div style="font:800 19px var(--display)">${esc(u.help)}</div><small>${esc(h==='1915'?u.help2:u.helpc)}</small></div></div>`}
+
+function videoHTML(e,wide){const u=UI[L];const open=isOpen(e);
+ const tabs=`<div class="vtabs" role="group" aria-label="${esc(u.lang)}">${['en','hi','kn'].filter(l=>e.yt[l]).map(l=>`<button data-vl="${l}" class="${l===L?'on':''}">${LN[l]}</button>`).join('')}</div>`;
+ const id=e.yt[L]||e.yt.en;
+ return tabs+`<div class="vid${wide?' wide':''}" id="vid">${open?`<button data-id="${id}" aria-label="Play" style="background-image:url(${thumb(id)})"><span>▶</span></button>`:`<div class="soon">🔒 ${esc(u.soon)}<br>${esc(fmtDate(e.sched))}</div>`}</div>`}
+function wireVideo(e){
+ const play=b=>{b.onclick=()=>{const box=$('#vid');box.innerHTML=`<iframe src="https://www.youtube-nocookie.com/embed/${b.dataset.id}?autoplay=1&rel=0&playsinline=1" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="Mauna video"></iframe>`;window.__watched=true;const g=$('#gate');if(g)g.remove();}};
+ const b=$('#vid button');if(b)play(b);
+ document.querySelectorAll('.vtabs button').forEach(t=>t.onclick=()=>{document.querySelectorAll('.vtabs button').forEach(x=>x.classList.toggle('on',x===t));const id=e.yt[t.dataset.vl];if(!isOpen(e))return;$('#vid').innerHTML=`<button data-id="${id}" aria-label="Play" style="background-image:url(${thumb(id)})"><span>▶</span></button>`;play($('#vid button'))});
+}
+
+function renderCase(e){
+ const u=UI[L], idx=E.indexOf(e), next=E[idx+1]&&isOpen(E[idx+1])?E[idx+1]:null;
+ document.title=`${u.case} ${e.n}: ${T(e.t)} · ${u.book}`;
+ document.documentElement.style.setProperty('--c',e.color);
+ const steps=(e.steps[L]||e.steps.en);
+ const blog=e.blog?`<a class="blogline" href="${esc(e.blog)}" target="_blank" rel="noopener">${esc(u.blog)}</a>`:'';
+ $('#app').innerHTML=`<a href="?" class="muted" style="text-decoration:none;font-weight:700">${esc(u.back)}</a>
+ <section class="hero" style="--c:${e.color}"><div><span class="pill">${e.icon} ${esc(u.case)} ${String(e.n).padStart(2,'0')}</span><h1>${esc(T(e.t))}</h1><p>${esc(T(e.lesson))}</p></div><img src="../img/mauna.webp" alt="Mauna the detective owl"></section>
+ <div class="card bubble"><img src="../img/mr-promise.webp" alt="Mr. Promise"><div class="say"><small>${esc(u.says)}</small>${esc(T(e.bait))}</div></div>
+ <div class="card"><h2 style="margin-bottom:10px">${esc(u.watch)}</h2>${videoHTML(e)}</div>
+ <div class="card"><h2 style="margin-bottom:12px">${esc(u.freeze)}</h2><div class="steps">${steps.map((s,i)=>`<div class="flip" tabindex="0" role="button"><div><div class="f">${i+1}<small>${esc(u.tapflip)}</small></div><div class="b"><span><em>${esc(u.step)} ${i+1}</em>${esc(s)}</span></div></div></div>`).join('')}</div></div>
+ <div class="card" id="quiz"></div>
+ <div class="card"><h2 style="margin-bottom:10px">${esc(u.rules)}</h2><ul class="rules">${(e.rules[L]||e.rules.en).map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div>
+ ${blog}
+ ${helpHTML(e.help)}
+ <div class="row"><a class="btn wa" id="share" target="_blank" rel="noopener">📲 ${esc(u.share)}</a>${next?`<a class="btn" href="?ep=${next.n}">${esc(u.nextc)}</a>`:''}<a class="btn alt" href="?">${esc(u.back)}</a></div>`;
+ wireVideo(e);
+ document.querySelectorAll('.flip').forEach(f=>{const t=()=>{f.classList.toggle('open');sfx(520)};f.onclick=t;f.onkeydown=k=>{if(k.key==='Enter'||k.key===' '){k.preventDefault();t()}}});
+ const url=location.origin+location.pathname+'?ep='+e.n;
+ $('#share').href='https://wa.me/?text='+encodeURIComponent(u.shareText.replace('{t}',T(e.t))+' '+url);
+ runQuiz(e);
+}
+
+function runQuiz(e){
+ const u=UI[L], box=$('#quiz'), Q=e.quiz||[];let i=0, score=0, marks=[];
+ function show(){
+  if(i>=Q.length) return finish();
+  const q=Q[i], opts=q.o[L]||q.o.en;
+  box.innerHTML=`<div class="q"><div class="qh"><h2>${esc(u.quiz)}</h2><div class="dots">${Q.map((_,k)=>`<i class="${marks[k]===1?'ok':marks[k]===0?'no':k===i?'cur':''}"></i>`).join('')}</div></div>
+   <div class="muted" style="font-weight:800">${esc(u.q)} ${i+1}/${Q.length}</div><h3>${esc(T(q.q))}</h3>
+   ${opts.map((o,k)=>`<button class="opt" data-k="${k}">${esc(o)}</button>`).join('')}
+   <div class="why" id="why"><img src="../img/mauna.webp" alt=""><div><b id="wv"></b> ${esc(T(q.why))}</div></div>
+   <div id="nx"></div></div>`;
+  box.querySelectorAll('.opt').forEach(b=>b.onclick=()=>{
+   const k=+b.dataset.k, ok=k===q.a; marks[i]=ok?1:0; if(ok)score++;
+   box.querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(+x.dataset.k===q.a)x.classList.add('right')});
+   if(!ok)b.classList.add('wrong');
+   $('#wv').textContent=ok?u.right:u.wrong; $('#why').classList.add('show');
+   if(ok){confetti(40);sfx(880);setTimeout(()=>sfx(1175),120)}else sfx(220);
+   $('#nx').innerHTML=`<button class="btn" id="go">${esc(i+1<Q.length?u.next:'🏁')}</button>`;$('#go').onclick=()=>{i++;show();box.scrollIntoView({behavior:'smooth',block:'start'})};
+  });
+ }
+ function finish(){
+  const all=score===Q.length;
+  if(all){const s=store.get();s[e.n]=1;store.set(s);confetti(160);sfx(660);setTimeout(()=>sfx(990),150);setTimeout(()=>sfx(1320),300)}
+  const n=E.filter(x=>store.get()[x.n]).length;
+  box.innerHTML=`<div class="result">${all?`<div class="bigstamp">✔ ${esc(u.done)}</div><div class="rank">🏅 ${esc(rank(n))} · ${n}/${E.length} ${esc(u.solved)}</div>`:`<h2>${esc(u.tryall)} ${score} ${esc(u.of)} ${Q.length}</h2><button class="btn" id="re">🔁 ${esc(u.again)}</button>`}</div>`;
+  const re=$('#re');if(re)re.onclick=()=>{i=0;score=0;marks=[];show()};
+ }
+ show();
+}
+
+function renderWeekly(w){
+ const u=UI[L];document.documentElement.style.setProperty('--c','#118ab2');
+ document.title=`${u.weekly} #${w.n} · ${u.book}`;
+ const blog=w.blog?`<a class="blogline" href="${esc(w.blog)}" target="_blank" rel="noopener">${esc(u.blog)}</a>`:'';
+ $('#app').innerHTML=`<a href="?" class="muted" style="text-decoration:none;font-weight:700">${esc(u.back)}</a>
+ <section class="hero" style="--c:#118ab2"><div><span class="pill">📰 ${esc(u.weekly)} #${w.n}</span><h1>${esc(T(w.t))}</h1><p>${esc(T(w.lesson))}</p></div><img src="../img/mauna.webp" alt=""></section>
+ <div class="card"><h2 style="margin-bottom:10px">${esc(u.watch)}</h2>${videoHTML(w,true)}</div>
+ ${w.quiz?'<div class="card" id="quiz"></div>':''}
+ ${w.rules?`<div class="card"><h2 style="margin-bottom:10px">${esc(u.rules)}</h2><ul class="rules">${(w.rules[L]||w.rules.en).map(r=>`<li>${esc(r)}</li>`).join('')}</ul></div>`:''}
+ ${blog}${helpHTML('1930')}<div class="row"><a class="btn alt" href="?">${esc(u.back)}</a></div>`;
+ wireVideo(w); if(w.quiz) runQuiz(Object.assign({},w,{n:'w'+w.n}));
+}
+
+function render(){
+ document.querySelectorAll('.langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===L));
+ $('#brand').textContent=UI[L].book;
+ const ep=qs.get('ep'), wk=qs.get('weekly');
+ const e=ep&&E.find(x=>String(x.n)===ep), w=wk&&W.find(x=>String(x.n)===wk);
+ if(e&&isOpen(e))renderCase(e); else if(w&&isOpen(w))renderWeekly(w); else renderBook();
+}
+/* tiny sound + confetti, no files needed */
+let AC;function sfx(f){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(.08,AC.currentTime);g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.25);o.connect(g).connect(AC.destination);o.start();o.stop(AC.currentTime+.26)}catch(e){}}
+const cv=$('#confetti'),cx=cv.getContext('2d');let parts=[];
+function confetti(n){if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;cv.width=innerWidth;cv.height=innerHeight;const C=['#ff5d8f','#ffb703','#06d6a0','#118ab2','#8338ec','#fb5607'];for(let k=0;k<n;k++)parts.push({x:innerWidth/2,y:innerHeight/3,vx:(Math.random()-.5)*14,vy:-Math.random()*12-4,s:6+Math.random()*7,c:C[k%C.length],r:Math.random()*6,life:90});if(parts.length===n)tick()}
+function tick(){cx.clearRect(0,0,cv.width,cv.height);parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.4;p.r+=.2;p.life--;cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);cx.restore()});parts=parts.filter(p=>p.life>0&&p.y<innerHeight+20);if(parts.length)requestAnimationFrame(tick);else cx.clearRect(0,0,cv.width,cv.height)}
+render();
+</script>
+</body>
+</html>
