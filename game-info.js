@@ -117,6 +117,7 @@ var G=[
   learn:['Family safety','Good habits']}
 ];
 window.WOW_GAMES=G;
+/*JB_CASES*/window.WOW_JB_CASES=[{"id": "arrest", "t": "The Video Call Arrest", "yt": "hclZZ3RF1Yk"}, {"id": "refund", "t": "The ₹441 Refund", "yt": "YVut1eqftR8"}, {"id": "trading", "t": "The VIP Profit Group", "yt": "hIt4hLpDCB4"}, {"id": "family", "t": "Is Your Family Scam-Safe?", "yt": "RbHkRgO1ZLQ"}, {"id": "spot", "t": "Spot the Scam", "yt": "YqsMnITlLFs"}];/*/JB_CASES*/
 
 var ME=document.currentScript, which=ME&&ME.dataset.game;
 if(!which)return;

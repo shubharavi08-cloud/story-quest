@@ -97,6 +97,29 @@ h3{font-size:22px}
 @keyframes gwig{0%,80%,100%{transform:rotate(-4deg)}85%{transform:rotate(3deg) scale(1.05)}90%{transform:rotate(-7deg)}95%{transform:rotate(-3deg)}}
 @media (prefers-reduced-motion:reduce){.gsticker{animation:none}}
 @media (max-width:520px){.gsticker{width:112px}}
+.sers{display:flex;flex-direction:column;gap:22px}
+.ser{background:linear-gradient(160deg,#2a1f5c,#1c1442);border:1px solid var(--line);border-radius:24px;padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.ser[hidden]{display:none}
+.ser-h{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:start}
+.ser-i{font-size:40px;line-height:1;width:60px;height:60px;display:grid;place-items:center;border-radius:18px;background:#ffd35a1f;border:2px solid var(--marigold)}
+.ser-h h3{font-size:26px;margin:0}
+.ser-h p{margin:4px 0 8px;color:var(--muted)}
+.ser-c{display:flex;gap:6px;flex-wrap:wrap}.ser-c span{font-size:13px;font-weight:700;padding:3px 10px;border-radius:999px;background:#ffffff12;border:1px solid var(--line)}
+.ser-row{display:flex;flex-direction:column;gap:8px;min-width:0}
+.ser-lbl{font:800 16px var(--display);color:var(--flame)}
+.hs{display:flex;gap:12px;overflow-x:auto;padding:4px 2px 10px;scroll-snap-type:x proximity;scrollbar-width:thin;scrollbar-color:#ffd35a66 transparent}
+.hs>*{scroll-snap-align:start;flex:0 0 auto}
+.svid{width:200px;text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:6px}
+.svp{position:relative;display:block;aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:2px solid #ffffff22}
+.svp img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.svid:hover .svp img{transform:scale(1.06)}
+.svp b{position:absolute;left:50%;top:50%;width:40px;height:28px;margin:-14px 0 0 -20px;border-radius:8px;background:#e8343a;color:#fff;display:grid;place-items:center;font-size:14px}
+.svt{font-size:14px;font-weight:700;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hs .gcard{width:290px}
+.ssoon{width:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;border:2px dashed var(--line);border-radius:20px;color:var(--muted);font-size:13px;text-align:center}
+.ssoon .gsoon{width:64px}
+.ser-ex{display:flex;gap:8px;flex-wrap:wrap}.ser-ex a,.ser-ex span{font-size:14px;font-weight:700;padding:6px 12px;border-radius:12px;background:#46b88218;border:1px solid #46b88255;color:#c9f2dc;text-decoration:none}
+@media (max-width:640px){.ser-h{grid-template-columns:auto 1fr}.ser-h .btn{grid-column:1/-1;justify-self:start}.ser-h h3{font-size:21px}.ser-i{width:48px;height:48px;font-size:30px}.hs .gcard{width:260px}.svid{width:170px}}
 /* game gallery */
 .gfilter{display:flex;gap:8px;flex-wrap:wrap}
 .gfilter button{font:700 15px var(--body);border-radius:999px;padding:8px 16px;border:1.5px solid var(--line);background:transparent;color:var(--ink);cursor:pointer}
@@ -381,10 +404,34 @@ function gameCard(g){
     ${pic}<span class="chip">${g.players}</span>${g.gate?`<span class="glock ${open?'on':''}">${open?'🔓 Unlocked':'🎬 Watch to unlock'}</span>`:'<span class="glock on">✨ Free to play</span>'}</div>
     <div class="gbody"><span class="eyebrow">${g.tag}</span><h3>${g.name}</h3><p>${g.hook}</p><span class="btn">${wp?(open?'▶ Play (story watched)':'🎬 Watch &amp; play ▶'):'Play ▶'}</span></div></a>`;
 }
+/* home "Explore every series": each series as one complete set (videos + games + lessons + books) */
+function seriesList(){
+  const G=gameList(), yt=id=>`https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
+  return [
+   {cat:'deepavali',icon:'🪔',name:"Deepavali · Diya's journey across India",line:"8 cartoon stories from 8 corners of India, a game for every story, and a grand finale.",href:'#deepavali',
+    videos:DEEPAVALI.filter(e=>e.ready).map(e=>({t:'Ep '+e.n+' · '+e.title,img:e.img,href:'#dv'+e.n})),extras:[['🏆',"Complete Diya's Journey: 8 lamps to light"]]},
+   {cat:'dasara',icon:'🔱',name:'Dasara · Navratri',line:'Nine nights, nine forms of Maa Durga: story and song videos, and a game for each day.',href:'#dasara',
+    videos:[...DASARA,...DASARA_MORE].filter(e=>e.yt&&e.yt.length).map(e=>({t:e.day+' · '+e.title,img:yt(e.yt[0][1]),href:'#ds-'+e.k})),
+    soon:[...DASARA,...DASARA_MORE].filter(e=>e.game&&!e.play).length},
+   {cat:'vedicmaths',icon:'🧮',name:'Vedic Maths · Brain Speed!',line:'Six lightning-fast mental maths tricks with Ganak, Meera, Acharya ji and Chintu. Class 6–10.',href:'vedic-maths/',
+    videos:[],videoNote:'Video lessons coming soon',extras:[['🧑‍🏫','6 lessons with Acharya ji, inside the games'],['📖','Book 1: Brain Speed! (workbook coming soon)','books.html']]},
+   {cat:'scamalert',icon:'🦉',name:'Scam Alert · Jagruth Bharath',line:'Real Indian scam cases solved by Mauna the detective owl: watch, read the case file, then play.',href:'jagruth-bharath/',
+    videos:(window.WOW_JB_CASES||[]).map(c=>({t:c.t,img:yt(c.yt),href:'jagruth-bharath/#'+c.id})),extras:[['📂',(window.WOW_JB_CASES||[]).length+' case files to read'],['☎️','Lost money? Call 1930']]}
+  ].map(x=>({...x,games:G.filter(g=>g.cat===x.cat)}));
+}
+function seriesBlock(x){
+  const chips=[x.videos.length?`🎬 ${x.videos.length} videos`:'',x.games.length?`🎮 ${x.games.length} games`:'',x.soon?`⏳ ${x.soon} games coming`:'',...(x.extras||[]).map(e=>e[0]+' '+e[1].split(':')[0])].filter(Boolean);
+  const vids=x.videos.length?`<div class="ser-row"><span class="ser-lbl">① Watch</span><div class="hs">${x.videos.map(v=>`<a class="svid" href="${v.href}"><span class="svp"><img src="${v.img}" alt="" loading="lazy"><b aria-hidden="true">▶</b></span><span class="svt">${v.t}</span></a>`).join('')}</div></div>`
+    :(x.videoNote?`<div class="ser-row"><span class="ser-lbl">① Watch</span><span class="soonlbl">${x.videoNote}</span></div>`:'');
+  const games=x.games.length?`<div class="ser-row"><span class="ser-lbl">② Play</span><div class="hs">${x.games.map(gameCard).join('')}${x.soon?Array.from({length:Math.min(x.soon,3)},gSoon).map(c=>`<span class="ssoon">${c}<small>More games<br>coming</small></span>`).join(''):''}</div></div>`:'';
+  const ex=(x.extras||[]).length?`<div class="ser-ex">${x.extras.map(([i,t,h])=>h?`<a href="${h}">${i} ${t}</a>`:`<span>${i} ${t}</span>`).join('')}</div>`:'';
+  return `<article class="ser" data-cat="${x.cat}"><header class="ser-h"><span class="ser-i" aria-hidden="true">${x.icon}</span><div><h3>${x.name}</h3><p>${x.line}</p><div class="ser-c">${chips.map(c=>`<span>${c}</span>`).join('')}</div></div><a class="btn" href="${x.href}">Open series ▶</a></header>${vids}${games}${ex}</article>`;
+}
 function allGames(){
-  const L=gameList(),n=c=>c==='all'?L.length:L.filter(g=>g.cat===c).length;
-  return `<div class="gfilter" role="group" aria-label="Show games">${GAME_CATS.map(([k,t],i)=>`<button type="button" data-f="${k}" aria-pressed="${i===0}">${t} <small>${n(k)}</small></button>`).join('')}<button type="button" class="gsurprise" id="gSurprise">🎲 Surprise me</button></div>
-   <div class="ggrid" id="gGrid">${L.map(gameCard).join('')}</div>`;
+  const S=seriesList();
+  const cats=[['all','🌟 All series',S.length],...S.map(x=>[x.cat,x.icon+' '+x.name.split(' · ')[0],x.videos.length+x.games.length])];
+  return `<div class="gfilter" role="group" aria-label="Show series">${cats.map(([k,t,n],i)=>`<button type="button" data-f="${k}" aria-pressed="${i===0}">${t} <small>${n}</small></button>`).join('')}<button type="button" class="gsurprise" id="gSurprise">🎲 Surprise me</button></div>
+   <div class="sers" id="gGrid">${S.map(seriesBlock).join('')}</div>`;
 }
 /* first tap on a locked game: a short, fun nudge to watch its story video once */
 const UNLOCK_LINES=[
@@ -409,9 +456,9 @@ function wireGames(){
   grid.querySelectorAll('.gcard').forEach(c=>c.onclick=e=>{const g=gameList().find(x=>x.id===c.dataset.id);if(!g||e.metaKey||e.ctrlKey)return;e.preventDefault();unlockPop(g)});
   document.querySelectorAll('.gfilter [data-f]').forEach(b=>b.onclick=()=>{const f=b.dataset.f;
     document.querySelectorAll('.gfilter [data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));
-    grid.querySelectorAll('.gcard').forEach(c=>c.hidden=!(f==='all'||c.dataset.cat===f))});
-  document.getElementById('gSurprise').onclick=()=>{const cs=[...grid.querySelectorAll('.gcard:not([hidden])')];const c=cs[Math.floor(Math.random()*cs.length)];
-    cs.forEach(x=>x.classList.remove('pick'));c.classList.add('pick');c.scrollIntoView({behavior:RM?'auto':'smooth',block:'center'});
+    grid.querySelectorAll('.ser').forEach(c=>c.hidden=!(f==='all'||c.dataset.cat===f))});
+  document.getElementById('gSurprise').onclick=()=>{const cs=[...grid.querySelectorAll('.ser:not([hidden]) .gcard')];const c=cs[Math.floor(Math.random()*cs.length)];
+    cs.forEach(x=>x.classList.remove('pick'));c.classList.add('pick');c.scrollIntoView({behavior:RM?'auto':'smooth',block:'center',inline:'center'});
     const[x,y]=center(c);burst(x,y,'spark',36);say('Try this one!',c.querySelector('h3').textContent)};
 }
 function home(){
@@ -425,7 +472,7 @@ function home(){
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn" href="#deepavali">Start with Deepavali</a><a class="btn ghost" href="#games">🎮 All games</a><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Our YouTube channel</a></div></div>
     <div class="art"><img class="scene" src="img/ayodhya.jpg" alt="Ayodhya glowing with rows of lamps"><img class="mascot" src="img/diya_wave.png" alt="Diya waving"></div></section>
     <div class="worlds"><span class="world on">🇮🇳 Bharat</span><span class="world soon">🌍 World · coming later</span></div>
-    <section id="games" style="display:flex;flex-direction:column;gap:14px;margin:0 0 30px"><span class="eyebrow">Free · No sign-up · English, हिंदी, ಕನ್ನಡ</span><h2>Play, laugh, learn: ${gameList().length} games</h2><p class="lede">Old Indian board games, festival stories, Vedic Maths tricks and scam-busting with Mauna the owl. Tap a game to play. Each one comes with a short story video and a little history to learn.</p>${allGames()}</section>
+    <section id="games" style="display:flex;flex-direction:column;gap:14px;margin:0 0 30px"><span class="eyebrow">Free · No sign-up · English, हिंदी, ಕನ್ನಡ</span><h2>Explore every series: watch, play, learn</h2><p class="lede">Each series is a complete set: story videos to watch, games to play, lessons and books to learn from. Pick a series, watch its story, then play its game.</p>${allGames()}</section>
     <section style="display:flex;flex-direction:column;gap:14px"><h2>Pick a topic</h2><div class="shelf">${groups}</div></section>
     `;
   wireGames();
