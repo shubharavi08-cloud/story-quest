@@ -209,7 +209,7 @@ $('#sizeBtn').onclick=()=>{N=N===3?4:3;try{localStorage.setItem('ds-navadurga-n'
 function sizeLbl(){$('#t-size').textContent=N+' × '+N}
 document.addEventListener('keydown',e=>{if(DK.isOpen()||solvedNow)return;const m={ArrowLeft:[0,1],ArrowRight:[0,-1],ArrowUp:[1,0],ArrowDown:[-1,0]}[e.key];if(!m)return;
   const t=tiles.find(t=>t.r===empty.r+m[0]&&t.c===empty.c+m[1]);if(t){e.preventDefault();tap(t)}});
-let rz=null;window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>tiles.forEach(t=>{place(t);paint(t)}),80)});
+let rz=null;const relayout=()=>{clearTimeout(rz);rz=setTimeout(()=>tiles.forEach(t=>{place(t);paint(t)}),60)};window.addEventListener('resize',relayout);if(window.ResizeObserver)new ResizeObserver(relayout).observe(board);
 /* ---------- language ---------- */
 function applyLang(){$('#t-eyebrow').textContent=T(L.eyebrow);$('#t-title').textContent=T(L.title);$('#back').textContent=T(DK.ui.back);document.title=T(L.title)+' · World of Wonders';
   $('#t-peek').textContent=T(L.peek);$('#t-mix').textContent=T(L.mix);$('#t-moves').textContent=T(L.moves);$('#t-met').textContent=T(L.met);label();devis()}
