@@ -77,6 +77,7 @@ QUAD_LLMS = """# QUAD Academy
 ## Free revision
 - [QUAD Academy home](https://quadacademy.org/): free important-question videos for every Class 10 Maths and Science chapter, chapter notes and PDFs, board paper walkthroughs
 - [QUAD Quest](https://quadacademy.org/quest.html): free chapter-by-chapter practice game with real board questions, points and streaks
+- [Free revision PDFs](https://quadacademy.org/free/): free CBSE Class 10 Maths and Science revision notes for every chapter, mind maps, solutions books (linked from each chapter video) and board-pattern mock tests with answer keys; no sign-up
 - [QUAD Blog](https://quadacademy.org/blog/): free articles with real CBSE Class 10 board questions solved step by step, common mistakes and study plans
 
 ## Links
@@ -117,6 +118,10 @@ SITES["quad"] = {
                      "offers": {"@type": "Offer", "price": 499, "priceCurrency": "INR", "url": Q + "board-boost/"}}],
          "replace": [('<meta property="og:url" content="https://quadacademy.org/">',
                       '<meta property="og:url" content="https://quadacademy.org/board-boost/">')]},
+        {"path": "free/index.html", "priority": 0.9,
+         "jsonld": [{"@type": "CollectionPage", "name": "Free CBSE Class 10 Maths & Science Revision PDFs",
+                     "url": Q + "free/", "isAccessibleForFree": True, "inLanguage": "en-IN",
+                     "educationalLevel": "Class 10", "publisher": {"@id": Q + "#org"}}]},
         {"path": "masterclass/index.html", "priority": 0.9, "faq_from_details": True,
          "jsonld": [q_master("Maths", "2026-11-22", SHWETHA), q_master("Science", "2026-11-29")]},
     ],
