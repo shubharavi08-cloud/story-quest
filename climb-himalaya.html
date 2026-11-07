@@ -194,7 +194,6 @@ function drawSummit(X,y){
   cx.save();cx.beginPath();cx.arc(X,cy,R,0,6.283);cx.clip();if(MAA)DK.portrait(cx,MAA,X-R,cy-R,R*2,R*2);else{cx.fillStyle='#2a1f5c';cx.fill()}cx.restore();
   cx.lineWidth=7;cx.strokeStyle='#ffd35a';cx.beginPath();cx.arc(X,cy,R,0,6.283);cx.stroke();cx.lineWidth=2;cx.strokeStyle='#fff6';cx.beginPath();cx.arc(X,cy,R+7,0,6.283);cx.stroke();
   const w=300*K;cx.fillStyle='#f5f7ff';cx.beginPath();cx.moveTo(X-w/2,y+10);cx.quadraticCurveTo(X,y-24*K,X+w/2,y+10);cx.lineTo(X+w/2,y+30);cx.lineTo(X-w/2,y+30);cx.closePath();cx.fill();
-  cx.fillStyle='#c2185b';cx.beginPath();cx.moveTo(X,y-24*K);cx.lineTo(X,y-70*K);cx.lineTo(X+30*K,y-60*K);cx.lineTo(X,y-50*K);cx.fill();
 }
 function drawDiya(){
   const p=G.p,X=sx(p.x),Y=sy(p.h),im=p.vy>0?DIYA:DIYA2;if(!im.complete||!im.naturalWidth)return;

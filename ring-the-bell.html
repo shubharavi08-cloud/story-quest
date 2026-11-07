@@ -139,7 +139,7 @@ function drawShadow(s){
 function draw(){
   if(!G)return;cx.save();if(G.shake>0)cx.translate((Math.random()-.5)*10*G.shake,(Math.random()-.5)*10*G.shake);
   const bg=cx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#0e0a2a');bg.addColorStop(1,'#2a1648');cx.fillStyle=bg;cx.fillRect(-10,-10,W+20,H+20);
-  if(MAA){cx.save();cx.globalAlpha=.42;DK.cover(cx,MAA,0,0,W,H);cx.restore();const v=cx.createRadialGradient(W/2,H*.55,Math.min(W,H)*.2,W/2,H*.55,Math.max(W,H)*.75);v.addColorStop(0,'rgba(14,10,42,.15)');v.addColorStop(1,'rgba(14,10,42,.9)');cx.fillStyle=v;cx.fillRect(0,0,W,H)}
+  if(MAA){cx.save();cx.globalAlpha=.3;DK.cover(cx,MAA,0,0,W,H);cx.restore();const v=cx.createRadialGradient(W/2,H*.55,Math.min(W,H)*.2,W/2,H*.55,Math.max(W,H)*.75);v.addColorStop(0,'rgba(14,10,42,.15)');v.addColorStop(1,'rgba(14,10,42,.9)');cx.fillStyle=v;cx.fillRect(0,0,W,H)}
   /* temple floor */
   cx.fillStyle='#1a1030';cx.fillRect(0,H*.9,W,H*.1);cx.fillStyle='#3a2560';for(let i=0;i<12;i++)cx.fillRect(i*W/12+2,H*.9,W/12-4,3);
   const P=pivot(),Lb=bellLen(),l=lv(),zc=G.zc,z=l.zone;
