@@ -30,9 +30,9 @@ def q_course(name, code, days, early, regular):
             "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online",
                                   "startDate": "2026-12-07", "endDate": "2027-01-16", "instructor": MIHIR},
             "offers": [{"@type": "Offer", "price": early, "priceCurrency": "INR", "category": "Early bird",
-                        "validThrough": "2026-11-25", "url": Q + "#reserve"},
+                        "validThrough": "2026-11-25", "url": Q + "board-boost/#reserve"},
                        {"@type": "Offer", "price": regular, "priceCurrency": "INR", "validFrom": "2026-11-26",
-                        "url": Q + "#reserve"}]}
+                        "url": Q + "board-boost/#reserve"}]}
 
 
 def q_master(subject, date):
@@ -42,9 +42,9 @@ def q_master(subject, date):
             "startDate": f"{date}T10:30:00+05:30", "endDate": f"{date}T12:30:00+05:30",
             "eventAttendanceMode": "https://schema.org/OnlineEventAttendanceMode",
             "eventStatus": "https://schema.org/EventScheduled",
-            "location": {"@type": "VirtualLocation", "url": Q + "#masterclass"},
+            "location": {"@type": "VirtualLocation", "url": Q + "board-boost/#masterclass"},
             "organizer": {"@id": Q + "#org"}, "performer": MIHIR,
-            "offers": {"@type": "Offer", "price": 49, "priceCurrency": "INR", "url": Q + "#masterclass"}}
+            "offers": {"@type": "Offer", "price": 49, "priceCurrency": "INR", "url": Q + "board-boost/#masterclass"}}
 
 
 QUAD_LLMS = """# QUAD Academy
@@ -69,8 +69,12 @@ QUAD_LLMS = """# QUAD Academy
 - Mihir R Shreshti: co-founder, IIT Madras alumnus, homeschooled and cleared Class 10 and 12 through NIOS; teaches both batches.
 - Shubha M: co-founder of OurSchoolHouse and QUAD Academy, 25+ years of teaching and content creation; plans courses, sets and marks mocks, writes parent reports, handles admissions.
 
+## Free revision
+- [QUAD Academy home](https://quadacademy.org/): free important-question videos for every Class 10 Maths and Science chapter, chapter notes and PDFs, board paper walkthroughs
+- [QUAD Quest](https://quadacademy.org/quest.html): free chapter-by-chapter practice game with real board questions, points and streaks
+
 ## Links
-- [Board Boost page](https://quadacademy.org/): batches, timetable, fees, FAQ
+- [Board Boost page](https://quadacademy.org/board-boost/): batches, timetable, fees, FAQ
 - [Reserve a seat on WhatsApp](https://wa.me/918088443156): +91 80884 43156
 - [QUAD Academy on YouTube](https://www.youtube.com/channel/UCHbt889LZLim6aD4bz8XrLA): chapter-wise important questions and past-paper walkthroughs, Class 10 Maths and Science
 - [QUAD WhatsApp channel](https://whatsapp.com/channel/0029Vb9DNhtADTOEAMwyH723)
@@ -81,25 +85,31 @@ SITES = {}
 SITES["quad"] = {
     "base": Q,
     "llms": QUAD_LLMS,
-    "pages": [{
-        "path": "index.html", "priority": 1.0,
-        "title": "QUAD Academy · CBSE Class 10 Maths & Science Board Boost 2027",
-        "faq_from_details": True,
-        "jsonld": [QORG,
-                   {"@type": "WebSite", "name": "QUAD Academy", "url": Q, "publisher": {"@id": Q + "#org"}},
-                   q_course("Maths", "Maths Standard 041", "Mon, Wed, Fri", 1499, 1999),
-                   q_course("Science", "Science 086", "Tue, Thu, Sat", 1499, 1999),
-                   q_master("Maths", "2026-11-22"), q_master("Science", "2026-11-29"),
-                   {"@type": "Course", "name": "QUAD Winter Break Intensive · Class 10 Maths & Science",
-                    "description": "Nine days of daily practice on the most-asked board questions, ending with a "
-                                   "full mock paper.", "provider": {"@id": Q + "#org"},
-                    "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online",
-                                          "startDate": "2026-12-26", "endDate": "2027-01-03"},
-                    "offers": {"@type": "Offer", "price": 499, "priceCurrency": "INR", "url": Q}}],
-        "replace": [('<meta property="og:title"',
-                     '<meta property="og:url" content="https://quadacademy.org/">\n'
-                     '<meta property="og:site_name" content="QUAD Academy">\n<meta property="og:title"')],
-    }],
+    "pages": [
+        {"path": "index.html", "priority": 1.0,
+         "title": "QUAD Academy · Free CBSE Class 10 Maths & Science Revision Videos",
+         "jsonld": [QORG, {"@type": "WebSite", "name": "QUAD Academy", "url": Q, "publisher": {"@id": Q + "#org"}}]},
+        {"path": "quest.html", "priority": 0.8,
+         "jsonld": [{"@type": "LearningResource", "name": "QUAD Quest", "url": Q + "quest.html",
+                     "description": "Learn each CBSE Class 10 Maths and Science chapter in four stages (Learn, Grow, "
+                                    "Prepare, Build) with real board questions, points, streaks and spaced revision.",
+                     "learningResourceType": "Game", "educationalLevel": "Class 10", "isAccessibleForFree": True,
+                     "inLanguage": "en-IN", "publisher": {"@id": Q + "#org"}}]},
+        {"path": "board-boost/index.html", "priority": 0.9,
+         "title": "QUAD Board Boost · CBSE Class 10 Maths & Science Live Batches 2027",
+         "faq_from_details": True,
+         "jsonld": [q_course("Maths", "Maths Standard 041", "Mon, Wed, Fri", 1499, 1999),
+                    q_course("Science", "Science 086", "Tue, Thu, Sat", 1499, 1999),
+                    q_master("Maths", "2026-11-22"), q_master("Science", "2026-11-29"),
+                    {"@type": "Course", "name": "QUAD Winter Break Intensive · Class 10 Maths & Science",
+                     "description": "Nine days of daily practice on the most-asked board questions, ending with a "
+                                    "full mock paper.", "provider": {"@id": Q + "#org"},
+                     "hasCourseInstance": {"@type": "CourseInstance", "courseMode": "online",
+                                           "startDate": "2026-12-26", "endDate": "2027-01-03"},
+                     "offers": {"@type": "Offer", "price": 499, "priceCurrency": "INR", "url": Q + "board-boost/"}}],
+         "replace": [('<meta property="og:url" content="https://quadacademy.org/">',
+                      '<meta property="og:url" content="https://quadacademy.org/board-boost/">')]},
+    ],
 }
 
 # ---------------------------------------------------------------- World of Wonders
