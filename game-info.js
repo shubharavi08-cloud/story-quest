@@ -123,8 +123,15 @@ var ME=document.currentScript, which=ME&&ME.dataset.game;
 if(!which)return;
 var root=(ME.getAttribute('src')||'').replace(/game-info\.js.*$/,'');   /* '' or '../' */
 function pick(){var id=which;if(id==='vm'){var h=(location.hash||'').slice(1);id=/^t[1-6]$/.test(h)?h:null}return id?G.filter(function(g){return g.id===id})[0]:null}
-function others(g){var same=G.filter(function(x){return x.cat===g.cat&&x.id!==g.id}),rest=G.filter(function(x){return x.cat!==g.cat});
-  var out=same.slice(0,2).concat(rest[Math.floor(Math.random()*rest.length)]);return out}
+/* games that belong to a story open through that story's Watch & play section (watch first, then play) */
+var SEC={'road-to-ayodhya':'index.html#dv1','samudra-manthan':'index.html#dv2','lagori':'index.html#dv3','archery':'index.html#dv4','pallanguzhi':'index.html#dv5',
+  'catch-drops':'index.html#dv6','navakankari':'index.html#dv7','yamuna-thali':'index.html#dv8',
+  'navadurga-match':'index.html#ds-intro','climb-himalaya':'index.html#ds-d1','japa-mala':'index.html#ds-d2','ring-the-bell':'index.html#ds-d3'};
+function link(o){return SEC[o.id]||o.href}
+/* the NEXT story in the same series comes first, then one more from the series and one from another series */
+function others(g){var same=G.filter(function(x){return x.cat===g.cat}),i=same.indexOf(g),after=same.slice(i+1).concat(same.slice(0,i)),
+  rest=G.filter(function(x){return x.cat!==g.cat});
+  return after.slice(0,2).concat(rest[Math.floor(Math.random()*rest.length)])}
 var css=document.createElement('style');
 css.textContent='#wowAbout{max-width:960px;margin:34px auto 0;padding:0 16px;font-family:Mukta,"Segoe UI",system-ui,sans-serif;color:#fdf3dc}'+
  '#wowAbout .ab{background:linear-gradient(160deg,#2a1f5c,#1c1442);border:1px solid rgba(253,243,220,.16);border-radius:22px;padding:20px 22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px}'+
@@ -146,7 +153,7 @@ function render(){
   box.innerHTML='<div class="ab"><div><span class="ey">About this game · '+g.tag+'</span><h2>'+g.name+'</h2><h3>🎮 How to play</h3><p>'+g.how+'</p>'+
    '<div class="tags">'+g.learn.map(function(l,i){return '<span>'+(i?'':'🧠 You learn: ')+l+'</span>'}).join('')+'</div></div>'+
    '<div class="fact"><h3>📜 Did you know?</h3><p>'+g.fact+'</p></div>'+
-   '<div class="more"><span class="ey" style="grid-column:1/-1">🎲 Play next</span>'+others(g).map(function(o){return '<a href="'+root+o.href+'"><img src="'+(/^https?:/.test(o.img)?'':root)+o.img+'" alt="" loading="lazy"><span>'+o.name+'</span></a>'}).join('')+'</div></div>';
+   '<div class="more"><span class="ey" style="grid-column:1/-1">🎬 Watch &amp; play next</span>'+others(g).map(function(o){return '<a href="'+root+link(o)+'"><img src="'+(/^https?:/.test(o.img)?'':root)+o.img+'" alt="" loading="lazy"><span>'+o.name+'</span></a>'}).join('')+'</div></div>';
   var f=document.querySelector('footer');if(f)f.parentNode.insertBefore(box,f);else document.body.appendChild(box);
 }
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',render);else render();

@@ -275,7 +275,7 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="pal" id="pal" aria-live="polite"><img src="img/diya_wave.png" alt="Diya"><div class="bubble" id="bubble"></div></div>
 
-<script src="game-info.js?v=4"></script>
+<script src="game-info.js?v=5"></script>
 <script>
 /* ===== content ===== */
 const DEEPAVALI = [
@@ -396,22 +396,22 @@ const gBunch=(cat,cta)=>{const L=gameList().filter(g=>g.cat===cat);return `<span
 const gRow=(src,name,cta)=>`<span class="grow">${gSticker(src,name)}<span class="grow-t"><span class="game">🎮 ${name}</span><span class="btn grow-b">${cta} ▶</span></span></span>`;
 const gSticker=(src,alt)=>`<span class="gsticker" title="${alt||'Game inside'}"><img src="${src}" alt="${alt||'Game inside'}" loading="lazy"><b>🎮 Game</b></span>`;
 const gUnlocked=g=>{if(!g.gate)return true;try{return localStorage.getItem('wow-watched-'+g.gate)==='1'}catch(e){return false}};
-function gameCard(g){
+function gameCard(g,o={}){
   const open=gUnlocked(g), wp=!!(g.gate&&g.vid);
   const pic=wp?`<div class="gpic wp"><span class="wp-v"><img src="https://i.ytimg.com/vi/${g.vid}/mqdefault.jpg" alt="${g.name}: story video" loading="lazy"><span class="wp-yt" aria-hidden="true">▶</span><span class="wp-tag">① Watch</span></span><span class="wp-g"><img src="${g.img}" alt="${g.name}: game screen" loading="lazy"><span class="wp-tag">② Play</span></span><span class="wp-arrow" aria-hidden="true">➜</span>`
     :`<div class="gpic"><img src="${g.img}" alt="${g.name} game screen" loading="lazy"><span class="gplay" aria-hidden="true">▶</span>`;
-  return `<a class="gcard" data-cat="${g.cat}" data-id="${g.id}" href="${g.href}">
+  return `<a class="gcard${o.href?' pair':''}" data-cat="${g.cat}" data-id="${g.id}" href="${o.href||g.href}">
     ${pic}<span class="chip">${g.players}</span>${g.gate?`<span class="glock ${open?'on':''}">${open?'🔓 Unlocked':'🎬 Watch to unlock'}</span>`:'<span class="glock on">✨ Free to play</span>'}</div>
-    <div class="gbody"><span class="eyebrow">${g.tag}</span><h3>${g.name}</h3><p>${g.hook}</p><span class="btn">${wp?(open?'▶ Play (story watched)':'🎬 Watch &amp; play ▶'):'Play ▶'}</span></div></a>`;
+    <div class="gbody"><span class="eyebrow">${o.eyebrow||g.tag}</span><h3>${g.name}</h3><p>${g.hook}</p><span class="btn">${o.href?(open?'🎬 Watch again &amp; play ▶':'🎬 Watch &amp; play ▶'):wp?(open?'▶ Play (story watched)':'🎬 Watch &amp; play ▶'):'Play ▶'}</span></div></a>`;
 }
 /* home "Explore every series": each series as one complete set (videos + games + lessons + books) */
 function seriesList(){
   const G=gameList(), yt=id=>`https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
   return [
    {cat:'deepavali',icon:'🪔',name:"Deepavali · Diya's journey across India",line:"8 cartoon stories from 8 corners of India, a game for every story, and a grand finale.",href:'#deepavali',
-    videos:DEEPAVALI.filter(e=>e.ready).map(e=>({t:'Ep '+e.n+' · '+e.title,img:e.img,href:'#dv'+e.n})),extras:[['🏆',"Complete Diya's Journey: 8 lamps to light"]]},
+    videos:DEEPAVALI.filter(e=>e.ready).map(e=>({t:'Ep '+e.n+' · '+e.title,img:e.img,href:'#dv'+e.n,play:e.play})),extras:[['🏆',"Complete Diya's Journey: 8 lamps to light"]]},
    {cat:'dasara',icon:'🔱',name:'Dasara · Navratri',line:'Nine nights, nine forms of Maa Durga: story and song videos, and a game for each day.',href:'#dasara',
-    videos:[...DASARA,...DASARA_MORE].filter(e=>e.yt&&e.yt.length).map(e=>({t:e.day+' · '+e.title,img:yt(e.yt[0][1]),href:'#ds-'+e.k})),
+    videos:[...DASARA,...DASARA_MORE].filter(e=>e.yt&&e.yt.length).map(e=>({t:e.day+' · '+e.title,img:yt(e.yt[0][1]),href:'#ds-'+e.k,play:e.play})),
     soon:[...DASARA,...DASARA_MORE].filter(e=>e.game&&!e.play).length},
    {cat:'vedicmaths',icon:'🧮',name:'Vedic Maths · Brain Speed!',line:'Six lightning-fast mental maths tricks with Ganak, Meera, Acharya ji and Chintu. Class 6–10.',href:'vedic-maths/',
     videos:[],videoNote:'Video lessons coming soon',extras:[['🧑‍🏫','6 lessons with Acharya ji, inside the games'],['📖','Book 1: Brain Speed! (workbook coming soon)','books.html']]},
@@ -421,9 +421,15 @@ function seriesList(){
 }
 function seriesBlock(x){
   const chips=[x.videos.length?`🎬 ${x.videos.length} videos`:'',x.games.length?`🎮 ${x.games.length} games`:'',x.soon?`⏳ ${x.soon} games coming`:'',...(x.extras||[]).map(e=>e[0]+' '+e[1].split(':')[0])].filter(Boolean);
-  const vids=x.videos.length?`<div class="ser-row"><span class="ser-lbl">① Watch</span><div class="hs">${x.videos.map(v=>`<a class="svid" href="${v.href}"><span class="svp"><img src="${v.img}" alt="" loading="lazy"><b aria-hidden="true">▶</b></span><span class="svt">${v.t}</span></a>`).join('')}</div></div>`
-    :(x.videoNote?`<div class="ser-row"><span class="ser-lbl">① Watch</span><span class="soonlbl">${x.videoNote}</span></div>`:'');
-  const games=x.games.length?`<div class="ser-row"><span class="ser-lbl">② Play</span><div class="hs">${x.games.map(gameCard).join('')}${x.soon?Array.from({length:Math.min(x.soon,3)},gSoon).map(c=>`<span class="ssoon">${c}<small>More games<br>coming</small></span>`).join(''):''}</div></div>`:'';
+  /* ONE row, in story order: a story that has a game is ONE tile (watch, then play); other videos and games follow */
+  const used=new Set(),vtile=v=>`<a class="svid" href="${v.href}"><span class="svp"><img src="${v.img}" alt="" loading="lazy"><b aria-hidden="true">▶</b></span><span class="svt">${v.t}</span></a>`;
+  const tiles=x.videos.map(v=>{const g=v.play&&x.games.find(g=>g.href===v.play);if(g){used.add(g.id);return gameCard(g,{href:v.href,eyebrow:v.t})}return vtile(v)})
+    .concat(x.games.filter(g=>!used.has(g.id)).map(g=>gameCard(g)));
+  const soon=x.soon?Array.from({length:Math.min(x.soon,3)},gSoon).map(c=>`<span class="ssoon">${c}<small>More games<br>coming</small></span>`).join(''):'';
+  const lbl=x.videos.length&&x.games.length?'🎬 Watch &amp; play':x.videos.length?'🎬 Watch':'🎮 Play';
+  const vids=(x.videoNote?`<div class="ser-row"><span class="ser-lbl">🎬 Watch</span><span class="soonlbl">${x.videoNote}</span></div>`:'')
+    +(tiles.length?`<div class="ser-row"><span class="ser-lbl">${lbl}</span><div class="hs">${tiles.join('')}${soon}</div></div>`:'');
+  const games='';
   const ex=(x.extras||[]).length?`<div class="ser-ex">${x.extras.map(([i,t,h])=>h?`<a href="${h}">${i} ${t}</a>`:`<span>${i} ${t}</span>`).join('')}</div>`:'';
   return `<article class="ser" data-cat="${x.cat}"><header class="ser-h"><span class="ser-i" aria-hidden="true">${x.icon}</span><div><h3>${x.name}</h3><p>${x.line}</p><div class="ser-c">${chips.map(c=>`<span>${c}</span>`).join('')}</div></div><a class="btn" href="${x.href}">Open series ▶</a></header>${vids}${games}${ex}</article>`;
 }
