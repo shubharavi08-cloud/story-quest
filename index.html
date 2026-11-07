@@ -111,6 +111,15 @@ h3{font-size:22px}
 .gpic{position:relative;aspect-ratio:16/9;overflow:hidden;background:#120c30}
 .gpic img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}
 .gcard:hover .gpic img{transform:scale(1.07)}
+.gpic.wp{display:grid;grid-template-columns:44% 56%;grid-template-rows:100%}
+.gpic.wp>.wp-v,.gpic.wp>.wp-g{position:relative;overflow:hidden;display:block;min-height:0}
+.gpic.wp img{width:100%;height:100%;object-fit:cover}
+.wp-v{border-right:3px solid var(--night-2)}
+.wp-yt{position:absolute;left:50%;top:50%;width:42px;height:30px;margin:-15px 0 0 -21px;border-radius:9px;background:#e8343a;color:#fff;display:grid;place-items:center;font-size:15px;box-shadow:0 4px 12px #0009}
+.wp-tag{position:absolute;bottom:8px;left:8px;font:800 13px var(--body);padding:3px 10px;border-radius:999px;background:#1c1442e6;color:var(--flame);border:1px solid #ffd35a88}
+.wp-g .wp-tag{left:auto;right:8px;color:#9be3bf;border-color:#46b88288}
+.wp-arrow{position:absolute!important;left:44%;top:50%;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:var(--marigold);color:var(--night);display:grid!important;place-items:center;font-weight:900;font-size:17px;box-shadow:0 0 0 4px var(--night-2);z-index:2}
+.gpic.wp .glock{bottom:auto;top:10px;left:10px}
 .gplay{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px 0 0 -31px;border-radius:50%;display:grid;place-items:center;font-size:24px;background:#f6a723ee;color:var(--night);box-shadow:0 0 0 8px #f6a72344;opacity:0;transform:scale(.7);transition:.25s}
 .gcard:hover .gplay,.gcard:focus-visible .gplay{opacity:1;transform:scale(1)}
 .gpic .chip{top:10px;right:10px;left:auto}
@@ -284,10 +293,10 @@ const DASARA_MORE = [
 ];
 const ytImg=id=>`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 const SECTIONS = [
- {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale. Watch them all and play them all to complete Diya's Journey!", img:'img/ayodhya.jpg', open:true, gcat:'deepavali'},
- {k:'dasara', name:'Dasara · Navratri', group:'Festivals', blurb:'Nine nights, nine forms of Maa Durga, and the victory of good over evil: 14 story and song videos in Hindi, Kannada and Telugu.', img:'https://i.ytimg.com/vi/RvEnFEjnCCg/hqdefault.jpg', open:true, chip:'Watch now'},
+ {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale. Watch them all and play them all to complete Diya's Journey!", img:'img/ayodhya.jpg', open:true, chip:'Watch & play', gcat:'deepavali'},
+ {k:'dasara', name:'Dasara · Navratri', group:'Festivals', blurb:'Nine nights, nine forms of Maa Durga, and the victory of good over evil: 14 story and song videos in Hindi, Kannada and Telugu.', img:'https://i.ytimg.com/vi/RvEnFEjnCCg/hqdefault.jpg', open:true, chip:'Watch & play'},
  {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/', gcat:'vedicmaths'},
- {k:'scamalert', name:'Scam Alert', group:'Jagruth Bharath', blurb:'Real scam cases with Mauna the detective owl: watch the video, read the case file, then play. Can Mr. Promise trick you?', img:'jagruth-bharath/img/tile.jpg', open:true, href:'jagruth-bharath/', gcat:'scamalert'},
+ {k:'scamalert', name:'Scam Alert', group:'Jagruth Bharath', blurb:'Real scam cases with Mauna the detective owl: watch the video, read the case file, then play. Can Mr. Promise trick you?', img:'jagruth-bharath/img/tile.jpg', open:true, chip:'Watch & play', href:'jagruth-bharath/', gcat:'scamalert'},
  {k:'thought', name:'A Thought a Day', group:'Wisdom · Daily', blurb:'One story. One shloka. One small step. A new thought for your day, in English, Hindi and Kannada.', img:'img/thought/tile.jpg', open:true, href:'thought.html'},
  {k:'songs', name:'Songs', group:'Music · Bhajans', blurb:'All our bhajans and festival songs: Deepavali, Rajyotsava, Navratri and Dasara, and more.', img:'img/celebrate.jpg', open:true, chip:'Listen now'},
  {k:'books', name:'Books', group:'Read', blurb:'Vedic Maths workbooks and story books from World of Wonders.', img:'img/book_vm1_cover.jpg', open:true, href:'books.html', chip:'Coming soon'},
@@ -359,17 +368,18 @@ const gSoon=()=>`<span class="gsoon" aria-label="Game yet to come"><span>YET TO<
 const dsGameImg=e=>{const g=gameList().find(x=>x.href===e.play);return g?g.img:ytImg(e.yt[0][1])};
 const gSoonBunch=()=>{const all=[...DASARA,...DASARA_MORE].filter(e=>e.game),ready=all.filter(e=>e.play),n=all.length-ready.length;if(!all.length)return '';
   const pics=ready.map(e=>`<img src="${dsGameImg(e)}" alt="${e.game}" title="${e.game}" loading="lazy">`).join('')+Array.from({length:Math.max(0,Math.min(n,5-Math.min(ready.length,5)))},gSoon).join('');
-  return `<span class="gbunch"><span class="gb-pics" style="--c:5">${pics}</span><span class="gb-foot"><span class="game">🎮 ${ready.length?ready.length+' game'+(ready.length>1?'s':'')+' ready':''}${ready.length&&n?' · ':''}${n?n+' coming':''}</span>${ready.length?'<span class="btn grow-b">Play now ▶</span>':'<span class="soonlbl">Yet to come</span>'}</span></span>`};
-const gBunch=(cat,cta)=>{const L=gameList().filter(g=>g.cat===cat);return `<span class="gbunch"><span class="gb-pics" style="--c:${Math.min(5,Math.ceil(L.length/(L.length>3?2:1)))}">${L.map((g,i)=>`<img src="${g.img}" alt="${g.name}" title="${g.name}" loading="lazy">`).join('')}</span><span class="gb-foot"><span class="game">🎮 ${L.length} game${L.length>1?'s':''} inside</span><span class="btn grow-b">${cta} ▶</span></span></span>`};
+  return `<span class="gbunch"><span class="gb-pics" style="--c:5">${pics}</span><span class="gb-foot"><span class="game">🎮 ${ready.length?ready.length+' game'+(ready.length>1?'s':'')+' ready':''}${ready.length&&n?' · ':''}${n?n+' coming':''}</span>${ready.length?'<span class="btn grow-b">🎬 Watch &amp; play ▶</span>':'<span class="soonlbl">Yet to come</span>'}</span></span>`};
+const gBunch=(cat,cta)=>{const L=gameList().filter(g=>g.cat===cat);return `<span class="gbunch"><span class="gb-pics" style="--c:${Math.min(5,Math.ceil(L.length/(L.length>3?2:1)))}">${L.map((g,i)=>`<img src="${g.img}" alt="${g.name}" title="${g.name}" loading="lazy">`).join('')}</span><span class="gb-foot"><span class="game">🎮 ${L.length} game${L.length>1?'s':''} inside</span><span class="btn grow-b">${L.some(g=>g.gate)?'🎬 Watch &amp; play':cta} ▶</span></span></span>`};
 const gRow=(src,name,cta)=>`<span class="grow">${gSticker(src,name)}<span class="grow-t"><span class="game">🎮 ${name}</span><span class="btn grow-b">${cta} ▶</span></span></span>`;
 const gSticker=(src,alt)=>`<span class="gsticker" title="${alt||'Game inside'}"><img src="${src}" alt="${alt||'Game inside'}" loading="lazy"><b>🎮 Game</b></span>`;
 const gUnlocked=g=>{if(!g.gate)return true;try{return localStorage.getItem('wow-watched-'+g.gate)==='1'}catch(e){return false}};
 function gameCard(g){
-  const open=gUnlocked(g);
+  const open=gUnlocked(g), wp=!!(g.gate&&g.vid);
+  const pic=wp?`<div class="gpic wp"><span class="wp-v"><img src="https://i.ytimg.com/vi/${g.vid}/mqdefault.jpg" alt="${g.name}: story video" loading="lazy"><span class="wp-yt" aria-hidden="true">▶</span><span class="wp-tag">① Watch</span></span><span class="wp-g"><img src="${g.img}" alt="${g.name}: game screen" loading="lazy"><span class="wp-tag">② Play</span></span><span class="wp-arrow" aria-hidden="true">➜</span>`
+    :`<div class="gpic"><img src="${g.img}" alt="${g.name} game screen" loading="lazy"><span class="gplay" aria-hidden="true">▶</span>`;
   return `<a class="gcard" data-cat="${g.cat}" data-id="${g.id}" href="${g.href}">
-    <div class="gpic"><img src="${g.img}" alt="${g.name} game screen" loading="lazy"><span class="gplay" aria-hidden="true">▶</span>
-      <span class="chip">${g.players}</span>${g.gate?`<span class="glock ${open?'on':''}">${open?'🔓 Unlocked':'🎬 Watch to unlock'}</span>`:'<span class="glock on">✨ Free to play</span>'}</div>
-    <div class="gbody"><span class="eyebrow">${g.tag}</span><h3>${g.name}</h3><p>${g.hook}</p><span class="btn">Play ▶</span></div></a>`;
+    ${pic}<span class="chip">${g.players}</span>${g.gate?`<span class="glock ${open?'on':''}">${open?'🔓 Unlocked':'🎬 Watch to unlock'}</span>`:'<span class="glock on">✨ Free to play</span>'}</div>
+    <div class="gbody"><span class="eyebrow">${g.tag}</span><h3>${g.name}</h3><p>${g.hook}</p><span class="btn">${wp?(open?'▶ Play (story watched)':'🎬 Watch &amp; play ▶'):'Play ▶'}</span></div></a>`;
 }
 function allGames(){
   const L=gameList(),n=c=>c==='all'?L.length:L.filter(g=>g.cat===c).length;
