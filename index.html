@@ -267,7 +267,7 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 
 <div class="wrap">
   <header class="bar">
-    <a class="btn" href="#games">🎮 Games</a>
+    <a class="btn" href="#games">🌟 Explore</a>
     <button class="music" id="music" type="button" aria-pressed="false">Music off</button>
   </header>
   <main id="view"></main>
@@ -385,7 +385,7 @@ function langPicker(vers,note=''){
     <div class="lp-row">${vers.map(([l,id],i)=>`<button type="button" class="lang lbtn${i?'':' on'}" data-id="${id}" data-l="${l}" aria-pressed="${!i}" style="--lc:${LCOL[l]||'#ffd35a'}"><b>${LGLYPH[l]||'🌐'}</b>${l}<i aria-hidden="true">✓</i></button>`).join('')}</div>${note}</div>`;
 }
 /* ===== game gallery: big gameplay pictures; full "how to play" + history live on each game page (game-info.js) ===== */
-const GAME_CATS=[['all','All games'],['deepavali','🪔 Deepavali'],['dasara','🔱 Dasara'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert']];
+const GAME_CATS=[['all','🌟 All series'],['deepavali','🪔 Deepavali'],['dasara','🔱 Dasara'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert']];
 const gameList=()=>window.WOW_GAMES||[];
 const gSoon=()=>`<span class="gsoon" aria-label="Game yet to come"><span>YET TO<br>COME</span></span>`;
 const dsGameImg=e=>{const g=gameList().find(x=>x.href===e.play);return g?g.img:ytImg(e.yt[0][1])};
@@ -469,7 +469,7 @@ function home(){
   V.innerHTML=`<section class="hero">
     <div><span class="eyebrow">Watch · Play · Learn</span><h1>Wonders of <span>Bharat</span> for every age</h1>
     <p class="lede" style="margin-top:12px">Festivals, epics, scriptures, wisdom tales, Vedic Maths and scam alerts, each told as a short animated story with a game to play together. Grandparents, parents and children: play, learn and teach each other. Diya the little lamp is your guide.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn" href="#deepavali">Start with Deepavali</a><a class="btn ghost" href="#games">🎮 All games</a><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Our YouTube channel</a></div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn" href="#deepavali">Start with Deepavali</a><a class="btn ghost" href="#games">🌟 Explore all series</a><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Our YouTube channel</a></div></div>
     <div class="art"><img class="scene" src="img/ayodhya.jpg" alt="Ayodhya glowing with rows of lamps"><img class="mascot" src="img/diya_wave.png" alt="Diya waving"></div></section>
     <div class="worlds"><span class="world on">🇮🇳 Bharat</span><span class="world soon">🌍 World · coming later</span></div>
     <section id="games" style="display:flex;flex-direction:column;gap:14px;margin:0 0 30px"><span class="eyebrow">Free · No sign-up · English, हिंदी, ಕನ್ನಡ</span><h2>Explore every series: watch, play, learn</h2><p class="lede">Each series is a complete set: story videos to watch, games to play, lessons and books to learn from. Pick a series, watch its story, then play its game.</p>${allGames()}</section>
