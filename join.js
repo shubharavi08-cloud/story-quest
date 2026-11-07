@@ -14,27 +14,52 @@ window.WOWHit=hit; window.WOWHitOnce=once;
   if(fromAd()) once('visits-from-ad');
   else if(/youtube\.com|youtu\.be/.test(ref)) once('visits-from-youtube');
   var AGAIN=['Play again','फिर से खेलें','ಮತ್ತೆ ಆಡಿ','Churn again','फिर से मंथन','ಮತ್ತೆ ಮಥಿಸಿ'];
-  var T={en:{h:'🎁 Want the next story first?',b:'Join free',d:'Parents: get new episodes and games before anyone else.'},
-         hi:{h:'🎁 अगली कहानी सबसे पहले चाहिए?',b:'मुफ़्त जुड़ें',d:'माता-पिता: नए एपिसोड और खेल सबसे पहले पाएँ।'},
-         kn:{h:'🎁 ಮುಂದಿನ ಕಥೆ ಮೊದಲು ಬೇಕೆ?',b:'ಉಚಿತವಾಗಿ ಸೇರಿ',d:'ಪೋಷಕರೇ: ಹೊಸ ಸಂಚಿಕೆ ಮತ್ತು ಆಟಗಳನ್ನು ಎಲ್ಲರಿಗಿಂತ ಮೊದಲು ಪಡೆಯಿರಿ.'}};
+  var YT='https://www.youtube.com/@WorldofWondersstudio?sub_confirmation=1', WA='https://whatsapp.com/channel/0029VbDbyex4o7qNAsIg0H21';
+  var T={en:{h:'🪔 Loved it? A new story and game comes every festival.',s:'Subscribe on YouTube',w:'Follow on WhatsApp',e:'or get updates by email',
+             bar:'🎮 Your free games are unlocked!',bp:'Play Road to Ayodhya',bx:'Close'},
+         hi:{h:'🪔 मज़ा आया? हर त्योहार पर नई कहानी और नया खेल आता है।',s:'YouTube पर सब्सक्राइब करें',w:'WhatsApp पर फ़ॉलो करें',e:'या ईमेल से अपडेट पाएँ',
+             bar:'🎮 आपके मुफ़्त खेल खुल गए हैं!',bp:'अयोध्या की राह खेलें',bx:'बंद करें'},
+         kn:{h:'🪔 ಇಷ್ಟವಾಯಿತೇ? ಪ್ರತಿ ಹಬ್ಬಕ್ಕೂ ಹೊಸ ಕಥೆ ಮತ್ತು ಹೊಸ ಆಟ ಬರುತ್ತದೆ.',s:'YouTube ನಲ್ಲಿ ಸಬ್‌ಸ್ಕ್ರೈಬ್ ಮಾಡಿ',w:'WhatsApp ನಲ್ಲಿ ಫಾಲೋ ಮಾಡಿ',e:'ಅಥವಾ ಇಮೇಲ್ ಮೂಲಕ ಅಪ್‌ಡೇಟ್ ಪಡೆಯಿರಿ',
+             bar:'🎮 ನಿಮ್ಮ ಉಚಿತ ಆಟಗಳು ತೆರೆದಿವೆ!',bp:'ಅಯೋಧ್ಯೆಯ ದಾರಿ ಆಡಿ',bx:'ಮುಚ್ಚಿ'}};
+  function tt(){var l=(document.documentElement.lang||'en').slice(0,2);try{l=localStorage.getItem('wow-lang')||l}catch(e){}return T[(l||'en').slice(0,2)]||T.en}
+  function btn(txt,bg,fg,href,name){var a=document.createElement('a');a.textContent=txt;a.href=href;a.target='_blank';a.rel='noopener';
+    a.style.cssText='display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 18px;border-radius:999px;font-weight:800;font-size:15px;text-decoration:none;background:'+bg+';color:'+fg;
+    a.onclick=function(){hit(name);if(fromAd())hit(name+'-from-ad')};return a}
+  /* ad visitors landing on the home page: point them straight at the games */
+  (function(){
+    if(!fromAd()||page!=='index')return;try{if(sessionStorage.getItem('wow-bar-x'))return}catch(e){}
+    var t=tt(), b=document.createElement('div'); b.id='wowAdBar';
+    b.style.cssText='position:fixed;left:10px;right:10px;bottom:10px;z-index:9999;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding:10px 12px;border-radius:18px;background:#1c1442f2;color:#fff;box-shadow:0 10px 30px #0008;font:700 15px system-ui,sans-serif';
+    var s=document.createElement('span');s.textContent=t.bar;b.appendChild(s);
+    var p=btn(t.bp+' →','#f6a723','#1c1442','road-to-ayodhya.html','ad-bar-play');p.target='';b.appendChild(p);
+    var x=document.createElement('button');x.type='button';x.textContent='✕';x.setAttribute('aria-label',t.bx);
+    x.style.cssText='background:none;border:0;color:#fff;font-size:18px;cursor:pointer;padding:6px';
+    x.onclick=function(){b.remove();try{sessionStorage.setItem('wow-bar-x','1')}catch(e){}};b.appendChild(x);
+    document.body.appendChild(b);
+  })();
   var ended=false;
   function check(){
     var ov=document.getElementById('overlay'); if(!ov)return;
-    var btn=[].slice.call(ov.querySelectorAll('button')).filter(function(b){return AGAIN.indexOf(b.textContent.trim())>=0})[0];
-    if(!btn)return;
+    var again=[].slice.call(ov.querySelectorAll('button')).filter(function(b){return AGAIN.indexOf(b.textContent.trim())>=0})[0];
+    if(!again)return;
     if(!ended){ended=true;hit('game-ends');hit('game-end-'+page);if(fromAd())hit('game-ends-from-ad')}
     if(ov.querySelector('.wj-cta'))return;
+    var t=tt(), c=document.createElement('div'); c.className='wj-cta';
+    c.style.cssText='margin:14px auto 0;max-width:440px;padding:12px 14px;border-radius:16px;background:#ffffff80;border:2px dashed #f6a723;text-align:center';
+    c.innerHTML='<b style="display:block;color:#7a3d00;font-size:16px;margin-bottom:10px">'+t.h+'</b>';
+    var row=document.createElement('div');row.style.cssText='display:flex;flex-wrap:wrap;gap:8px;justify-content:center';
+    row.appendChild(btn('▶ '+t.s,'#e62117','#fff',YT,'sub-clicks'));
+    row.appendChild(btn('📲 '+t.w,'#25d366','#0d1a2b',WA,'wa-clicks'));
+    c.appendChild(row);
     var joined=false;try{joined=localStorage.getItem('wow-joined')==='1'}catch(e){}
-    if(joined||!document.getElementById('wowJoin'))return;
-    var l=(document.documentElement.lang||'en').slice(0,2), t=T[l]||T.en;
-    var c=document.createElement('div'); c.className='wj-cta';
-    c.style.cssText='margin:14px auto 0;max-width:420px;padding:12px 14px;border-radius:16px;background:#ffffff80;border:2px dashed #f6a723;text-align:center';
-    c.innerHTML='<b style="display:block;color:#7a3d00;font-size:17px">'+t.h+'</b><span style="display:block;font-size:13px;opacity:.85;margin:4px 0 10px">'+t.d+'</span>';
-    var a=document.createElement('button'); a.type='button'; a.textContent=t.b;
-    a.style.cssText='min-height:44px;padding:10px 22px;border:0;border-radius:999px;background:#2ec4a0;color:#0d1a2b;font-weight:800;font-size:16px;cursor:pointer';
-    a.onclick=function(){hit('join-prompt-clicks');var j=document.getElementById('wowJoin');ov.innerHTML='';
-      if(j){j.scrollIntoView({behavior:'smooth',block:'center'});var n=j.querySelector('input[name=name]');if(n)setTimeout(function(){n.focus()},600)}};
-    c.appendChild(a); (btn.parentNode||ov).appendChild(c);
+    if(!joined&&document.getElementById('wowJoin')){
+      var e=document.createElement('button');e.type='button';e.textContent=t.e;
+      e.style.cssText='margin-top:8px;background:none;border:0;color:#7a3d00;text-decoration:underline;font-size:13px;cursor:pointer';
+      e.onclick=function(){hit('join-prompt-clicks');var j=document.getElementById('wowJoin');ov.innerHTML='';
+        if(j){j.scrollIntoView({behavior:'smooth',block:'center'});var n=j.querySelector('input[name=name]');if(n)setTimeout(function(){n.focus()},600)}};
+      c.appendChild(document.createElement('br'));c.appendChild(e);
+    }
+    (again.parentNode||ov).appendChild(c);
   }
   var pend=false; new MutationObserver(function(){if(pend)return;pend=true;requestAnimationFrame(function(){pend=false;check()})}).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['class','style','hidden']});
 })();
