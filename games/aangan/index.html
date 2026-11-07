@@ -147,6 +147,34 @@ button{font-family:inherit;color:inherit;border:0;cursor:pointer;background:none
 .cboard{position:absolute;top:58px;left:50%;transform:translateX(-50%);display:none;gap:6px;z-index:6}.cboard .pl{background:rgba(255,247,234,.9);border-radius:12px;padding:3px 10px;font-weight:900;font-size:13px;text-align:center;box-shadow:var(--sh);min-width:64px}.cboard .pl span{display:block;font-size:17px;color:#b06a24}.cboard .pl.on{background:#ffd36b;transform:scale(1.08)}
 .mres{background:#fff;border-radius:14px;padding:8px;border:2px solid #f0d3a2;text-align:left;font-weight:800}.mres div{display:flex;justify-content:space-between;padding:3px 6px}
 .cmode{display:grid;gap:8px;margin:8px 0}.cmode .btn{width:100%}
+
+/* story scenes */
+#scene{position:fixed;inset:0;z-index:45;display:none;background:#120804;overflow:hidden;user-select:none;-webkit-user-select:none;cursor:pointer}
+#scene.on{display:block;animation:fadeIn .5s}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+#scene .bg{position:absolute;inset:-5%;background-size:cover;background-position:center;opacity:0;transition:opacity .9s ease}
+#scene .bg.show{opacity:1;animation:kbS 16s ease-in-out infinite alternate}
+@keyframes kbS{from{transform:scale(1) translate(0,0)}to{transform:scale(1.08) translate(-1.5%,-1%)}}
+#scene .vig{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,transparent 50%,rgba(0,0,0,.35)),linear-gradient(transparent 50%,rgba(20,8,2,.6));pointer-events:none}
+#scene .pt{position:absolute;bottom:0;height:min(60vh,480px);opacity:0;transition:transform .5s cubic-bezier(.2,1.25,.4,1),opacity .4s,filter .35s;filter:drop-shadow(0 10px 16px rgba(0,0,0,.55));transform-origin:50% 100%;pointer-events:none}
+#scene .pt.in{opacity:1}
+#scene .pt.quiet{filter:brightness(.55) saturate(.8) drop-shadow(0 10px 16px rgba(0,0,0,.55))}
+#scene .pt.talk{animation:bob .9s ease-in-out infinite alternate}
+@keyframes bob{from{translate:0 0}to{translate:0 -6px}}
+#sAjji{right:1%;transform:translateX(40%)}#sAjji.in{transform:none}
+#sMeera{left:0;height:min(56vh,450px);transform:translateX(-40%)}#sMeera.in{transform:none}
+#sArjun{left:min(17vw,210px);height:min(47vh,380px);transform:translateX(-80%)}#sArjun.in{transform:none}#sArjun.jump{height:min(60vh,470px)}
+#scene .box{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);width:min(720px,90vw);background:var(--cream);border:3px solid #f0d3a2;border-radius:22px;padding:12px 20px 18px;box-shadow:0 12px 34px rgba(0,0,0,.5);z-index:3;min-height:92px}
+#scene .who{display:inline-block;font-family:var(--disp);font-weight:800;font-size:16px;color:#fff;padding:3px 14px;border-radius:999px;margin:-26px 0 6px;box-shadow:0 3px 8px rgba(0,0,0,.3)}
+#scene .txt{font-size:clamp(16px,2.3vw,20px);font-weight:700;line-height:1.4;color:var(--deep)}
+#scene .nxt{position:absolute;right:16px;bottom:8px;font-size:13px;font-weight:900;color:#b06a24;animation:blink 1s infinite}
+#scene .box.nar{background:rgba(28,12,4,.8);border-color:rgba(255,215,140,.5);text-align:center;bottom:auto;top:9%}
+#scene .box.nar .txt{color:#ffe9c4;font-style:italic;font-weight:600}
+#scene .box.nar .who{display:none}
+#scene .skip{position:absolute;top:12px;right:12px;z-index:4;background:rgba(30,14,4,.6);color:#ffe9c4;border:1.5px solid rgba(255,220,160,.5);border-radius:999px;padding:7px 16px;font-weight:800;font-size:14px;cursor:pointer;backdrop-filter:blur(4px)}
+#scene .dots{position:absolute;top:18px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:4}
+#scene .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,235,200,.35)}#scene .dots i.on{background:#ffd36b}
+@media (max-aspect-ratio:1/1){#scene .bg{inset:0 -60%}#scene .pt{height:min(40vh,330px)}#sMeera{height:min(37vh,300px)}#sArjun{height:min(31vh,250px);left:28vw}#sArjun.jump{height:min(40vh,320px)}#scene .box{bottom:12px;width:94vw}#scene .box.nar{top:12%}}
 </style>
 </head>
 <body>
@@ -157,7 +185,7 @@ button{font-family:inherit;color:inherit;border:0;cursor:pointer;background:none
   <div class="by">World of Wonders Studio</div></div>
 <div class="screen" id="hub">
   <div class="bg bgA"></div><div class="bg bgB"></div><div class="light"></div><div class="motes" id="motes"></div><div class="vig"></div>
-  <div id="topbar"><div class="chip"><img src="assets/diya.webp" alt=""><span id="warmTxt">0</span></div><div class="sp"></div><button class="round" id="ajjiBtn" title="Ajji" style="overflow:hidden;padding:0"><img src="assets/ajji_smile.webp" alt="" style="width:150%;margin-top:22%;margin-left:-4%"></button><button class="round" id="sndBtn">🔊</button></div>
+  <div id="topbar"><div class="chip"><img src="assets/diya.webp" alt=""><span id="warmTxt">0</span></div><div class="sp"></div><button class="round" id="storyBtn" title="Story" style="font-size:20px">📖</button><button class="round" id="ajjiBtn" title="Ajji" style="overflow:hidden;padding:0"><img src="assets/ajji_smile.webp" alt="" style="width:150%;margin-top:22%;margin-left:-4%"></button><button class="round" id="sndBtn">🔊</button></div>
   <div id="roomTabs"></div><div id="house"><div id="houseLbl"></div><div class="hb"><i id="houseBar"></i></div><b id="housePct">0%</b></div><div id="placeTitle"></div>
   <div id="restore"><div class="ri" id="rIcon">🪑</div><div><div class="rt" id="rTitle"></div><div class="rs" id="rSub"></div></div><button class="btn o" id="rBtn"><img src="assets/diya.webp" alt=""><span id="rCost">3</span></button></div>
   <div id="festBar"></div>
@@ -185,6 +213,10 @@ button{font-family:inherit;color:inherit;border:0;cursor:pointer;background:none
   <div class="mgtop"><button class="round" id="xBack">←</button><div class="lvl" id="xLvl"></div><div class="lvl xsc" id="xScore"></div><div class="sp"></div><div class="lvl goals" id="xGoals"></div></div>
   <div class="hint" id="xHint"></div></div>
 <div id="dim"></div>
+<div id="scene"><div class="bg" id="sBg1"></div><div class="bg" id="sBg2"></div><div class="vig"></div>
+<img class="pt" id="sMeera" alt=""><img class="pt" id="sArjun" alt=""><img class="pt" id="sAjji" alt="">
+<div class="dots" id="sDots"></div><button class="skip" id="sSkip"></button>
+<div class="box" id="sBox"><div class="who" id="sWho"></div><div class="txt" id="sTxt"></div><div class="nxt">▶</div></div></div>
 <div id="ajji"><img class="face" id="ajjiFace" src="assets/ajji_smile.webp" alt=""><div class="say" id="ajjiSay"><div class="who" id="ajjiWho">Ajji</div><div class="txt" id="ajjiTxt"></div><div class="nxt">▶</div></div></div>
 <div id="modal"><div class="box" id="mbox"></div></div>
 <canvas id="fx"></canvas>
@@ -193,6 +225,7 @@ button{font-family:inherit;color:inherit;border:0;cursor:pointer;background:none
 if(window.CanvasRenderingContext2D&&!CanvasRenderingContext2D.prototype.roundRect){CanvasRenderingContext2D.prototype.roundRect=function(x,y,w,h,r){r=Math.min(typeof r==='number'?r:(r&&r[0])||0,w/2,h/2);this.moveTo(x+r,y);this.arcTo(x+w,y,x+w,y+h,r);this.arcTo(x+w,y+h,x,y+h,r);this.arcTo(x,y+h,x,y,r);this.arcTo(x,y,x+w,y,r);this.closePath();return this}}
 window.__noFilter=(()=>{try{const c=document.createElement('canvas').getContext('2d');c.filter='blur(2px)';return c.filter!=='blur(2px)'}catch(e){return true}})();
 </script>
+<script src="scenes.js"></script>
 <script src="levels.js"></script>
 <script>
 (()=>{'use strict';
@@ -400,11 +433,37 @@ function renderHub(anim){const R=S.room,st=S.rooms[R];$('warmTxt').textContent=S
 }
 $('rBtn').onclick=()=>{const R=S.room,r=S.rooms[R];if(r>=MAXST)return;const c=ROOMS[R].cost[r];if(S.warm<c){A.click(.2);$('restore').animate([{transform:'translateX(-50%)'},{transform:'translateX(calc(-50% - 8px))'},{transform:'translateX(calc(-50% + 8px))'},{transform:'translateX(-50%)'}],{duration:300});return}
  S.warm-=c;S.rooms[R]=r+1;const now=S.rooms[R];save();A.chime();sparkle(innerWidth/2,innerHeight*.5,now===MAXST?120:60);renderHub(true);
- setTimeout(()=>{petals(now>=3?120:50);if(now===MAXST)A.win(3);ajjiSay(tl('r'+R+'_'+now),()=>{
+ setTimeout(()=>{petals(now>=3?120:50);if(now===MAXST)A.win(3);(now===MAXST?cb=>Scene.play('room'+R,cb):cb=>ajjiSay(tl('r'+R+'_'+now),cb))(()=>{
    if(S.rooms.every(x=>x>=MAXST)){grandReveal();return}
    const nx=R+1;if(now===3&&nx<ROOMS.length&&!S.seen['room'+nx]){S.seen['room'+nx]=1;save();setTimeout(()=>{S.room=nx;save();renderHub(true);setTimeout(()=>ajjiSay(tl('r'+nx+'_0')),1800)},600)}})},1500)};
-function grandReveal(){let k=0;const show1=()=>{if(k<ROOMS.length){S.room=k;renderHub(true);petals(60);k++;setTimeout(show1,2600)}else{S.room=0;renderHub(true);A.win(3);petals(160);ajjiSay(tl('final'),()=>modal(`<h2>👑 ${t('houseDone')}</h2><p>${t('houseDoneSub')}</p>`,[[t('home'),'g']]),'ajji_laugh')}};show1()}
+
+// ---- story scene player ----
+const Scene=(()=>{let L=[],i=0,done=null,front=1,typing=null,shown='',full='',present={};
+ const COL={ajji:'#2f7d32',meera:'#c2410c',arjun:'#1d4ed8',both:'#9333ea'};
+ const pic=(who,face)=>who==='ajji'?(face==='laugh'?'assets/ajji_laugh.webp':'assets/ajji_smile.webp'):`assets/${who}_${face==='wow'?'wow':'smile'}.webp`;
+ const pre=src=>{const im=new Image();im.src=src};
+ function play(key,cb){const SC=window.SCENES||{};const pack=SC[LANG]||SC.en;L=(pack&&pack[key])||(SC.en&&SC.en[key]);if(!L||!L.length){cb&&cb();return}
+  done=cb;i=0;present={};const N=pack.names||SC.en.names;$('sSkip').textContent=N.skip+' ⏭';
+  L.forEach(l=>{pre('assets/'+l[0]+'.webp');if(l[1]!=='n'){if(l[1]==='both'){pre(pic('meera',l[2]));pre(pic('arjun',l[2]))}else pre(pic(l[1],l[2]))}});
+  $('sDots').innerHTML=L.map(()=>'<i></i>').join('');['sMeera','sArjun','sAjji'].forEach(k=>{$(k).className='pt'});$('sBg1').className='bg';$('sBg2').className='bg';$('sBg1').style.backgroundImage=$('sBg2').style.backgroundImage='';
+  $('scene').classList.add('on');try{A.startAmb()}catch(e){}show()}
+ function setBg(b){const url=`url(assets/${b}.webp)`;const cur=$(front===1?'sBg1':'sBg2');if(cur.style.backgroundImage.includes(b+'.webp'))return;front=3-front;const nx=$(front===1?'sBg1':'sBg2');nx.style.backgroundImage=url;nx.className='bg show';cur.className='bg'}
+ function show(){const [bg,who,face,text]=L[i];const SC=window.SCENES;const N=(SC[LANG]||SC.en).names;setBg(bg);
+  [...$('sDots').children].forEach((d,k)=>d.classList.toggle('on',k<=i));
+  const talkers=who==='both'?['meera','arjun']:[who];talkers.forEach(t=>{if(t!=='n')present[t]=1});
+  [['meera','sMeera'],['arjun','sArjun'],['ajji','sAjji']].forEach(([k,id])=>{const el=$(id);if(!present[k]){el.className='pt';return}
+   if(talkers.includes(k)){const src=pic(k,face);if(!el.src.endsWith(src))el.src=src}
+   el.className='pt in '+(talkers.includes(k)?'talk':'quiet')+(el.src.includes('arjun_wow')?' jump':'')});
+  const box=$('sBox');box.classList.toggle('nar',who==='n');$('sWho').textContent=N[who]||'';$('sWho').style.background=COL[who]||'#7a3d12';
+  full=text;shown='';clearInterval(typing);let k=0;const chars=[...text];typing=setInterval(()=>{k+=2;$('sTxt').textContent=chars.slice(0,k).join('');if(k>=chars.length){clearInterval(typing);typing=null}},22);
+  try{A.click(.25)}catch(e){}}
+ function next(){if(typing){clearInterval(typing);typing=null;$('sTxt').textContent=full;return}i++;if(i>=L.length)end();else show()}
+ function end(sk){clearInterval(typing);typing=null;$('scene').classList.remove('on');const d=done;done=null;d&&d(sk===true)}
+ $('scene').addEventListener('click',e=>{if(e.target.id==='sSkip'){end(true);return}next()});
+ return{play,end}})();window.__scene=Scene;
+function grandReveal(){let k=0;const show1=()=>{if(k<ROOMS.length){S.room=k;renderHub(true);petals(60);k++;setTimeout(show1,2600)}else{S.room=0;renderHub(true);A.win(3);petals(160);Scene.play('final',()=>modal(`<h2>👑 ${t('houseDone')}</h2><p>${t('houseDoneSub')}</p>`,[[t('home'),'g']]))}};show1()}
 $('playLv').onclick=()=>{A.click(.3);startMithai()};
+$('storyBtn').onclick=()=>{A.click(.3);const ks=['intro'].concat(ROOMS.map((r,i)=>S.rooms[i]>=MAXST?'room'+i:null).filter(Boolean));if(S.rooms.every(x=>x>=MAXST))ks.push('final');let j=0;const go=sk=>{if(!sk&&j<ks.length)Scene.play(ks[j++],go)};go()};
 $('ajjiBtn').onclick=()=>ajjiSay([tl('intro')[3]]);
 $('sndBtn').onclick=()=>{S.snd=!S.snd;A.on=S.snd;$('sndBtn').textContent=S.snd?'🔊':'🔇';if(S.snd){A.ctx();A.startAmb()}else{A.stopAmb();A.sizzleOff()}save()};
 function carromMenu(){modal(`<h2>${t('games').carrom}</h2><p>${t('cmMatch')}</p><div class="cmode">
@@ -1045,7 +1104,7 @@ document.querySelectorAll('#langs button').forEach(b=>b.onclick=()=>{LANG=b.data
 if(S.lang)LANG=S.lang;else{const nl=(navigator.language||'').slice(0,2);if(nl==='hi'||nl==='kn')LANG=nl}
 A.on=S.snd;$('sndBtn').textContent=S.snd?'🔊':'🔇';
 $('playBtn').onclick=()=>{A.ctx();A.startAmb();A.chime();show('hub');motes();renderHub();try{window.CrazyGames&&CrazyGames.SDK&&CrazyGames.SDK.game.gameplayStart()}catch(e){}
- if(!S.seen.intro){setTimeout(()=>ajjiSay(tl('intro'),()=>{S.seen.intro=1;save()}),900)}};
+ if(!S.seen.intro){setTimeout(()=>Scene.play('intro',()=>{S.seen.intro=1;save()}),300)}};
 try{window.CrazyGames&&CrazyGames.SDK&&CrazyGames.SDK.init&&CrazyGames.SDK.init().then(()=>{try{CrazyGames.SDK.game.loadingStop()}catch(e){}})}catch(e){}
 applyLang();
 window.__aangan={S:()=>S,addWarm:n=>{S.warm+=n;renderHub()},setRooms:a=>{S.rooms=a;renderHub(true)},room:i=>{S.room=i;renderHub(true)},games:GAMES,start:startGame,home:goHome};
