@@ -362,7 +362,7 @@ const festIdx=()=>new Date().getMonth();
 /* ===================== SOUND ===================== */
 
 const A={ac:null,on:true,amb:null,master:null,
- ctx(){if(!this.ac){try{this.ac=new (window.AudioContext||window.webkitAudioContext)();this.master=this.ac.createGain();this.master.gain.value=1;this.master.connect(this.ac.destination)}catch(e){}}if(this.ac&&this.ac.state==='suspended')this.ac.resume();return this.ac},
+ ctx(){if(!this.ac){try{this.ac=new (window.AudioContext||window.webkitAudioContext)();this.master=this.ac.createGain();this.master.gain.value=1;this.master.connect(this.ac.destination);setTimeout(()=>this.loadSfx(),50)}catch(e){}}if(this.ac&&this.ac.state==='suspended')this.ac.resume();return this.ac},
  env(node,v,a,d,when=0){const g=this.ac.createGain(),n=this.ac.currentTime+when;g.gain.setValueAtTime(0.0001,n);g.gain.exponentialRampToValueAtTime(v,n+a);g.gain.exponentialRampToValueAtTime(0.0001,n+a+d);node.connect(g);g.connect(this.master);return {g,n}},
  tone(f,v=.08,d=.4,type='sine',when=0){if(!this.on||!this.ctx())return;const o=this.ac.createOscillator();o.type=type;o.frequency.value=f;const {n}=this.env(o,v,.01,d,when);o.start(n);o.stop(n+d+.05)},
  pluck(f,v=.09,when=0){if(!this.on||!this.ctx())return;[1,2,3].forEach((h,i)=>{const o=this.ac.createOscillator();o.type=i?'sine':'triangle';o.frequency.value=f*h;const {n}=this.env(o,v/(h*1.6),.005,1.4/h,when);o.start(n);o.stop(n+1.6)})},
@@ -378,11 +378,14 @@ const A={ac:null,on:true,amb:null,master:null,
  fxRocket(){this.nz(.45,'bandpass',4500,600,.45,0,1.5);this.sweep(1400,300,.4,.08,'sawtooth');this.crackle(8,.35,.25,.15);this.thunk()},
  fxBomb(){this.sweep(140,38,.7,.6,'sine');this.nz(.5,'lowpass',1800,120,.7);this.crackle(26,1.1,.32,.08);this.sweep(900,1800,.6,.05,'triangle',.2)},
  fxRainbow(){this.sweep(300,2400,.8,.1,'triangle');[784,988,1175,1568,1976,2349].forEach((f,i)=>this.pluck(f,.07,.08+i*.05));this.nz(1,'highpass',3000,9000,.12,.05);this.crackle(14,.9,.18,.2)},
- fxSparkler(){this.nz(.9,'highpass',5000,7000,.18);this.nz(.9,'bandpass',3000,6000,.08,0,2);this.crackle(30,.9,.22)},
- fxRocketUp(){this.nz(.45,'bandpass',600,4000,.4,0,1.2);this.sweep(300,1800,.45,.06,'sawtooth');this.thunk.call(this);this.nz(.15,'lowpass',2000,300,.5,.45);this.crackle(22,.9,.25,.5);[1047,1319,1568].forEach((f,i)=>this.tone(f,.04,.5,'sine',.5+i*.05))},
- fxFountain(){this.nz(1.3,'bandpass',900,3800,.35,0,.8);this.nz(1.3,'highpass',4000,8000,.12);this.crackle(26,1.3,.2)},
- fxChakra(){if(!this.on||!this.ctx())return;const o=this.ac.createOscillator(),l=this.ac.createOscillator(),lg=this.ac.createGain();o.type='sawtooth';o.frequency.value=700;l.frequency.value=16;lg.gain.value=260;l.connect(lg);lg.connect(o.frequency);const n0=this.ac.currentTime;o.frequency.linearRampToValueAtTime(1300,n0+1);const {n}=this.env(o,.07,.03,1.1);o.start(n);l.start(n);o.stop(n+1.2);l.stop(n+1.2);this.nz(1.1,'highpass',4000,7000,.14);this.crackle(30,1.1,.2)},
- fxLakshmi(){this.sweep(120,30,.9,.9,'sine');this.nz(.7,'lowpass',3000,90,.95);this.nz(.12,'highpass',2000,6000,.6);this.sweep(90,30,.6,.35,'sine',.28);this.nz(.5,'lowpass',1200,100,.35,.28);this.crackle(40,1.6,.28,.15)},
+ fxSparkler(){if(this.play('sparkler',0.9))return;this.nz(.9,'highpass',5000,7000,.18);this.nz(.9,'bandpass',3000,6000,.08,0,2);this.crackle(30,.9,.22)},
+ fxRocketUp(){if(this.play('rocket',1))return;this.nz(.45,'bandpass',600,4000,.4,0,1.2);this.sweep(300,1800,.45,.06,'sawtooth');this.thunk.call(this);this.nz(.15,'lowpass',2000,300,.5,.45);this.crackle(22,.9,.25,.5);[1047,1319,1568].forEach((f,i)=>this.tone(f,.04,.5,'sine',.5+i*.05))},
+ fxFountain(){if(this.play('fountain',0.85))return;this.nz(1.3,'bandpass',900,3800,.35,0,.8);this.nz(1.3,'highpass',4000,8000,.12);this.crackle(26,1.3,.2)},
+ fxChakra(){if(this.play('chakra',0.85))return;if(!this.on||!this.ctx())return;const o=this.ac.createOscillator(),l=this.ac.createOscillator(),lg=this.ac.createGain();o.type='sawtooth';o.frequency.value=700;l.frequency.value=16;lg.gain.value=260;l.connect(lg);lg.connect(o.frequency);const n0=this.ac.currentTime;o.frequency.linearRampToValueAtTime(1300,n0+1);const {n}=this.env(o,.07,.03,1.1);o.start(n);l.start(n);o.stop(n+1.2);l.stop(n+1.2);this.nz(1.1,'highpass',4000,7000,.14);this.crackle(30,1.1,.2)},
+ fxLakshmi(){if(this.play('lakshmi',1))return;this.sweep(120,30,.9,.9,'sine');this.nz(.7,'lowpass',3000,90,.95);this.nz(.12,'highpass',2000,6000,.6);this.sweep(90,30,.6,.35,'sine',.28);this.nz(.5,'lowpass',1200,100,.35,.28);this.crackle(40,1.6,.28,.15)},
+ buf:{},loading:false,
+ loadSfx(){if(this.loading||!this.ac)return;this.loading=true;['sparkler','rocket','fountain','chakra','lakshmi'].forEach(n=>{fetch('assets/sfx_'+n+'.mp3').then(r=>r.arrayBuffer()).then(b=>new Promise((ok,no)=>this.ac.decodeAudioData(b,ok,no))).then(d=>{this.buf[n]=d}).catch(()=>{})})},
+ play(n,v=1){if(!this.on||!this.ctx())return true;this.loadSfx();const b=this.buf[n];if(!b)return false;const s=this.ac.createBufferSource(),g=this.ac.createGain();s.buffer=b;s.playbackRate.value=.94+Math.random()*.12;g.gain.value=v;s.connect(g);g.connect(this.master);s.start();return true},
  sizzle:null,
  sizzleOn(level){if(!this.on||!this.ctx())return;if(!this.sizzle){const s=this.noise(2);s.loop=true;const f=this.ac.createBiquadFilter();f.type='highpass';f.frequency.value=3000;const g=this.ac.createGain();g.gain.value=0;s.connect(f);f.connect(g);g.connect(this.master);s.start();this.sizzle={s,g}}this.sizzle.g.gain.setTargetAtTime(level*.06,this.ac.currentTime,.15)},
  sizzleOff(){if(this.sizzle)this.sizzle.g.gain.setTargetAtTime(0,this.ac.currentTime,.1)},
@@ -1158,7 +1161,7 @@ $('playBtn').onclick=()=>{A.ctx();A.startAmb();A.chime();show('hub');motes();ren
  if(!S.seen.intro){setTimeout(()=>Scene.play('intro',()=>{S.seen.intro=1;save()}),300)}};
 try{window.CrazyGames&&CrazyGames.SDK&&CrazyGames.SDK.init&&CrazyGames.SDK.init().then(()=>{try{CrazyGames.SDK.game.loadingStop()}catch(e){}})}catch(e){}
 applyLang();
-window.__aangan={S:()=>S,addWarm:n=>{S.warm+=n;renderHub()},setRooms:a=>{S.rooms=a;renderHub(true)},room:i=>{S.room=i;renderHub(true)},games:GAMES,start:startGame,home:goHome};
+window.__aangan={S:()=>S,addWarm:n=>{S.warm+=n;renderHub()},setRooms:a=>{S.rooms=a;renderHub(true)},room:i=>{S.room=i;renderHub(true)},games:GAMES,start:startGame,home:goHome,A};
 })();
 
 </script>
