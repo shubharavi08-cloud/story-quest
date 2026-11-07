@@ -191,7 +191,7 @@ function drawSummit(X,y){
   const R=Math.min(PW*.26,110*K);const cy=y-R-26*K;
   const rays=cx.createRadialGradient(X,cy,R*.5,X,cy,R*2.6);rays.addColorStop(0,'rgba(255,211,90,.55)');rays.addColorStop(1,'rgba(255,211,90,0)');cx.fillStyle=rays;cx.beginPath();cx.arc(X,cy,R*2.6,0,6.283);cx.fill();
   cx.save();cx.translate(X,cy);cx.rotate(G.el*.15);cx.strokeStyle='rgba(255,226,140,.35)';cx.lineWidth=3;for(let i=0;i<16;i++){cx.rotate(6.283/16);cx.beginPath();cx.moveTo(R*1.15,0);cx.lineTo(R*1.9,0);cx.stroke()}cx.restore();
-  cx.save();cx.beginPath();cx.arc(X,cy,R,0,6.283);cx.clip();if(MAA)DK.cover(cx,MAA,X-R,cy-R,R*2,R*2);else{cx.fillStyle='#2a1f5c';cx.fill()}cx.restore();
+  cx.save();cx.beginPath();cx.arc(X,cy,R,0,6.283);cx.clip();if(MAA)DK.portrait(cx,MAA,X-R,cy-R,R*2,R*2);else{cx.fillStyle='#2a1f5c';cx.fill()}cx.restore();
   cx.lineWidth=7;cx.strokeStyle='#ffd35a';cx.beginPath();cx.arc(X,cy,R,0,6.283);cx.stroke();cx.lineWidth=2;cx.strokeStyle='#fff6';cx.beginPath();cx.arc(X,cy,R+7,0,6.283);cx.stroke();
   const w=300*K;cx.fillStyle='#f5f7ff';cx.beginPath();cx.moveTo(X-w/2,y+10);cx.quadraticCurveTo(X,y-24*K,X+w/2,y+10);cx.lineTo(X+w/2,y+30);cx.lineTo(X-w/2,y+30);cx.closePath();cx.fill();
   cx.fillStyle='#c2185b';cx.beginPath();cx.moveTo(X,y-24*K);cx.lineTo(X,y-70*K);cx.lineTo(X+30*K,y-60*K);cx.lineTo(X,y-50*K);cx.fill();

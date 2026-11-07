@@ -40,9 +40,16 @@ DK.art=function(id){
   return artCache[id];
 };
 /* where Maa sits in each thumbnail (fraction across, down): used when a picture is cropped to a circle or a tall box */
-DK.FOCUS={'IlBi-hGGF9E':[.5,.15],'T96jKddkIhw':[.8,.45],'w82yu_nCdC8':[.83,.42],'lgTVdgoBnQ0':[.68,.45],'H2eKJBSJWgs':[.63,.45],'24KpyntW_PI':[.8,.5],
-  'JFBAewcgXAw':[.24,.5],'O5hzHeRdcuk':[.72,.4],'ENnj9owzuTo':[.5,.3],'RvEnFEjnCCg':[.5,.4]};
+DK.FOCUS={'IlBi-hGGF9E':[.5,.25,.6],'T96jKddkIhw':[.74,.45,.76],'w82yu_nCdC8':[.77,.42,.62],'lgTVdgoBnQ0':[.72,.45,.78],'H2eKJBSJWgs':[.73,.45,.76],'24KpyntW_PI':[.68,.5,.85],
+  'JFBAewcgXAw':[.5,.45,.62],'O5hzHeRdcuk':[.81,.42,.6],'ENnj9owzuTo':[.49,.32,.5],'RvEnFEjnCCg':[.5,.4,.8]};
 DK.focusCSS=function(id){var f=DK.FOCUS[id]||[.5,.5];return Math.round(f[0]*100)+'% '+Math.round(f[1]*100)+'%'};
+/* CSS for a round portrait of Maa from a 16:9 thumbnail: zoomed onto her (use on a square element) */
+DK.portraitCSS=function(id,src){var f=DK.FOCUS[id]||[.5,.5,1],z=f[2]||1,bw=1/(.5625*z)*100,bh=100/z;
+  var px=Math.max(0,Math.min(1,(f[0]-.5625*z/2)/(1-.5625*z))),py=Math.max(0,Math.min(1,(f[1]-z/2)/(1-z||1)));
+  return {backgroundImage:'url("'+src+'")',backgroundSize:bw.toFixed(1)+'% '+bh.toFixed(1)+'%',backgroundPosition:(px*100).toFixed(1)+'% '+(py*100).toFixed(1)+'%'}};
+/* draw a round/square portrait of Maa zoomed onto her */
+DK.portrait=function(cx,a,x,y,w,h){if(!a)return;var c=a.crop,f=DK.FOCUS[a.id]||[.5,.5,1],z=f[2]||1,sh=c.sh*z,sw=sh*w/h;
+  var sx=c.sx+Math.max(0,Math.min(c.sw-sw,f[0]*c.sw-sw/2)),sy=c.sy+Math.max(0,Math.min(c.sh-sh,f[1]*c.sh-sh/2));cx.drawImage(a.img,sx,sy,sw,sh,x,y,w,h)};
 /* draw a picture "cover"-fitted into a box (crop = 16:9 region of the source) */
 DK.cover=function(cx,a,x,y,w,h,fx,fy){
   if(!a)return;var c=a.crop,s=Math.max(w/c.sw,h/c.sh),sw=w/s,sh=h/s;
@@ -170,7 +177,7 @@ var beatEl=null,beatT=null;
 DK.beat=function(text,art,label){
   if(!beatEl){beatEl=document.createElement('div');beatEl.className='dk-beat';beatEl.setAttribute('role','status');beatEl.setAttribute('aria-live','polite');document.body.appendChild(beatEl)}
   beatEl.innerHTML='<i></i><span><b>'+esc(label||DK.t({en:'Story',hi:'कहानी',kn:'ಕಥೆ'}))+'</b>'+text+'</span>';
-  if(art)DK.art(art).then(function(a){if(a){var ic=beatEl.querySelector('i');ic.style.backgroundImage='url("'+a.src+'")';ic.style.backgroundPosition=DK.focusCSS(art)}});
+  if(art)DK.art(art).then(function(a){if(a)Object.assign(beatEl.querySelector('i').style,DK.portraitCSS(art,a.src))});
   beatEl.classList.remove('on');void beatEl.offsetWidth;beatEl.classList.add('on');DK.chime(4);
   clearTimeout(beatT);beatT=setTimeout(function(){beatEl.classList.remove('on')},Math.max(4200,text.length*55));
 };
