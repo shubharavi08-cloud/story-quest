@@ -48,7 +48,7 @@ html = f'''<!doctype html>
 </script>
 <footer class="wow-foot"><div class="wf-in">
 <a class="wf-brand" href="index.html"><img src="img/wow_logo.png" alt=""><span><b>World of Wonders Studio</b><small>Music · Stories · Creation · Inspiration</small></span></a>
-<nav class="wf-links"><a href="index.html">Home</a> · <a href="index.html#dasara">Dasara</a> · <a href="index.html#games">All series</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
+<nav class="wf-links"><a href="index.html">Home</a> · <a href="index.html#dasara">Dasara</a> · <a href="index.html#games">All series</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
 <div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
 </div></footer>
 <script src="join.js?v=2" defer></script>
