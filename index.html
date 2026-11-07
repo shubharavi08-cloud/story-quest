@@ -62,6 +62,11 @@ h3{font-size:22px}
 .hero{margin-bottom:28px}
 .worlds{margin:0 0 26px}
 .hero .btn,.hero a.btn{margin-bottom:4px}
+.topics{display:flex;flex-direction:column;gap:14px;margin:4px 0 0}.topics-h{display:flex;gap:14px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
+.topics-h h2{font-size:clamp(30px,5vw,46px);margin:2px 0 0}.topics-h .lede{margin:4px 0 0}
+.cont{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:center;background:linear-gradient(135deg,#3b2a7a,#241a52);border:1px solid #ffd35a44;border-radius:22px;padding:16px 18px;margin:0 0 22px}
+.cont h2{margin:2px 0}.cont .gcard{width:100%}@media(max-width:700px){.cont{grid-template-columns:1fr}}
+.trow{margin:8px 0 26px}.trow .ser{background:none;border:0;padding:0}
 .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
 .shelf.games{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
 /* game sticker next to the chip: a peek at the game inside */
@@ -317,7 +322,7 @@ const DASARA_MORE = [
 const ytImg=id=>`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 const SECTIONS = [
  {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale. Watch them all and play them all to complete Diya's Journey!", img:'img/ayodhya.jpg', open:true, chip:'Watch & play', gcat:'deepavali'},
- {k:'dasara', name:'Dasara · Navratri', group:'Festivals', blurb:'Nine nights, nine forms of Maa Durga, and the victory of good over evil: 14 story and song videos in Hindi, Kannada and Telugu.', img:'https://i.ytimg.com/vi/RvEnFEjnCCg/hqdefault.jpg', open:true, chip:'Watch & play'},
+ {k:'dasara', name:'Dasara · Navratri', group:'Festivals', blurb:'Nine nights, nine forms of Maa Durga, and the victory of good over evil: 14 story and song videos in Hindi, Kannada and Telugu.', img:'img/dasara/navadurga.jpg', open:true, chip:'Watch & play'},
  {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/', gcat:'vedicmaths'},
  {k:'scamalert', name:'Scam Alert', group:'Jagruth Bharath', blurb:'Real scam cases with Mauna the detective owl: watch the video, read the case file, then play. Can Mr. Promise trick you?', img:'jagruth-bharath/img/tile.jpg', open:true, chip:'Watch & play', href:'jagruth-bharath/', gcat:'scamalert'},
  {k:'thought', name:'A Thought a Day', group:'Wisdom · Daily', blurb:'One story. One shloka. One small step. A new thought for your day, in English, Hindi and Kannada.', img:'img/thought/tile.jpg', open:true, href:'thought.html'},
@@ -419,7 +424,7 @@ function seriesList(){
     videos:(window.WOW_JB_CASES||[]).map(c=>({t:c.t,img:yt(c.yt),href:'jagruth-bharath/#'+c.id})),extras:[['📂',(window.WOW_JB_CASES||[]).length+' case files to read'],['☎️','Lost money? Call 1930']]}
   ].map(x=>({...x,games:G.filter(g=>g.cat===x.cat)}));
 }
-function seriesBlock(x){
+function seriesBlock(x,o={}){
   const chips=[x.videos.length?`🎬 ${x.videos.length} videos`:'',x.games.length?`🎮 ${x.games.length} games`:'',x.soon?`⏳ ${x.soon} games coming`:'',...(x.extras||[]).map(e=>e[0]+' '+e[1].split(':')[0])].filter(Boolean);
   /* ONE row, in story order: a story that has a game is ONE tile (watch, then play); other videos and games follow */
   const used=new Set(),vtile=v=>`<a class="svid" href="${v.href}"><span class="svp"><img src="${v.img}" alt="" loading="lazy"><b aria-hidden="true">▶</b></span><span class="svt">${v.t}</span></a>`;
@@ -431,7 +436,7 @@ function seriesBlock(x){
     +(tiles.length?`<div class="ser-row"><span class="ser-lbl">${lbl}</span><div class="hs">${tiles.join('')}${soon}</div></div>`:'');
   const games='';
   const ex=(x.extras||[]).length?`<div class="ser-ex">${x.extras.map(([i,t,h])=>h?`<a href="${h}">${i} ${t}</a>`:`<span>${i} ${t}</span>`).join('')}</div>`:'';
-  return `<article class="ser" data-cat="${x.cat}"><header class="ser-h"><span class="ser-i" aria-hidden="true">${x.icon}</span><div><h3>${x.name}</h3><p>${x.line}</p><div class="ser-c">${chips.map(c=>`<span>${c}</span>`).join('')}</div></div><a class="btn" href="${x.href}">Open series ▶</a></header>${vids}${games}${ex}</article>`;
+  return `<article class="ser" data-cat="${x.cat}">${o.noHead?'':`<header class="ser-h"><span class="ser-i" aria-hidden="true">${x.icon}</span><div><h3>${x.name}</h3><p>${x.line}</p><div class="ser-c">${chips.map(c=>`<span>${c}</span>`).join('')}</div></div><a class="btn" href="${x.href}">Open series ▶</a></header>`}${vids}${games}${o.noHead?'':ex}</article>`;
 }
 function allGames(){
   const S=seriesList();
@@ -459,7 +464,7 @@ function unlockPop(g){
 }
 function wireGames(){
   const grid=document.getElementById('gGrid');if(!grid)return;
-  grid.querySelectorAll('.gcard').forEach(c=>c.onclick=e=>{const g=gameList().find(x=>x.id===c.dataset.id);if(!g||e.metaKey||e.ctrlKey)return;e.preventDefault();unlockPop(g)});
+  grid.querySelectorAll('.gcard:not(.pair)').forEach(c=>c.onclick=e=>{const g=gameList().find(x=>x.id===c.dataset.id);if(!g||e.metaKey||e.ctrlKey)return;e.preventDefault();unlockPop(g)});
   document.querySelectorAll('.gfilter [data-f]').forEach(b=>b.onclick=()=>{const f=b.dataset.f;
     document.querySelectorAll('.gfilter [data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));
     grid.querySelectorAll('.ser').forEach(c=>c.hidden=!(f==='all'||c.dataset.cat===f))});
@@ -467,22 +472,34 @@ function wireGames(){
     cs.forEach(x=>x.classList.remove('pick'));c.classList.add('pick');c.scrollIntoView({behavior:RM?'auto':'smooth',block:'center',inline:'center'});
     const[x,y]=center(c);burst(x,y,'spark',36);say('Try this one!',c.querySelector('h3').textContent)};
 }
+/* the next story to watch & play for a returning child (only shown once they have started) */
+function continueTile(){
+  const S=seriesList(),started=Object.keys(prog).length||(()=>{try{return Object.keys(localStorage).some(k=>k.startsWith('wow-watched-'))}catch(e){return false}})();
+  if(!started)return '';
+  const done=g=>{const k={...Object.fromEntries(DEEPAVALI.filter(e=>e.play).map(e=>[e.play,'dv'+e.n])),...Object.fromEntries([...DASARA,...DASARA_MORE].filter(e=>e.play).map(e=>[e.play,'ds-'+e.k]))}[g.href];return k&&prog[k]};
+  for(const x of S){for(const v of x.videos){const g=v.play&&x.games.find(g=>g.href===v.play);if(g&&!done(g))return `<section class="cont"><div><span class="eyebrow">Welcome back!</span><h2>Continue where you left off</h2><p class="muted">${x.icon} ${x.name.split(' · ')[0]} · ${v.t}</p></div><div class="cont-c">${gameCard(g,{href:v.href,eyebrow:v.t})}</div></section>`}}
+  return '';
+}
+function surprise(){const S=seriesList(),P=[];S.forEach(x=>x.videos.forEach(v=>{if(v.play&&x.games.some(g=>g.href===v.play))P.push(v.href)}));
+  gameList().filter(g=>!g.gate).forEach(g=>P.push(g.href));const h=P[Math.floor(Math.random()*P.length)];if(h)location.href=h}
 function home(){
   const groups=SECTIONS.map(s=>`<a class="tile ${s.open?'':'locked'}" href="${s.open?(s.href||'#'+s.k):'#home'}" ${s.open?'':'aria-disabled="true"'}>
     ${s.img?`<img src="${s.img}" alt="">`:`<div class="ph" aria-hidden="true">${s.emoji}</div>`}
     <span class="chiprow"><span class="chip ${s.open?'':'soon'}">${s.chip||(s.open?'Play now':'Coming soon')}</span></span>
     <div class="body"><span class="eyebrow">${s.group}</span><h3>${s.name}</h3><p>${s.blurb}</p>${s.gcat?gBunch(s.gcat,'Play now'):''}${s.k==='dasara'?gSoonBunch():''}</div></a>`).join('');
-  V.innerHTML=`<section class="hero">
+  V.innerHTML=`${continueTile()}
+    <section id="games" class="topics"><div class="topics-h"><div><span class="eyebrow">Free · No sign-up · English, हिंदी, ಕನ್ನಡ</span><h2>Open a world of wonder</h2><p class="lede">Watch a story, then play its game.</p></div>
+      <button type="button" class="btn ghost" id="surprise">🎲 Surprise me</button></div><div class="shelf">${groups}</div></section>
+    <section class="hero" style="margin-top:34px">
     <div><span class="eyebrow">Watch · Play · Learn</span><h1>Wonders of <span>Bharat</span> for every age</h1>
     <p class="lede" style="margin-top:12px">Festivals, epics, scriptures, wisdom tales, Vedic Maths and scam alerts, each told as a short animated story with a game to play together. Grandparents, parents and children: play, learn and teach each other. Diya the little lamp is your guide.</p>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn" href="#deepavali">Start with Deepavali</a><a class="btn ghost" href="#games">🌟 Explore all series</a><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Our YouTube channel</a></div></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px"><a class="btn" href="#deepavali">Start with Deepavali</a><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Our YouTube channel</a></div></div>
     <div class="art"><img class="scene" src="img/ayodhya.jpg" alt="Ayodhya glowing with rows of lamps"><img class="mascot" src="img/diya_wave.png" alt="Diya waving"></div></section>
-    <div class="worlds"><span class="world on">🇮🇳 Bharat</span><span class="world soon">🌍 World · coming later</span></div>
-    <section id="games" style="display:flex;flex-direction:column;gap:14px;margin:0 0 30px"><span class="eyebrow">Free · No sign-up · English, हिंदी, ಕನ್ನಡ</span><h2>Explore every series: watch, play, learn</h2><p class="lede">Each series is a complete set: story videos to watch, games to play, lessons and books to learn from. Pick a series, watch its story, then play its game.</p>${allGames()}</section>
-    <section style="display:flex;flex-direction:column;gap:14px"><h2>Pick a topic</h2><div class="shelf">${groups}</div></section>
-    `;
-  wireGames();
+    <div class="worlds"><span class="world on">🇮🇳 Bharat</span><span class="world soon">🌍 World · coming later</span></div>`;
+  const sb=document.getElementById('surprise');if(sb)sb.onclick=surprise;
 }
+/* a topic's Watch & play row (one tile per story: watch, then play) for the top of its own page */
+function topicRow(cat){const x=seriesList().find(x=>x.cat===cat);return x?`<section class="trow">${seriesBlock(x,{noHead:true})}</section>`:''}
 function trailSVG(){
   const done=n=>prog['dv'+n];const W=1000,H=230;
   const pts=DEEPAVALI.map((e,i)=>[60+i*(W-120)/7, i%2?70:160]);
@@ -506,8 +523,9 @@ function deepavali(){
    <p class="lede" style="margin-top:12px">Fly across India with Diya. Every place has its own Deepavali story. Watch each episode, play its game, and light a lamp on Diya's journey.</p>
    <p class="djgoal">🪔 Watch all 8 stories and play all 8 games to complete <b>Diya's Journey</b>! <span>${lit} of 8 lamps lit${lit===8?' · 🎉 Journey complete!':''}</span></p></div>
    <div class="art"><img class="scene" src="img/river.jpg" alt="Diya beside the river Saraayu lit with lamps"></div></section>
+   ${topicRow('deepavali')}
    <section class="trail"><div class="legend"><h2>Diya's journey</h2><span class="count"><b>${lit}</b> / 8 lamps lit</span></div>${trailSVG()}</section>
-   <section style="display:flex;flex-direction:column;gap:14px"><h2>Episodes</h2><div class="eps">${eps}</div></section>
+
    <section class="finale"><div><span class="eyebrow">Grand finale</span><h2>Light Up Deepavali</h2><p class="lede">Quiz, the five days, Deepavali across India and a rangoli maker. Light all 24 diyas!</p></div>
    <a class="btn" href="finale.html">Play the finale</a></section>`;
 }
@@ -517,11 +535,10 @@ function dsTile(e){return `<a class="tile ep" href="#ds-${e.k}">
 function dasara(){
   V.innerHTML=`<a href="#home" class="muted">← All quests</a>
    <section class="hero"><div><span class="eyebrow">Festivals · Dasara · Navratri</span><h1>Nine nights of <span>Shakti</span></h1>
-   <p class="lede" style="margin-top:12px">Meet the nine forms of Maa Durga, one each night, and end with Vijayadashami, the day truth wins. Watch the stories and songs in Hindi and Kannada. Games for every day are on the way.</p></div>
-   <div class="art"><img class="scene" src="${ytImg('BjGvA4_Ao0E')}" alt="Maa Siddhidatri"></div></section>
-   <section style="display:flex;flex-direction:column;gap:14px"><h2>The ten days</h2><div class="eps">${DASARA.map(dsTile).join('')}</div></section>
-   <section style="display:flex;flex-direction:column;gap:14px"><h2>Stories and songs</h2><div class="eps">${DASARA_MORE.map(dsTile).join('')}</div></section>
-   <section class="finale"><div><span class="eyebrow">Coming soon</span><h2>Dasara games and story book</h2><p class="lede">A game for every day of Navratri, and a picture story book of the Navadurga to read together.</p></div>
+   <p class="lede" style="margin-top:12px">Meet the nine forms of Maa Durga, one each night, and end with Vijayadashami, the day truth wins. Watch each day's story or song, then play its game. More days' games are on the way.</p></div>
+   <div class="art"><img class="scene" src="img/dasara/navadurga.jpg" alt="The nine forms of Maa Durga"></div></section>
+   ${topicRow('dasara')}
+   <section class="finale"><div><span class="eyebrow">Coming soon</span><h2>More Dasara games and a story book</h2><p class="lede">A game for every day of Navratri, and a picture story book of the Navadurga to read together.</p></div>
    <a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Subscribe for updates</a></section>`;
 }
 function dasaraItem(k){
