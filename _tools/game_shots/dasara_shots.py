@@ -22,6 +22,14 @@ SHOTS = {
       [[.12,.55],[.88,.6],[.8,.85],[.2,.8]].forEach(([x,y])=>G.shadows.push({x:x*W,y:y*H,r:38,seed:x*9,hp:1,dead:0}));
       await new Promise(r=>setTimeout(r,1200));G.t=0.05;G.waves.push({x:W/2,y:H*.62,r:170,max:900,c:'#ffd35a',hit:new Set()});
       await new Promise(r=>setTimeout(r,30));G.over=true;""",
+    "light-cosmos": HIDE + """layout();start();G.lv=1;G.next=6;G.shown=9;
+      await new Promise(r=>setTimeout(r,400));G.over=true;""",
+    "lotus-pond": HIDE + """layout();start();G.lv=2;loadLevel();const m=moves(G.pond.g,G.pond.g.length,G.pos[0],G.pos[1]);if(m.length){G.pos=m[0]}
+      await new Promise(r=>setTimeout(r,300));""",
+    "lions-ride": HIDE + """layout();start();G.lv=3;genLevel();const s=px(G.rider),g=px(GOAL);G.path=[];for(let i=0;i<=40;i++){const t=i/40;G.path.push({x:s.x+(g.x-s.x)*t,y:s.y+(g.y-s.y)*t+Math.sin(t*6)*H*.12})}
+      G.rider={x:(s.x+(g.x-s.x)*.35)/W,y:(s.y+(g.y-s.y)*.35+Math.sin(2.1)*H*.12)/H};await new Promise(r=>setTimeout(r,300));G.over=true;""",
+    "light-after-darkness": HIDE + """document.querySelector('.pad').style.display='none';layout();start();G.lv=2;loadLevel();G.light=3.4;G.p={x:2,y:1,fx:2,fy:1,t:1};G.sh=[];
+      await new Promise(r=>setTimeout(r,300));G.over=true;""",
 }
 
 

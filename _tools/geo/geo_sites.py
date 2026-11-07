@@ -142,7 +142,11 @@ DASARA_GAMES = [  # (file, title, day label, Devi)
     ("navadurga-match.html", "Navadurga Match", "Start here", "the nine forms of Maa Durga"),
     ("climb-himalaya.html", "Climb the Himalaya", "Day 1", "Maa Shailaputri"),
     ("japa-mala.html", "Japa Mala Beads", "Day 2", "Maa Brahmacharini"),
-    ("ring-the-bell.html", "Ring the Bell", "Day 3", "Maa Chandraghanta")]
+    ("ring-the-bell.html", "Ring the Bell", "Day 3", "Maa Chandraghanta"),
+    ("light-cosmos.html", "Light the Cosmos", "Day 4", "Maa Kushmanda"),
+    ("lotus-pond.html", "Lotus Pond", "Day 5", "Maa Skandamata"),
+    ("lions-ride.html", "The Lion's Ride", "Day 6", "Maa Katyayani"),
+    ("light-after-darkness.html", "Light after Darkness", "Day 7", "Maa Kalaratri")]
 
 FAQ = [
     ("What is World of Wonders Studio?",

@@ -1,0 +1,128 @@
+const T=DK.t,$=s=>document.querySelector(s);
+const YT='JFBAewcgXAw';
+const L={
+ eyebrow:{en:'Dasara · Day 6 game',hi:'दशहरा · छठे दिन का खेल',kn:'ದಸರಾ · ಆರನೇ ದಿನದ ಆಟ'},
+ title:{en:"The Lion's Ride",hi:'सिंह की सवारी',kn:'ಸಿಂಹದ ಸವಾರಿ'},
+ lvl:{en:'Ride',hi:'सवारी',kn:'ಸವಾರಿ'},
+ storyT:{en:'The warrior mother',hi:'योद्धा माँ',kn:'ಯೋಧ ತಾಯಿ'},
+ story:{en:['The demon <b>Mahishasura</b> had a boon that no man or god could defeat him, and he troubled all three worlds. The gods\' anger and light joined together, and a great goddess appeared in the ashram of the sage <b>Katyayana</b>. So she is called <b>Maa Katyayani</b>.','She rides a mighty lion. Tonight she sets out for Mahishasura\'s fort, but the forest is full of thorns, rocks and his shadow guards. Draw a safe road for her lion!'],
+  hi:['राक्षस <b>महिषासुर</b> को वरदान था कि कोई पुरुष या देवता उसे हरा नहीं सकता, और वह तीनों लोकों को सताता था। देवताओं का क्रोध और तेज एक हुआ, और ऋषि <b>कात्यायन</b> के आश्रम में एक महान देवी प्रकट हुईं। इसलिए उन्हें <b>माँ कात्यायनी</b> कहते हैं।','वे एक शक्तिशाली सिंह पर सवार हैं। आज रात वे महिषासुर के किले की ओर निकली हैं, पर जंगल काँटों, चट्टानों और उसके छाया-पहरेदारों से भरा है। उनके सिंह के लिए सुरक्षित रास्ता बनाओ!'],
+  kn:['<b>ಮಹಿಷಾಸುರ</b>ನಿಗೆ ಯಾವ ಪುರುಷನೂ ದೇವತೆಯೂ ತನ್ನನ್ನು ಸೋಲಿಸಲಾರ ಎಂಬ ವರವಿತ್ತು, ಅವನು ಮೂರು ಲೋಕಗಳನ್ನೂ ಪೀಡಿಸುತ್ತಿದ್ದ. ದೇವತೆಗಳ ಕೋಪ ಮತ್ತು ತೇಜಸ್ಸು ಒಂದಾಯಿತು, ಋಷಿ <b>ಕಾತ್ಯಾಯನ</b>ರ ಆಶ್ರಮದಲ್ಲಿ ಮಹಾ ದೇವಿ ಅವತರಿಸಿದಳು. ಅದಕ್ಕೇ ಅವಳು <b>ಕಾತ್ಯಾಯನಿ</b>.','ಅವಳು ಬಲಶಾಲಿ ಸಿಂಹದ ಮೇಲೆ ಸವಾರಿ ಮಾಡುತ್ತಾಳೆ. ಇಂದು ರಾತ್ರಿ ಅವಳು ಮಹಿಷಾಸುರನ ಕೋಟೆಯತ್ತ ಹೊರಟಿದ್ದಾಳೆ, ಆದರೆ ಕಾಡು ಮುಳ್ಳು, ಬಂಡೆ ಮತ್ತು ಅವನ ನೆರಳು ಕಾವಲುಗಾರರಿಂದ ತುಂಬಿದೆ. ಅವಳ ಸಿಂಹಕ್ಕೆ ಸುರಕ್ಷಿತ ದಾರಿ ಬಿಡಿಸಿ!']},
+ how:{en:[['✍️','Put your finger on Maa and draw a road all the way to the fort.'],['🦁','Let go and the lion rides your road. Keep away from thorns, rocks and shadows.'],['🪷','Draw through the lotus flowers for extra stars.']],
+  hi:[['✍️','अपनी उँगली माँ पर रखो और किले तक पूरा रास्ता बनाओ।'],['🦁','उँगली हटाओ, सिंह तुम्हारे रास्ते पर दौड़ेगा। काँटों, चट्टानों और परछाइयों से दूर रहो।'],['🪷','ज़्यादा तारों के लिए कमल के फूलों से होकर रास्ता बनाओ।']],
+  kn:[['✍️','ನಿಮ್ಮ ಬೆರಳನ್ನು ಮಾತೆಯ ಮೇಲೆ ಇಟ್ಟು ಕೋಟೆಯವರೆಗೆ ಪೂರ್ತಿ ದಾರಿ ಬಿಡಿಸಿ.'],['🦁','ಬೆರಳು ತೆಗೆಯಿರಿ, ಸಿಂಹ ನಿಮ್ಮ ದಾರಿಯಲ್ಲಿ ಓಡುತ್ತದೆ. ಮುಳ್ಳು, ಬಂಡೆ, ನೆರಳುಗಳಿಂದ ದೂರವಿರಿ.'],['🪷','ಹೆಚ್ಚು ನಕ್ಷತ್ರಕ್ಕಾಗಿ ಕಮಲದ ಹೂಗಳ ಮೂಲಕ ದಾರಿ ಬಿಡಿಸಿ.']]},
+ go:{en:'Ride on 🦁',hi:'सवारी शुरू 🦁',kn:'ಸವಾರಿ ಶುರು 🦁'},
+ short:{en:'Draw all the way to the fort!',hi:'किले तक पूरा रास्ता बनाओ!',kn:'ಕೋಟೆಯವರೆಗೆ ಪೂರ್ತಿ ದಾರಿ ಬಿಡಿಸಿ!'},
+ startHere:{en:'Start on Maa',hi:'माँ से शुरू करो',kn:'ಮಾತೆಯಿಂದ ಶುರು ಮಾಡಿ'},
+ hit:{en:'Ouch! Try another road.',hi:'ओह! कोई और रास्ता आज़माओ।',kn:'ಅಯ್ಯೋ! ಬೇರೆ ದಾರಿ ಪ್ರಯತ್ನಿಸಿ.'},
+ arrived:{en:'At the fort gate!',hi:'किले के द्वार पर!',kn:'ಕೋಟೆಯ ಬಾಗಿಲಿಗೆ!'},
+ beats:{1:{en:'Maa Katyayani holds a sword and a lotus, and her lion roars to shake the forest.',hi:'माँ कात्यायनी के हाथ में तलवार और कमल है, और उनका सिंह जंगल को हिला देने वाली दहाड़ लगाता है।',kn:'ಕಾತ್ಯಾಯನಿ ಮಾತೆಯ ಕೈಯಲ್ಲಿ ಖಡ್ಗ ಮತ್ತು ಕಮಲ, ಅವಳ ಸಿಂಹದ ಘರ್ಜನೆ ಕಾಡನ್ನೇ ನಡುಗಿಸುತ್ತದೆ.'},
+  2:{en:'Mahishasura could change shape: buffalo, lion, elephant, man. Nothing fooled Maa.',hi:'महिषासुर रूप बदल सकता था: भैंसा, शेर, हाथी, आदमी। पर माँ को कोई धोखा नहीं दे सका।',kn:'ಮಹಿಷಾಸುರ ರೂಪ ಬದಲಿಸಬಲ್ಲವನಾಗಿದ್ದ: ಕೋಣ, ಸಿಂಹ, ಆನೆ, ಮನುಷ್ಯ. ಯಾವುದೂ ಮಾತೆಯನ್ನು ಮೋಸಗೊಳಿಸಲಿಲ್ಲ.'},
+  3:{en:'Shadow guards now patrol the paths. Time your road to slip past them!',hi:'अब छाया-पहरेदार रास्तों पर घूम रहे हैं। समय देखकर उनके बीच से निकलो!',kn:'ಈಗ ನೆರಳು ಕಾವಲುಗಾರರು ದಾರಿಯಲ್ಲಿ ಸುತ್ತುತ್ತಿದ್ದಾರೆ. ಸಮಯ ನೋಡಿ ಅವರ ಮಧ್ಯೆ ನುಸುಳಿ!'},
+  4:{en:'The battle lasted many days. On the tenth day, Vijayadashami, good won over evil.',hi:'युद्ध कई दिन चला। दसवें दिन, विजयादशमी पर, अच्छाई की बुराई पर जीत हुई।',kn:'ಯುದ್ಧ ಅನೇಕ ದಿನ ನಡೆಯಿತು. ಹತ್ತನೇ ದಿನ, ವಿಜಯದಶಮಿಯಂದು, ಒಳಿತು ಕೆಡುಕಿನ ಮೇಲೆ ಗೆದ್ದಿತು.'},
+  5:{en:'Mysuru got its name from Mahishasura\'s story: Mahishuru, the town of Mahisha.',hi:'मैसूरु का नाम महिषासुर की कहानी से आया: महिषूरु, महिष का नगर।',kn:'ಮೈಸೂರು ಎಂಬ ಹೆಸರು ಮಹಿಷಾಸುರನ ಕಥೆಯಿಂದ ಬಂತು: ಮಹಿಷೂರು, ಮಹಿಷನ ಊರು.'}},
+ winT:{en:'Maa reached Mahishasura\'s fort!',hi:'माँ महिषासुर के किले तक पहुँच गईं!',kn:'ಮಾತೆ ಮಹಿಷಾಸುರನ ಕೋಟೆ ತಲುಪಿದಳು!'},
+ winP:{en:'You found a safe road through every danger. Maa Katyayani teaches us to be brave and to plan well when we stand up for what is right.',hi:'तुमने हर ख़तरे के बीच सुरक्षित रास्ता ढूँढ लिया। माँ कात्यायनी सिखाती हैं कि सही के लिए खड़े होते समय बहादुर बनो और अच्छी योजना बनाओ।',kn:'ಎಲ್ಲ ಅಪಾಯಗಳ ಮಧ್ಯೆ ನೀವು ಸುರಕ್ಷಿತ ದಾರಿ ಕಂಡುಕೊಂಡಿರಿ. ಸರಿಯಾದುದಕ್ಕಾಗಿ ನಿಲ್ಲುವಾಗ ಧೈರ್ಯವಾಗಿರಿ, ಚೆನ್ನಾಗಿ ಯೋಜಿಸಿ ಎಂದು ಕಾತ್ಯಾಯನಿ ಮಾತೆ ಕಲಿಸುತ್ತಾಳೆ.'},
+ loseT:{en:'The forest won this time',hi:'इस बार जंगल जीत गया',kn:'ಈ ಬಾರಿ ಕಾಡು ಗೆದ್ದಿತು'},
+ loseP:{en:l=>`You reached ride ${l}. Look carefully, then draw a wider road. Try again!`,hi:l=>`तुम सवारी ${l} तक पहुँचे। ध्यान से देखो, फिर चौड़ा रास्ता बनाओ। फिर कोशिश करो!`,kn:l=>`ನೀವು ${l}ನೇ ಸವಾರಿ ತಲುಪಿದಿರಿ. ಗಮನವಿಟ್ಟು ನೋಡಿ, ಅಗಲವಾದ ದಾರಿ ಬಿಡಿಸಿ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ!`},
+ next:{en:'Next: Day 7 video →',hi:'आगे: सातवें दिन का वीडियो →',kn:'ಮುಂದೆ: ಏಳನೇ ದಿನದ ವಿಡಿಯೋ →'}
+};
+const LV=[{obs:4,pat:0},{obs:7,pat:0},{obs:7,pat:1},{obs:8,pat:2},{obs:9,pat:3}];
+let MAA=null;DK.art(YT).then(a=>MAA=a);
+const cv=$('#st'),cx=cv.getContext('2d');let W=800,H=600,DPR=1;
+function layout(){const r=cv.getBoundingClientRect();DPR=Math.min(2,window.devicePixelRatio||1);W=Math.max(300,r.width);H=Math.max(380,r.height);cv.width=W*DPR;cv.height=H*DPR;cx.setTransform(DPR,0,0,DPR,0,0)}
+window.addEventListener('resize',layout);
+let G=null;
+const S0={x:.09,y:.84},GOAL={x:.9,y:.16};
+const U=()=>Math.min(W,H);
+function newGame(){G={lv:0,lives:3,score:0,lotus:0,el:0,over:true,obs:[],pats:[],lot:[],path:[],drawing:false,ride:null,rider:{x:S0.x,y:S0.y},parts:[],pops:[],shake:0};hud()}
+function hud(){$('#lvl').textContent=G.lv+1;$('#lives').textContent=G.lives;$('#lotus').textContent=G.lotus;$('#score').textContent=G.score}
+/* level: static obstacles placed so that a road always exists (checked on a coarse grid) */
+function genLevel(){const l=LV[G.lv];
+  for(let t=0;t<500;t++){const obs=[];
+    for(let i=0;i<l.obs;i++){let o,ok=false;for(let k=0;k<60&&!ok;k++){o={x:.14+Math.random()*.72,y:.12+Math.random()*.76,r:.05+Math.random()*.045,kind:Math.random()<.55?'thorn':'rock',s:Math.random()*9};
+      ok=Math.hypot(o.x-S0.x,o.y-S0.y)>o.r+.13&&Math.hypot(o.x-GOAL.x,o.y-GOAL.y)>o.r+.14&&obs.every(p=>Math.hypot(p.x-o.x,p.y-o.y)>p.r+o.r+.02)}
+      if(ok)obs.push(o)}
+    if(obs.length<l.obs-1)continue;
+    if(open(obs)){G.obs=obs;break}}
+  G.pats=Array.from({length:l.pat},(_,i)=>({x:.3+i*.22,y:.5,ax:Math.random()<.5?0:.16,ay:.2,w:.7+Math.random()*.5,ph:Math.random()*6,r:.045}));
+  G.lot=[];for(let k=0;k<3;k++){let p;for(let n=0;n<80;n++){p={x:.18+Math.random()*.66,y:.18+Math.random()*.66,got:false};if(G.obs.every(o=>Math.hypot(o.x-p.x,o.y-p.y)>o.r+.05))break}G.lot.push(p)}
+  G.path=[];G.ride=null;G.rider={x:S0.x,y:S0.y};hud()}
+function open(obs){const N=36,M=Math.round(N*Math.max(1,W/H)),cell=(i,j)=>({x:(i+.5)/M,y:(j+.5)/N}),free=(i,j)=>{const p=cell(i,j);return obs.every(o=>Math.hypot((o.x-p.x)*W/U(),(o.y-p.y)*H/U())>o.r+.045)};
+  const s=[Math.floor(S0.x*M),Math.floor(S0.y*N)],e=[Math.floor(GOAL.x*M),Math.floor(GOAL.y*N)],seen=new Set([s+'']),q=[s];
+  while(q.length){const[i,j]=q.shift();if(Math.abs(i-e[0])<=1&&Math.abs(j-e[1])<=1)return true;for(const[a,b]of[[1,0],[-1,0],[0,1],[0,-1]]){const n=[i+a,j+b];if(n[0]<0||n[1]<0||n[0]>=M||n[1]>=N||seen.has(n+''))continue;seen.add(n+'');if(free(...n))q.push(n)}}return false}
+const px=p=>({x:p.x*W,y:p.y*H});
+function patPos(p,t){return{x:p.x+Math.sin(t*p.w+p.ph)*p.ax,y:p.y+Math.sin(t*p.w*1.2+p.ph)*p.ay}}
+function hitAt(x,y,t){const tr=U()*.035;for(const o of G.obs){const q=px(o);if(Math.hypot(q.x-x,q.y-y)<o.r*U()+tr*.75)return o}
+  for(const p of G.pats){const q=px(patPos(p,t));if(Math.hypot(q.x-x,q.y-y)<p.r*U()+tr*.7)return p}return null}
+function down(x,y){if(!G||G.over||G.ride||DK.isOpen())return;DK.ac();const s=px(G.rider);if(Math.hypot(x-s.x,y-s.y)>U()*.09){pop(s.x,s.y-50,T(L.startHere),'#ffd35a');DK.oops();return}
+  G.drawing=true;G.path=[{x:s.x,y:s.y}]}
+function move(x,y){if(!G||!G.drawing)return;const l=G.path[G.path.length-1];if(Math.hypot(x-l.x,y-l.y)>=6){G.path.push({x,y});if(G.path.length%6===0)DK.tone(900+G.path.length%40*8,.03,'sine',.02)}}
+function up(){if(!G||!G.drawing)return;G.drawing=false;const l=G.path[G.path.length-1],g=px(GOAL);
+  if(G.path.length<4||Math.hypot(l.x-g.x,l.y-g.y)>U()*.09){DK.beat(T(L.short),YT,'🦁');G.path=[];return}
+  G.path.push({x:g.x,y:g.y});G.ride={i:0,d:0,t:0};DK.noise(.7,.25,180);DK.tone(110,.6,'sawtooth',.07,.6)}
+function update(dt){if(!G)return;G.el+=dt;G.shake=Math.max(0,G.shake-dt);
+  for(const q of G.parts){q.x+=q.vx*dt;q.y+=q.vy*dt;q.vx*=.95;q.vy*=.95;q.l-=dt}G.parts=G.parts.filter(q=>q.l>0);for(const q of G.pops)q.k+=dt;G.pops=G.pops.filter(q=>q.k<1.6);
+  if(G.over||!G.ride)return;
+  const sp=U()*.38;let rem=sp*dt;const P=G.path;
+  while(rem>0&&G.ride.i<P.length-1){const a=P[G.ride.i],b=P[G.ride.i+1],seg=Math.hypot(b.x-a.x,b.y-a.y)||1,left=seg-G.ride.d;if(rem<left){G.ride.d+=rem;rem=0}else{rem-=left;G.ride.i++;G.ride.d=0}}
+  const a=P[G.ride.i],b=P[Math.min(P.length-1,G.ride.i+1)],seg=Math.hypot(b.x-a.x,b.y-a.y)||1,f=G.ride.d/seg,x=a.x+(b.x-a.x)*f,y=a.y+(b.y-a.y)*f;
+  G.rider={x:x/W,y:y/H};if(Math.random()<.5)G.parts.push({x,y:y+8,vx:(Math.random()-.5)*30,vy:(Math.random()-.5)*30,l:.5,c:'rgba(255,211,90,.6)',r:2});
+  for(const p of G.lot){if(!p.got&&Math.hypot(p.x*W-x,p.y*H-y)<U()*.05){p.got=true;G.lotus++;G.score+=15;DK.chime(G.lotus+2);burst(p.x*W,p.y*H,'#f48fb1',14);hud()}}
+  const h=hitAt(x,y,G.el);if(h){crash(x,y);return}
+  if(G.ride.i>=P.length-1)arrive()}
+function crash(x,y){G.ride=null;G.lives--;G.shake=.4;DK.noise(.4,.3,300);DK.tone(140,.4,'square',.07,.5);DK.vib(120);burst(x,y,'#ff8a65',20);pop(x,y-40,T(L.hit),'#ff8a65');hud();
+  if(G.lives<=0){lose();return}setTimeout(()=>{G.path=[];G.rider={x:S0.x,y:S0.y};G.lot.forEach(p=>p.got&&0)},700)}
+function arrive(){G.ride=null;G.score+=40+G.lives*5;DK.win();const g=px(GOAL);burst(g.x,g.y,'#ffd35a',50);pop(W/2,H*.12,T(L.arrived),'#ffd35a',1.2);hud();
+  setTimeout(()=>{if(G.lv>=LV.length-1){win();return}G.lv++;genLevel();const b=L.beats[G.lv+1];if(b)DK.beat(T(b),YT)},1800)}
+function burst(x,y,c,n){for(let i=0;i<n;i++){const a=Math.random()*6.283,s=40+Math.random()*170;G.parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,l:.5+Math.random()*.6,c,r:2+Math.random()*3})}}
+function pop(x,y,txt,c,big){G.pops.push({x,y,txt,c,k:0,big:big||1})}
+function win(){G.over=true;const s=G.lives>=3&&G.lotus>=10?3:G.lives>=2?2:1;DK.done('d6',s);
+  setTimeout(()=>DK.card({art:YT,label:T(L.eyebrow),stars:s,title:T(L.winT),paras:[T(L.winP),`<span class="dk-small">⭐ ${G.score} · 🪷 ${G.lotus}</span>`],buttons:[{label:T(L.next),href:'index.html#ds-d7'},{label:T(DK.ui.again),cls:'ghost',on:()=>start()}]}),1300)}
+function lose(){G.over=true;setTimeout(()=>DK.card({art:YT,label:T(L.eyebrow),title:T(L.loseT),paras:[T(L.loseP)(G.lv+1),`<span class="dk-small">⭐ ${G.score}</span>`],buttons:[{label:T(DK.ui.again),on:()=>start()},{label:T(DK.ui.allGames),cls:'ghost',href:'index.html#dasara'}]}),900)}
+function start(){newGame();G.over=false;genLevel();DK.beat(T(L.beats[1]),YT)}
+function draw(){
+  if(!G)return;cx.save();if(G.shake>0)cx.translate((Math.random()-.5)*10*G.shake,(Math.random()-.5)*10*G.shake);
+  const bg=cx.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#1d3b24');bg.addColorStop(1,'#0f2216');cx.fillStyle=bg;cx.fillRect(-10,-10,W+20,H+20);
+  if(MAA){cx.save();cx.globalAlpha=.1;DK.cover(cx,MAA,0,0,W,H);cx.restore()}
+  /* grass tufts */
+  cx.strokeStyle='rgba(140,200,120,.18)';cx.lineWidth=2;for(let i=0;i<70;i++){const x=(i*137.5%100)/100*W,y=(i*61.8%100)/100*H;cx.beginPath();cx.moveTo(x,y);cx.lineTo(x-3,y-8);cx.moveTo(x,y);cx.lineTo(x+3,y-9);cx.stroke()}
+  const u=U();
+  /* fort */
+  const g=px(GOAL);cx.save();cx.translate(g.x,g.y);const fw=u*.13,fh=u*.11;
+  const gl=cx.createRadialGradient(0,0,4,0,0,u*.14);gl.addColorStop(0,'rgba(255,120,80,.35)');gl.addColorStop(1,'rgba(255,120,80,0)');cx.fillStyle=gl;cx.beginPath();cx.arc(0,0,u*.14,0,6.283);cx.fill();
+  cx.fillStyle='#4a2b2b';cx.fillRect(-fw/2,-fh/2,fw,fh);for(let i=0;i<5;i++)cx.fillRect(-fw/2+i*fw/4.6,-fh/2-fh*.18,fw/9,fh*.18);
+  cx.fillStyle='#1a0d0d';cx.beginPath();cx.moveTo(-fw*.15,fh/2);cx.lineTo(-fw*.15,0);cx.arc(0,0,fw*.15,Math.PI,0);cx.lineTo(fw*.15,fh/2);cx.fill();cx.fillStyle='#c62828';cx.fillRect(-2,-fh/2-fh*.6,3,fh*.45);cx.beginPath();cx.moveTo(1,-fh/2-fh*.6);cx.lineTo(fw*.22,-fh/2-fh*.5);cx.lineTo(1,-fh/2-fh*.4);cx.fill();cx.restore();
+  /* obstacles */
+  for(const o of G.obs){const q=px(o),r=o.r*u;
+    if(o.kind==='rock'){const rg=cx.createRadialGradient(q.x-r*.3,q.y-r*.3,r*.1,q.x,q.y,r);rg.addColorStop(0,'#9a958c');rg.addColorStop(1,'#4b4740');cx.fillStyle=rg;cx.beginPath();for(let k=0;k<9;k++){const a=k*.698,rr=r*(.85+.15*Math.sin(o.s+k*2.3));cx.lineTo(q.x+Math.cos(a)*rr,q.y+Math.sin(a)*rr)}cx.closePath();cx.fill()}
+    else{cx.fillStyle='#0d1a0b';cx.beginPath();cx.arc(q.x,q.y,r*.85,0,6.283);cx.fill();cx.strokeStyle='#d8a35a';cx.lineWidth=2.5;for(let k=0;k<14;k++){const a=k*.449+o.s;cx.beginPath();cx.moveTo(q.x+Math.cos(a)*r*.5,q.y+Math.sin(a)*r*.5);cx.lineTo(q.x+Math.cos(a)*r*1.05,q.y+Math.sin(a)*r*1.05);cx.stroke()}
+      cx.fillStyle='#ff5252';for(let k=0;k<4;k++){const a=k*1.6+o.s;cx.beginPath();cx.arc(q.x+Math.cos(a)*r*.45,q.y+Math.sin(a)*r*.45,2.5,0,6.283);cx.fill()}}}
+  /* lotus pickups */
+  for(const p of G.lot){if(p.got)continue;const q=px(p),r=u*.028*(1+.08*Math.sin(G.el*4));cx.save();cx.translate(q.x,q.y);for(let i=0;i<8;i++){cx.rotate(Math.PI/4);cx.fillStyle='#f48fb1';cx.beginPath();cx.ellipse(0,-r*.55,r*.22,r*.55,0,0,6.283);cx.fill()}cx.fillStyle='#ffd35a';cx.beginPath();cx.arc(0,0,r*.22,0,6.283);cx.fill();cx.restore()}
+  /* shadow guards */
+  for(const p of G.pats){const q=px(patPos(p,G.el)),r=p.r*u;for(let i=0;i<4;i++){const ox=Math.sin(G.el*2+i)*r*.3,oy=Math.cos(G.el*1.7+i*2)*r*.3,gg=cx.createRadialGradient(q.x+ox,q.y+oy,0,q.x+ox,q.y+oy,r*1.1);gg.addColorStop(0,'rgba(10,0,20,.95)');gg.addColorStop(1,'rgba(80,20,100,0)');cx.fillStyle=gg;cx.beginPath();cx.arc(q.x+ox,q.y+oy,r*1.1,0,6.283);cx.fill()}
+    cx.fillStyle='#ff5252';cx.beginPath();cx.arc(q.x-r*.25,q.y-r*.1,2.6,0,6.283);cx.arc(q.x+r*.25,q.y-r*.1,2.6,0,6.283);cx.fill()}
+  /* road */
+  if(G.path.length>1){cx.lineCap='round';cx.lineJoin='round';cx.strokeStyle='rgba(120,70,30,.85)';cx.lineWidth=u*.05;cx.beginPath();G.path.forEach((p,i)=>i?cx.lineTo(p.x,p.y):cx.moveTo(p.x,p.y));cx.stroke();
+    cx.strokeStyle='#ffd35a';cx.setLineDash([8,10]);cx.lineWidth=3;cx.stroke();cx.setLineDash([])}
+  /* Maa: round painting with a golden mane ring */
+  const r=px(G.rider),tr=u*.045;cx.save();cx.translate(r.x,r.y);if(!G.ride&&!G.over){cx.strokeStyle='rgba(255,211,90,.7)';cx.lineWidth=3;cx.beginPath();cx.arc(0,0,tr+10+4*Math.sin(G.el*5),0,6.283);cx.stroke()}
+  for(let k=0;k<16;k++){const a=k*Math.PI/8+(G.ride?G.el*6:0);cx.fillStyle=k%2?'#e09a2a':'#f6c04a';cx.beginPath();cx.ellipse(Math.cos(a)*tr*1.05,Math.sin(a)*tr*1.05,tr*.28,tr*.14,a,0,6.283);cx.fill()}
+  cx.beginPath();cx.arc(0,0,tr,0,6.283);cx.clip();if(MAA)DK.portrait(cx,MAA,-tr,-tr,tr*2,tr*2);else{cx.fillStyle='#c2185b';cx.fill()}cx.restore();
+  for(const q of G.parts){cx.globalAlpha=Math.max(0,Math.min(1,q.l*1.8));cx.fillStyle=q.c;cx.beginPath();cx.arc(q.x,q.y,q.r,0,6.283);cx.fill()}cx.globalAlpha=1;
+  for(const q of G.pops){cx.globalAlpha=Math.max(0,1-q.k/1.6);cx.font=`900 ${Math.round(24*q.big)}px "Baloo 2","Baloo Tamma 2",sans-serif`;cx.textAlign='center';cx.textBaseline='middle';cx.lineWidth=6;cx.strokeStyle='#0f2216';cx.strokeText(q.txt,q.x,q.y-q.k*22);cx.fillStyle=q.c;cx.fillText(q.txt,q.x,q.y-q.k*22)}cx.globalAlpha=1;
+  cx.restore();
+}
+let last=0;function loop(now){const dt=Math.min(.05,(now-last)/1000||0);last=now;update(dt);draw();requestAnimationFrame(loop)}
+const XY=e=>{const r=cv.getBoundingClientRect();return[e.clientX-r.left,e.clientY-r.top]};
+cv.addEventListener('pointerdown',e=>{e.preventDefault();cv.setPointerCapture&&cv.setPointerCapture(e.pointerId);down(...XY(e))});
+cv.addEventListener('pointermove',e=>{if(G&&G.drawing){e.preventDefault();move(...XY(e))}});
+cv.addEventListener('pointerup',e=>up());cv.addEventListener('pointercancel',()=>up());
+function intro(){DK.card({art:YT,label:T(L.eyebrow),title:T(L.storyT),paras:T(L.story),how:T(L.how),buttons:[{label:T(L.go),on:()=>start()}]})}
+function applyLang(){$('#t-eyebrow').textContent=T(L.eyebrow);$('#t-title').textContent=T(L.title);$('#back').textContent=T(DK.ui.back);$('#t-lvl').textContent=T(L.lvl);document.title=T(L.title)+' · World of Wonders'}
+DK.onLang(()=>{applyLang();if(DK.isOpen()&&G&&G.over&&!G.score)intro()});
+$('#newgame').onclick=()=>{newGame();intro()};
+DK.music('lions-ride',{sa:146.83,scale:[0,2,3,7,8,12,14,15],tempo:1.1});
+layout();applyLang();newGame();requestAnimationFrame(loop);
+DK.whenUngated(()=>{layout();intro()});
