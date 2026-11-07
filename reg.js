@@ -9,7 +9,7 @@
   /* One-tap logins. A button appears only when its ID is filled in.
      GOOGLE: OAuth client ID (Web) from console.cloud.google.com, authorised origin https://worldofwondersstudio.com
      FACEBOOK: App ID from developers.facebook.com, Facebook Login for Business off, plain Facebook Login on. */
-  var GOOGLE_CLIENT_ID='', FB_APP_ID='';
+  var GOOGLE_CLIENT_ID='1086456060451-6conn6qoe8jacahq1phhkper0rbt6351.apps.googleusercontent.com', FB_APP_ID='';
   var K='wow-user', ASKED='wow-reg-asked';
   var WOW_FORM='https://docs.google.com/forms/d/e/1FAIpQLSeV4dodbSR8f1BcWVQNgVweNsRgg6dhp3LOIhwQa7_rFtvK5Q/formResponse';
   var WF={name:'entry.1096196436',email:'entry.1796750110',phone:'entry.494562679',consent:'entry.2140252039'};
