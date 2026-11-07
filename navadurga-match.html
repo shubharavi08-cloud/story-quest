@@ -128,7 +128,7 @@ const board=$('#board');
 function saveMet(){try{localStorage.setItem('ds-navadurga',JSON.stringify(met))}catch(e){}}
 function devis(){
   $('#devis').innerHTML=DEVI.map((d,i)=>`<button class="devi" data-i="${i}" aria-current="${i===cur}" aria-label="${DK.esc(T(d.n))}"><b>${i+1}</b>${met[i]?'<i>✓</i>':''}</button>`).join('');
-  document.querySelectorAll('.devi').forEach(b=>{const d=DEVI[+b.dataset.i];DK.art(d.yt).then(a=>{if(a)b.style.backgroundImage=`url("${a.src}")`});b.onclick=()=>{DK.tone(660,.08,'triangle',.06);load(+b.dataset.i)}});
+  document.querySelectorAll('.devi').forEach(b=>{const d=DEVI[+b.dataset.i];DK.art(d.yt).then(a=>{if(a){b.style.backgroundImage=`url("${a.src}")`;b.style.backgroundPosition=DK.focusCSS(d.yt)}});b.onclick=()=>{DK.tone(660,.08,'triangle',.06);load(+b.dataset.i)}});
   $('#met').textContent=Object.keys(met).length+'/9';
 }
 function label(){const d=DEVI[cur];$('#nm').innerHTML=`${DK.esc(T(d.n))}<small>${DK.esc(T(d.d))}</small>`}

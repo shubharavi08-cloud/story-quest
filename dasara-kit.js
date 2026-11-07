@@ -31,7 +31,7 @@ DK.art=function(id){
         if(im.naturalWidth<200){tryAt(i+1);return}
         var w=im.naturalWidth,h=im.naturalHeight,crop={sx:0,sy:0,sw:w,sh:h};
         if(Math.abs(w/h-4/3)<.05){var ch=w*9/16;crop={sx:0,sy:(h-ch)/2,sw:w,sh:ch}} /* 4:3 sizes carry black bars */
-        res({img:im,crop:crop,src:im.src});
+        res({img:im,crop:crop,src:im.src,id:id});
       };
       im.onerror=function(){tryAt(i+1)};
       im.src='https://i.ytimg.com/vi/'+id+'/'+sizes[i]+'.jpg';
@@ -39,10 +39,14 @@ DK.art=function(id){
   });
   return artCache[id];
 };
+/* where Maa sits in each thumbnail (fraction across, down): used when a picture is cropped to a circle or a tall box */
+DK.FOCUS={'IlBi-hGGF9E':[.5,.15],'T96jKddkIhw':[.8,.45],'w82yu_nCdC8':[.83,.42],'lgTVdgoBnQ0':[.68,.45],'H2eKJBSJWgs':[.63,.45],'24KpyntW_PI':[.8,.5],
+  'JFBAewcgXAw':[.24,.5],'O5hzHeRdcuk':[.72,.4],'ENnj9owzuTo':[.5,.3],'RvEnFEjnCCg':[.5,.4]};
+DK.focusCSS=function(id){var f=DK.FOCUS[id]||[.5,.5];return Math.round(f[0]*100)+'% '+Math.round(f[1]*100)+'%'};
 /* draw a picture "cover"-fitted into a box (crop = 16:9 region of the source) */
 DK.cover=function(cx,a,x,y,w,h,fx,fy){
   if(!a)return;var c=a.crop,s=Math.max(w/c.sw,h/c.sh),sw=w/s,sh=h/s;
-  var sx=c.sx+(c.sw-sw)*(fx==null?.5:fx),sy=c.sy+(c.sh-sh)*(fy==null?.5:fy);
+  var F=DK.FOCUS[a.id]||[.5,.5];if(fx==null)fx=F[0];if(fy==null)fy=F[1];var sx=c.sx+(c.sw-sw)*fx,sy=c.sy+(c.sh-sh)*fy;
   cx.drawImage(a.img,sx,sy,sw,sh,x,y,w,h);
 };
 
@@ -166,7 +170,7 @@ var beatEl=null,beatT=null;
 DK.beat=function(text,art,label){
   if(!beatEl){beatEl=document.createElement('div');beatEl.className='dk-beat';beatEl.setAttribute('role','status');beatEl.setAttribute('aria-live','polite');document.body.appendChild(beatEl)}
   beatEl.innerHTML='<i></i><span><b>'+esc(label||DK.t({en:'Story',hi:'कहानी',kn:'ಕಥೆ'}))+'</b>'+text+'</span>';
-  if(art)DK.art(art).then(function(a){if(a)beatEl.querySelector('i').style.backgroundImage='url("'+a.src+'")'});
+  if(art)DK.art(art).then(function(a){if(a){var ic=beatEl.querySelector('i');ic.style.backgroundImage='url("'+a.src+'")';ic.style.backgroundPosition=DK.focusCSS(art)}});
   beatEl.classList.remove('on');void beatEl.offsetWidth;beatEl.classList.add('on');DK.chime(4);
   clearTimeout(beatT);beatT=setTimeout(function(){beatEl.classList.remove('on')},Math.max(4200,text.length*55));
 };
