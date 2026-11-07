@@ -94,7 +94,7 @@ window.WOWHit=hit; window.WOWHitOnce=once;
       var d=new FormData(); d.append(F.name,n); d.append(F.email,em); d.append(F.phone,ph); d.append(F.consent,CONSENT);
       var b=f.querySelector('button'); b.disabled=true; b.textContent='Joining…';
       fetch(ACTION,{method:'POST',mode:'no-cors',body:d}).then(function(){
-        try{localStorage.setItem('wow-joined','1')}catch(e){}
+        try{localStorage.setItem('wow-joined','1');localStorage.setItem('wow-user',JSON.stringify({name:n,email:em,phone:ph}))}catch(e){}
         hit('joins'); if(fromAd())hit('joins-from-ad');
         box.innerHTML='<p class="wj-ok">🎉 Welcome to the World of Wonders family, '+n.replace(/[<>&]/g,'')+'!</p>';
       }).catch(function(){b.disabled=false;b.textContent='Join free';m.textContent='Could not send. Please check your internet and try again.'});
