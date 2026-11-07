@@ -1,0 +1,20 @@
+{
+ "posts": [
+  {
+   "title": "Run From Fear and It Chases You: Swami Vivekananda, the Monkeys and Bhagavad Gita 2.3",
+   "url": "https://worldofwondersstudio.com/blog/vivekananda-monkeys-face-fear-gita-2-3/",
+   "date": "2026-11-07",
+   "description": "The story of Swami Vivekananda and the monkeys of Banaras, what Bhagavad Gita 2.3 says about fear, and one small step children and parents can take today."
+  }
+ ],
+ "pages": [
+  {
+   "path": "blog/index.html",
+   "priority": 0.7
+  },
+  {
+   "path": "blog/vivekananda-monkeys-face-fear-gita-2-3/index.html",
+   "priority": 0.6
+  }
+ ]
+}

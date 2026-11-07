@@ -337,6 +337,8 @@ def dgame(f, t, d, v):
 SITES["wow"] = {
     "base": W,
     "llms": wow_llms(),
+    "manifest": "blog/posts.json",          # written by _tools/blog/build_blog.py (keeps the blog list in llms.txt)
+    "llms_posts_heading": "## Blog posts (newest first)",
     "extra_files": {"about.html": about_html()},
     "pages": [
         {"path": "index.html", "priority": 1.0,
