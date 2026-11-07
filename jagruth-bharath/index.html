@@ -28,8 +28,14 @@ h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;text-wrap:balance}
 .logo b{font-family:var(--display);font-size:22px;line-height:1}
 .logo small{display:block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);font-weight:700}
 .langs{display:flex;gap:6px;flex-wrap:wrap}
-.langs button{font:600 15px var(--body);border:1px solid var(--line);background:var(--night-2);color:var(--ink);border-radius:999px;padding:5px 14px;cursor:pointer}
-.langs button.on{background:var(--gold);color:#0b0f17;border-color:var(--gold)}
+.langs button,.vtabs button{font:800 17px var(--body);border:3px solid var(--gold);background:var(--night-2);color:var(--ink);border-radius:999px;padding:6px 16px 6px 6px;min-height:48px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:transform .15s}
+.langs button::before,.vtabs button::before{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--gold);color:#0b0f17;font-weight:900;font-size:18px}
+[data-l="en"]::before{content:"A"}[data-l="hi"]::before{content:"अ"}[data-l="kn"]::before{content:"ಅ"}[data-l="te"]::before{content:"అ"}
+.langs button:hover,.vtabs button:hover{transform:translateY(-2px) scale(1.04)}
+.langs button.on::before,.vtabs button.on::before{background:#fff8e6}
+.vtabs{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0}
+.vtabs::before{content:"🗣️ Pick your language:";font-weight:800;color:var(--gold);flex-basis:100%}
+.langs button.on,.vtabs button.on{background:var(--gold);color:#0b0f17;border-color:var(--gold);box-shadow:0 0 0 4px #e8c13a44}
 .btn{font:700 16px var(--body);background:var(--gold);color:#0b0f17;border:0;border-radius:999px;padding:11px 20px;cursor:pointer;text-decoration:none;display:inline-flex;gap:8px;align-items:center;justify-content:center;transition:transform .15s}
 .btn:hover{transform:scale(1.03)}
 .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
@@ -68,9 +74,6 @@ h1,h2,h3{font-family:var(--display);line-height:1.1;margin:0;text-wrap:balance}
 .vid img{width:100%;height:100%;object-fit:cover;display:block}
 .vid .pl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:66px;height:66px;border-radius:50%;background:rgba(224,53,59,.92);display:grid;place-items:center;font-size:26px;color:#fff;box-shadow:0 8px 24px #000a}
 .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-.vtabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 8px}
-.vtabs button{font:600 13px var(--body);border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:3px 10px;cursor:pointer}
-.vtabs button.on{background:var(--teal);color:#06201d;border-color:var(--teal)}
 .vnote{font-size:14px;color:var(--muted);margin:0 0 8px}
 .side{display:flex;flex-direction:column;gap:16px}
 .panel{background:var(--night-3);border:1px solid var(--line);border-radius:16px;padding:14px 16px}

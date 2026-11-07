@@ -166,6 +166,23 @@ h3{font-size:22px}
 .watch .playbtn{position:absolute;inset:0;margin:auto;width:84px;height:84px;border-radius:50%;background:var(--kumkum);color:#fff;display:grid;place-items:center;font-size:34px;box-shadow:0 10px 30px #000a}
 .watch .btn{position:absolute;left:16px;bottom:16px}
 button.watch{border:0;padding:0;cursor:pointer;background:none;width:100%;height:100%}
+.lpick{display:flex;flex-direction:column;gap:10px;background:linear-gradient(135deg,#ffd35a1f,#4fa3ff14);border:2px solid var(--marigold);border-radius:20px;padding:14px 16px}
+.lpick.one{flex-direction:row;align-items:center;flex-wrap:wrap;padding:10px 14px}
+.lp-q{font:800 20px/1.2 var(--display);color:var(--flame)}
+.lp-q small{display:block;font:600 14px var(--body);color:var(--muted);margin-top:2px}
+.lp-row{display:flex;gap:12px;flex-wrap:wrap}
+.lbtn{position:relative;display:inline-flex;align-items:center;gap:10px;font:800 19px var(--body);min-height:58px;padding:8px 20px 8px 8px;border-radius:999px;border:3px solid var(--lc);background:var(--night-2);color:var(--ink);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.lbtn b{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;background:var(--lc);color:#1c1442;font-size:22px;font-weight:900}
+.lbtn i{position:absolute;top:-8px;right:-6px;width:24px;height:24px;border-radius:50%;background:#46b882;color:#fff;font:900 14px/24px var(--body);text-align:center;font-style:normal;display:none}
+.lbtn:hover{transform:translateY(-3px) scale(1.04)}
+.lbtn.on{background:var(--lc);color:#1c1442;box-shadow:0 0 0 5px color-mix(in srgb,var(--lc) 35%,transparent),0 10px 24px -10px #000}
+.lbtn.on b{background:#fff8e6}
+.lbtn.on i{display:block}
+.lpick:not(.one) .lbtn:not(.on){animation:lnudge 3s ease-in-out infinite}
+.lpick .lbtn:nth-child(2){animation-delay:.25s}.lpick .lbtn:nth-child(3){animation-delay:.5s}
+@keyframes lnudge{0%,85%,100%{transform:none}90%{transform:translateY(-4px) rotate(-2deg)}95%{transform:translateY(0) rotate(2deg)}}
+@media (prefers-reduced-motion:reduce){.lbtn{animation:none!important}}
+@media (max-width:520px){.lbtn{font-size:17px;min-height:52px}.lp-row{gap:8px}}
 .langs{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
 .lang{font:700 15px var(--body);border:1px solid var(--line);background:var(--night-2);color:var(--ink);border-radius:999px;padding:8px 16px;cursor:pointer}
 .lang.on{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
@@ -323,6 +340,18 @@ function saveProg(){try{localStorage.setItem('storyquest',JSON.stringify(prog))}
 
 /* ===== views ===== */
 const V=document.getElementById('view');
+/* ===== big, kid-friendly language picker for videos (remembers the choice) ===== */
+const LGLYPH={'English':'A','हिंदी':'अ','हिन्दी':'अ','ಕನ್ನಡ':'ಅ','తెలుగు':'అ','தமிழ்':'அ','मराठी':'म'};
+const LCOL={'English':'#4fa3ff','हिंदी':'#ff8a3d','हिन्दी':'#ff8a3d','ಕನ್ನಡ':'#e8c13a','తెలుగు':'#46b882'};
+function prefLang(){try{return localStorage.getItem('wow-lang')||''}catch(e){return ''}}
+function orderByPref(vers){const p=prefLang();const i=vers.findIndex(v=>v[0]===p);return i>0?[vers[i],...vers.slice(0,i),...vers.slice(i+1)]:vers}
+function langPicker(vers,note=''){
+  if(!vers.length)return note;
+  if(vers.length===1)return `<div class="lpick one"><span class="lp-q">🗣️ This video is in</span><span class="lbtn on" style="--lc:${LCOL[vers[0][0]]||'#ffd35a'}"><b>${LGLYPH[vers[0][0]]||'🌐'}</b>${vers[0][0]}</span>${note}</div>`;
+  return `<div class="lpick" role="group" aria-label="Choose the video language">
+    <span class="lp-q">🗣️ Pick your language! <small>भाषा चुनें · ಭಾಷೆ ಆರಿಸಿ</small></span>
+    <div class="lp-row">${vers.map(([l,id],i)=>`<button type="button" class="lang lbtn${i?'':' on'}" data-id="${id}" data-l="${l}" aria-pressed="${!i}" style="--lc:${LCOL[l]||'#ffd35a'}"><b>${LGLYPH[l]||'🌐'}</b>${l}<i aria-hidden="true">✓</i></button>`).join('')}</div>${note}</div>`;
+}
 /* ===== game gallery: big gameplay pictures; full "how to play" + history live on each game page (game-info.js) ===== */
 const GAME_CATS=[['all','All games'],['deepavali','🪔 Deepavali'],['dasara','🔱 Dasara'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert']];
 const gameList=()=>window.WOW_GAMES||[];
@@ -435,13 +464,13 @@ function dasara(){
 function dasaraItem(k){
   const all=[...DASARA,...DASARA_MORE], i=all.findIndex(x=>x.k===k), e=all[i]; if(!e){location.hash='dasara';return}
   const v={n:e.day, img:ytImg(e.yt[0][1]), play:e.game&&e.play};
-  const tabs=`<div class="langs" role="tablist">${e.yt.map(([l,id],j)=>`<button class="lang${j?'':' on'}" data-id="${id}" role="tab">▶ ${l}</button>`).join('')}</div>`;
+  const yv=orderByPref(e.yt); const tabs=langPicker(yv);
   const prev=all[i-1], next=all[i+1];
   V.innerHTML=`<a href="#dasara" class="muted">← Dasara</a>
    <div><span class="eyebrow">Dasara · ${e.day}</span><h1>${e.title}</h1></div>
    <div class="step"><i>1</i><h2>Watch the story</h2></div>${tabs}
    <div class="video" id="vbox"><button class="watch" id="poster" aria-label="Play"><img src="${v.img}" alt="${e.title}"><span class="playbtn" aria-hidden="true">▶</span></button></div>
-   <a class="muted small" id="ytlink" href="https://youtu.be/${e.yt[0][1]}" target="_blank" rel="noopener">Open on YouTube ↗</a>
+   <a class="muted small" id="ytlink" href="https://youtu.be/${yv[0][1]}" target="_blank" rel="noopener">Open on YouTube ↗</a>
    ${e.game?`<div class="step"><i>2</i><h2>Play: ${e.game}</h2></div>${e.play?`<a class="btn" href="${e.play}">Play now</a>`:`<p class="muted">This game is being made. It will open here soon.</p>`}`:''}
    <nav class="epnav">${prev?`<a class="btn ghost" href="#ds-${prev.k}">← ${prev.day}</a>`:'<span></span>'}${next?`<a class="btn" href="#ds-${next.k}">Next: ${next.day} · ${next.title} →</a>`:`<a class="btn" href="#dasara">All Dasara videos →</a>`}</nav>`;
   wireVideo(v);
@@ -452,8 +481,8 @@ function epNav(n){
 }
 function episode(n){
   const e=DEEPAVALI.find(x=>x.n===n); if(!e||!e.ready){location.hash='deepavali';return}
-  const enLive=e.yt&&(!e.ytFrom||Date.now()>=Date.parse(e.ytFrom)); const vers=[...(enLive?[['English',e.yt]]:[]),...(e.alts||[])];
-  const tabs=vers.length?`<div class="langs" role="tablist">${vers.map(([l,id],i)=>`<button class="lang${i?'':' on'}" data-id="${id}" role="tab">▶ ${l}</button>`).join('')}${enLive?'':'<span class="muted">English episode: '+(e.ytFrom?new Date(e.ytFrom).toLocaleDateString(undefined,{day:'numeric',month:'short'}):'coming soon')+'</span>'}</div>`:'';
+  const enLive=e.yt&&(!e.ytFrom||Date.now()>=Date.parse(e.ytFrom)); const vers=orderByPref([...(enLive?[['English',e.yt]]:[]),...(e.alts||[])]);
+  const tabs=langPicker(vers,`${enLive?'':'<span class="muted">English episode: '+(e.ytFrom?new Date(e.ytFrom).toLocaleDateString(undefined,{day:'numeric',month:'short'}):'coming soon')+'</span>'}`);
   const vid=vers.length?`<button class="watch" id="poster" data-id="${vers[0][1]}" aria-label="Play episode ${e.n}"><img src="${e.img}" alt="Episode ${e.n}: ${e.title}"><span class="playbtn" aria-hidden="true">▶</span></button>`
     :`<img src="${e.img}" alt=""><div class="soon"><div><span class="eyebrow">Episode ${e.n} · ${e.place}</span><h3>The video arrives here soon</h3></div><a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Open our channel</a></div>`;
   const alsoIn='';
@@ -474,7 +503,7 @@ function wireVideo(e){
   const play=()=>{ try{if(musicOn)setMusic(false)}catch(_){}
     box.innerHTML=`<iframe src="https://www.youtube.com/embed/${cur}?autoplay=1&rel=0&modestbranding=1&playsinline=1&vq=hd1080&enablejsapi=1&origin=${encodeURIComponent(location.origin)}" title="Episode ${e.n}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`; if(window.WOWGate&&e.play) WOWGate.track(box.querySelector('iframe'), e.play.replace('.html','')) };
   box.addEventListener('click',ev=>{ if(ev.target.closest('#poster')) play() });
-  document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>{ document.querySelectorAll('.lang').forEach(x=>x.classList.toggle('on',x===b)); cur=b.dataset.id; if(link)link.href='https://youtu.be/'+cur; if(box.querySelector('iframe')) play(); else box.innerHTML=poster() });
+  document.querySelectorAll('.lang').forEach(b=>b.onclick=()=>{ document.querySelectorAll('.lang').forEach(x=>{x.classList.toggle('on',x===b);x.setAttribute('aria-pressed',x===b)}); try{localStorage.setItem('wow-lang',b.dataset.l)}catch(_){} try{sfx.right()}catch(_){} {const[x,y]=center(b);burst(x,y,'spark',14)} cur=b.dataset.id; if(link)link.href='https://youtu.be/'+cur; if(box.querySelector('iframe')) play(); else box.innerHTML=poster() });
 }
 
 /* ===== Episode 1 game: Light the Path ===== */
