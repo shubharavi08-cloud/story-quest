@@ -15,7 +15,7 @@ QORG = {"@type": "EducationalOrganization", "@id": Q + "#org", "name": "QUAD Aca
                        "revision videos on YouTube. A sister concern of OurSchoolHouse.",
         "telephone": "+91-80884-43156", "areaServed": "IN", "parentOrganization": OSH,
         "sameAs": [YT_QUAD, WA_QUAD],
-        "founder": [{"@type": "Person", "name": "Shubha M", "jobTitle": "Creator and manager, QUAD Academy; educational consultant and content designer, OurSchoolHouse"},
+        "founder": [{"@type": "Person", "name": "Shubha M", "jobTitle": "Co-founder and manager, QUAD Academy; educational consultant and content designer, OurSchoolHouse"},
                     {"@type": "Person", "name": "Mihir R Shreshti",
                      "jobTitle": "Creator and head of OurSchoolHouse; co-founder and Board-Exam Coach, QUAD Academy", "alumniOf": "IIT Madras"},
                     {"@type": "Person", "name": "Shwetha J", "jobTitle": "Co-founder and Board-Exam Coach (Maths)"}]}
@@ -72,7 +72,7 @@ QUAD_LLMS = """# QUAD Academy
 ## Teachers
 - Shwetha J: co-founder of QUAD Academy, MA, MEd, 15+ years teaching Class 8–10 Maths and Science across CBSE, ICSE, State Board and NIOS; founder of Learn with Shwetha (one-to-one board-exam tuition, Bangalore); teaches the Maths batch.
 - Mihir R Shreshti: created, manages and runs OurSchoolHouse; co-founder of QUAD Academy; IIT Madras alumnus, homeschooled and cleared Class 10 and 12 through NIOS; teaches the Science batch.
-- Shubha M: creator and manager of QUAD Academy; idea provider, educational consultant and content designer for OurSchoolHouse; 25+ years of teaching and content creation; plans courses, sets and marks mocks, writes parent reports, handles admissions.
+- Shubha M: co-founder and manager of QUAD Academy; idea provider, educational consultant and content designer for OurSchoolHouse; 25+ years of teaching and content creation; plans courses, sets and marks mocks, writes parent reports, handles admissions.
 
 ## Free revision
 - [QUAD Academy home](https://quadacademy.org/): free important-question videos for every Class 10 Maths and Science chapter, chapter notes and PDFs, board paper walkthroughs
