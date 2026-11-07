@@ -185,7 +185,7 @@ button{font-family:inherit;color:inherit;border:0;cursor:pointer;background:none
   <div class="by">World of Wonders Studio</div></div>
 <div class="screen" id="hub">
   <div class="bg bgA"></div><div class="bg bgB"></div><div class="light"></div><div class="motes" id="motes"></div><div class="vig"></div>
-  <div id="topbar"><div class="chip"><img src="assets/diya.webp" alt=""><span id="warmTxt">0</span></div><div class="sp"></div><button class="round" id="storyBtn" title="Story" style="font-size:20px">📖</button><button class="round" id="ajjiBtn" title="Ajji" style="overflow:hidden;padding:0"><img src="assets/ajji_smile.webp" alt="" style="width:150%;margin-top:22%;margin-left:-4%"></button><button class="round" id="sndBtn">🔊</button></div>
+  <div id="topbar"><div class="chip"><img src="assets/diya.webp" alt=""><span id="warmTxt">0</span></div><div class="sp"></div><button class="round" id="langBtn" title="Language" style="font-size:13px;font-weight:900">EN</button><button class="round" id="storyBtn" title="Story" style="font-size:20px">📖</button><button class="round" id="ajjiBtn" title="Ajji" style="overflow:hidden;padding:0"><img src="assets/ajji_smile.webp" alt="" style="width:150%;margin-top:22%;margin-left:-4%"></button><button class="round" id="sndBtn">🔊</button></div>
   <div id="roomTabs"></div><div id="house"><div id="houseLbl"></div><div class="hb"><i id="houseBar"></i></div><b id="housePct">0%</b></div><div id="placeTitle"></div>
   <div id="restore"><div class="ri" id="rIcon">🪑</div><div><div class="rt" id="rTitle"></div><div class="rs" id="rSub"></div></div><button class="btn o" id="rBtn"><img src="assets/diya.webp" alt=""><span id="rCost">3</span></button></div>
   <div id="festBar"></div>
@@ -1100,7 +1100,9 @@ function startMithai(){show('mithai');Mithai.start(S.mithai||0);Ads.go();if(!S.s
 
 /* ===================== TITLE / BOOT ===================== */
 function applyLang(){document.documentElement.lang=LANG;$('tSub').textContent=t('sub');$('tGoal').textContent='👑 '+t('goal');$('playBtn').textContent=S.seen.intro?t('cont'):t('play');document.querySelectorAll('#langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===LANG));renderHub()}
-document.querySelectorAll('#langs button').forEach(b=>b.onclick=()=>{LANG=b.dataset.l;S.lang=LANG;save();applyLang()});
+document.querySelectorAll('#langs button').forEach(b=>b.onclick=()=>{LANG=b.dataset.l;S.lang=LANG;save();applyLang();langLbl()});
+function langLbl(){$('langBtn').textContent={en:'EN',hi:'हिं',kn:'ಕ'}[LANG]}
+$('langBtn').onclick=()=>{A.click(.3);LANG={en:'hi',hi:'kn',kn:'en'}[LANG];S.lang=LANG;save();applyLang();renderHub();langLbl();document.querySelectorAll('#langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===LANG))};langLbl();
 if(S.lang)LANG=S.lang;else{const nl=(navigator.language||'').slice(0,2);if(nl==='hi'||nl==='kn')LANG=nl}
 A.on=S.snd;$('sndBtn').textContent=S.snd?'🔊':'🔇';
 $('playBtn').onclick=()=>{A.ctx();A.startAmb();A.chime();show('hub');motes();renderHub();try{window.CrazyGames&&CrazyGames.SDK&&CrazyGames.SDK.game.gameplayStart()}catch(e){}
