@@ -100,8 +100,10 @@ const Ads={cg:()=>window.CrazyGames&&CrazyGames.SDK&&CrazyGames.SDK.environment!
  happy(){try{const cg=this.cg();cg&&cg.game&&cg.game.happytime()}catch(e){}},
  stop(){try{const cg=this.cg();cg&&cg.game&&cg.game.gameplayStop()}catch(e){}},go(){try{const cg=this.cg();cg&&cg.game&&cg.game.gameplayStart()}catch(e){}}};
 // ---------------- save ----------------
-const KEY='wow_dosa_v1';let S={day:0,coins:0,up:{},best:0,lang:null,seen:{}};try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const KEY='wow_dosa_v1';let S={day:0,coins:0,up:{},best:0,lang:null,seen:{}};
+const store=()=>{const cg=Ads.cg();return cg&&cg.data?cg.data:localStorage};
+const load=()=>{try{Object.assign(S,JSON.parse(store().getItem(KEY)||'{}'))}catch(e){}};load();
+const save=()=>{try{store().setItem(KEY,JSON.stringify(S))}catch(e){}};
 // ---------------- images ----------------
 const im={};const ok=i=>i&&i.complete&&i.naturalWidth;
 ['bg_counter','u_plant','u_radio','u_coffee','u_lamp','u_bell',...CUST,'b_batter','b_ghee',...FILL.map(f=>'b_'+f),'leaf','ajji_smile'].forEach(k=>{const i=new Image();i.src='assets/'+k+'.webp';im[k]=i});
@@ -356,7 +358,7 @@ function titleTxt(){document.documentElement.lang=LANG;$('tName').textContent=t(
 document.querySelectorAll('#langs button').forEach(b=>b.onclick=()=>{LANG=b.dataset.l;S.lang=LANG;save();titleTxt()});
 $('playBtn').onclick=()=>{A.ctx();dayIntro()};
 if(/from=aangan/.test(location.search)||/aangan/.test(document.referrer)){$('backA').style.display='block';try{const a=JSON.parse(localStorage.getItem('wow_aangan_v1')||'{}');if(a.lang&&!S.lang)S.lang=a.lang}catch(e){}}
-Ads.init();
+Ads.init().then(()=>{if(Ads.cg()){load();titleTxt()}});
 LANG=S.lang||(/^kn/.test(navigator.language)?'kn':/^hi/.test(navigator.language)?'hi':'en');titleTxt();layout();requestAnimationFrame(loop);
 window.__dosa={S,get slots(){return slots},get custs(){return custs},get tray(){return tray},get tool(){return tool},set tool(v){tool=v},startDay,endDay,spawnCust,get state(){return state}};
 </script>
