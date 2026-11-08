@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Why Do We Light Diyas on Deepavali? Rama's Return to Ayodhya, Told for Children",
+   "url": "https://worldofwondersstudio.com/blog/why-we-light-diyas-deepavali-rama-ayodhya/",
+   "date": "2026-11-08",
+   "description": "The story of Rama's return to Ayodhya, why Deepavali means a row of lamps, the five days of the festival, and a simple diya activity for children and parents."
+  },
+  {
    "title": "Run From Fear and It Chases You: Swami Vivekananda, the Monkeys and Bhagavad Gita 2.3",
    "url": "https://worldofwondersstudio.com/blog/vivekananda-monkeys-face-fear-gita-2-3/",
    "date": "2026-11-07",
@@ -11,6 +17,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/why-we-light-diyas-deepavali-rama-ayodhya/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/vivekananda-monkeys-face-fear-gita-2-3/index.html",
