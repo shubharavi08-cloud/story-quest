@@ -19,11 +19,15 @@
   var apiReady=null;
   function api(){
     if(apiReady)return apiReady;
-    apiReady=new Promise(function(res){
+    apiReady=new Promise(function(res,rej){
       if(window.YT&&window.YT.Player)return res(window.YT);
       var prev=window.onYouTubeIframeAPIReady;
       window.onYouTubeIframeAPIReady=function(){if(prev)try{prev()}catch(e){};res(window.YT)};
-      var s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';document.head.appendChild(s);
+      var s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';
+      s.onerror=function(){rej(new Error('yt-api'))};
+      document.head.appendChild(s);
+      /* another script may have loaded the API and taken the ready callback: poll for it */
+      var n=0,iv=setInterval(function(){if(window.YT&&window.YT.Player){clearInterval(iv);res(window.YT)}else if(++n>40)clearInterval(iv)},250);
     });
     return apiReady;
   }
@@ -33,6 +37,8 @@
     return api().then(function(YT){
       var timer=null,fired=false,started=false;
       var p=new YT.Player(target,Object.assign({events:{
+        onReady:function(){opts.onReady&&opts.onReady()},
+        onError:function(e){opts.onError&&opts.onError(e&&e.data)},
         onStateChange:function(e){
           if(e.data===YT.PlayerState.ENDED){finish();return}
           if(e.data===YT.PlayerState.PLAYING){if(!started){started=true;opts.onStart&&opts.onStart()}if(!timer)timer=setInterval(tick,1000)}
@@ -82,12 +88,25 @@
    '<button class="btn" id="wowGateGo" disabled>'+t.go+'</button></div>'+
    '<a class="lnk" target="_blank" rel="noopener" href="https://youtu.be/'+vid+'">'+t.yt+'</a></div>';
   function mount(){document.body.appendChild(g);document.documentElement.classList.add('wow-gated');
-    watch('wowGateP',{player:{videoId:vid,playerVars:{rel:0,playsinline:1,modestbranding:1}},
+    function unlock(){var b=document.getElementById('wowGateGo');if(b)b.disabled=false}
+    var ready=false,fell=false;
+    /* if the YouTube player can't start (script blocked, slow network, video error), never trap the player:
+       show a plain YouTube embed instead and let them into the game */
+    function fallback(){if(ready||fell)return;fell=true;
+      var box=g.querySelector('.v');
+      if(box)box.innerHTML='<iframe src="https://www.youtube.com/embed/'+vid+'?rel=0&playsinline=1&modestbranding=1" title="Story" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+      unlock()}
+    var guard=setTimeout(fallback,6000);
+    watch('wowGateP',{player:{videoId:vid,playerVars:{rel:0,playsinline:1,modestbranding:1,origin:location.origin}},
+      onReady:function(){ready=true;clearTimeout(guard)},
+      onError:function(){ready=false;clearTimeout(guard);fallback()},
       onPct:function(f){var b=document.getElementById('wowGateB');if(b)b.style.width=Math.round(f*100)+'%'},
-      onStart:function(){mark(key);var b=document.getElementById('wowGateGo');if(b){b.disabled=false}},
-      onDone:function(){open()}});
+      onStart:function(){mark(key);unlock()},
+      onDone:function(){open()}}).catch(function(){clearTimeout(guard);fallback()});
     function open(){if(!g.isConnected)return;g.remove();document.documentElement.classList.remove('wow-gated');try{window.dispatchEvent(new Event('resize'))}catch(e){}}
     document.getElementById('wowGateGo').onclick=open;
+    /* watching on YouTube itself counts too */
+    var yl=g.querySelector('a.lnk[target]');if(yl)yl.addEventListener('click',function(){mark(key);unlock()});
   }
   if(document.body)mount();else document.addEventListener('DOMContentLoaded',mount);
 })();
