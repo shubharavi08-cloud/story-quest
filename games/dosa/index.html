@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="robots" content="noindex">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Dosa Darshini · World of Wonders Studio</title>
+<meta name="description" content="Run a busy Bangalore dosa counter: pour, spread, roast and fill masala, Mysore masala, cheese, paneer and noodle dosas before your customers lose patience.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Nunito:wght@600;800;900&family=Baloo+2:wght@600;800&family=Baloo+Tamma+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3b2414;--cream:#fff7ea;--deep:#7a3a12;--ui:'Nunito','Baloo 2','Baloo Tamma 2',system-ui,sans-serif;--disp:'Fraunces',Georgia,serif}
+html[lang=hi]{--ui:'Baloo 2','Nunito',sans-serif;--disp:'Baloo 2',serif}
+html[lang=kn]{--ui:'Baloo Tamma 2','Nunito',sans-serif;--disp:'Baloo Tamma 2',serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;overflow:hidden;background:#1a0d05;font-family:var(--ui);color:var(--ink);user-select:none;-webkit-user-select:none;touch-action:none}
+button{font-family:inherit;border:0;cursor:pointer}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
+.btn{border-radius:14px;padding:10px 18px;font-weight:900;font-size:17px;box-shadow:0 4px 0 rgba(0,0,0,.25);display:inline-flex;align-items:center;gap:6px;justify-content:center}
+.btn.g{background:linear-gradient(#5cc46a,#2f8f3c);color:#fff}.btn.o{background:linear-gradient(#ffc964,#e8952a);color:#4a2306}.btn.p{background:#eadcc6;color:#5c3a1c}.btn.off{filter:grayscale(.9);opacity:.55}
+#hud{position:fixed;top:8px;left:8px;right:8px;display:none;gap:8px;align-items:center;z-index:5;pointer-events:none}
+#hud .chip{background:rgba(255,247,234,.94);border-radius:14px;padding:5px 12px;font-weight:900;font-size:16px;box-shadow:0 3px 10px rgba(0,0,0,.3);display:flex;align-items:center;gap:6px;pointer-events:auto}
+#hud .sp{flex:1}#hud small{font-size:11px;display:block;color:#8a5a2c;font-weight:800;line-height:1}
+#goalBar{width:90px;height:8px;background:#e9d8bd;border-radius:9px;overflow:hidden}#goalBar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f6c24a,#e47a1e);transition:width .3s}
+#hint{position:fixed;left:50%;transform:translateX(-50%);bottom:auto;top:54px;z-index:6;background:rgba(28,12,4,.86);color:#ffe9c4;border:2px solid #f0c060;border-radius:16px;padding:7px 16px;font-weight:800;font-size:clamp(14px,2.2vw,18px);max-width:92vw;text-align:center;display:none;pointer-events:none}
+#title{position:fixed;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;background:linear-gradient(rgba(20,8,2,.35),rgba(20,8,2,.8)),url(assets/bg_counter.webp) center/cover}
+#title h1{margin:0;font-family:var(--disp);font-weight:800;font-size:clamp(46px,10vw,92px);color:#ffe27a;text-shadow:0 5px 0 #8a3a10,0 0 40px rgba(255,170,60,.6);text-align:center;line-height:1}
+#title .sub{color:#ffe9c4;font-weight:800;font-size:clamp(15px,2.6vw,20px);text-align:center;max-width:90vw}
+#langs{display:flex;gap:8px}#langs button{background:rgba(255,247,234,.25);color:#fff;border-radius:999px;padding:7px 14px;font-weight:900;border:2px solid rgba(255,240,210,.5)}#langs button.on{background:var(--cream);color:var(--ink)}
+#modal{position:fixed;inset:0;background:rgba(15,8,3,.62);display:none;align-items:center;justify-content:center;z-index:30;padding:14px}
+#modal .box{background:var(--cream);border-radius:24px;padding:18px 16px 14px;max-width:440px;width:100%;text-align:center;box-shadow:0 14px 50px rgba(0,0,0,.6);border:3px solid #f0d3a2;animation:pop .35s cubic-bezier(.2,1.5,.4,1);max-height:92vh;overflow:auto}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+#modal h2{font-family:var(--disp);font-weight:800;margin:2px 0 6px;font-size:26px;color:var(--deep)}
+#modal p{margin:6px 0;font-weight:700;color:#5c3a1c}
+#modal .row{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}
+.recipe{display:flex;align-items:center;justify-content:center;gap:4px;flex-wrap:wrap;background:#fbefd9;border-radius:16px;padding:8px;margin:8px 0;font-weight:900}
+.recipe img{width:44px;height:44px;object-fit:contain}.recipe .ar{color:#b06a24}
+.stars{font-size:44px;letter-spacing:4px}.stars span{color:#d8c7a8}.stars span.got{color:#f2b705;text-shadow:0 2px 0 #b07a00}
+.up{display:flex;align-items:center;gap:10px;background:#fbefd9;border-radius:14px;padding:8px 10px;margin:6px 0;text-align:left}
+.up .ic{font-size:30px}.up .tx{flex:1;font-weight:800;font-size:14px}.up .tx b{display:block;font-size:16px;color:var(--deep)}
+.bigword{position:fixed;left:50%;top:36%;transform:translate(-50%,-50%);z-index:40;font-family:var(--disp);font-weight:900;font-size:clamp(40px,10vw,90px);pointer-events:none;white-space:nowrap;animation:bigw 1.7s cubic-bezier(.2,1.4,.4,1) forwards;color:#ffe27a;text-shadow:0 5px 0 #a3410f,0 0 40px rgba(255,190,60,.9)}
+@keyframes bigw{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}32%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-62%)}}
+</style>
+</head>
+<body>
+<canvas id="cv"></canvas>
+<div id="hud"><div class="chip">📅 <span id="hDay"></span></div><div class="chip">⏱ <span id="hTime"></span></div><div class="sp"></div>
+ <div class="chip">₹ <span id="hCoin">0</span><div><small id="hGoalL"></small><div id="goalBar"><i></i></div></div></div><div class="chip" id="hRep"></div><button class="chip" id="hPause" style="pointer-events:auto">⏸</button></div>
+<div id="hint"></div>
+<div id="title"><h1 id="tName">Dosa Darshini</h1><div class="sub" id="tSub"></div>
+ <div id="langs"><button data-l="en">English</button><button data-l="hi">हिन्दी</button><button data-l="kn">ಕನ್ನಡ</button></div>
+ <button class="btn g" id="playBtn" style="font-size:24px;padding:14px 40px"></button><div class="sub" id="tBest" style="font-size:14px;opacity:.85"></div></div>
+<div id="modal"><div class="box" id="mbox"></div></div>
+<script src="sound.js"></script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+// ---------------- text ----------------
+const T={
+en:{name:'Dosa Darshini',sub:'Run Bangalore’s busiest dosa counter — every customer wants a different dosa!',play:'Open the shop',cont:'Day {d} — open the shop',day:'Day',goal:'Goal',best:'Best day: {d}',
+ d:{plain:'Plain Dosa',masala:'Masala Dosa',mysore:'Mysore Masala',onion:'Onion Dosa',ghee:'Ghee Roast',cheese:'Cheese Dosa',mushroom:'Mushroom Dosa',veg:'Mix Veg Dosa',paneer:'Paneer Dosa',noodles:'Noodles Dosa',cheesemasala:'Cheese Masala',schezpaneer:'Spicy Paneer',onionmasala:'Onion Masala',cheesemush:'Cheese Mushroom',vegcheese:'Veg Cheese',mysorecheese:'Mysore Cheese',noodlecheese:'Cheese Noodles',paneermasala:'Paneer Masala'},
+ f:{batter:'Batter',palya:'Potato palya',redchutney:'Red chutney',onion:'Onion',cheese:'Cheese',mushroom:'Mushroom',veg:'Vegetables',noodles:'Noodles',paneer:'Paneer',ghee:'Ghee'},
+ newDish:'New on the menu!',howTo:'How to make it',start:'Start ▶',goalTxt:'Earn ₹{g} before closing time',
+ h:{pick:'Tap the BATTER bowl',pour:'Now tap the griddle to pour',spread:'Swirl your finger round and round to spread',fill:'Add the fillings: tap {f}, then tap the dosa',roast:'Let it roast till golden…',ghee:'Tip: a little ghee makes it crispier (and customers tip more!)',fold:'Golden! Tap the dosa to roll it',serve:'Tap the customer to serve',burnt:'Burnt! Tap it to throw it away',wrong:'That is not what they ordered!'},
+ perfect:'Perfect!',good:'Good',raw:'Too pale…',angry:'Left angry!',tip:'Tip',closing:'Closing time!',dayDone:'Day {d} done!',dayFail:'The shop needs more ₹',earned:'Earned ₹{c}',served:'{n} dosas served',again:'Try again',next:'Next day',shop:'Upgrade the counter',buy:'Buy',owned:'Owned',paused:'Paused',resume:'Resume',home:'Home',
+ up:{slot:['3rd griddle spot','Cook three dosas at once'],flame:['Bigger flame','Dosas roast 30% faster'],coffee:['Filter coffee for waiting customers','Customers wait 35% longer'],bell:['Brass bell','Tips +25%'],slot4:['4th griddle spot','Cook four at once']},
+ rep:'Mood',cheerW:'Shabash!',oopsW:'Ayyo!'},
+hi:{name:'डोसा दर्शिनी',sub:'बेंगलुरु का सबसे व्यस्त डोसा काउंटर चलाइए — हर ग्राहक को अलग डोसा चाहिए!',play:'दुकान खोलें',cont:'दिन {d} — दुकान खोलें',day:'दिन',goal:'लक्ष्य',best:'सबसे अच्छा दिन: {d}',
+ d:{plain:'सादा डोसा',masala:'मसाला डोसा',mysore:'मैसूर मसाला',onion:'प्याज़ डोसा',ghee:'घी रोस्ट',cheese:'चीज़ डोसा',mushroom:'मशरूम डोसा',veg:'मिक्स वेज डोसा',paneer:'पनीर डोसा',noodles:'नूडल्स डोसा',cheesemasala:'चीज़ मसाला',schezpaneer:'तीखा पनीर',onionmasala:'प्याज़ मसाला',cheesemush:'चीज़ मशरूम',vegcheese:'वेज चीज़',mysorecheese:'मैसूर चीज़',noodlecheese:'चीज़ नूडल्स',paneermasala:'पनीर मसाला'},
+ f:{batter:'घोल',palya:'आलू मसाला',redchutney:'लाल चटनी',onion:'प्याज़',cheese:'चीज़',mushroom:'मशरूम',veg:'सब्ज़ियाँ',noodles:'नूडल्स',paneer:'पनीर',ghee:'घी'},
+ newDish:'मेन्यू में नया!',howTo:'कैसे बनाएँ',start:'शुरू ▶',goalTxt:'दुकान बंद होने से पहले ₹{g} कमाएँ',
+ h:{pick:'घोल वाले कटोरे पर टैप करें',pour:'अब तवे पर टैप करके घोल डालें',spread:'उँगली गोल-गोल घुमाकर फैलाएँ',fill:'भरावन डालें: {f} पर टैप करें, फिर डोसे पर',roast:'सुनहरा होने तक सेंकें…',ghee:'थोड़ा घी डालें — डोसा कुरकुरा और टिप ज़्यादा!',fold:'सुनहरा! डोसे पर टैप करके मोड़ें',serve:'परोसने के लिए ग्राहक पर टैप करें',burnt:'जल गया! फेंकने के लिए टैप करें',wrong:'उन्होंने यह नहीं माँगा था!'},
+ perfect:'एकदम बढ़िया!',good:'अच्छा',raw:'कच्चा रह गया…',angry:'नाराज़ होकर चले गए!',tip:'टिप',closing:'दुकान बंद!',dayDone:'दिन {d} पूरा!',dayFail:'दुकान को और ₹ चाहिए',earned:'₹{c} कमाए',served:'{n} डोसे परोसे',again:'फिर से',next:'अगला दिन',shop:'काउंटर सुधारें',buy:'खरीदें',owned:'है',paused:'रुका है',resume:'जारी रखें',home:'होम',
+ up:{slot:['तवे पर तीसरी जगह','एक साथ तीन डोसे'],flame:['तेज़ आँच','डोसे 30% जल्दी सिकें'],coffee:['इंतज़ार वालों को फ़िल्टर कॉफ़ी','ग्राहक 35% ज़्यादा रुकें'],bell:['पीतल की घंटी','टिप +25%'],slot4:['तवे पर चौथी जगह','एक साथ चार डोसे']},
+ rep:'मूड',cheerW:'शाबाश!',oopsW:'अरे!'},
+kn:{name:'ದೋಸೆ ದರ್ಶಿನಿ',sub:'ಬೆಂಗಳೂರಿನ ಅತ್ಯಂತ ಜನಜಂಗುಳಿಯ ದೋಸೆ ಹೋಟೆಲ್ ನಡೆಸಿ — ಪ್ರತಿ ಗಿರಾಕಿಗೂ ಬೇರೆ ಬೇರೆ ದೋಸೆ ಬೇಕು!',play:'ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',cont:'ದಿನ {d} — ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',day:'ದಿನ',goal:'ಗುರಿ',best:'ಅತ್ಯುತ್ತಮ ದಿನ: {d}',
+ d:{plain:'ಸಾದಾ ದೋಸೆ',masala:'ಮಸಾಲೆ ದೋಸೆ',mysore:'ಮೈಸೂರು ಮಸಾಲೆ',onion:'ಈರುಳ್ಳಿ ದೋಸೆ',ghee:'ತುಪ್ಪದ ದೋಸೆ',cheese:'ಚೀಸ್ ದೋಸೆ',mushroom:'ಅಣಬೆ ದೋಸೆ',veg:'ತರಕಾರಿ ದೋಸೆ',paneer:'ಪನೀರ್ ದೋಸೆ',noodles:'ನೂಡಲ್ಸ್ ದೋಸೆ',cheesemasala:'ಚೀಸ್ ಮಸಾಲೆ',schezpaneer:'ಖಾರದ ಪನೀರ್',onionmasala:'ಈರುಳ್ಳಿ ಮಸಾಲೆ',cheesemush:'ಚೀಸ್ ಅಣಬೆ',vegcheese:'ತರಕಾರಿ ಚೀಸ್',mysorecheese:'ಮೈಸೂರು ಚೀಸ್',noodlecheese:'ಚೀಸ್ ನೂಡಲ್ಸ್',paneermasala:'ಪನೀರ್ ಮಸಾಲೆ'},
+ f:{batter:'ಹಿಟ್ಟು',palya:'ಆಲೂಗಡ್ಡೆ ಪಲ್ಯ',redchutney:'ಕೆಂಪು ಚಟ್ನಿ',onion:'ಈರುಳ್ಳಿ',cheese:'ಚೀಸ್',mushroom:'ಅಣಬೆ',veg:'ತರಕಾರಿ',noodles:'ನೂಡಲ್ಸ್',paneer:'ಪನೀರ್',ghee:'ತುಪ್ಪ'},
+ newDish:'ಮೆನುವಿನಲ್ಲಿ ಹೊಸದು!',howTo:'ಮಾಡುವ ವಿಧಾನ',start:'ಶುರು ▶',goalTxt:'ಹೋಟೆಲ್ ಮುಚ್ಚುವ ಮುನ್ನ ₹{g} ಗಳಿಸಿ',
+ h:{pick:'ಹಿಟ್ಟಿನ ಬಟ್ಟಲನ್ನು ಒತ್ತಿ',pour:'ಈಗ ಕಾವಲಿಯ ಮೇಲೆ ಒತ್ತಿ ಹಿಟ್ಟು ಹುಯ್ಯಿರಿ',spread:'ಬೆರಳನ್ನು ಸುತ್ತ ಸುತ್ತ ತಿರುಗಿಸಿ ಹರಡಿ',fill:'ಹೂರಣ ಹಾಕಿ: {f} ಒತ್ತಿ, ನಂತರ ದೋಸೆ ಒತ್ತಿ',roast:'ಹೊಂಬಣ್ಣ ಬರುವವರೆಗೆ ಬೇಯಲಿ…',ghee:'ಸ್ವಲ್ಪ ತುಪ್ಪ ಹಾಕಿ — ಗರಿಗರಿ ದೋಸೆ, ಹೆಚ್ಚು ಭಕ್ಷೀಸು!',fold:'ಹೊಂಬಣ್ಣ ಬಂತು! ದೋಸೆ ಒತ್ತಿ ಮಡಚಿ',serve:'ಬಡಿಸಲು ಗಿರಾಕಿಯನ್ನು ಒತ್ತಿ',burnt:'ಸೀದುಹೋಯಿತು! ಎಸೆಯಲು ಒತ್ತಿ',wrong:'ಅವರು ಕೇಳಿದ್ದು ಇದಲ್ಲ!'},
+ perfect:'ಅದ್ಭುತ!',good:'ಚೆನ್ನಾಗಿದೆ',raw:'ಬಿಳಿಚಿಕೊಂಡಿದೆ…',angry:'ಸಿಟ್ಟಿನಿಂದ ಹೋದರು!',tip:'ಭಕ್ಷೀಸು',closing:'ಹೋಟೆಲ್ ಮುಚ್ಚುವ ಸಮಯ!',dayDone:'ದಿನ {d} ಮುಗಿಯಿತು!',dayFail:'ಹೋಟೆಲ್‌ಗೆ ಇನ್ನೂ ₹ ಬೇಕು',earned:'₹{c} ಗಳಿಕೆ',served:'{n} ದೋಸೆ ಬಡಿಸಿದಿರಿ',again:'ಮತ್ತೊಮ್ಮೆ',next:'ಮುಂದಿನ ದಿನ',shop:'ಹೋಟೆಲ್ ಸುಧಾರಿಸಿ',buy:'ಕೊಳ್ಳಿ',owned:'ಇದೆ',paused:'ನಿಲ್ಲಿಸಲಾಗಿದೆ',resume:'ಮುಂದುವರಿಸಿ',home:'ಮನೆ',
+ up:{slot:['ಕಾವಲಿಯಲ್ಲಿ ಮೂರನೇ ಜಾಗ','ಒಮ್ಮೆಗೆ ಮೂರು ದೋಸೆ'],flame:['ದೊಡ್ಡ ಉರಿ','ದೋಸೆ 30% ಬೇಗ ಬೇಯುತ್ತೆ'],coffee:['ಕಾಯುವವರಿಗೆ ಫಿಲ್ಟರ್ ಕಾಫಿ','ಗಿರಾಕಿಗಳು 35% ಹೆಚ್ಚು ಕಾಯುತ್ತಾರೆ'],bell:['ಹಿತ್ತಾಳೆ ಗಂಟೆ','ಭಕ್ಷೀಸು +25%'],slot4:['ಕಾವಲಿಯಲ್ಲಿ ನಾಲ್ಕನೇ ಜಾಗ','ಒಮ್ಮೆಗೆ ನಾಲ್ಕು ದೋಸೆ']},
+ rep:'ಮನಸ್ಥಿತಿ',cheerW:'ಭೇಷ್!',oopsW:'ಅಯ್ಯೋ!'}};
+let LANG='en';const t=k=>(T[LANG]&&T[LANG][k]!==undefined?T[LANG][k]:T.en[k]);const fill=(s,o)=>s.replace(/\{(\w)\}/g,(m,k)=>o[k]);
+// ---------------- data ----------------
+const FILL=['palya','redchutney','onion','cheese','mushroom','veg','noodles','paneer'];
+const DISH={plain:{f:[],p:30},masala:{f:['palya'],p:45},mysore:{f:['redchutney','palya'],p:60},onion:{f:['onion'],p:40},ghee:{f:['ghee'],p:55},cheese:{f:['cheese'],p:60},mushroom:{f:['mushroom'],p:60},veg:{f:['veg'],p:55},paneer:{f:['paneer'],p:70},noodles:{f:['noodles'],p:70},
+ cheesemasala:{f:['palya','cheese'],p:80},schezpaneer:{f:['redchutney','paneer'],p:85},onionmasala:{f:['onion','palya'],p:65},cheesemush:{f:['mushroom','cheese'],p:85},vegcheese:{f:['veg','cheese'],p:80},mysorecheese:{f:['redchutney','palya','cheese'],p:100},noodlecheese:{f:['noodles','cheese'],p:95},paneermasala:{f:['palya','paneer'],p:90}};
+// unlock order: one new dish per day
+const UNLOCK=['plain','masala','mysore','onion','ghee','cheese','mushroom','veg','paneer','cheesemasala','noodles','onionmasala','schezpaneer','cheesemush','vegcheese','paneermasala','mysorecheese','noodlecheese'];
+const UPS=[{k:'slot',ic:'🍳',c:250,day:2},{k:'flame',ic:'🔥',c:300,day:3},{k:'coffee',ic:'☕',c:350,day:4},{k:'bell',ic:'🔔',c:450,day:6},{k:'slot4',ic:'🍳',c:900,day:9,need:'slot'}];
+const CUST=['c_office','c_girl','c_ajja','c_auto'];
+function dayDef(d){const n=Math.min(UNLOCK.length,d+1);const menu=UNLOCK.slice(0,n);return{menu,len:Math.min(150,95+d*5),goal:Math.round((110+d*55)/10)*10,gap:Math.max(5,10-d*.45),pat:Math.max(26,46-d*1.2),max:Math.min(3,1+Math.ceil(d/2))}}
+// ---------------- save ----------------
+const KEY='wow_dosa_v1';let S={day:0,coins:0,up:{},best:0,lang:null,seen:{}};try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+// ---------------- images ----------------
+const im={};const ok=i=>i&&i.complete&&i.naturalWidth;
+['bg_counter',...CUST,'b_batter','b_ghee',...FILL.map(f=>'b_'+f),'leaf','ajji_smile'].forEach(k=>{const i=new Image();i.src='assets/'+k+'.webp';im[k]=i});
+// filling "topping" textures: crop the food out of each bowl image
+const TOP={};function makeTop(f){const s=im['b_'+f];if(!ok(s))return null;if(TOP[f])return TOP[f];const c=document.createElement('canvas');c.width=c.height=96;const x=c.getContext('2d');x.beginPath();x.arc(48,48,46,0,6.283);x.clip();const w=s.naturalWidth,h=s.naturalHeight;x.drawImage(s,w*.22,h*.12,w*.56,h*.42,0,0,96,96);TOP[f]=c;return c}
+// lace texture for roasted dosa
+const lace=document.createElement('canvas');lace.width=lace.height=256;{const l=lace.getContext('2d');for(let k=0;k<700;k++){const x=Math.random()*256,y=Math.random()*256,r=.6+Math.random()*Math.random()*4.5;l.fillStyle=`rgba(${105+Math.random()*40|0},${50+Math.random()*25|0},${12+Math.random()*10|0},${.3+Math.random()*.5})`;l.beginPath();l.arc(x,y,r,0,6.283);l.fill()}for(let k=0;k<50;k++){const a=Math.random()*6.283,d=128*(.3+Math.random()*.6);l.strokeStyle=`rgba(120,60,15,${.08+Math.random()*.1})`;l.lineWidth=1+Math.random()*2;l.beginPath();l.arc(128,128,d,a,a+.3+Math.random()*.6);l.stroke()}}
+// ---------------- canvas / layout ----------------
+const cv=$('cv'),g=cv.getContext('2d');let W,H,L={};
+function layout(){const dpr=Math.min(2,devicePixelRatio||1);W=innerWidth;H=innerHeight;cv.width=W*dpr;cv.height=H*dpr;g.setTransform(dpr,0,0,dpr,0,0);
+ const land=W>H*1.1;L.land=land;
+ if(land){L.custY=H*.44;L.custH=H*.4;L.custX=[W*.14,W*.42,W*.8];L.counterY=H*.4;
+  L.grid={x:W*.04,y:H*.47,w:W*.62,h:H*.3};L.tray={x:W*.69,y:H*.47,w:W*.27,h:H*.3};L.bowlY=H*.8;L.bowlH=H*.17;L.bowlX0=W*.04;L.bowlX1=W*.96}
+ else{L.custY=H*.31;L.custH=H*.2;L.custX=[W*.14,W*.45,W*.86];L.counterY=H*.29;
+  L.grid={x:W*.03,y:H*.34,w:W*.94,h:H*.24};L.tray={x:W*.03,y:H*.595,w:W*.94,h:H*.11};L.bowlY=H*.72;L.bowlH=H*.25;L.bowlX0=W*.03;L.bowlX1=W*.97}
+ placeSlots();placeBowls()}
+let slots=[],bowls=[],tray=[],custs=[];
+function nSlots(){return 2+(S.up.slot?1:0)+(S.up.slot4?1:0)}
+function placeSlots(){const n=nSlots(),G=L.grid;const r=Math.min(G.h*.44,G.w/n*.44);while(slots.length<n)slots.push({st:'empty',cook:0,f:[],ghee:0,spread:0,ang:0});slots.length=n;
+ slots.forEach((s,i)=>{s.x=G.x+G.w*(i+.5)/n;s.y=G.y+G.h*.5;s.r=r})}
+function placeBowls(){const ks=['batter',...FILL,'ghee'];const n=ks.length;bowls=ks.map((k,i)=>({k}));
+ if(L.land){const w=(L.bowlX1-L.bowlX0)/n;bowls.forEach((b,i)=>{b.x=L.bowlX0+w*(i+.5);b.y=L.bowlY+L.bowlH*.45;b.s=Math.min(w*.9,L.bowlH*.85)})}
+ else{const per=5,w=(L.bowlX1-L.bowlX0)/per;bowls.forEach((b,i)=>{const r=Math.floor(i/per),c=i%per;b.x=L.bowlX0+w*(c+.5);b.y=L.bowlY+L.bowlH*(.25+r*.5);b.s=Math.min(w*.9,L.bowlH*.46)})}}
+addEventListener('resize',()=>{layout()});
+// ---------------- game state ----------------
+let state='title',day,DD,timeLeft,coins0,earned,served,rep,tool=null,spawnT,parts=[],pops=[],flyers=[],lastT=0,paused=false,shake=0,tut=false;
+const unlocked=d=>!!S.up[d];
+function upActive(k){return !!S.up[k]}
+function startDay(){day=S.day;DD=dayDef(day);timeLeft=DD.len;earned=0;served=0;rep=5;tool=null;slots=[];tray=[];custs=[];parts=[];pops=[];flyers=[];layout();spawnT=1.2;tut=day===0;state='play';paused=false;
+ $('hud').style.display='flex';$('title').style.display='none';hud();A.ctx();A.chime()}
+function hud(){$('hDay').textContent=t('day')+' '+(day+1);$('hTime').textContent=Math.max(0,Math.ceil(timeLeft))+'s';$('hCoin').textContent=earned;$('hGoalL').textContent=t('goal')+' ₹'+DD.goal;
+ document.querySelector('#goalBar i').style.width=Math.min(100,earned/DD.goal*100)+'%';$('hRep').textContent='😊'.repeat(Math.max(0,Math.ceil(rep/2)))+(rep<=0?'😠':'')}
+function spawnCust(){const free=[0,1,2].filter(i=>!custs.some(c=>c.pos===i));if(!free.length||custs.length>=DD.max)return;
+ const pos=free[Math.random()*free.length|0];
+ // prefer the newest dish now and then so the player practises it
+ const m=DD.menu;const dish=Math.random()<.3?m[m.length-1]:m[Math.random()*m.length|0];
+ const pat=DD.pat*(upActive('coffee')?1.35:1)*(tut?3:1);custs.push({pos,img:CUST[Math.random()*CUST.length|0],dish,pat,max:pat,t:0,st:'in',x:L.custX[pos]});A.tone(1320,.05,.25,'sine');A.tone(1760,.04,.3,'sine',.08)}
+// ---------------- input ----------------
+let ptr=null;
+cv.addEventListener('pointerdown',e=>{if(state!=='play'||paused)return;A.ctx();const x=e.clientX,y=e.clientY;ptr={x,y,id:e.pointerId,slot:null,ang:null};
+ // bowls
+ const b=bowls.find(b=>Math.abs(x-b.x)<b.s*.5&&Math.abs(y-b.y)<b.s*.5);if(b){tool=tool===b.k?null:b.k;A.click(.25);b.bump=1;return}
+ // customers
+ const c=custs.find(c=>c.st==='wait'&&Math.abs(x-c.x)<L.custH*.32&&y>L.custY-L.custH&&y<L.custY+10);if(c){serveTo(c);return}
+ // tray
+ const ti=tray.findIndex(d=>Math.hypot(x-d.x,y-d.y)<d.r*1.2);if(ti>=0){tray.forEach((d,i)=>d.sel=i===ti?!d.sel:false);A.click(.2);return}
+ // slots
+ const s=slots.find(s=>Math.hypot(x-s.x,y-s.y)<s.r*1.1);if(s){slotTap(s,x,y);ptr.slot=s;return}
+ tool=null});
+cv.addEventListener('pointermove',e=>{if(!ptr||!ptr.slot||state!=='play')return;const s=ptr.slot;if(s.st!=='spread')return;const a=Math.atan2(e.clientY-s.y,e.clientX-s.x);
+ if(ptr.ang!==null){let d=a-ptr.ang;if(d>Math.PI)d-=6.283;if(d<-Math.PI)d+=6.283;const r=Math.hypot(e.clientX-s.x,e.clientY-s.y);if(r>s.r*.15){s.spread=Math.min(1,s.spread+Math.abs(d)/(6.283*1.4));A.sizzleOn(.6+s.spread*.6);if(Math.random()<.3)puff(s,1)}
+  if(s.spread>=1){s.st='cook';s.cook=0;A.pluck(523,.06);A.pluck(784,.05,.08)}}
+ ptr.ang=a});
+addEventListener('pointerup',()=>{ptr=null});
+function slotTap(s,x,y){
+ if(s.st==='empty'){if(tool==='batter'){s.st='spread';s.spread=.18;s.cook=0;s.f=[];s.ghee=0;A.sizzleOn(1.2);A.pluck(330,.05);burstAt(s.x,s.y,10,['#fff8e6','#f3e3c0']);if(tut)S.seen.pour=1}else{nudge(tool?'pour':'pick')}return}
+ if(s.st==='spread'){return}
+ if(s.st==='burnt'){s.st='empty';A.thunk();for(let k=0;k<12;k++)parts.push({x:s.x,y:s.y,vx:(Math.random()-.5)*6,vy:-Math.random()*6,l:1,c:'#3a2414',r:4});return}
+ if(s.st==='cook'){
+  if(tool&&tool!=='batter'){if(tool==='ghee'){if(s.ghee<1){s.ghee=1;A.sizzleOn(1.6);burstAt(s.x,s.y,16,['#ffe48a','#fff6c8']);puff(s,8)}return}
+   if(!s.f.includes(tool)&&s.f.length<3){s.f.push(tool);A.pluck(440+s.f.length*110,.07);dropBits(s,tool)}return}
+  if(!tool&&s.cook>=.5){foldSlot(s);return}
+  if(!tool){nudge('roast')}}}
+function foldSlot(s){if(tray.length>=4){shakeIt();return}const q=s.cook>1.12?'dark':s.cook>=.62?'perfect':'pale';tray.push({f:s.f.slice(),ghee:s.ghee,q,cook:s.cook,x:s.x,y:s.y,r:s.r*.8,fold:0});layoutTray();s.st='empty';s.f=[];s.cook=0;s.ghee=0;A.click(.4);A.pluck(660,.06);A.sizzleOff()}
+function layoutTray(){const T=L.tray,n=4;tray.forEach((d,i)=>{if(L.land){d.tx=T.x+T.w*.5;d.ty=T.y+T.h*(i+.5)/n;d.tr=Math.min(T.w*.32,T.h/n*.42)}else{d.tx=T.x+T.w*(i+.5)/n;d.ty=T.y+T.h*.5;d.tr=Math.min(T.h*.42,T.w/n*.4)}})}
+function matches(d,dish){const need=DISH[dish].f;const has=[...d.f,...(d.ghee?['ghee']:[])];const req=need.filter(x=>x!=='ghee');const gh=need.includes('ghee');
+ if(gh&&!d.ghee)return false;return req.length===d.f.length&&req.every(x=>d.f.includes(x))}
+function serveTo(c){let i=tray.findIndex(d=>d.sel&&matches(d,c.dish));if(i<0)i=tray.findIndex(d=>matches(d,c.dish));
+ if(i<0){if(tray.length){pop(c.x,L.custY-L.custH*.9,t('h').wrong,'#ffb4a0');A.tone(200,.1,.3,'triangle');c.pat-=4;shakeIt()}else nudge('serve');return}
+ const d=tray.splice(i,1)[0];layoutTray();const base=DISH[c.dish].p;let mult=d.q==='perfect'?1:d.q==='dark'?.8:.6;const speed=c.pat/c.max;let tip=Math.round(base*(.1+.4*speed)*(d.q==='perfect'?1:.4)*(d.ghee&&!DISH[c.dish].f.includes('ghee')?1.4:1)*(upActive('bell')?1.25:1));
+ const pay=Math.round(base*mult)+tip;earned+=pay;served++;c.st='happy';c.t=0;rep=Math.min(6,rep+(d.q==='perfect'?.5:0));
+ flyers.push({x:d.x,y:d.y,tx:c.x,ty:L.custY-L.custH*.35,t:0,d});
+ pop(c.x,L.custY-L.custH*.95,(d.q==='perfect'?t('perfect'):d.q==='pale'?t('raw'):t('good'))+'  +₹'+pay,d.q==='perfect'?'#ffe27a':'#fff');
+ coinBurst(c.x,L.custY-L.custH*.6,Math.min(14,4+pay/10|0));A.pluck(988,.07);A.pluck(1319,.06,.07);if(d.q==='perfect')A.chime();hud();if(tut)S.seen.serve=1}
+// ---------------- fx helpers ----------------
+function burstAt(x,y,n,cols){for(let k=0;k<n;k++){const a=Math.random()*6.283,v=1+Math.random()*4;parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-1,l:1,c:cols[k%cols.length],r:2+Math.random()*3})}}
+function puff(s,n){for(let k=0;k<n;k++)parts.push({x:s.x+(Math.random()-.5)*s.r,y:s.y+(Math.random()-.5)*s.r*.6,vx:(Math.random()-.5)*.6,vy:-1-Math.random(),l:1.4,c:'rgba(255,255,255,.35)',r:6+Math.random()*10,steam:1})}
+function dropBits(s,f){burstAt(s.x,s.y,10,['#fff3c4','#ffd36b']);s.bump=1}
+function coinBurst(x,y,n){for(let k=0;k<n;k++){const a=-Math.PI/2+(Math.random()-.5)*1.6,v=4+Math.random()*4;parts.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,l:1.1,c:'#f6c24a',r:5,coin:1})}}
+function pop(x,y,s,c){pops.push({x,y,s,c,t:0})}
+function shakeIt(){shake=.25}
+let nudgeT=0;function nudge(k){if(performance.now()-nudgeT<600)return;nudgeT=performance.now();showHint(t('h')[k]);A.click(.15)}
+let hintMsg='',hintT=0;function showHint(m){hintMsg=m;hintT=2.6;$('hint').textContent=m;$('hint').style.display='block'}
+// tutorial: decide the next useful action (day 1) and point at it
+function nextAction(){const c=custs.find(c=>c.st==='wait');if(!c)return null;const need=DISH[c.dish].f;
+ const ready=tray.find(d=>matches(d,c.dish));if(ready)return{k:'serve',x:c.x,y:L.custY-L.custH*.5};
+ const s=slots.find(s=>s.st!=='empty')||slots[0];
+ if(s.st==='empty')return tool==='batter'?{k:'pour',x:s.x,y:s.y}:{k:'pick',x:bowls[0].x,y:bowls[0].y};
+ if(s.st==='spread')return{k:'spread',x:s.x+s.r*.6,y:s.y,circle:s};
+ if(s.st==='burnt')return{k:'burnt',x:s.x,y:s.y};
+ const miss=need.filter(f=>f!=='ghee'&&!s.f.includes(f));if(miss.length){const f=miss[0];const b=bowls.find(b=>b.k===f);return tool===f?{k:'fill',x:s.x,y:s.y,f}:{k:'fill',x:b.x,y:b.y,f}}
+ if(need.includes('ghee')&&!s.ghee){const b=bowls.find(b=>b.k==='ghee');return tool==='ghee'?{k:'fill',x:s.x,y:s.y,f:'ghee'}:{k:'fill',x:b.x,y:b.y,f:'ghee'}}
+ if(s.cook<.62)return{k:'roast',x:s.x,y:s.y,wait:1};
+ if(tool)return{k:'fold',x:bowls.find(b=>b.k===tool).x,y:bowls.find(b=>b.k===tool).y,untool:1};
+ return{k:'fold',x:s.x,y:s.y}}
+// ---------------- loop ----------------
+function loop(now){requestAnimationFrame(loop);const dt=Math.min(.05,(now-lastT)/1000||0);lastT=now;
+ if(state==='play'&&!paused)update(dt,now);draw(now,dt)}
+function update(dt,now){timeLeft-=dt;if(timeLeft<=0&&state==='play'){endDay();return}
+ spawnT-=dt;if(spawnT<=0&&timeLeft>8){spawnCust();spawnT=DD.gap*(.7+Math.random()*.6)*(tut?1.6:1)}
+ if(!custs.length&&timeLeft>8)spawnT=Math.min(spawnT,.6);
+ const sp=(upActive('flame')?1.3:1)/9;
+ let anyHot=false;slots.forEach(s=>{if(s.st==='cook'){s.cook+=dt*sp*(s.ghee?1.15:1);anyHot=true;if(Math.random()<.04)puff(s,1);if(s.cook>1.45){s.st='burnt';A.tone(160,.1,.4,'sawtooth');puff(s,12);rep-=.5;hud()}}if(s.st==='spread')anyHot=true;s.bump=Math.max(0,(s.bump||0)-dt*4)});
+ if(!anyHot)A.sizzleOff();
+ custs.forEach(c=>{c.t+=dt;if(c.st==='in'&&c.t>.5){c.st='wait';c.t=0}if(c.st==='wait'){c.pat-=dt;if(c.pat<=0){c.st='angry';c.t=0;rep-=1;pop(c.x,L.custY-L.custH*.95,t('angry'),'#ffb4a0');A.tone(180,.12,.4,'triangle');hud()}}});
+ custs=custs.filter(c=>!((c.st==='happy'||c.st==='angry')&&c.t>.9));
+ tray.forEach(d=>{d.x+=(d.tx-d.x)*Math.min(1,dt*10);d.y+=(d.ty-d.y)*Math.min(1,dt*10);d.r+=(d.tr-d.r)*Math.min(1,dt*10);d.fold=Math.min(1,d.fold+dt*4)});
+ flyers.forEach(f=>f.t+=dt*2.4);flyers=flyers.filter(f=>f.t<1);
+ if(hintT>0){hintT-=dt;if(hintT<=0&&!tut)$('hint').style.display='none'}
+ if(tut){const a=nextAction();const m=a?(a.k==='fill'?t('h').fill.replace('{f}',t('f')[a.f]):t('h')[a.k]):'';if(m&&m!==$('hint').textContent){$('hint').textContent=m}$('hint').style.display=m?'block':'none'}
+ if(Math.random()<.1)hud();if(rep<=0&&state==='play'){endDay()}}
+// ---------------- drawing ----------------
+function drawCover(img,x,y,w,h,fy=.5){if(!ok(img))return;const s=Math.max(w/img.naturalWidth,h/img.naturalHeight);const dw=img.naturalWidth*s,dh=img.naturalHeight*s;g.drawImage(img,x+(w-dw)/2,y+(h-dh)*fy,dw,dh)}
+function rr(x,y,w,h,r){g.beginPath();g.roundRect(x,y,w,h,r)}
+function draw(now,dt){g.save();if(shake>0){shake-=dt;g.translate((Math.random()-.5)*8,(Math.random()-.5)*6)}
+ // background (kitchen) in top area
+ g.fillStyle='#2a160a';g.fillRect(0,0,W,H);drawCover(im.bg_counter,0,0,W,L.counterY+L.custH*.15,.35);
+ const gr=g.createLinearGradient(0,0,0,L.counterY+L.custH*.15);gr.addColorStop(0,'rgba(20,8,2,.1)');gr.addColorStop(1,'rgba(20,8,2,.35)');g.fillStyle=gr;g.fillRect(0,0,W,L.counterY+L.custH*.15);
+ if(state!=='title'){custs.forEach(c=>drawCust(c,now));}
+ // steel counter top edge
+ const cy0=L.counterY+6;const cg=g.createLinearGradient(0,cy0,0,cy0+26);cg.addColorStop(0,'#e9eef2');cg.addColorStop(.4,'#b9c2ca');cg.addColorStop(1,'#7d8790');g.fillStyle=cg;g.fillRect(0,cy0,W,26);
+ // work surface
+ const wg=g.createLinearGradient(0,cy0+26,0,H);wg.addColorStop(0,'#5a3a22');wg.addColorStop(1,'#3a2414');g.fillStyle=wg;g.fillRect(0,cy0+26,W,H-cy0-26);
+ // griddle
+ const G=L.grid;g.save();g.shadowColor='rgba(0,0,0,.6)';g.shadowBlur=18;rr(G.x,G.y,G.w,G.h,16);const gg=g.createLinearGradient(0,G.y,0,G.y+G.h);gg.addColorStop(0,'#2b2b2e');gg.addColorStop(1,'#141416');g.fillStyle=gg;g.fill();g.restore();
+ g.strokeStyle='rgba(255,255,255,.08)';g.lineWidth=2;rr(G.x+5,G.y+5,G.w-10,G.h-10,12);g.stroke();
+ // flame glow under griddle
+ const fl=.5+.5*Math.sin(now/180);g.save();g.globalCompositeOperation='lighter';slots.forEach(s=>{const rg=g.createRadialGradient(s.x,s.y,0,s.x,s.y,s.r*1.15);rg.addColorStop(0,`rgba(255,120,40,${.07+fl*.04})`);rg.addColorStop(1,'rgba(255,80,20,0)');g.fillStyle=rg;g.beginPath();g.arc(s.x,s.y,s.r*1.15,0,6.283);g.fill()});g.restore();
+ slots.forEach(s=>drawSlot(s,now));
+ // tray (banana leaf plates)
+ const TR=L.tray;g.fillStyle='rgba(0,0,0,.22)';rr(TR.x,TR.y,TR.w,TR.h,16);g.fill();
+ for(let i=0;i<4;i++){let x,y,r;if(L.land){x=TR.x+TR.w*.5;y=TR.y+TR.h*(i+.5)/4;r=Math.min(TR.w*.32,TR.h/4*.42)}else{x=TR.x+TR.w*(i+.5)/4;y=TR.y+TR.h*.5;r=Math.min(TR.h*.42,TR.w/4*.4)}
+  if(ok(im.leaf)){g.save();g.globalAlpha=.85;g.translate(x,y);g.rotate(-.3);g.drawImage(im.leaf,-r*1.5,-r*.8,r*3,r*1.6);g.restore()}}
+ tray.forEach(d=>drawRolled(d,d.x,d.y,d.r,d.sel));
+ flyers.forEach(f=>{const e=f.t,x=f.x+(f.tx-f.x)*e,y=f.y+(f.ty-f.y)*e-Math.sin(e*Math.PI)*60;drawRolled(f.d,x,y,f.d.r*(1-e*.4),false)});
+ // bowls
+ bowls.forEach(b=>{const sel=tool===b.k;b.bump=Math.max(0,(b.bump||0)-dt*5);const s=b.s*(1+(b.bump||0)*.12)*(sel?1.12:1);
+  if(sel){g.save();g.shadowColor='#ffd75a';g.shadowBlur=24;g.fillStyle='rgba(255,215,90,.35)';g.beginPath();g.arc(b.x,b.y,s*.55,0,6.283);g.fill();g.restore()}
+  const img=im['b_'+b.k];if(ok(img)){const k=s/Math.max(img.naturalWidth,img.naturalHeight);g.drawImage(img,b.x-img.naturalWidth*k/2,b.y-img.naturalHeight*k/2,img.naturalWidth*k,img.naturalHeight*k)}
+  g.font=`800 ${Math.max(10,Math.min(13,b.s*.16))}px var(--ui),Nunito,sans-serif`;g.textAlign='center';g.fillStyle=sel?'#ffe27a':'#f6e2c0';g.fillText(t('f')[b.k],b.x,b.y+s*.52)});
+ // tool cursor ring
+ // particles
+ parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=p.steam?-.02:.18;p.l-=dt*(p.steam?.8:1.4);if(p.l<=0)return;g.globalAlpha=Math.min(1,p.l);if(p.coin){g.fillStyle='#f6c24a';g.strokeStyle='#b07a00';g.lineWidth=1.5;g.beginPath();g.arc(p.x,p.y,p.r,0,6.283);g.fill();g.stroke()}else{g.fillStyle=p.c;g.beginPath();g.arc(p.x,p.y,p.r*(p.steam?(2-p.l):1),0,6.283);g.fill()}g.globalAlpha=1});parts=parts.filter(p=>p.l>0);
+ pops.forEach(p=>{p.t+=dt;g.globalAlpha=Math.max(0,1-p.t/1.4);g.font=`900 ${Math.min(26,W*.05)}px var(--ui),Nunito,sans-serif`;g.textAlign='center';g.lineWidth=5;g.strokeStyle='rgba(50,20,5,.85)';g.strokeText(p.s,p.x,p.y-p.t*40);g.fillStyle=p.c;g.fillText(p.s,p.x,p.y-p.t*40);g.globalAlpha=1});pops=pops.filter(p=>p.t<1.4);
+ // tutorial finger
+ if(tut&&state==='play'){const a=nextAction();if(a&&!a.wait){const b=Math.sin(now/180)*8;if(a.circle){const s=a.circle,an=now/300;g.save();g.strokeStyle='rgba(255,230,140,.8)';g.lineWidth=4;g.setLineDash([8,8]);g.beginPath();g.arc(s.x,s.y,s.r*.7,0,6.283);g.stroke();g.restore();finger(s.x+Math.cos(an)*s.r*.7,s.y+Math.sin(an)*s.r*.7)}else finger(a.x,a.y+b)}}
+ g.restore()}
+function finger(x,y){g.save();g.font='42px serif';g.textAlign='center';g.shadowColor='rgba(0,0,0,.5)';g.shadowBlur=8;g.fillText('👆',x+6,y+40);g.restore();g.save();g.strokeStyle='rgba(255,230,140,.9)';g.lineWidth=3;g.beginPath();g.arc(x,y,16+Math.sin(performance.now()/150)*4,0,6.283);g.stroke();g.restore()}
+function doneCol(c){// batter white -> golden -> brown -> black
+ const st=[[0,[246,238,220]],[.45,[236,205,140]],[.75,[214,150,62]],[1.05,[176,98,32]],[1.3,[90,48,20]],[1.5,[40,25,15]]];let a=st[0],b=st[st.length-1];for(let i=0;i<st.length-1;i++)if(c>=st[i][0]&&c<=st[i+1][0]){a=st[i];b=st[i+1];break}
+ const u=(c-a[0])/((b[0]-a[0])||1);return a[1].map((v,i)=>Math.round(v+(b[1][i]-v)*Math.max(0,Math.min(1,u))))}
+function drawSlot(s,now){const R=s.r;
+ g.save();g.strokeStyle='rgba(255,255,255,.07)';g.lineWidth=2;g.setLineDash([5,7]);g.beginPath();g.arc(s.x,s.y,R*.95,0,6.283);g.stroke();g.restore();
+ if(s.st==='empty'){if(tool==='batter'){g.save();g.globalAlpha=.4+.3*Math.sin(now/200);g.strokeStyle='#ffe27a';g.lineWidth=3;g.beginPath();g.arc(s.x,s.y,R*.9,0,6.283);g.stroke();g.restore()}return}
+ const r=s.st==='spread'?R*(.25+.68*s.spread):R*.93;const col=doneCol(s.st==='burnt'?1.5:s.cook);
+ g.save();g.translate(s.x,s.y);const bump=1+(s.bump||0)*.04;g.scale(bump,bump);
+ g.beginPath();for(let k=0;k<=36;k++){const a=k/36*6.283,w=r*(1+.025*Math.sin(a*5+s.x));g.lineTo(Math.cos(a)*w,Math.sin(a)*w)}g.closePath();
+ g.fillStyle=`rgb(${col})`;g.fill();g.clip();
+ if(s.cook>.3||s.st==='burnt'){g.globalAlpha=Math.min(1,(s.cook-.3)*1.6)*(s.st==='burnt'?1:.9);g.drawImage(lace,-r,-r,r*2,r*2);g.globalAlpha=1}
+ if(s.ghee){g.globalCompositeOperation='lighter';const gl=g.createRadialGradient(-r*.3,-r*.3,0,0,0,r);gl.addColorStop(0,'rgba(255,220,120,.35)');gl.addColorStop(1,'rgba(255,200,80,0)');g.fillStyle=gl;g.fillRect(-r,-r,r*2,r*2);g.globalCompositeOperation='source-over'}
+ const edge=g.createRadialGradient(0,0,r*.6,0,0,r);edge.addColorStop(0,'rgba(0,0,0,0)');edge.addColorStop(1,`rgba(120,55,10,${Math.min(.5,s.cook*.4)})`);g.fillStyle=edge;g.fillRect(-r,-r,r*2,r*2);
+ // fillings mounded in the middle
+ s.f.forEach((f,i)=>{const tx=makeTop(f);if(!tx)return;const n=s.f.length,ang=i/n*6.283+.6,off=n>1?r*.18:0,rs=r*(n>1?.36:.42);g.save();g.translate(Math.cos(ang)*off,Math.sin(ang)*off);g.beginPath();g.arc(0,0,rs,0,6.283);g.clip();g.drawImage(tx,-rs,-rs,rs*2,rs*2);g.restore()});
+ g.restore();
+ // doneness ring (roast meter)
+ if(s.st==='cook'){const c=s.cook,ang=Math.min(1,c/1.45)*6.283;g.save();g.lineWidth=6;g.strokeStyle='rgba(0,0,0,.35)';g.beginPath();g.arc(s.x,s.y,R+8,0,6.283);g.stroke();
+  // zones: pale, perfect (green), dark, burnt
+  [[0,.62,'#d8c7a8'],[.62,1.12,'#4caf50'],[1.12,1.45,'#c0392b']].forEach(([a,b,cl])=>{g.strokeStyle=cl;g.globalAlpha=.35;g.beginPath();g.arc(s.x,s.y,R+8,-Math.PI/2+a/1.45*6.283,-Math.PI/2+b/1.45*6.283);g.stroke()});g.globalAlpha=1;
+  g.strokeStyle=c<.62?'#f6e2c0':c<1.12?'#7CFC6a':'#ff5a3c';g.lineWidth=6;g.beginPath();g.arc(s.x,s.y,R+8,-Math.PI/2,-Math.PI/2+ang);g.stroke();
+  if(c>=.62&&c<1.12){g.font=`900 ${Math.max(13,R*.28)}px Nunito,sans-serif`;g.textAlign='center';g.fillStyle='#7CFC6a';g.strokeStyle='rgba(0,0,0,.6)';g.lineWidth=4;g.strokeText('✓',s.x+R*.85,s.y-R*.75);g.fillText('✓',s.x+R*.85,s.y-R*.75)}
+  if(c>=1.12){const bl=.5+.5*Math.sin(performance.now()/90);g.fillStyle=`rgba(255,60,30,${.15*bl})`;g.beginPath();g.arc(s.x,s.y,R,0,6.283);g.fill()}g.restore()}
+ if(s.st==='spread'){g.save();g.strokeStyle='rgba(255,230,140,.85)';g.lineWidth=5;g.beginPath();g.arc(s.x,s.y,R+8,-Math.PI/2,-Math.PI/2+s.spread*6.283);g.stroke();g.restore()}
+ if(s.st==='burnt'){g.save();g.font=`${R*.6}px serif`;g.textAlign='center';g.fillText('🗑️',s.x,s.y+R*.2);g.restore()}}
+function drawRolled(d,x,y,r,sel){const col=doneCol(d.cook);g.save();g.translate(x,y);
+ if(sel){g.shadowColor='#ffd75a';g.shadowBlur=22}
+ // rolled dosa: long golden cylinder seen at an angle
+ g.rotate(-.25);const L2=r*1.9,h=r*.55;const grd=g.createLinearGradient(0,-h,0,h);grd.addColorStop(0,`rgb(${col.map(v=>Math.min(255,v+40))})`);grd.addColorStop(.5,`rgb(${col})`);grd.addColorStop(1,`rgb(${col.map(v=>v*.7|0)})`);
+ g.fillStyle=grd;g.beginPath();g.roundRect(-L2/2,-h,L2,h*2,h);g.fill();g.shadowBlur=0;
+ g.globalAlpha=.6;g.drawImage(lace,-L2/2,-h,L2,h*2);g.globalAlpha=1;
+ // filling peeking out of the ends
+ d.f.forEach((f,i)=>{const tx=makeTop(f);if(!tx)return;g.save();g.beginPath();g.ellipse(L2/2-h*.35,0,h*.42,h*.8,0,0,6.283);g.clip();g.drawImage(tx,L2/2-h*.8,-h*.8+i*3,h*.9,h*1.6);g.restore()});
+ g.strokeStyle='rgba(90,40,10,.5)';g.lineWidth=2;g.beginPath();g.moveTo(-L2/2+h*.4,-h*.15);g.lineTo(L2/2-h*.4,-h*.35);g.stroke();
+ g.restore()}
+function drawCust(c,now){const img=im[c.img];if(!ok(img))return;const h=L.custH,w=h*img.naturalWidth/img.naturalHeight;let x=c.x,y=L.custY,al=1;
+ if(c.st==='in'){const e=Math.min(1,c.t/.5);y+=(1-e)*h*.4;al=e}if(c.st==='happy'||c.st==='angry'){const e=Math.min(1,c.t/.9);al=1-e;x+=(c.st==='happy'?1:-1)*e*W*.15}
+ const bob=Math.sin(now/400+c.pos)*2;g.save();g.globalAlpha=al;if(c.st==='angry'){g.filter='saturate(.6) brightness(.9)'}g.drawImage(img,x-w/2,y-h+bob,w,h);g.filter='none';g.restore();
+ if(c.st!=='wait'&&c.st!=='in'){if(c.st==='happy'){g.save();g.globalAlpha=al;g.font=`${h*.16}px serif`;g.textAlign='center';g.fillText('😋',x+w*.35,y-h*.75);g.restore()}else{g.save();g.globalAlpha=al;g.font=`${h*.16}px serif`;g.textAlign='center';g.fillText('😠',x+w*.35,y-h*.75);g.restore()}return}
+ // order bubble
+ const dish=DISH[c.dish],items=['batter',...dish.f];const ic=Math.min(L.land?40:30,W*.075),bw=Math.max(ic*items.length+16,ic*3.4),bh=ic+30,right=c.pos<2,bx=right?x+w*.22:x-w*.22-bw,by=y-h*.88;
+ g.save();g.globalAlpha=al;g.shadowColor='rgba(0,0,0,.35)';g.shadowBlur=10;g.fillStyle='#fff7ea';rr(bx,by,bw,bh,12);g.fill();g.shadowBlur=0;g.beginPath();const ax=right?bx:bx+bw;g.moveTo(ax,by+bh*.35);g.lineTo(ax,by+bh*.65);g.lineTo(ax+(right?-10:10),by+bh*.5);g.fill();x=bx+bw/2;
+ g.font=`900 ${Math.max(10,ic*.36)}px var(--ui),Nunito,sans-serif`;g.textAlign='center';g.fillStyle='#7a3a12';g.fillText(t('d')[c.dish],x,by+ic*.42);
+ items.forEach((k,i)=>{const im2=im['b_'+k];const ix=x-(items.length*ic)/2+i*ic,iy=by+ic*.5;if(ok(im2))g.drawImage(im2,ix+2,iy,ic-4,(ic-4)*im2.naturalHeight/im2.naturalWidth)});
+ // patience bar
+ const p=Math.max(0,c.pat/c.max);g.fillStyle='rgba(0,0,0,.2)';rr(bx+6,by+bh-7,bw-12,4,2);g.fill();g.fillStyle=p>.5?'#4caf50':p>.25?'#f0a830':'#e74c3c';rr(bx+6,by+bh-7,(bw-12)*p,4,2);g.fill();g.restore()}
+// ---------------- day end / shop ----------------
+function endDay(){if(state!=='play')return;state='end';A.sizzleOff();$('hint').style.display='none';const okDay=earned>=DD.goal&&rep>0;
+ const stars=!okDay?0:earned>=DD.goal*1.6?3:earned>=DD.goal*1.25?2:1;
+ bigWord(okDay?t('cheerW'):t('oopsW'));if(!A.play(okDay?'cheer':'oops',.9)){okDay?A.win(3):A.tone(220,.12,.6,'triangle')}
+ S.coins+=earned;if(okDay){S.day=day+1;S.best=Math.max(S.best,S.day)}if(tut)S.seen.tut=1;save();
+ setTimeout(()=>{const h=`<h2>${okDay?fill(t('dayDone'),{d:day+1}):t('dayFail')}</h2><div class="stars">${[0,1,2].map(k=>`<span class="${k<stars?'got':''}">★</span>`).join('')}</div><p style="font-size:19px">${fill(t('earned'),{c:earned})} · ${fill(t('served'),{n:served})}</p><p style="font-size:15px">💰 ₹${S.coins}</p>`;
+  modal(h,[[t('home'),'p',goTitle],[t('shop'),'o',shop],[okDay?t('next'):t('again'),'g',dayIntro]])},1100)}
+function shop(){const items=UPS.filter(u=>S.day>=u.day&&(!u.need||S.up[u.need]));let h=`<h2>🛠 ${t('shop')}</h2><p style="font-size:17px">💰 ₹${S.coins}</p>`;
+ h+=items.map(u=>{const has=!!S.up[u.k];const [nm,ds]=t('up')[u.k];return`<div class="up"><div class="ic">${u.ic}</div><div class="tx"><b>${nm}</b>${ds}</div>${has?`<span style="font-weight:900;color:#2f8f3c">✓ ${t('owned')}</span>`:`<button class="btn ${S.coins>=u.c?'g':'off p'}" data-buy="${u.k}">₹${u.c}</button>`}</div>`}).join('')||'<p>…</p>';
+ modal(h,[[t('home'),'p',goTitle],[t('next'),'g',dayIntro]]);document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const u=UPS.find(u=>u.k===b.dataset.buy);if(S.coins<u.c){A.click(.2);return}S.coins-=u.c;S.up[u.k]=1;save();A.chime();shop()})}
+function dayIntro(){const d=S.day,D=dayDef(d),nw=D.menu[D.menu.length-1];A.ctx();
+ const rec=['batter',...DISH[nw].f];let h=`<h2>${t('day')} ${d+1}</h2>`;
+ h+=`<p style="font-size:13px;color:#b06a24;font-weight:900;text-transform:uppercase;letter-spacing:1px">${d===0?t('howTo'):t('newDish')}</p><p style="font-size:21px;font-family:var(--disp);font-weight:800;color:#7a3a12">${t('d')[nw]} · ₹${DISH[nw].p}</p>`;
+ h+=`<div class="recipe">${rec.map(k=>`<span style="display:flex;flex-direction:column;align-items:center;font-size:11px"><img src="assets/b_${k}.webp">${t('f')[k]}</span>`).join('<span class="ar">➜</span>')}<span class="ar">➜</span><span style="font-size:30px">🔥</span></div>`;
+ h+=`<p style="font-size:17px">🎯 ${fill(t('goalTxt'),{g:D.goal})}</p>`;
+ modal(h,[[t('start'),'g',startDay]])}
+function goTitle(){state='title';$('hud').style.display='none';$('hint').style.display='none';$('title').style.display='flex';titleTxt()}
+function modal(h,btns){$('mbox').innerHTML=h+'<div class="row"></div>';const row=$('mbox').querySelector('.row');btns.forEach(([l,c,f])=>{const b=document.createElement('button');b.className='btn '+c;b.textContent=l;b.onclick=()=>{$('modal').style.display='none';A.click(.3);f&&f()};row.appendChild(b)});$('modal').style.display='flex'}
+function bigWord(s){const d=document.createElement('div');d.className='bigword';d.textContent=s;document.body.appendChild(d);setTimeout(()=>d.remove(),1700)}
+$('hPause').onclick=()=>{if(state!=='play')return;paused=true;A.sizzleOff();modal(`<h2>${t('paused')}</h2>`,[[t('home'),'p',goTitle],[t('resume'),'g',()=>{paused=false}]])};
+// ---------------- title ----------------
+function titleTxt(){document.documentElement.lang=LANG;$('tName').textContent=t('name');$('tSub').textContent=t('sub');$('playBtn').textContent=S.day>0?fill(t('cont'),{d:S.day+1}):t('play');$('tBest').textContent=S.best?fill(t('best'),{d:S.best}):'';document.querySelectorAll('#langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===LANG))}
+document.querySelectorAll('#langs button').forEach(b=>b.onclick=()=>{LANG=b.dataset.l;S.lang=LANG;save();titleTxt()});
+$('playBtn').onclick=()=>{A.ctx();dayIntro()};
+LANG=S.lang||(/^kn/.test(navigator.language)?'kn':/^hi/.test(navigator.language)?'hi':'en');titleTxt();layout();requestAnimationFrame(loop);
+window.__dosa={S,get slots(){return slots},get custs(){return custs},get tray(){return tray},get tool(){return tool},set tool(v){tool=v},startDay,endDay,spawnCust,get state(){return state}};
+</script>
+</body>
+</html>
