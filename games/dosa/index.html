@@ -57,7 +57,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 const $=id=>document.getElementById(id);
 // ---------------- text ----------------
 const T={
-en:{name:'Dosa Darshini',sub:'Run Bangalore’s busiest dosa counter — every customer wants a different dosa!',play:'Open the shop',cont:'Day {d} — open the shop',day:'Day',goal:'Goal',best:'Best day: {d}',
+en:{rollIt:'Tap to roll 🌯',name:'Dosa Darshini',sub:'Run Bangalore’s busiest dosa counter — every customer wants a different dosa!',play:'Open the shop',cont:'Day {d} — open the shop',day:'Day',goal:'Goal',best:'Best day: {d}',
  d:{plain:'Plain Dosa',masala:'Masala Dosa',mysore:'Mysore Masala',onion:'Onion Dosa',ghee:'Ghee Roast',cheese:'Cheese Dosa',mushroom:'Mushroom Dosa',veg:'Mix Veg Dosa',paneer:'Paneer Dosa',noodles:'Noodles Dosa',cheesemasala:'Cheese Masala',schezpaneer:'Spicy Paneer',onionmasala:'Onion Masala',cheesemush:'Cheese Mushroom',vegcheese:'Veg Cheese',mysorecheese:'Mysore Cheese',noodlecheese:'Cheese Noodles',paneermasala:'Paneer Masala'},
  f:{batter:'Batter',palya:'Potato palya',redchutney:'Red chutney',onion:'Onion',cheese:'Cheese',mushroom:'Mushroom',veg:'Vegetables',noodles:'Noodles',paneer:'Paneer',ghee:'Ghee'},
  newDish:'New on the menu!',howTo:'How to make it',start:'Start ▶',goalTxt:'Earn ₹{g} before closing time',
@@ -65,7 +65,7 @@ en:{name:'Dosa Darshini',sub:'Run Bangalore’s busiest dosa counter — every c
  perfect:'Perfect!',good:'Good',raw:'Too pale…',angry:'Left angry!',tip:'Tip',closing:'Closing time!',dayDone:'Day {d} done!',dayFail:'The shop needs more ₹',earned:'Earned ₹{c}',served:'{n} dosas served',again:'Try again',next:'Next day',shop:'Upgrade the counter',buy:'Buy',owned:'Owned',paused:'Paused',resume:'Resume',home:'Home',
  up:{slot:['3rd griddle spot','Cook three dosas at once'],flame:['Bigger flame','Dosas roast 30% faster'],coffee:['Filter coffee for waiting customers','Customers wait 35% longer'],bell:['Brass bell','Tips +25%'],slot4:['4th griddle spot','Cook four at once']},
  rep:'Mood',cheerW:'Shabash!',oopsW:'Ayyo!'},
-hi:{name:'डोसा दर्शिनी',sub:'बेंगलुरु का सबसे व्यस्त डोसा काउंटर चलाइए — हर ग्राहक को अलग डोसा चाहिए!',play:'दुकान खोलें',cont:'दिन {d} — दुकान खोलें',day:'दिन',goal:'लक्ष्य',best:'सबसे अच्छा दिन: {d}',
+hi:{rollIt:'मोड़ने के लिए टैप 🌯',name:'डोसा दर्शिनी',sub:'बेंगलुरु का सबसे व्यस्त डोसा काउंटर चलाइए — हर ग्राहक को अलग डोसा चाहिए!',play:'दुकान खोलें',cont:'दिन {d} — दुकान खोलें',day:'दिन',goal:'लक्ष्य',best:'सबसे अच्छा दिन: {d}',
  d:{plain:'सादा डोसा',masala:'मसाला डोसा',mysore:'मैसूर मसाला',onion:'प्याज़ डोसा',ghee:'घी रोस्ट',cheese:'चीज़ डोसा',mushroom:'मशरूम डोसा',veg:'मिक्स वेज डोसा',paneer:'पनीर डोसा',noodles:'नूडल्स डोसा',cheesemasala:'चीज़ मसाला',schezpaneer:'तीखा पनीर',onionmasala:'प्याज़ मसाला',cheesemush:'चीज़ मशरूम',vegcheese:'वेज चीज़',mysorecheese:'मैसूर चीज़',noodlecheese:'चीज़ नूडल्स',paneermasala:'पनीर मसाला'},
  f:{batter:'घोल',palya:'आलू मसाला',redchutney:'लाल चटनी',onion:'प्याज़',cheese:'चीज़',mushroom:'मशरूम',veg:'सब्ज़ियाँ',noodles:'नूडल्स',paneer:'पनीर',ghee:'घी'},
  newDish:'मेन्यू में नया!',howTo:'कैसे बनाएँ',start:'शुरू ▶',goalTxt:'दुकान बंद होने से पहले ₹{g} कमाएँ',
@@ -73,7 +73,7 @@ hi:{name:'डोसा दर्शिनी',sub:'बेंगलुरु क�
  perfect:'एकदम बढ़िया!',good:'अच्छा',raw:'कच्चा रह गया…',angry:'नाराज़ होकर चले गए!',tip:'टिप',closing:'दुकान बंद!',dayDone:'दिन {d} पूरा!',dayFail:'दुकान को और ₹ चाहिए',earned:'₹{c} कमाए',served:'{n} डोसे परोसे',again:'फिर से',next:'अगला दिन',shop:'काउंटर सुधारें',buy:'खरीदें',owned:'है',paused:'रुका है',resume:'जारी रखें',home:'होम',
  up:{slot:['तवे पर तीसरी जगह','एक साथ तीन डोसे'],flame:['तेज़ आँच','डोसे 30% जल्दी सिकें'],coffee:['इंतज़ार वालों को फ़िल्टर कॉफ़ी','ग्राहक 35% ज़्यादा रुकें'],bell:['पीतल की घंटी','टिप +25%'],slot4:['तवे पर चौथी जगह','एक साथ चार डोसे']},
  rep:'मूड',cheerW:'शाबाश!',oopsW:'अरे!'},
-kn:{name:'ದೋಸೆ ದರ್ಶಿನಿ',sub:'ಬೆಂಗಳೂರಿನ ಅತ್ಯಂತ ಜನಜಂಗುಳಿಯ ದೋಸೆ ಹೋಟೆಲ್ ನಡೆಸಿ — ಪ್ರತಿ ಗಿರಾಕಿಗೂ ಬೇರೆ ಬೇರೆ ದೋಸೆ ಬೇಕು!',play:'ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',cont:'ದಿನ {d} — ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',day:'ದಿನ',goal:'ಗುರಿ',best:'ಅತ್ಯುತ್ತಮ ದಿನ: {d}',
+kn:{rollIt:'ಮಡಚಲು ಒತ್ತಿ 🌯',name:'ದೋಸೆ ದರ್ಶಿನಿ',sub:'ಬೆಂಗಳೂರಿನ ಅತ್ಯಂತ ಜನಜಂಗುಳಿಯ ದೋಸೆ ಹೋಟೆಲ್ ನಡೆಸಿ — ಪ್ರತಿ ಗಿರಾಕಿಗೂ ಬೇರೆ ಬೇರೆ ದೋಸೆ ಬೇಕು!',play:'ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',cont:'ದಿನ {d} — ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',day:'ದಿನ',goal:'ಗುರಿ',best:'ಅತ್ಯುತ್ತಮ ದಿನ: {d}',
  d:{plain:'ಸಾದಾ ದೋಸೆ',masala:'ಮಸಾಲೆ ದೋಸೆ',mysore:'ಮೈಸೂರು ಮಸಾಲೆ',onion:'ಈರುಳ್ಳಿ ದೋಸೆ',ghee:'ತುಪ್ಪದ ದೋಸೆ',cheese:'ಚೀಸ್ ದೋಸೆ',mushroom:'ಅಣಬೆ ದೋಸೆ',veg:'ತರಕಾರಿ ದೋಸೆ',paneer:'ಪನೀರ್ ದೋಸೆ',noodles:'ನೂಡಲ್ಸ್ ದೋಸೆ',cheesemasala:'ಚೀಸ್ ಮಸಾಲೆ',schezpaneer:'ಖಾರದ ಪನೀರ್',onionmasala:'ಈರುಳ್ಳಿ ಮಸಾಲೆ',cheesemush:'ಚೀಸ್ ಅಣಬೆ',vegcheese:'ತರಕಾರಿ ಚೀಸ್',mysorecheese:'ಮೈಸೂರು ಚೀಸ್',noodlecheese:'ಚೀಸ್ ನೂಡಲ್ಸ್',paneermasala:'ಪನೀರ್ ಮಸಾಲೆ'},
  f:{batter:'ಹಿಟ್ಟು',palya:'ಆಲೂಗಡ್ಡೆ ಪಲ್ಯ',redchutney:'ಕೆಂಪು ಚಟ್ನಿ',onion:'ಈರುಳ್ಳಿ',cheese:'ಚೀಸ್',mushroom:'ಅಣಬೆ',veg:'ತರಕಾರಿ',noodles:'ನೂಡಲ್ಸ್',paneer:'ಪನೀರ್',ghee:'ತುಪ್ಪ'},
  newDish:'ಮೆನುವಿನಲ್ಲಿ ಹೊಸದು!',howTo:'ಮಾಡುವ ವಿಧಾನ',start:'ಶುರು ▶',goalTxt:'ಹೋಟೆಲ್ ಮುಚ್ಚುವ ಮುನ್ನ ₹{g} ಗಳಿಸಿ',
@@ -152,15 +152,17 @@ cv.addEventListener('pointermove',e=>{if(!ptr||!ptr.slot||state!=='play')return;
  ptr.ang=a});
 addEventListener('pointerup',()=>{ptr=null});
 function slotTap(s,x,y){
- if(s.st==='empty'){if(tool==='batter'){s.st='spread';s.spread=.18;s.cook=0;s.f=[];s.ghee=0;s.fa={};s.pcs={};A.sizzleOn(1.2);A.pluck(330,.05);burstAt(s.x,s.y,10,['#fff8e6','#f3e3c0']);if(tut)S.seen.pour=1}else{nudge(tool?'pour':'pick')}return}
+ if(s.st==='empty'){if(tool==='batter'){s.st='spread';s.spread=.18;s.cook=0;s.warned=0;s.f=[];s.ghee=0;s.fa={};s.pcs={};A.sizzleOn(1.2);A.pluck(330,.05);burstAt(s.x,s.y,10,['#fff8e6','#f3e3c0']);if(tut)S.seen.pour=1}else{nudge(tool?'pour':'pick')}return}
  if(s.st==='spread'){return}
  if(s.st==='burnt'){s.st='empty';A.thunk();for(let k=0;k<12;k++)parts.push({x:s.x,y:s.y,vx:(Math.random()-.5)*6,vy:-Math.random()*6,l:1,c:'#3a2414',r:4});return}
  if(s.st==='cook'){
-  if(tool&&tool!=='batter'){if(tool==='ghee'){if(s.ghee<1){s.ghee=1;A.sizzleOn(1.6);burstAt(s.x,s.y,16,['#ffe48a','#fff6c8']);puff(s,8)}return}
+  const useTool=tool&&tool!=='batter'&&(tool==='ghee'?!s.ghee:(!s.f.includes(tool)&&s.f.length<3));
+  if(!useTool&&s.cook>=.45){tool=null;foldSlot(s);return}
+  if(useTool){if(tool==='ghee'){if(s.ghee<1){s.ghee=1;A.sizzleOn(1.6);burstAt(s.x,s.y,16,['#ffe48a','#fff6c8']);puff(s,8)}return}
    if(!s.f.includes(tool)&&s.f.length<3){s.f.push(tool);s.fa=s.fa||{};s.fa[tool]=.01;s.pcs=s.pcs||{};const k=HOW[tool];if(k==='sprinkle'||k==='spread'){const n=k==='sprinkle'?(tool==='cheese'?46:34):(tool==='noodles'?14:18),sz=k==='sprinkle'?.045:(tool==='noodles'?.16:.1),pc=[];for(let i=0;i<n;i++){const a=Math.random()*6.283,d=Math.sqrt(Math.random())*.72;pc.push({x:Math.cos(a)*d,y:Math.sin(a)*d,a:Math.random()*6.283,s:sz*(.7+Math.random()*.6),u:.25+Math.random()*.5,v:.25+Math.random()*.5})}s.pcs[tool]=pc}A.pluck(440+s.f.length*110,.07);dropBits(s,tool)}return}
   if(!tool&&s.cook>=.5){foldSlot(s);return}
   if(!tool){nudge('roast')}}}
-function foldSlot(s){if(tray.length>=4){shakeIt();return}const q=s.cook>1.12?'dark':s.cook>=.62?'perfect':'pale';tray.push({f:s.f.slice(),ghee:s.ghee,q,cook:s.cook,x:s.x,y:s.y,r:s.r*.8,fold:0});layoutTray();s.st='empty';s.f=[];s.cook=0;s.ghee=0;A.click(.4);A.pluck(660,.06);A.sizzleOff()}
+function foldSlot(s){if(tray.length>=4){shakeIt();return}const q=s.cook>1.2?'dark':s.cook>=.6?'perfect':'pale';tray.push({f:s.f.slice(),ghee:s.ghee,q,cook:s.cook,x:s.x,y:s.y,r:s.r*.8,fold:0});layoutTray();s.st='empty';s.f=[];s.cook=0;s.ghee=0;A.click(.4);A.pluck(660,.06);A.sizzleOff()}
 function layoutTray(){const T=L.tray,n=4;tray.forEach((d,i)=>{if(L.land){d.tx=T.x+T.w*.5;d.ty=T.y+T.h*(i+.5)/n;d.tr=Math.min(T.w*.32,T.h/n*.42)}else{d.tx=T.x+T.w*(i+.5)/n;d.ty=T.y+T.h*.5;d.tr=Math.min(T.h*.42,T.w/n*.4)}})}
 function matches(d,dish){const need=DISH[dish].f;const has=[...d.f,...(d.ghee?['ghee']:[])];const req=need.filter(x=>x!=='ghee');const gh=need.includes('ghee');
  if(gh&&!d.ghee)return false;return req.length===d.f.length&&req.every(x=>d.f.includes(x))}
@@ -189,17 +191,16 @@ function nextAction(){const c=custs.find(c=>c.st==='wait');if(!c)return null;con
  if(s.st==='burnt')return{k:'burnt',x:s.x,y:s.y};
  const miss=need.filter(f=>f!=='ghee'&&!s.f.includes(f));if(miss.length){const f=miss[0];const b=bowls.find(b=>b.k===f);return tool===f?{k:'fill',x:s.x,y:s.y,f}:{k:'fill',x:b.x,y:b.y,f}}
  if(need.includes('ghee')&&!s.ghee){const b=bowls.find(b=>b.k==='ghee');return tool==='ghee'?{k:'fill',x:s.x,y:s.y,f:'ghee'}:{k:'fill',x:b.x,y:b.y,f:'ghee'}}
- if(s.cook<.62)return{k:'roast',x:s.x,y:s.y,wait:1};
- if(tool)return{k:'fold',x:bowls.find(b=>b.k===tool).x,y:bowls.find(b=>b.k===tool).y,untool:1};
- return{k:'fold',x:s.x,y:s.y}}
+ if(s.cook<.6)return{k:'roast',x:s.x,y:s.y,wait:1};
+  return{k:'fold',x:s.x,y:s.y}}
 // ---------------- loop ----------------
 function loop(now){requestAnimationFrame(loop);const dt=Math.min(.05,(now-lastT)/1000||0);lastT=now;
  if(state==='play'&&!paused)update(dt,now);draw(now,dt)}
 function update(dt,now){timeLeft-=dt;if(timeLeft<=0&&state==='play'){endDay();return}
  spawnT-=dt;if(spawnT<=0&&timeLeft>8){spawnCust();spawnT=DD.gap*(.7+Math.random()*.6)*(tut?1.6:1)}
  if(!custs.length&&timeLeft>8)spawnT=Math.min(spawnT,.6);
- const sp=(upActive('flame')?1.3:1)/9;
- let anyHot=false;slots.forEach(s=>{if(s.st==='cook'){s.cook+=dt*sp*(s.ghee?1.15:1);anyHot=true;if(Math.random()<.04)puff(s,1);if(s.cook>1.45){s.st='burnt';A.tone(160,.1,.4,'sawtooth');puff(s,12);rep-=.5;hud()}}if(s.fa)for(const f in s.fa)s.fa[f]=Math.min(1,s.fa[f]+dt*2.5);if(s.st==='spread')anyHot=true;s.bump=Math.max(0,(s.bump||0)-dt*4)});
+ const sp=(upActive('flame')?1.3:1)/12;
+ let anyHot=false;slots.forEach(s=>{if(s.st==='cook'){s.cook+=dt*sp*(s.ghee?1.15:1);anyHot=true;if(Math.random()<.04)puff(s,1);if(s.cook>1.2&&!s.warned){s.warned=1;A.tone(880,.06,.12,'square');A.tone(880,.06,.12,'square',.18)}if(s.cook>1.6){s.st='burnt';A.tone(160,.1,.4,'sawtooth');puff(s,12);rep-=.5;hud()}}if(s.fa)for(const f in s.fa)s.fa[f]=Math.min(1,s.fa[f]+dt*2.5);if(s.st==='spread')anyHot=true;s.bump=Math.max(0,(s.bump||0)-dt*4)});
  if(!anyHot)A.sizzleOff();
  custs.forEach(c=>{c.t+=dt;if(c.st==='in'&&c.t>.5){c.st='wait';c.t=0}if(c.st==='wait'){c.pat-=dt;if(c.pat<=0){c.st='angry';c.t=0;rep-=1;pop(c.x,L.land?L.custY-L.custH*.95:L.ticketY+L.ticketH+18,t('angry'),'#ffb4a0');A.tone(180,.12,.4,'triangle');hud()}}});
  custs=custs.filter(c=>!((c.st==='happy'||c.st==='angry')&&c.t>.9));
@@ -269,12 +270,12 @@ function drawSlot(s,now){const R=s.r;
  if(s.ghee){g.save();g.strokeStyle='rgba(255,215,90,.55)';g.lineWidth=r*.06;g.setLineDash([r*.12,r*.08]);g.beginPath();g.arc(0,0,r*.86,0,6.283);g.stroke();g.restore()}
  g.restore();
  // doneness ring (roast meter)
- if(s.st==='cook'){const c=s.cook,ang=Math.min(1,c/1.45)*6.283;g.save();g.lineWidth=6;g.strokeStyle='rgba(0,0,0,.35)';g.beginPath();g.arc(s.x,s.y,R+8,0,6.283);g.stroke();
+ if(s.st==='cook'){const c=s.cook,ang=Math.min(1,c/1.6)*6.283;g.save();g.lineWidth=6;g.strokeStyle='rgba(0,0,0,.35)';g.beginPath();g.arc(s.x,s.y,R+8,0,6.283);g.stroke();
   // zones: pale, perfect (green), dark, burnt
-  [[0,.62,'#d8c7a8'],[.62,1.12,'#4caf50'],[1.12,1.45,'#c0392b']].forEach(([a,b,cl])=>{g.strokeStyle=cl;g.globalAlpha=.35;g.beginPath();g.arc(s.x,s.y,R+8,-Math.PI/2+a/1.45*6.283,-Math.PI/2+b/1.45*6.283);g.stroke()});g.globalAlpha=1;
-  g.strokeStyle=c<.62?'#f6e2c0':c<1.12?'#7CFC6a':'#ff5a3c';g.lineWidth=6;g.beginPath();g.arc(s.x,s.y,R+8,-Math.PI/2,-Math.PI/2+ang);g.stroke();
-  if(c>=.62&&c<1.12){g.font=`900 ${Math.max(13,R*.28)}px Nunito,sans-serif`;g.textAlign='center';g.fillStyle='#7CFC6a';g.strokeStyle='rgba(0,0,0,.6)';g.lineWidth=4;g.strokeText('✓',s.x+R*.85,s.y-R*.75);g.fillText('✓',s.x+R*.85,s.y-R*.75)}
-  if(c>=1.12){const bl=.5+.5*Math.sin(performance.now()/90);g.fillStyle=`rgba(255,60,30,${.15*bl})`;g.beginPath();g.arc(s.x,s.y,R,0,6.283);g.fill()}g.restore()}
+  [[0,.6,'#d8c7a8'],[.6,1.2,'#4caf50'],[1.2,1.6,'#c0392b']].forEach(([a,b,cl])=>{g.strokeStyle=cl;g.globalAlpha=.35;g.beginPath();g.arc(s.x,s.y,R+8,-Math.PI/2+a/1.6*6.283,-Math.PI/2+b/1.6*6.283);g.stroke()});g.globalAlpha=1;
+  g.strokeStyle=c<.6?'#f6e2c0':c<1.2?'#7CFC6a':'#ff5a3c';g.lineWidth=6;g.beginPath();g.arc(s.x,s.y,R+8,-Math.PI/2,-Math.PI/2+ang);g.stroke();
+  if(c>=.6){const lab=t('rollIt'),fs=Math.max(12,Math.min(16,R*.2)),pu=1+.06*Math.sin(performance.now()/150);g.save();g.translate(s.x,s.y-R*.55);g.scale(pu,pu);g.font=`900 ${fs}px var(--ui),Nunito,sans-serif`;const tw=g.measureText(lab).width+18;g.fillStyle=c<1.2?'rgba(47,143,60,.95)':'rgba(200,50,30,.95)';g.beginPath();g.roundRect(-tw/2,-fs*.9,tw,fs*1.6,fs*.8);g.fill();g.fillStyle='#fff';g.textAlign='center';g.fillText(lab,0,fs*.35);g.restore()}
+  if(c>=1.2){const bl=.5+.5*Math.sin(performance.now()/90);g.fillStyle=`rgba(255,60,30,${.15*bl})`;g.beginPath();g.arc(s.x,s.y,R,0,6.283);g.fill()}g.restore()}
  if(s.st==='spread'){g.save();g.strokeStyle='rgba(255,230,140,.85)';g.lineWidth=5;g.beginPath();g.arc(s.x,s.y,R+8,-Math.PI/2,-Math.PI/2+s.spread*6.283);g.stroke();g.restore()}
  if(s.st==='burnt'){g.save();g.font=`${R*.6}px serif`;g.textAlign='center';g.fillText('🗑️',s.x,s.y+R*.2);g.restore()}}
 function drawTickets(now){const y=L.ticketY,h=L.ticketH;g.fillStyle='#8a929a';g.fillRect(0,y-4,W,3);
