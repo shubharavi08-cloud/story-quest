@@ -990,7 +990,7 @@ GAMES.mango=Mango;
 const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,ox,oy,grid,mask,pots,types,lvN,moves,goals,state,anim=[],sel=null,drag=null,idleT=0,hintMv=null,raf,lastT,bg=null,combo=0,score=0;
  function mixC(a,b,t){const p=h=>[1,3,5].map(i=>parseInt(h.substr(i,2),16));const A=p(a),B=p(b);return'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(',')+')'}
  const THEMES=[{n:'Deepavali',c1:'#2f7f6f',c2:'#3a8d7c',a:'#3b1f5e',b:'#d97706',g:['#f59e0b','#fde047'],p:'#ffd36b'},{n:'Holi',c1:'#0e7490',c2:'#0891b2',a:'#7c1d5c',b:'#f472b6',g:['#ec4899','#a3e635'],p:'#f9a8d4'},{n:'Sankranti',c1:'#1d4ed8',c2:'#2563eb',a:'#0e4a7a',b:'#f59e0b',g:['#fb923c','#38bdf8'],p:'#fde68a'},{n:'Onam',c1:'#1e3a8a',c2:'#1e40af',a:'#14532d',b:'#facc15',g:['#facc15','#f97316'],p:'#bef264'},{n:'Dasara',c1:'#115e59',c2:'#0f766e',a:'#7f1d1d',b:'#eab308',g:['#dc2626','#fbbf24'],p:'#fcd34d'},{n:'Ugadi',c1:'#5a6bb0',c2:'#6878bd',a:'#065f46',b:'#84cc16',g:['#65a30d','#fde047'],p:'#d9f99d'},{n:'Ganesha',c1:'#a0708e',c2:'#ad7e9b',a:'#9a3412',b:'#fbbf24',g:['#f97316','#ef4444'],p:'#fed7aa'}];
- let theme=THEMES[0],tgt=[1,2,3],parts=[],started=false,glowT=0,fx=[],sk=[],darkT=0,shakeT=0,shakeM=0,flashA=0;
+ let theme=THEMES[0],tgt=[1,2,3],parts=[],started=false,glowT=0,fx=[],sk=[],darkT=0,chakraT=0,shakeT=0,shakeM=0,flashA=0;
  const SW=['s_laddoo','s_jalebi','s_barfi','s_jamun','s_peda','s_katli'];const SP={rocketH:'x_sparkler',rocketV:'x_rocket',bomb:'x_anaar',rainbow:'x_chakra'};
  const im={};[...SW,'x_rocket','x_anaar','x_kalash','x_pot','x_sparkler','x_chakra','x_lakshmi'].forEach(k=>{const i=new Image();i.src='assets/'+k+'.webp';im[k]=i});
  const ok=i=>i&&i.complete&&i.naturalWidth;
@@ -1031,7 +1031,12 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
  function fireSwapSpecial(pa,pb,A1,B1){// A1 now at pa (=b), B1 at pb (=a)
   const clr=new Set();
   if(A1.sp==='rainbow'||B1.sp==='rainbow'){const other=A1.sp==='rainbow'?B1:A1;const self=A1.sp==='rainbow'?pa:pb;clr.add(self.join());for(let y=0;y<M;y++)for(let x=0;x<N;x++){const c=tile(x,y);if(c&&c.t===other.t)clr.add(x+','+y)}if(other.sp==='rainbow'){for(let y=0;y<M;y++)for(let x=0;x<N;x++)if(tile(x,y))clr.add(x+','+y)}
-   A.fxChakra();darkT=Math.max(darkT,1.4);fx.push({k:'chakra',x:self[0],y:self[1],to:[...clr].map(k=>k.split(',').map(Number)).sort((a,b)=>(a[1]-b[1])||(a[1]%2?b[0]-a[0]:a[0]-b[0])),t:0})}
+   A.fxChakra();darkT=Math.max(darkT,2);const tg=[...clr].map(k=>k.split(',').map(Number)).filter(([x,y])=>!(x===self[0]&&y===self[1]));
+   // spiral order: outer ring first, clockwise from top-left, winding inward
+   const ring=([x,y])=>Math.min(x,y,N-1-x,M-1-y),per=([x,y])=>{const r=ring([x,y]),w=N-1-2*r,h=M-1-2*r;if(y===r)return x-r;if(x===N-1-r)return w+(y-r);if(y===M-1-r)return w+h+(N-1-r-x);return 2*w+h+(M-1-r-y)};
+   tg.sort((a,b)=>(ring(a)-ring(b))||(per(a)-per(b)));const T=Math.min(2.2,.5+tg.length*.09);
+   const st=tile(...self);if(st)st.gone=1;fx.push({k:'chakra',x:self[0],y:self[1],to:tg,T,t:0,hit:0});chakraT=T;state='chakra';
+   setTimeout(()=>{if(state==='chakra')state='play';combo=0;clearSet(clr,[])},T*1000+80);return}
   else if(A1.sp&&B1.sp){for(let j=-2;j<=2;j++)for(let i=-2;i<=2;i++)if(inB(pb[0]+i,pb[1]+j))clr.add((pb[0]+i)+','+(pb[1]+j));A1.sp=B1.sp=null;A.fxLakshmi();if(!S.seen.crk_combo){S.seen.crk_combo=1;save();toastM(t('crk').combo,2800)}flashA=.25;shake(.4,7);fx.push({k:'lakshmi',x:pb[0],y:pb[1],t:0});fx.push({k:'ring',x:pb[0],y:pb[1],t:0,big:1})}
   else{[[pa,A1],[pb,B1]].forEach(([p,c])=>{if(c.sp)clr.add(p.join())});}
   combo=0;clearSet(clr,[]);}
@@ -1074,7 +1079,7 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
   let k=0;const bonus=()=>{if(moves>0){moves--;score+=60;const x=Math.random()*N|0,y=Math.random()*M|0;if(inB(x,y)){burst(x,y,1);A.pluck(784+k*40,.05)}k++;hud();setTimeout(bonus,110)}else{const stars=score>=tgt[2]?3:score>=tgt[1]?2:1;A.win(stars);const r=cv.getBoundingClientRect();sparkle(r.left+W/2,r.top+H/2,90);setTimeout(()=>finishM(lvN,stars,true,score),800)}};if(moves>0)toastM(t('bonusMoves'));setTimeout(bonus,600)}
  function burst(x,y,big){const cx=ox+(x+.5)*cell,cy=oy+(y+.5)*cell;for(let i=0;i<(big?14:6);i++){const a=Math.random()*6.283,s=1+Math.random()*(big?5:3);parts.push({x:cx,y:cy,vx:Math.cos(a)*s,vy:Math.sin(a)*s-1,l:1,c:i%2?theme.p:theme.g[i%2],r:2+Math.random()*3})}}
  function lose(){state='end';setTimeout(()=>finishM(lvN,0,false),500)}
- function drawTile(c,x,y,scale=1,alpha=1){const k=c.sp?SP[c.sp]:SW[c.t];const img=im[k];const s=cell*.92*scale*(c.sc||1);const cx=ox+(x+.5)*cell,cy=oy+(y+.5)*cell+(c.dy||0);g.globalAlpha=alpha;
+ function drawTile(c,x,y,scale=1,alpha=1){if(c.gone)return;const k=c.sp?SP[c.sp]:SW[c.t];const img=im[k];const s=cell*.92*scale*(c.sc||1);const cx=ox+(x+.5)*cell,cy=oy+(y+.5)*cell+(c.dy||0);g.globalAlpha=alpha;
   if(c.sp&&alpha>.5){const now=performance.now(),pu=.5+.5*Math.sin(now/260+x+y);g.save();g.globalCompositeOperation='lighter';const gl=g.createRadialGradient(cx,cy,0,cx,cy,cell*.62);const col=c.sp==='rainbow'?`hsla(${(now/8)%360},100%,70%,`:c.sp==='bomb'?'rgba(255,120,60,':'rgba(255,215,90,';gl.addColorStop(0,col+(.35+.25*pu)+')');gl.addColorStop(1,col+'0)');g.fillStyle=gl;g.beginPath();g.arc(cx,cy,cell*.62,0,6.283);g.fill();g.restore()}
   if(ok(img)){g.save();g.translate(cx,cy);if(c.sp==='rainbow')g.rotate(performance.now()/400);g.drawImage(img,-s/2,-s/2,s,s);g.restore()}else{g.fillStyle=c.sp?'#fff':FALLBACK[c.t];g.beginPath();g.arc(cx,cy,s*.42,0,6.283);g.fill()}
   if(c.sp&&c.sp!=='rainbow'&&ok(im[SW[c.t]])){const s2=s*.45;g.drawImage(im[SW[c.t]],cx+s*.12,cy+s*.12,s2,s2)}
@@ -1117,12 +1122,21 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
    else if(f.k==='rocket'){const T=.5,u=Math.min(1,f.t/T),top=oy+cell*.8,ry=cy+(top-cy)*(1-(1-u)*(1-u));if(f.t<T){glow(cx,ry,cell*.5,'255,200,120',.9);for(let i=0;i<4;i++)spark(cx+(Math.random()-.5)*4,ry,Math.PI/2+(Math.random()-.5)*.5,2+Math.random()*3,{c:'255,170,70',l:.35,w:2,gr:.03})}
     else if(!f.boom){f.boom=1;darkT=Math.max(darkT,1.3);const pal=[['255,90,120','255,220,230'],['255,215,90','255,250,220'],['120,240,255','230,255,255'],['170,255,120','240,255,220'],['255,140,240','255,230,250']][f.x%5];for(let i=0;i<64;i++){const an=i/64*6.283+Math.random()*.05,v=4.2+Math.random()*1.2;spark(cx,top,an,v,{c:i%2?pal[0]:pal[1],l:1+Math.random()*.4,w:2.2,gr:.06,drag:.965,br:2,tw:1})}for(let i=0;i<24;i++)spark(cx,top,Math.random()*6.283,Math.random()*2,{c:'255,255,255',l:1.4,w:1,gr:.02,gl:1})}}
    else if(f.k==='fountain'){if(f.t<1.25){glow(cx,cy-cell*.2,cell*1.3,'255,200,110',.6);for(let i=0;i<11;i++){const an=-Math.PI/2+(Math.random()-.5)*.75,v=8+Math.random()*8;spark(cx+(Math.random()-.5)*cell*.25,cy-cell*.25,an,v,{c:['255,250,230','255,220,130','255,180,80','255,255,255'][i%4],l:.6+Math.random()*.6,w:1.8,gr:.34,drag:.99,br:i%3===0?3:0})}}}
-   else if(f.k==='chakra'){const n=f.to.length,T=Math.min(1.1,n*.05),u=Math.min(1,f.t/T),idx=Math.min(n-1,Math.floor(u*n)),tg=f.to[idx]||[f.x,f.y],px=ox+(tg[0]+.5)*cell,py=oy+(tg[1]+.5)*cell;if(f.t<T+.05){if(f.lx!==undefined){g.save();g.globalCompositeOperation='lighter';g.strokeStyle='rgba(140,255,150,.5)';g.lineWidth=3;g.beginPath();g.moveTo(f.lx,f.ly);g.lineTo(px,py);g.stroke();g.restore()}f.lx=px;f.ly=py;glow(px,py,cell*.6,'200,255,180',.8);g.save();g.translate(px,py);g.rotate(f.t*45);if(ok(im.x_chakra))g.drawImage(im.x_chakra,-cell*.42,-cell*.42,cell*.84,cell*.84);g.restore();for(let i=0;i<6;i++){const an=f.t*45+i*1.047;spark(px+Math.cos(an)*cell*.38,py+Math.sin(an)*cell*.38,an+Math.PI/2,5+Math.random()*3,{c:i%2?'130,255,140':'255,110,110',l:.35,w:1.6,gr:.05,br:i%2?2:0})}}}
+   else if(f.k==='chakra'){const n=f.to.length,T=f.T||1,u=Math.min(1,f.t/T);if(f.t<T+.05&&n){
+     const pos=u*n,i0=Math.min(n-1,Math.floor(pos)),fr=pos-i0,A0=i0?f.to[i0-1]:[f.x,f.y],B0=f.to[i0];
+     // travel along a curving path (spiral loop) between targets
+     const ax=ox+(A0[0]+.5)*cell,ay=oy+(A0[1]+.5)*cell,bx=ox+(B0[0]+.5)*cell,by=oy+(B0[1]+.5)*cell,mx=(ax+bx)/2,my=(ay+by)/2,nx=-(by-ay),ny=bx-ax,
+       e=fr,px=(1-e)*(1-e)*ax+2*(1-e)*e*(mx+nx*.35)+e*e*bx,py=(1-e)*(1-e)*ay+2*(1-e)*e*(my+ny*.35)+e*e*by;
+     while(f.hit<=i0&&f.hit<n){const [hx,hy]=f.to[f.hit];if(f.hit<i0||fr>.85){const c=tile(hx,hy);if(c)c.gone=1;burst(hx,hy,0);for(let k=0;k<10;k++)spark(ox+(hx+.5)*cell,oy+(hy+.5)*cell,Math.random()*6.283,2+Math.random()*4,{c:k%2?'130,255,140':'255,110,110',l:.4,w:1.5,gr:.04,br:2});A.click(.35);f.hit++}else break}
+     f.trail=f.trail||[];f.trail.push([px,py]);if(f.trail.length>26)f.trail.shift();
+     g.save();g.globalCompositeOperation='lighter';g.lineCap='round';for(let k=1;k<f.trail.length;k++){const q=k/f.trail.length;g.strokeStyle=`rgba(${k%2?'140,255,150':'255,140,120'},${q*.7})`;g.lineWidth=2+q*5;g.beginPath();g.moveTo(...f.trail[k-1]);g.lineTo(...f.trail[k]);g.stroke()}g.restore();
+     glow(px,py,cell*.7,'200,255,180',.85);g.save();g.translate(px,py);g.rotate(f.t*48);if(ok(im.x_chakra))g.drawImage(im.x_chakra,-cell*.46,-cell*.46,cell*.92,cell*.92);g.restore();
+     for(let k=0;k<6;k++){const an=f.t*48+k*1.047;spark(px+Math.cos(an)*cell*.4,py+Math.sin(an)*cell*.4,an+Math.PI/2,5+Math.random()*3,{c:k%2?'130,255,140':'255,110,110',l:.3,w:1.5,gr:.05,br:k%3?0:2})}}}
    else if(f.k==='lakshmi'){if(!f.done){f.done=1;darkT=Math.max(darkT,1.5);for(let i=0;i<90;i++){const an=Math.random()*6.283;spark(cx,cy,an,4+Math.random()*10,{c:Math.random()<.5?'255,240,200':'255,170,80',l:.5+Math.random()*.5,w:2.4,gr:.12,drag:.95,br:2})}for(let i=0;i<46;i++){const an=Math.random()*6.283,v=3+Math.random()*8;sk.push({x:cx,y:cy,px:cx,py:cy,vx:Math.cos(an)*v,vy:Math.sin(an)*v-3,l:1.3+Math.random()*.7,c:Math.random()<.75?'#d62828':'#f4d35e',w:cell*(.05+Math.random()*.05),gr:.16,drag:.97,sq:1,rot:Math.random()*6})}}
     const a=Math.max(0,1-f.t/1.4);if(f.t<.12){const sc=cell*(1+f.t*8);if(ok(im.x_lakshmi))g.drawImage(im.x_lakshmi,cx-sc/2,cy-sc/2,sc,sc)}glow(cx,cy,cell*3*(1-a*.3),'255,210,140',a*.9);for(let i=0;i<8;i++){const an=i*.785;g.fillStyle=`rgba(200,190,180,${.16*a})`;g.beginPath();g.arc(cx+Math.cos(an)*cell*(.6+f.t*1.4),cy+Math.sin(an)*cell*(.5+f.t)-f.t*cell*.7,cell*(.45+f.t*.9),0,6.283);g.fill()}}
    else if(f.k==='ring'){const r=cell*(.4+f.t*(f.big?7:4)),a=Math.max(0,1-f.t/.5);g.save();g.globalCompositeOperation='lighter';g.strokeStyle=`rgba(255,215,140,${a*.7})`;g.lineWidth=2+a*5;g.beginPath();g.arc(cx,cy,r,0,6.283);g.stroke();g.restore()}
    else if(f.k==='born'){const a=Math.max(0,1-f.t/.7);glow(cx,cy,cell*.9,'255,235,170',a*.8);if(f.t<.35)for(let i=0;i<3;i++)spark(cx,cy,Math.random()*6.283,1+Math.random()*3,{c:'255,255,240',l:.6,w:1,gr:.01,gl:1})}
-  });fx=fx.filter(f=>f.t<({sparkler:.75,rocket:.6,fountain:1.3,chakra:1.25,lakshmi:1.4,ring:.5,born:.7})[f.k]);
+  });fx=fx.filter(f=>f.t<({sparkler:.75,rocket:.6,fountain:1.3,chakra:f.T?f.T+.1:1.25,lakshmi:1.4,ring:.5,born:.7})[f.k]);
   g.save();g.globalCompositeOperation='lighter';g.lineCap='round';
   for(const q of sk){q.px=q.x;q.py=q.y;q.vx*=(q.drag||.985);q.vy*=(q.drag||.985);q.vy+=q.gr;q.x+=q.vx;q.y+=q.vy;q.l-=dt;
    if(q.l<=0&&q.br){for(let i=0;i<q.br*3;i++){const an=Math.random()*6.283,v=.6+Math.random()*1.8;sk.push({x:q.x,y:q.y,px:q.x,py:q.y,vx:Math.cos(an)*v,vy:Math.sin(an)*v,l:.18+Math.random()*.22,c:'255,250,225',w:1,gr:.03,gl:1})}q.br=0;continue}
@@ -1140,7 +1154,7 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
  $('xBack').onclick=()=>{stop();goHome()};
  function comingSoon(){goHome();modal(`<h2>🍬 ${t('allLevels')}</h2><p>${t('newMonthly')}</p>`,[[t('home'),'g']])}
  function more(n){moves+=n;state='play';hud()}
- return{start,stop,more,levels:{length:Infinity},dbg:()=>({grid,mask,pots,goals,moves,findMove,trySwap,ox,oy,cell,score,tgt,state})}})();
+ return{start,stop,more,levels:{length:Infinity},dbg:()=>({grid,mask,pots,goals,moves,findMove,trySwap,ox,oy,cell,score,tgt,state}),setMoves:m=>{moves=m;hud()}}})();
 GAMES.mithai=Mithai;
 function finishM(n,stars,ok,sc){cheer(ok);let gained=ok?stars:0;const bonus=[];
  if(ok){if(S.bless!==today()){S.bless=today();gained+=2;bonus.push(t('blessGot'))}S.mithai=Math.max(S.mithai,n+1)}
