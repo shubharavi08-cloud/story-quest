@@ -57,15 +57,15 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 const $=id=>document.getElementById(id);
 // ---------------- text ----------------
 const T={
-en:{rollIt:'Tap to roll 🌯',name:'Dosa Darshini',sub:'Run Bangalore’s busiest dosa counter — every customer wants a different dosa!',play:'Open the shop',cont:'Day {d} — open the shop',day:'Day',goal:'Goal',best:'Best day: {d}',
+en:{rollIt:'Tap to fold',name:'Dosa Darshini',sub:'Run Bangalore’s busiest dosa counter — every customer wants a different dosa!',play:'Open the shop',cont:'Day {d} — open the shop',day:'Day',goal:'Goal',best:'Best day: {d}',
  d:{plain:'Plain Dosa',masala:'Masala Dosa',mysore:'Mysore Masala',onion:'Onion Dosa',ghee:'Ghee Roast',cheese:'Cheese Dosa',mushroom:'Mushroom Dosa',veg:'Mix Veg Dosa',paneer:'Paneer Dosa',noodles:'Noodles Dosa',cheesemasala:'Cheese Masala',schezpaneer:'Spicy Paneer',onionmasala:'Onion Masala',cheesemush:'Cheese Mushroom',vegcheese:'Veg Cheese',mysorecheese:'Mysore Cheese',noodlecheese:'Cheese Noodles',paneermasala:'Paneer Masala'},
  f:{batter:'Batter',palya:'Potato palya',redchutney:'Red chutney',onion:'Onion',cheese:'Cheese',mushroom:'Mushroom',veg:'Vegetables',noodles:'Noodles',paneer:'Paneer',ghee:'Ghee'},
  newDish:'New on the menu!',howTo:'How to make it',start:'Start ▶',goalTxt:'Earn ₹{g} before closing time',
- h:{pick:'Tap the BATTER bowl',pour:'Now tap the griddle to pour',spread:'Swirl your finger round and round to spread',fill:'Add the fillings: tap {f}, then tap the dosa',roast:'Let it roast till golden…',ghee:'Tip: a little ghee makes it crispier (and customers tip more!)',fold:'Golden! Tap the dosa to roll it',serve:'Tap the customer to serve',burnt:'Burnt! Tap it to throw it away',wrong:'That is not what they ordered!'},
+ h:{pick:'Tap the BATTER bowl',pour:'Now tap the griddle to pour',spread:'Swirl your finger round and round to spread',fill:'Add the fillings: tap {f}, then tap the dosa',roast:'Let it roast till golden…',ghee:'Tip: a little ghee makes it crispier (and customers tip more!)',fold:'Golden! Tap the dosa to fold it',serve:'Tap the customer to serve',burnt:'Burnt! Tap it to throw it away',wrong:'That is not what they ordered!'},
  perfect:'Perfect!',good:'Good',raw:'Too pale…',angry:'Left angry!',tip:'Tip',closing:'Closing time!',dayDone:'Day {d} done!',dayFail:'The shop needs more ₹',earned:'Earned ₹{c}',served:'{n} dosas served',again:'Try again',next:'Next day',shop:'Upgrade the counter',buy:'Buy',owned:'Owned',paused:'Paused',resume:'Resume',home:'Home',
  up:{slot:['3rd griddle spot','Cook three dosas at once'],flame:['Bigger flame','Dosas roast 30% faster'],coffee:['Filter coffee for waiting customers','Customers wait 35% longer'],bell:['Brass bell','Tips +25%'],slot4:['4th griddle spot','Cook four at once']},
  rep:'Mood',cheerW:'Shabash!',oopsW:'Ayyo!'},
-hi:{rollIt:'मोड़ने के लिए टैप 🌯',name:'डोसा दर्शिनी',sub:'बेंगलुरु का सबसे व्यस्त डोसा काउंटर चलाइए — हर ग्राहक को अलग डोसा चाहिए!',play:'दुकान खोलें',cont:'दिन {d} — दुकान खोलें',day:'दिन',goal:'लक्ष्य',best:'सबसे अच्छा दिन: {d}',
+hi:{rollIt:'मोड़ने के लिए टैप',name:'डोसा दर्शिनी',sub:'बेंगलुरु का सबसे व्यस्त डोसा काउंटर चलाइए — हर ग्राहक को अलग डोसा चाहिए!',play:'दुकान खोलें',cont:'दिन {d} — दुकान खोलें',day:'दिन',goal:'लक्ष्य',best:'सबसे अच्छा दिन: {d}',
  d:{plain:'सादा डोसा',masala:'मसाला डोसा',mysore:'मैसूर मसाला',onion:'प्याज़ डोसा',ghee:'घी रोस्ट',cheese:'चीज़ डोसा',mushroom:'मशरूम डोसा',veg:'मिक्स वेज डोसा',paneer:'पनीर डोसा',noodles:'नूडल्स डोसा',cheesemasala:'चीज़ मसाला',schezpaneer:'तीखा पनीर',onionmasala:'प्याज़ मसाला',cheesemush:'चीज़ मशरूम',vegcheese:'वेज चीज़',mysorecheese:'मैसूर चीज़',noodlecheese:'चीज़ नूडल्स',paneermasala:'पनीर मसाला'},
  f:{batter:'घोल',palya:'आलू मसाला',redchutney:'लाल चटनी',onion:'प्याज़',cheese:'चीज़',mushroom:'मशरूम',veg:'सब्ज़ियाँ',noodles:'नूडल्स',paneer:'पनीर',ghee:'घी'},
  newDish:'मेन्यू में नया!',howTo:'कैसे बनाएँ',start:'शुरू ▶',goalTxt:'दुकान बंद होने से पहले ₹{g} कमाएँ',
@@ -73,7 +73,7 @@ hi:{rollIt:'मोड़ने के लिए टैप 🌯',name:'डोस�
  perfect:'एकदम बढ़िया!',good:'अच्छा',raw:'कच्चा रह गया…',angry:'नाराज़ होकर चले गए!',tip:'टिप',closing:'दुकान बंद!',dayDone:'दिन {d} पूरा!',dayFail:'दुकान को और ₹ चाहिए',earned:'₹{c} कमाए',served:'{n} डोसे परोसे',again:'फिर से',next:'अगला दिन',shop:'काउंटर सुधारें',buy:'खरीदें',owned:'है',paused:'रुका है',resume:'जारी रखें',home:'होम',
  up:{slot:['तवे पर तीसरी जगह','एक साथ तीन डोसे'],flame:['तेज़ आँच','डोसे 30% जल्दी सिकें'],coffee:['इंतज़ार वालों को फ़िल्टर कॉफ़ी','ग्राहक 35% ज़्यादा रुकें'],bell:['पीतल की घंटी','टिप +25%'],slot4:['तवे पर चौथी जगह','एक साथ चार डोसे']},
  rep:'मूड',cheerW:'शाबाश!',oopsW:'अरे!'},
-kn:{rollIt:'ಮಡಚಲು ಒತ್ತಿ 🌯',name:'ದೋಸೆ ದರ್ಶಿನಿ',sub:'ಬೆಂಗಳೂರಿನ ಅತ್ಯಂತ ಜನಜಂಗುಳಿಯ ದೋಸೆ ಹೋಟೆಲ್ ನಡೆಸಿ — ಪ್ರತಿ ಗಿರಾಕಿಗೂ ಬೇರೆ ಬೇರೆ ದೋಸೆ ಬೇಕು!',play:'ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',cont:'ದಿನ {d} — ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',day:'ದಿನ',goal:'ಗುರಿ',best:'ಅತ್ಯುತ್ತಮ ದಿನ: {d}',
+kn:{rollIt:'ಮಡಚಲು ಒತ್ತಿ',name:'ದೋಸೆ ದರ್ಶಿನಿ',sub:'ಬೆಂಗಳೂರಿನ ಅತ್ಯಂತ ಜನಜಂಗುಳಿಯ ದೋಸೆ ಹೋಟೆಲ್ ನಡೆಸಿ — ಪ್ರತಿ ಗಿರಾಕಿಗೂ ಬೇರೆ ಬೇರೆ ದೋಸೆ ಬೇಕು!',play:'ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',cont:'ದಿನ {d} — ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',day:'ದಿನ',goal:'ಗುರಿ',best:'ಅತ್ಯುತ್ತಮ ದಿನ: {d}',
  d:{plain:'ಸಾದಾ ದೋಸೆ',masala:'ಮಸಾಲೆ ದೋಸೆ',mysore:'ಮೈಸೂರು ಮಸಾಲೆ',onion:'ಈರುಳ್ಳಿ ದೋಸೆ',ghee:'ತುಪ್ಪದ ದೋಸೆ',cheese:'ಚೀಸ್ ದೋಸೆ',mushroom:'ಅಣಬೆ ದೋಸೆ',veg:'ತರಕಾರಿ ದೋಸೆ',paneer:'ಪನೀರ್ ದೋಸೆ',noodles:'ನೂಡಲ್ಸ್ ದೋಸೆ',cheesemasala:'ಚೀಸ್ ಮಸಾಲೆ',schezpaneer:'ಖಾರದ ಪನೀರ್',onionmasala:'ಈರುಳ್ಳಿ ಮಸಾಲೆ',cheesemush:'ಚೀಸ್ ಅಣಬೆ',vegcheese:'ತರಕಾರಿ ಚೀಸ್',mysorecheese:'ಮೈಸೂರು ಚೀಸ್',noodlecheese:'ಚೀಸ್ ನೂಡಲ್ಸ್',paneermasala:'ಪನೀರ್ ಮಸಾಲೆ'},
  f:{batter:'ಹಿಟ್ಟು',palya:'ಆಲೂಗಡ್ಡೆ ಪಲ್ಯ',redchutney:'ಕೆಂಪು ಚಟ್ನಿ',onion:'ಈರುಳ್ಳಿ',cheese:'ಚೀಸ್',mushroom:'ಅಣಬೆ',veg:'ತರಕಾರಿ',noodles:'ನೂಡಲ್ಸ್',paneer:'ಪನೀರ್',ghee:'ತುಪ್ಪ'},
  newDish:'ಮೆನುವಿನಲ್ಲಿ ಹೊಸದು!',howTo:'ಮಾಡುವ ವಿಧಾನ',start:'ಶುರು ▶',goalTxt:'ಹೋಟೆಲ್ ಮುಚ್ಚುವ ಮುನ್ನ ₹{g} ಗಳಿಸಿ',
@@ -92,7 +92,7 @@ const DISH={plain:{f:[],p:30},masala:{f:['palya'],p:45},mysore:{f:['redchutney',
 const UNLOCK=['plain','masala','mysore','onion','ghee','cheese','mushroom','veg','paneer','cheesemasala','noodles','onionmasala','schezpaneer','cheesemush','vegcheese','paneermasala','mysorecheese','noodlecheese'];
 const UPS=[{k:'slot',ic:'🍳',c:250,day:2},{k:'flame',ic:'🔥',c:300,day:3},{k:'coffee',ic:'☕',c:350,day:4},{k:'bell',ic:'🔔',c:450,day:6},{k:'slot4',ic:'🍳',c:900,day:9,need:'slot'}];
 const CUST=['c_office','c_girl','c_ajja','c_auto'];
-function dayDef(d){const n=Math.min(UNLOCK.length,d+1);const menu=UNLOCK.slice(0,n);return{menu,len:Math.min(150,95+d*5),goal:Math.round((110+d*55)/10)*10,gap:Math.max(5,10-d*.45),pat:Math.max(26,46-d*1.2),max:Math.min(3,1+Math.ceil(d/2))}}
+function dayDef(d){const n=Math.min(UNLOCK.length,d+2);const menu=UNLOCK.slice(0,n);return{menu,len:Math.min(150,95+d*5),goal:Math.round((110+d*55)/10)*10,gap:Math.max(5,10-d*.45),pat:Math.max(26,46-d*1.2),max:Math.min(3,1+Math.ceil(d/2))}}
 // ---------------- save ----------------
 const KEY='wow_dosa_v1';let S={day:0,coins:0,up:{},best:0,lang:null,seen:{}};try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
@@ -162,7 +162,7 @@ function slotTap(s,x,y){
    if(!s.f.includes(tool)&&s.f.length<3){s.f.push(tool);s.fa=s.fa||{};s.fa[tool]=.01;s.pcs=s.pcs||{};const k=HOW[tool];if(k==='sprinkle'||k==='spread'){const n=k==='sprinkle'?(tool==='cheese'?46:34):(tool==='noodles'?14:18),sz=k==='sprinkle'?.045:(tool==='noodles'?.16:.1),pc=[];for(let i=0;i<n;i++){const a=Math.random()*6.283,d=Math.sqrt(Math.random())*.72;pc.push({x:Math.cos(a)*d,y:Math.sin(a)*d,a:Math.random()*6.283,s:sz*(.7+Math.random()*.6),u:.25+Math.random()*.5,v:.25+Math.random()*.5})}s.pcs[tool]=pc}A.pluck(440+s.f.length*110,.07);dropBits(s,tool)}return}
   if(!tool&&s.cook>=.5){foldSlot(s);return}
   if(!tool){nudge('roast')}}}
-function foldSlot(s){if(tray.length>=4){shakeIt();return}const q=s.cook>1.2?'dark':s.cook>=.6?'perfect':'pale';tray.push({f:s.f.slice(),ghee:s.ghee,q,cook:s.cook,x:s.x,y:s.y,r:s.r*.8,fold:0});layoutTray();s.st='empty';s.f=[];s.cook=0;s.ghee=0;A.click(.4);A.pluck(660,.06);A.sizzleOff()}
+function foldSlot(s){if(tray.length>=4){shakeIt();return}if(s.st!=='folding'){s.st='folding';s.ft=0;A.click(.4);return}const q=s.cook>1.2?'dark':s.cook>=.6?'perfect':'pale';tray.push({f:s.f.slice(),ghee:s.ghee,q,cook:s.cook,x:s.x,y:s.y,r:s.r*.8,fold:0});layoutTray();s.st='empty';s.f=[];s.cook=0;s.ghee=0;A.click(.4);A.pluck(660,.06);A.sizzleOff()}
 function layoutTray(){const T=L.tray,n=4;tray.forEach((d,i)=>{if(L.land){d.tx=T.x+T.w*.5;d.ty=T.y+T.h*(i+.5)/n;d.tr=Math.min(T.w*.32,T.h/n*.42)}else{d.tx=T.x+T.w*(i+.5)/n;d.ty=T.y+T.h*.5;d.tr=Math.min(T.h*.42,T.w/n*.4)}})}
 function matches(d,dish){const need=DISH[dish].f;const has=[...d.f,...(d.ghee?['ghee']:[])];const req=need.filter(x=>x!=='ghee');const gh=need.includes('ghee');
  if(gh&&!d.ghee)return false;return req.length===d.f.length&&req.every(x=>d.f.includes(x))}
@@ -200,7 +200,7 @@ function update(dt,now){timeLeft-=dt;if(timeLeft<=0&&state==='play'){endDay();re
  spawnT-=dt;if(spawnT<=0&&timeLeft>8){spawnCust();spawnT=DD.gap*(.7+Math.random()*.6)*(tut?1.6:1)}
  if(!custs.length&&timeLeft>8)spawnT=Math.min(spawnT,.6);
  const sp=(upActive('flame')?1.3:1)/12;
- let anyHot=false;slots.forEach(s=>{if(s.st==='cook'){s.cook+=dt*sp*(s.ghee?1.15:1);anyHot=true;if(Math.random()<.04)puff(s,1);if(s.cook>1.2&&!s.warned){s.warned=1;A.tone(880,.06,.12,'square');A.tone(880,.06,.12,'square',.18)}if(s.cook>1.6){s.st='burnt';A.tone(160,.1,.4,'sawtooth');puff(s,12);rep-=.5;hud()}}if(s.fa)for(const f in s.fa)s.fa[f]=Math.min(1,s.fa[f]+dt*2.5);if(s.st==='spread')anyHot=true;s.bump=Math.max(0,(s.bump||0)-dt*4)});
+ let anyHot=false;slots.forEach(s=>{if(s.st==='folding'){s.ft+=dt*2.6;if(s.ft>=1)foldSlot(s);return}if(s.st==='cook'){s.cook+=dt*sp*(s.ghee?1.15:1);anyHot=true;if(Math.random()<.04)puff(s,1);if(s.cook>1.2&&!s.warned){s.warned=1;A.tone(880,.06,.12,'square');A.tone(880,.06,.12,'square',.18)}if(s.cook>1.6){s.st='burnt';A.tone(160,.1,.4,'sawtooth');puff(s,12);rep-=.5;hud()}}if(s.fa)for(const f in s.fa)s.fa[f]=Math.min(1,s.fa[f]+dt*2.5);if(s.st==='spread')anyHot=true;s.bump=Math.max(0,(s.bump||0)-dt*4)});
  if(!anyHot)A.sizzleOff();
  custs.forEach(c=>{c.t+=dt;if(c.st==='in'&&c.t>.5){c.st='wait';c.t=0}if(c.st==='wait'){c.pat-=dt;if(c.pat<=0){c.st='angry';c.t=0;rep-=1;pop(c.x,L.land?L.custY-L.custH*.95:L.ticketY+L.ticketH+18,t('angry'),'#ffb4a0');A.tone(180,.12,.4,'triangle');hud()}}});
  custs=custs.filter(c=>!((c.st==='happy'||c.st==='angry')&&c.t>.9));
@@ -269,6 +269,11 @@ function drawSlot(s,now){const R=s.r;
    if(f==='cheese'&&s.cook>.5){g.save();g.globalAlpha=Math.min(.5,(s.cook-.5)*.8);g.fillStyle='#ffd84a';for(const q of pc){g.beginPath();g.arc(q.x*r,q.y*r,q.s*r*1.5,0,6.283);g.fill()}g.restore()}}});
  if(s.ghee){g.save();g.strokeStyle='rgba(255,215,90,.55)';g.lineWidth=r*.06;g.setLineDash([r*.12,r*.08]);g.beginPath();g.arc(0,0,r*.86,0,6.283);g.stroke();g.restore()}
  g.restore();
+ if(s.st==='folding'){const e=Math.min(1,s.ft),k=Math.cos(e*Math.PI);g.save();g.translate(s.x,s.y);g.scale(1,1);
+  // cover the top half (it is lifting), then draw it flipping over the bottom
+  g.fillStyle='#1d1d20';g.beginPath();g.arc(0,0,r+3,Math.PI,0);g.fill();
+  g.save();g.scale(1,k);g.beginPath();g.arc(0,0,r,Math.PI,0);g.closePath();g.fillStyle=k>0?`rgb(${col})`:`rgb(${col.map(v=>v*.82|0)})`;g.fill();g.clip();g.globalAlpha=.85;g.drawImage(lace,-r,-r,r*2,r*2);g.restore();
+  g.restore()}
  // doneness ring (roast meter)
  if(s.st==='cook'){const c=s.cook,ang=Math.min(1,c/1.6)*6.283;g.save();g.lineWidth=6;g.strokeStyle='rgba(0,0,0,.35)';g.beginPath();g.arc(s.x,s.y,R+8,0,6.283);g.stroke();
   // zones: pale, perfect (green), dark, burnt
@@ -288,15 +293,15 @@ function drawTickets(now){const y=L.ticketY,h=L.ticketH;g.fillStyle='#8a929a';g.
   const p=Math.max(0,c.pat/c.max);g.fillStyle='rgba(0,0,0,.15)';rr(x+6,y+h-9,w-12,5,3);g.fill();g.fillStyle=p>.5?'#4caf50':p>.25?'#f0a830':'#e74c3c';rr(x+6,y+h-9,(w-12)*p,5,3);g.fill();
   if(c.st==='happy'||c.st==='angry'){g.font='26px serif';g.fillText(c.st==='happy'?'✅':'❌',x+w/2,y+h*.62)}
   g.restore()})}
-function drawRolled(d,x,y,r,sel){const col=doneCol(d.cook);g.save();g.translate(x,y);
- if(sel){g.shadowColor='#ffd75a';g.shadowBlur=22}
- // rolled dosa: long golden cylinder seen at an angle
- g.rotate(-.25);const L2=r*1.9,h=r*.55;const grd=g.createLinearGradient(0,-h,0,h);grd.addColorStop(0,`rgb(${col.map(v=>Math.min(255,v+40))})`);grd.addColorStop(.5,`rgb(${col})`);grd.addColorStop(1,`rgb(${col.map(v=>v*.7|0)})`);
- g.fillStyle=grd;g.beginPath();g.roundRect(-L2/2,-h,L2,h*2,h);g.fill();g.shadowBlur=0;
- g.globalAlpha=.6;g.drawImage(lace,-L2/2,-h,L2,h*2);g.globalAlpha=1;
- // filling peeking out of the ends
- d.f.forEach((f,i)=>{const tx=makeTop(f);if(!tx)return;g.save();g.beginPath();g.ellipse(L2/2-h*.35,0,h*.42,h*.8,0,0,6.283);g.clip();g.drawImage(tx,L2/2-h*.8,-h*.8+i*3,h*.9,h*1.6);g.restore()});
- g.strokeStyle='rgba(90,40,10,.5)';g.lineWidth=2;g.beginPath();g.moveTo(-L2/2+h*.4,-h*.15);g.lineTo(L2/2-h*.4,-h*.35);g.stroke();
+function drawRolled(d,x,y,r,sel){const col=doneCol(d.cook);g.save();g.translate(x,y+r*.25);g.rotate(-.12);
+ const R=r*1.05;if(sel){g.shadowColor='#ffd75a';g.shadowBlur=22}else{g.shadowColor='rgba(0,0,0,.35)';g.shadowBlur=6}
+ // filling peeking along the folded edge
+ g.save();g.beginPath();g.ellipse(0,0,R*.86,R*.13,0,0,6.283);g.clip();const f0=d.f[d.f.length-1]||d.f[0];const tx=f0&&makeTop(f0);if(tx)g.drawImage(tx,-R*.9,-R*.3,R*1.8,R*.6);g.restore();
+ // half-moon dosa
+ g.beginPath();g.arc(0,0,R,Math.PI,0);g.closePath();const gr2=g.createLinearGradient(0,-R,0,0);gr2.addColorStop(0,`rgb(${col})`);gr2.addColorStop(1,`rgb(${col.map(v=>Math.min(255,v+25))})`);g.fillStyle=gr2;g.fill();g.shadowBlur=0;
+ g.save();g.clip();g.globalAlpha=.75;g.drawImage(lace,-R,-R,R*2,R*2);g.globalAlpha=1;if(d.ghee){const gl=g.createRadialGradient(-R*.3,-R*.5,0,0,-R*.4,R);gl.addColorStop(0,'rgba(255,225,130,.45)');gl.addColorStop(1,'rgba(255,200,80,0)');g.fillStyle=gl;g.fillRect(-R,-R,R*2,R)}
+ const ed=g.createLinearGradient(0,-R,0,-R*.75);ed.addColorStop(0,'rgba(110,50,10,.45)');ed.addColorStop(1,'rgba(110,50,10,0)');g.fillStyle=ed;g.fillRect(-R,-R,R*2,R*.3);g.restore();
+ g.strokeStyle='rgba(120,60,15,.5)';g.lineWidth=2;g.beginPath();g.moveTo(-R,0);g.lineTo(R,0);g.stroke();
  g.restore()}
 function drawCust(c,now){const img=im[c.img];if(!ok(img))return;const h=L.custH,w=h*img.naturalWidth/img.naturalHeight;let x=c.x,y=L.custY,al=1;
  if(c.st==='in'){const e=Math.min(1,c.t/.5);y+=(1-e)*h*.4;al=e}if(c.st==='happy'||c.st==='angry'){const e=Math.min(1,c.t/.9);al=1-e;x+=(c.st==='happy'?1:-1)*e*W*.15}
