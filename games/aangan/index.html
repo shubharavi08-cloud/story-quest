@@ -487,7 +487,7 @@ function renderHub(anim){const R=S.room,st=S.rooms[R];$('warmTxt').textContent=S
  $('housePct').textContent=housePct()+'%';$('houseBar').style.width=housePct()+'%';$('houseLbl').textContent=t('prog');
  // game cards for this room
  const G=$('games');G.innerHTML='';[...ROOMS[R].games,...ROOMS.filter((r,i)=>roomOpen(i)&&i!==R).flatMap(r=>r.games)].forEach(g=>{const b=document.createElement('button');b.className='gcard';const L=GAMES[g].levels;const fest=FEST_GAME[festIdx()]===g;
-  b.innerHTML=`<div class="art" style="background-image:url(assets/thumb_${g}.webp)"></div>${fest?`<div class="fest">🎉 ${t('festN')[festIdx()]}</div>`:''}<div class="cap"><div class="gn">${t('games')[g]}</div><div class="gs">★ ${starSum(S[g])} / ${L.length*3}</div></div>`;b.onclick=()=>{A.click(.3);openLevels(g)};G.appendChild(b)});
+  b.innerHTML=`<div class="art" style="background-image:url(assets/thumb_${g}.webp)"></div>${fest?`<div class="fest">🎉 ${t('festN')[festIdx()]}</div>`:''}<div class="cap"><div class="gn">${t('games')[g]}</div><div class="gs">★ ${starSum(S[g])} / ${L.length*3}</div></div>`;b.onclick=()=>{A.click(.3);if(g==='dosa'&&/worldofwondersstudio/.test(location.hostname)){location.href='../dosa/?from=aangan';return}openLevels(g)};G.appendChild(b)});
  $('playLv').innerHTML='🍬 '+t('playLevel').replace('{n}',(S.mithai||0)+1);$('bonusLbl').textContent=t('bonus');
  // festival + blessing ribbon
  const fg=FEST_GAME[festIdx()];const fr=gameRoom(fg);$('festBar').innerHTML=(roomOpen(fr)?t('fest'):t('festLock')).replace('{f}',t('festN')[festIdx()]).replace('{g}',t('games')[fg])+(S.bless!==today()?' · '+t('blessing'):'');

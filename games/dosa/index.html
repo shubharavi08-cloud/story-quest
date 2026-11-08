@@ -47,7 +47,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 <div id="hud"><div class="chip"><span id="hDay"></span></div><div class="chip">⏱ <span id="hTime"></span></div><div class="sp"></div>
  <div class="chip">₹ <span id="hCoin">0</span><div><small id="hGoalL"></small><div id="goalBar"><i></i></div></div></div><div class="chip" id="hRep"></div><button class="chip" id="hPause" style="pointer-events:auto">⏸</button></div>
 <div id="hint"></div>
-<div id="title"><h1 id="tName">Dosa Darshini</h1><div class="sub" id="tSub"></div>
+<div id="title"><a id="backA" href="../aangan/" style="position:absolute;top:14px;left:14px;display:none;background:rgba(255,247,234,.9);color:#3b2414;font-weight:900;padding:8px 14px;border-radius:999px;text-decoration:none">← Aangan</a><h1 id="tName">Dosa Darshini</h1><div class="sub" id="tSub"></div>
  <div id="langs"><button data-l="en">English</button><button data-l="hi">हिन्दी</button><button data-l="kn">ಕನ್ನಡ</button></div>
  <button class="btn g" id="playBtn" style="font-size:24px;padding:14px 40px"></button><div class="sub" id="tBest" style="font-size:14px;opacity:.85"></div></div>
 <div id="modal"><div class="box" id="mbox"></div></div>
@@ -339,6 +339,7 @@ $('hPause').onclick=()=>{if(state!=='play')return;paused=true;A.sizzleOff();moda
 function titleTxt(){document.documentElement.lang=LANG;$('tName').textContent=t('name');$('tSub').textContent=t('sub');$('playBtn').textContent=S.day>0?fill(t('cont'),{d:S.day+1}):t('play');$('tBest').textContent=S.best?fill(t('best'),{d:S.best}):'';document.querySelectorAll('#langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===LANG))}
 document.querySelectorAll('#langs button').forEach(b=>b.onclick=()=>{LANG=b.dataset.l;S.lang=LANG;save();titleTxt()});
 $('playBtn').onclick=()=>{A.ctx();dayIntro()};
+if(/from=aangan/.test(location.search)||/aangan/.test(document.referrer)){$('backA').style.display='block';try{const a=JSON.parse(localStorage.getItem('wow_aangan_v1')||'{}');if(a.lang&&!S.lang)S.lang=a.lang}catch(e){}}
 LANG=S.lang||(/^kn/.test(navigator.language)?'kn':/^hi/.test(navigator.language)?'hi':'en');titleTxt();layout();requestAnimationFrame(loop);
 window.__dosa={S,get slots(){return slots},get custs(){return custs},get tray(){return tray},get tool(){return tool},set tool(v){tool=v},startDay,endDay,spawnCust,get state(){return state}};
 </script>
