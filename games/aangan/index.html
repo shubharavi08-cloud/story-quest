@@ -185,7 +185,7 @@ button{font-family:inherit;color:inherit;border:0;cursor:pointer;background:none
 </head>
 <body>
 <div class="screen on" id="title"><div class="bg"></div><div class="shade"></div>
-  <div class="mid"><h1>Aangan</h1><div class="sub" id="tSub">Home Stories</div><div class="goal" id="tGoal"></div>
+  <div class="mid"><h1 id="tName">Aangan</h1><div class="sub" id="tSub">Home Stories</div><div class="goal" id="tGoal"></div>
     <div id="langs"><button data-l="en" class="on">English</button><button data-l="hi">हिन्दी</button><button data-l="kn">ಕನ್ನಡ</button></div>
     <button class="btn g play" id="playBtn">Play</button></div>
   <div class="by">World of Wonders Studio</div></div>
@@ -1172,7 +1172,7 @@ function startMithai(){show('mithai');Mithai.start(S.mithai||0);Ads.go();if(!S.s
 
 
 /* ===================== TITLE / BOOT ===================== */
-function applyLang(){document.documentElement.lang=LANG;$('tSub').textContent=t('sub');$('tGoal').textContent='👑 '+t('goal');$('playBtn').textContent=S.seen.intro?t('cont'):t('play');document.querySelectorAll('#langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===LANG));renderHub()}
+function applyLang(){document.documentElement.lang=LANG;$('tName').textContent={en:'Aangan',hi:'आँगन',kn:'ಅಂಗಳ'}[LANG]||'Aangan';$('tSub').textContent=({en:'',hi:'Aangan · ',kn:'Angala · '}[LANG]||'')+t('sub');$('tGoal').textContent='👑 '+t('goal');$('playBtn').textContent=S.seen.intro?t('cont'):t('play');document.querySelectorAll('#langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===LANG));renderHub()}
 document.querySelectorAll('#langs button').forEach(b=>b.onclick=()=>{LANG=b.dataset.l;S.lang=LANG;save();applyLang();langLbl()});
 function langLbl(){$('langBtn').textContent={en:'EN',hi:'हिं',kn:'ಕ'}[LANG]}
 $('langBtn').onclick=()=>{A.click(.3);LANG={en:'hi',hi:'kn',kn:'en'}[LANG];S.lang=LANG;save();applyLang();renderHub();langLbl();document.querySelectorAll('#langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===LANG))};langLbl();
