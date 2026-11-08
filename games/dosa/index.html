@@ -57,7 +57,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 const $=id=>document.getElementById(id);
 // ---------------- text ----------------
 const T={
-en:{rollIt:'Tap to fold',name:'Dosa Darshini',sub:'Run Bangalore’s busiest dosa counter — every customer wants a different dosa!',play:'Open the shop',cont:'Day {d} — open the shop',day:'Day',goal:'Goal',best:'Best day: {d}',
+en:{dbl:'▶ Double ₹',more30:'▶ +30 seconds',rollIt:'Tap to fold',name:'Dosa Darshini',sub:'Run Bangalore’s busiest dosa counter — every customer wants a different dosa!',play:'Open the shop',cont:'Day {d} — open the shop',day:'Day',goal:'Goal',best:'Best day: {d}',
  d:{plain:'Plain Dosa',masala:'Masala Dosa',mysore:'Mysore Masala',onion:'Onion Dosa',ghee:'Ghee Roast',cheese:'Cheese Dosa',mushroom:'Mushroom Dosa',veg:'Mix Veg Dosa',paneer:'Paneer Dosa',noodles:'Noodles Dosa',cheesemasala:'Cheese Masala',schezpaneer:'Spicy Paneer',onionmasala:'Onion Masala',cheesemush:'Cheese Mushroom',vegcheese:'Veg Cheese',mysorecheese:'Mysore Cheese',noodlecheese:'Cheese Noodles',paneermasala:'Paneer Masala'},
  f:{batter:'Batter',palya:'Potato palya',redchutney:'Red chutney',onion:'Onion',cheese:'Cheese',mushroom:'Mushroom',veg:'Vegetables',noodles:'Noodles',paneer:'Paneer',ghee:'Ghee'},
  newDish:'New on the menu!',howTo:'How to make it',start:'Start ▶',goalTxt:'Earn ₹{g} before closing time',
@@ -65,7 +65,7 @@ en:{rollIt:'Tap to fold',name:'Dosa Darshini',sub:'Run Bangalore’s busiest dos
  perfect:'Perfect!',good:'Good',raw:'Too pale…',angry:'Left angry!',tip:'Tip',closing:'Closing time!',dayDone:'Day {d} done!',dayFail:'The shop needs more ₹',earned:'Earned ₹{c}',served:'{n} dosas served',again:'Try again',next:'Next day',shop:'Upgrade the counter',buy:'Buy',owned:'Owned',paused:'Paused',resume:'Resume',home:'Home',
  up:{plant:['Money plant','+10% on every bill'],radio:['Retro radio','Old film songs — customers wait 15% longer'],lamp:['Brass lamp','Brings luck — more customers come'],slot:['3rd griddle spot','Cook three dosas at once'],flame:['Bigger flame','Dosas roast 30% faster'],coffee:['Filter coffee for waiting customers','Customers wait 35% longer'],bell:['Brass bell','Tips +25%'],slot4:['4th griddle spot','Cook four at once']},
  rep:'Mood',cheerW:'Shabash!',oopsW:'Ayyo!'},
-hi:{rollIt:'मोड़ने के लिए टैप',name:'डोसा दर्शिनी',sub:'बेंगलुरु का सबसे व्यस्त डोसा काउंटर चलाइए — हर ग्राहक को अलग डोसा चाहिए!',play:'दुकान खोलें',cont:'दिन {d} — दुकान खोलें',day:'दिन',goal:'लक्ष्य',best:'सबसे अच्छा दिन: {d}',
+hi:{dbl:'▶ ₹ दोगुना',more30:'▶ +30 सेकंड',rollIt:'मोड़ने के लिए टैप',name:'डोसा दर्शिनी',sub:'बेंगलुरु का सबसे व्यस्त डोसा काउंटर चलाइए — हर ग्राहक को अलग डोसा चाहिए!',play:'दुकान खोलें',cont:'दिन {d} — दुकान खोलें',day:'दिन',goal:'लक्ष्य',best:'सबसे अच्छा दिन: {d}',
  d:{plain:'सादा डोसा',masala:'मसाला डोसा',mysore:'मैसूर मसाला',onion:'प्याज़ डोसा',ghee:'घी रोस्ट',cheese:'चीज़ डोसा',mushroom:'मशरूम डोसा',veg:'मिक्स वेज डोसा',paneer:'पनीर डोसा',noodles:'नूडल्स डोसा',cheesemasala:'चीज़ मसाला',schezpaneer:'तीखा पनीर',onionmasala:'प्याज़ मसाला',cheesemush:'चीज़ मशरूम',vegcheese:'वेज चीज़',mysorecheese:'मैसूर चीज़',noodlecheese:'चीज़ नूडल्स',paneermasala:'पनीर मसाला'},
  f:{batter:'घोल',palya:'आलू मसाला',redchutney:'लाल चटनी',onion:'प्याज़',cheese:'चीज़',mushroom:'मशरूम',veg:'सब्ज़ियाँ',noodles:'नूडल्स',paneer:'पनीर',ghee:'घी'},
  newDish:'मेन्यू में नया!',howTo:'कैसे बनाएँ',start:'शुरू ▶',goalTxt:'दुकान बंद होने से पहले ₹{g} कमाएँ',
@@ -73,7 +73,7 @@ hi:{rollIt:'मोड़ने के लिए टैप',name:'डोसा �
  perfect:'एकदम बढ़िया!',good:'अच्छा',raw:'कच्चा रह गया…',angry:'नाराज़ होकर चले गए!',tip:'टिप',closing:'दुकान बंद!',dayDone:'दिन {d} पूरा!',dayFail:'दुकान को और ₹ चाहिए',earned:'₹{c} कमाए',served:'{n} डोसे परोसे',again:'फिर से',next:'अगला दिन',shop:'काउंटर सुधारें',buy:'खरीदें',owned:'है',paused:'रुका है',resume:'जारी रखें',home:'होम',
  up:{plant:['मनी प्लांट','हर बिल पर +10%'],radio:['पुराना रेडियो','पुराने गाने — ग्राहक 15% ज़्यादा रुकें'],lamp:['पीतल का दीया','शुभ — ज़्यादा ग्राहक आएँ'],slot:['तवे पर तीसरी जगह','एक साथ तीन डोसे'],flame:['तेज़ आँच','डोसे 30% जल्दी सिकें'],coffee:['इंतज़ार वालों को फ़िल्टर कॉफ़ी','ग्राहक 35% ज़्यादा रुकें'],bell:['पीतल की घंटी','टिप +25%'],slot4:['तवे पर चौथी जगह','एक साथ चार डोसे']},
  rep:'मूड',cheerW:'शाबाश!',oopsW:'अरे!'},
-kn:{rollIt:'ಮಡಚಲು ಒತ್ತಿ',name:'ದೋಸೆ ದರ್ಶಿನಿ',sub:'ಬೆಂಗಳೂರಿನ ಅತ್ಯಂತ ಜನಜಂಗುಳಿಯ ದೋಸೆ ಹೋಟೆಲ್ ನಡೆಸಿ — ಪ್ರತಿ ಗಿರಾಕಿಗೂ ಬೇರೆ ಬೇರೆ ದೋಸೆ ಬೇಕು!',play:'ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',cont:'ದಿನ {d} — ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',day:'ದಿನ',goal:'ಗುರಿ',best:'ಅತ್ಯುತ್ತಮ ದಿನ: {d}',
+kn:{dbl:'▶ ₹ ಎರಡರಷ್ಟು',more30:'▶ +30 ಸೆಕೆಂಡು',rollIt:'ಮಡಚಲು ಒತ್ತಿ',name:'ದೋಸೆ ದರ್ಶಿನಿ',sub:'ಬೆಂಗಳೂರಿನ ಅತ್ಯಂತ ಜನಜಂಗುಳಿಯ ದೋಸೆ ಹೋಟೆಲ್ ನಡೆಸಿ — ಪ್ರತಿ ಗಿರಾಕಿಗೂ ಬೇರೆ ಬೇರೆ ದೋಸೆ ಬೇಕು!',play:'ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',cont:'ದಿನ {d} — ಹೋಟೆಲ್ ತೆರೆಯಿರಿ',day:'ದಿನ',goal:'ಗುರಿ',best:'ಅತ್ಯುತ್ತಮ ದಿನ: {d}',
  d:{plain:'ಸಾದಾ ದೋಸೆ',masala:'ಮಸಾಲೆ ದೋಸೆ',mysore:'ಮೈಸೂರು ಮಸಾಲೆ',onion:'ಈರುಳ್ಳಿ ದೋಸೆ',ghee:'ತುಪ್ಪದ ದೋಸೆ',cheese:'ಚೀಸ್ ದೋಸೆ',mushroom:'ಅಣಬೆ ದೋಸೆ',veg:'ತರಕಾರಿ ದೋಸೆ',paneer:'ಪನೀರ್ ದೋಸೆ',noodles:'ನೂಡಲ್ಸ್ ದೋಸೆ',cheesemasala:'ಚೀಸ್ ಮಸಾಲೆ',schezpaneer:'ಖಾರದ ಪನೀರ್',onionmasala:'ಈರುಳ್ಳಿ ಮಸಾಲೆ',cheesemush:'ಚೀಸ್ ಅಣಬೆ',vegcheese:'ತರಕಾರಿ ಚೀಸ್',mysorecheese:'ಮೈಸೂರು ಚೀಸ್',noodlecheese:'ಚೀಸ್ ನೂಡಲ್ಸ್',paneermasala:'ಪನೀರ್ ಮಸಾಲೆ'},
  f:{batter:'ಹಿಟ್ಟು',palya:'ಆಲೂಗಡ್ಡೆ ಪಲ್ಯ',redchutney:'ಕೆಂಪು ಚಟ್ನಿ',onion:'ಈರುಳ್ಳಿ',cheese:'ಚೀಸ್',mushroom:'ಅಣಬೆ',veg:'ತರಕಾರಿ',noodles:'ನೂಡಲ್ಸ್',paneer:'ಪನೀರ್',ghee:'ತುಪ್ಪ'},
  newDish:'ಮೆನುವಿನಲ್ಲಿ ಹೊಸದು!',howTo:'ಮಾಡುವ ವಿಧಾನ',start:'ಶುರು ▶',goalTxt:'ಹೋಟೆಲ್ ಮುಚ್ಚುವ ಮುನ್ನ ₹{g} ಗಳಿಸಿ',
@@ -93,6 +93,12 @@ const UNLOCK=['plain','masala','mysore','onion','ghee','cheese','mushroom','veg'
 const UPS=[{k:'plant',img:'u_plant',c:120,day:1},{k:'slot',ic:'🍳',c:250,day:2},{k:'radio',img:'u_radio',c:220,day:2},{k:'flame',ic:'🔥',c:300,day:3},{k:'coffee',img:'u_coffee',c:350,day:4},{k:'lamp',img:'u_lamp',c:400,day:5},{k:'bell',img:'u_bell',c:450,day:6},{k:'slot4',ic:'🍳',c:900,day:9,need:'slot'}];
 const CUST=['c_office','c_girl','c_ajja','c_auto'];
 function dayDef(d){const n=Math.min(UNLOCK.length,d+2);const menu=UNLOCK.slice(0,n);return{menu,len:Math.min(150,95+d*5),goal:Math.round((110+d*55)/10)*10,gap:Math.max(5,10-d*.45),pat:Math.max(26,46-d*1.2),max:Math.min(3,1+Math.ceil(d/2))}}
+const Ads={cg:()=>window.CrazyGames&&CrazyGames.SDK&&CrazyGames.SDK.environment!=='disabled'?CrazyGames.SDK:null,n:0,
+ async init(){try{const cg=this.cg();if(cg&&cg.init)await cg.init()}catch(e){}},
+ rewarded(done){const cg=this.cg();if(cg&&cg.ad){A.sizzleOff();cg.ad.requestAd('rewarded',{adFinished:()=>done(true),adError:()=>done(false)});return}done(true)},
+ midgame(next){const cg=this.cg();this.n++;if(cg&&cg.ad&&this.n%2===0){A.sizzleOff();cg.ad.requestAd('midgame',{adFinished:()=>next(),adError:()=>next()});return}next()},
+ happy(){try{const cg=this.cg();cg&&cg.game&&cg.game.happytime()}catch(e){}},
+ stop(){try{const cg=this.cg();cg&&cg.game&&cg.game.gameplayStop()}catch(e){}},go(){try{const cg=this.cg();cg&&cg.game&&cg.game.gameplayStart()}catch(e){}}};
 // ---------------- save ----------------
 const KEY='wow_dosa_v1';let S={day:0,coins:0,up:{},best:0,lang:null,seen:{}};try{Object.assign(S,JSON.parse(localStorage.getItem(KEY)||'{}'))}catch(e){}
 const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
@@ -126,7 +132,7 @@ let state='title',day,DD,timeLeft,coins0,earned,served,rep,tool=null,spawnT,part
 const unlocked=d=>!!S.up[d];
 function upActive(k){return !!S.up[k]}
 function startDay(){day=S.day;DD=dayDef(day);timeLeft=DD.len;earned=0;served=0;rep=5;tool=null;slots=[];tray=[];custs=[];parts=[];pops=[];flyers=[];layout();spawnT=1.2;tut=day===0;state='play';paused=false;
- $('hud').style.display='flex';$('title').style.display='none';hud();A.ctx();A.chime()}
+ $('hud').style.display='flex';$('title').style.display='none';hud();A.ctx();A.chime();Ads.go()}
 function hud(){$('hDay').textContent=t('day')+' '+(day+1);$('hTime').textContent=Math.max(0,Math.ceil(timeLeft))+'s';$('hCoin').textContent=earned;$('hGoalL').textContent=t('goal')+' ₹'+DD.goal;
  document.querySelector('#goalBar i').style.width=Math.min(100,earned/DD.goal*100)+'%';$('hRep').textContent='😊'.repeat(Math.max(0,Math.ceil(rep/2)))+(rep<=0?'😠':'')}
 function spawnCust(){const free=[0,1,2].filter(i=>!custs.some(c=>c.pos===i));if(!free.length||custs.length>=DD.max)return;
@@ -324,12 +330,14 @@ function drawCust(c,now){const img=im[c.img];if(!ok(img))return;const h=L.custH,
  // patience bar
  const p=Math.max(0,c.pat/c.max);g.fillStyle='rgba(0,0,0,.2)';rr(bx+6,by+bh-7,bw-12,4,2);g.fill();g.fillStyle=p>.5?'#4caf50':p>.25?'#f0a830':'#e74c3c';rr(bx+6,by+bh-7,(bw-12)*p,4,2);g.fill();g.restore()}
 // ---------------- day end / shop ----------------
-function endDay(){if(state!=='play')return;state='end';A.sizzleOff();$('hint').style.display='none';const okDay=earned>=DD.goal&&rep>0;
+function endDay(){if(state!=='play')return;state='end';A.sizzleOff();Ads.stop();$('hint').style.display='none';const okDay=earned>=DD.goal&&rep>0;
  const stars=!okDay?0:earned>=DD.goal*1.6?3:earned>=DD.goal*1.25?2:1;
  bigWord(okDay?t('cheerW'):t('oopsW'));if(!A.play(okDay?'cheer':'oops',.9)){okDay?A.win(3):A.tone(220,.12,.6,'triangle')}
  S.coins+=earned;if(okDay){S.day=day+1;S.best=Math.max(S.best,S.day)}if(tut)S.seen.tut=1;save();
  setTimeout(()=>{const h=`<h2>${okDay?fill(t('dayDone'),{d:day+1}):t('dayFail')}</h2><div class="stars">${[0,1,2].map(k=>`<span class="${k<stars?'got':''}">★</span>`).join('')}</div><p style="font-size:19px">${fill(t('earned'),{c:earned})} · ${fill(t('served'),{n:served})}</p><p style="font-size:15px">💰 ₹${S.coins}</p>`;
-  modal(h,[[t('home'),'p',goTitle],[t('shop'),'o',shop],[okDay?t('next'):t('again'),'g',dayIntro]])},1100)}
+  if(okDay)Ads.happy();const endFail=()=>modal(h,[[t('home'),'p',goTitle],[t('again'),'g',()=>Ads.midgame(dayIntro)]]);
+  const rw=okDay?[t('dbl'),'o',()=>Ads.rewarded(ok=>{if(ok){S.coins+=earned;save();coinBurst(W/2,H/2,20);A.chime()}setTimeout(()=>modal(`<h2>💰 ₹${S.coins}</h2>`,[[t('shop'),'o',shop],[t('next'),'g',()=>Ads.midgame(dayIntro)]]),300)})]:[t('more30'),'o',()=>Ads.rewarded(ok=>{if(!ok){endFail();return}S.coins-=earned;save();state='play';timeLeft=30;rep=Math.max(rep,2);$('hud').style.display='flex';Ads.go();hud()})];
+  modal(h,[[t('home'),'p',goTitle],[t('shop'),'p',shop],rw,[okDay?t('next'):t('again'),'g',()=>Ads.midgame(dayIntro)]])},1100)}
 function shop(){const items=UPS.filter(u=>S.day>=u.day&&(!u.need||S.up[u.need]));let h=`<h2>🛠 ${t('shop')}</h2><p style="font-size:17px">💰 ₹${S.coins}</p>`;
  h+=items.map(u=>{const has=!!S.up[u.k];const [nm,ds]=t('up')[u.k];return`<div class="up"><div class="ic">${u.img?`<img src="assets/${u.img}.webp" style="width:40px;height:40px;object-fit:contain">`:u.ic}</div><div class="tx"><b>${nm}</b>${ds}</div>${has?`<span style="font-weight:900;color:#2f8f3c">✓ ${t('owned')}</span>`:`<button class="btn ${S.coins>=u.c?'g':'off p'}" data-buy="${u.k}">₹${u.c}</button>`}</div>`}).join('')||'<p>…</p>';
  modal(h,[[t('home'),'p',goTitle],[t('next'),'g',dayIntro]]);document.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const u=UPS.find(u=>u.k===b.dataset.buy);if(S.coins<u.c){A.click(.2);return}S.coins-=u.c;S.up[u.k]=1;save();A.chime();shop()})}
@@ -348,6 +356,7 @@ function titleTxt(){document.documentElement.lang=LANG;$('tName').textContent=t(
 document.querySelectorAll('#langs button').forEach(b=>b.onclick=()=>{LANG=b.dataset.l;S.lang=LANG;save();titleTxt()});
 $('playBtn').onclick=()=>{A.ctx();dayIntro()};
 if(/from=aangan/.test(location.search)||/aangan/.test(document.referrer)){$('backA').style.display='block';try{const a=JSON.parse(localStorage.getItem('wow_aangan_v1')||'{}');if(a.lang&&!S.lang)S.lang=a.lang}catch(e){}}
+Ads.init();
 LANG=S.lang||(/^kn/.test(navigator.language)?'kn':/^hi/.test(navigator.language)?'hi':'en');titleTxt();layout();requestAnimationFrame(loop);
 window.__dosa={S,get slots(){return slots},get custs(){return custs},get tray(){return tray},get tool(){return tool},set tool(v){tool=v},startDay,endDay,spawnCust,get state(){return state}};
 </script>
