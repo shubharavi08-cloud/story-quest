@@ -990,7 +990,7 @@ GAMES.mango=Mango;
 const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,ox,oy,grid,mask,pots,types,lvN,moves,goals,state,anim=[],sel=null,drag=null,idleT=0,hintMv=null,raf,lastT,bg=null,combo=0,score=0;
  function mixC(a,b,t){const p=h=>[1,3,5].map(i=>parseInt(h.substr(i,2),16));const A=p(a),B=p(b);return'rgb('+A.map((v,i)=>Math.round(v+(B[i]-v)*t)).join(',')+')'}
  const THEMES=[{n:'Deepavali',c1:'#2f7f6f',c2:'#3a8d7c',a:'#3b1f5e',b:'#d97706',g:['#f59e0b','#fde047'],p:'#ffd36b'},{n:'Holi',c1:'#0e7490',c2:'#0891b2',a:'#7c1d5c',b:'#f472b6',g:['#ec4899','#a3e635'],p:'#f9a8d4'},{n:'Sankranti',c1:'#1d4ed8',c2:'#2563eb',a:'#0e4a7a',b:'#f59e0b',g:['#fb923c','#38bdf8'],p:'#fde68a'},{n:'Onam',c1:'#1e3a8a',c2:'#1e40af',a:'#14532d',b:'#facc15',g:['#facc15','#f97316'],p:'#bef264'},{n:'Dasara',c1:'#115e59',c2:'#0f766e',a:'#7f1d1d',b:'#eab308',g:['#dc2626','#fbbf24'],p:'#fcd34d'},{n:'Ugadi',c1:'#5a6bb0',c2:'#6878bd',a:'#065f46',b:'#84cc16',g:['#65a30d','#fde047'],p:'#d9f99d'},{n:'Ganesha',c1:'#a0708e',c2:'#ad7e9b',a:'#9a3412',b:'#fbbf24',g:['#f97316','#ef4444'],p:'#fed7aa'}];
- let theme=THEMES[0],tgt=[1,2,3],parts=[],started=false,glowT=0,fx=[],sk=[],darkT=0,chakraT=0,shakeT=0,shakeM=0,flashA=0;
+ let theme=THEMES[0],tgt=[1,2,3],parts=[],started=false,glowT=0,fx=[],sk=[],deb=[],bsrc={},darkT=0,chakraT=0,shakeT=0,shakeM=0,flashA=0;
  const SW=['s_laddoo','s_jalebi','s_barfi','s_jamun','s_peda','s_katli'];const SP={rocketH:'x_sparkler',rocketV:'x_rocket',bomb:'x_anaar',rainbow:'x_chakra'};
  const im={};[...SW,'x_rocket','x_anaar','x_kalash','x_pot','x_sparkler','x_chakra','x_lakshmi'].forEach(k=>{const i=new Image();i.src='assets/'+k+'.webp';im[k]=i});
  const ok=i=>i&&i.complete&&i.naturalWidth;
@@ -1037,10 +1037,12 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
    const tour=[];for(let y=0;y<M;y++)for(let x=0;x<N;x++)tour.push([x,y]);tour.sort((a,b)=>(ring(a)-ring(b))||(per(a)-per(b)));const T=2.4;
    const st=tile(...self);if(st)st.gone=1;fx.push({k:'chakra',x:self[0],y:self[1],to:tour,tset:new Set(tg.map(p=>p.join())),T,t:0,hit:0});chakraT=T;state='chakra';
    setTimeout(()=>{if(state==='chakra')state='play';combo=0;clearSet(clr,[])},T*1000+80);return}
-  else if(A1.sp&&B1.sp){for(let j=-2;j<=2;j++)for(let i=-2;i<=2;i++)if(inB(pb[0]+i,pb[1]+j))clr.add((pb[0]+i)+','+(pb[1]+j));A1.sp=B1.sp=null;A.fxLakshmi();if(!S.seen.crk_combo){S.seen.crk_combo=1;save();toastM(t('crk').combo,2800)}flashA=.25;shake(.4,7);fx.push({k:'lakshmi',x:pb[0],y:pb[1],t:0});fx.push({k:'ring',x:pb[0],y:pb[1],t:0,big:1})}
+  else if(A1.sp&&B1.sp){for(let j=-2;j<=2;j++)for(let i=-2;i<=2;i++)if(inB(pb[0]+i,pb[1]+j))clr.add((pb[0]+i)+','+(pb[1]+j));A1.sp=B1.sp=null;mark(clr,'lakshmi',pb[0],pb[1]);A.fxLakshmi();if(!S.seen.crk_combo){S.seen.crk_combo=1;save();toastM(t('crk').combo,2800)}flashA=.25;shake(.4,7);fx.push({k:'lakshmi',x:pb[0],y:pb[1],t:0});fx.push({k:'ring',x:pb[0],y:pb[1],t:0,big:1})}
   else{[[pa,A1],[pb,B1]].forEach(([p,c])=>{if(c.sp)clr.add(p.join())});}
   combo=0;clearSet(clr,[]);}
- function blast(set,x,y,c){if(c.sp==='rocketH'){for(let i=0;i<N;i++)set.add(i+','+y);A.fxSparkler();fx.push({k:'sparkler',x,y,t:0});darkT=Math.max(darkT,1)}else if(c.sp==='rocketV'){for(let i=0;i<M;i++)set.add(x+','+i);A.fxRocketUp();fx.push({k:'rocket',x,y,t:0,boom:0});darkT=Math.max(darkT,.8)}else if(c.sp==='bomb'){for(let j=-1;j<=1;j++)for(let i=-1;i<=1;i++)set.add((x+i)+','+(y+j));A.fxFountain();fx.push({k:'fountain',x,y,t:0});darkT=Math.max(darkT,1.5);shake(.2,2.5)}}
+ function mark(set,kind,sx,sy){for(const k of set)if(!bsrc[k])bsrc[k]={kind,sx,sy}}
+ function blast(set,x,y,c){const _b=new Set(set);if(c.sp==='rocketH'){for(let i=0;i<N;i++)set.add(i+','+y);A.fxSparkler();fx.push({k:'sparkler',x,y,t:0});darkT=Math.max(darkT,1)}else if(c.sp==='rocketV'){for(let i=0;i<M;i++)set.add(x+','+i);A.fxRocketUp();fx.push({k:'rocket',x,y,t:0,boom:0});darkT=Math.max(darkT,.8)}else if(c.sp==='bomb'){for(let j=-1;j<=1;j++)for(let i=-1;i<=1;i++)set.add((x+i)+','+(y+j));A.fxFountain();fx.push({k:'fountain',x,y,t:0});darkT=Math.max(darkT,1.5);shake(.2,2.5)}
+  const nw=new Set([...set].filter(k=>!_b.has(k)));nw.add(x+','+y);mark(nw,c.sp,x,y)}
  function shake(d,m){shakeT=Math.max(shakeT,d);shakeM=Math.max(shakeM,m)}
  function resolve(swapped){const runs=findRuns();if(!runs.length){afterSettle();return}combo++;
   const clr=new Set(),create=[];
@@ -1050,18 +1052,25 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
    if(len>=5)create.push({p:pivot,sp:'rainbow',t:t0});else if(r.cells.some(([x,y])=>count[x+','+y]>1)){const ip=r.cells.find(([x,y])=>count[x+','+y]>1);if(!create.some(c=>c.p[0]===ip[0]&&c.p[1]===ip[1]))create.push({p:ip,sp:'bomb',t:t0})}else if(len===4)create.push({p:pivot,sp:r.dir==='h'?'rocketV':'rocketH',t:t0})});
   clearSet(clr,create)}
  function clearSet(clr,create){// expand specials hit
-  let changed=true;const done=new Set();while(changed){changed=false;for(const k of [...clr]){if(done.has(k))continue;done.add(k);const [x,y]=k.split(',').map(Number);const c=tile(x,y);if(c&&c.sp&&c.sp!=='rainbow'&&!create.some(cr=>cr.p[0]===x&&cr.p[1]===y)){const before=clr.size;blast(clr,x,y,c);if(clr.size!==before)changed=true}}}
+  let gDelay=0;let changed=true;const done=new Set();while(changed){changed=false;for(const k of [...clr]){if(done.has(k))continue;done.add(k);const [x,y]=k.split(',').map(Number);const c=tile(x,y);if(c&&c.sp&&c.sp!=='rainbow'&&!create.some(cr=>cr.p[0]===x&&cr.p[1]===y)){const before=clr.size;blast(clr,x,y,c);if(clr.size!==before)changed=true}}}
   const r=cv.getBoundingClientRect();let potsHit=new Set();
   for(const k of clr){const [x,y]=k.split(',').map(Number);if(!inB(x,y))continue;
    // damage adjacent pots
    [[1,0],[-1,0],[0,1],[0,-1]].forEach(([dx,dy])=>{const px=x+dx,py=y+dy;if(inB(px,py)&&pots[py][px])potsHit.add(px+','+py)});
    const c=tile(x,y);if(!c)continue;if(create.some(cr=>cr.p[0]===x&&cr.p[1]===y))continue;
-   goals.forEach(gl=>{if(gl.t===c.t)gl.got++});anim.push({k:'pop',x,y,t:0,ty:c.t,sp:c.sp});grid[y][x]=null;const pts=(c.sp?40:10)*Math.max(1,combo);score+=pts;burst(x,y);
+   goals.forEach(gl=>{if(gl.t===c.t)gl.got++});const src=bsrc[k];if(src&&!c.gone){const d=throwDeb(c,x,y,src);gDelay=Math.max(gDelay,d)}else anim.push({k:'pop',x,y,t:0,ty:c.t,sp:c.sp});grid[y][x]=null;const pts=(c.sp?40:10)*Math.max(1,combo);score+=pts;burst(x,y);
    if(Math.random()<.35)sparkle(r.left+ox+(x+.5)*cell,r.top+oy+(y+.5)*cell,4,['#fff3c4','#ffd36b'])}
   potsHit.forEach(k=>{const [x,y]=k.split(',').map(Number);pots[y][x]--;score+=40;anim.push({k:'potcrack',x,y,t:0});if(!pots[y][x]){goals.forEach(gl=>{if(gl.t==='pot')gl.got++});A.thunk()}else A.click(.4)});
   create.forEach(c=>{grid[c.p[1]][c.p[0]]={t:c.sp==='rainbow'?-1:c.t,sp:c.sp,dy:0,sc:1.4};({rocketH:'mkRocket',rocketV:'mkRocket',bomb:'mkBomb',rainbow:'mkRainbow'})[c.sp]&&A[({rocketH:'mkRocket',rocketV:'mkRocket',bomb:'mkBomb',rainbow:'mkRainbow'})[c.sp]]();fx.push({k:'born',x:c.p[0],y:c.p[1],t:0});const sk2='crk_'+(c.sp==='rocketV'?'rocketV':c.sp);if(!S.seen[sk2]){S.seen[sk2]=1;save();toastM(t('crk')[c.sp],2800)}});
   A.pluck([523,587,659,784,880,988,1047][Math.min(6,combo-1)]||1047,.06);
-  if(combo>=3)comboPop(combo);hud();setTimeout(gravity,200)}
+  if(combo>=3)comboPop(combo);hud();bsrc={};setTimeout(gravity,gDelay?Math.round((gDelay+.35)*1000):200)}
+ function throwDeb(c,x,y,src){const {kind,sx,sy}=src,dx=x-sx,dy=y-sy,R=Math.random;let del=0,vx=0,vy=0,gr=.35,spin=(R()-.5)*.4,shr=0;
+  if(kind==='rocketH'){const span=dx>0?(N-.5-sx):(sx+.5);del=.7*Math.abs(dx)/Math.max(1,span);vx=Math.sign(dx||1)*(1+R()*2);vy=-(4+R()*4)}
+  else if(kind==='rocketV'){del=dy<0?.5*(-dy)/(sy+.5):.04*dy;vx=(R()-.5)*2;vy=-(11+R()*5);gr=.15}
+  else if(kind==='bomb'){del=.04*R();vx=dx*3+(R()-.5)*2;vy=-(8+R()*5)+dy*1.5;gr=.38;spin*=1.8}
+  else if(kind==='lakshmi'){del=.03*(Math.abs(dx)+Math.abs(dy));const a=Math.atan2(dy||R()-.5,dx||R()-.5),v=9+R()*6;vx=Math.cos(a)*v;vy=Math.sin(a)*v-3;gr=.3;spin*=2.5;shr=.5}
+  deb.push({t:0,del,img:c.sp?SP[c.sp]:SW[c.t],x:ox+(x+.5)*cell,y:oy+(y+.5)*cell,vx,vy,gr,rot:0,spin,shr,l:1,cx:x,cy:y});return del+.25}
+
  function comboPop(n){const msg=['','','','Wah!','Shabash!','Bahut badhiya!','Adbhuta!'][Math.min(6,n)];const d=document.createElement('div');d.className='kpop';d.textContent=msg;$('mithai').appendChild(d);setTimeout(()=>d.remove(),1100)}
  function gravity(){for(let x=0;x<N;x++){let write=M-1;while(write>=0&&(!mask[write][x]||pots[write][x]))write--;// pots and holes block: process segments
    for(let y=M-1;y>=-1;y--){const blocked=y<0||!mask[y][x]||pots[y][x];if(y>=0&&!blocked&&grid[y][x]){const c=grid[y][x];if(write!==y){grid[write][x]=c;grid[y][x]=null;c.dy=(y-write)*cell}write--;while(write>=0&&(!mask[write][x]||pots[write][x]))write--}
@@ -1117,6 +1126,13 @@ const Mithai=(()=>{const cv=$('xv'),g=cv.getContext('2d');let W,H,N=8,M=8,cell,o
   anim.forEach(a=>{a.t+=dt*6;if(a.k==='pop'&&a.t<1){drawTile({t:a.ty,sp:a.sp},a.x,a.y,1+a.t*.6,1-a.t)}if(a.k==='potcrack'&&a.t<1){g.fillStyle=`rgba(160,82,45,${1-a.t})`;for(let i=0;i<6;i++){const an=i*1.05;g.beginPath();g.arc(ox+(a.x+.5)*cell+Math.cos(an)*a.t*cell*.6,oy+(a.y+.5)*cell+Math.sin(an)*a.t*cell*.6,cell*.08,0,6.283);g.fill()}}});
   // ---- Deepavali sparkle engine ----
   if(darkT>0){darkT-=dt;g.fillStyle=`rgba(12,6,24,${.42*Math.min(1,darkT*1.6)})`;g.fillRect(ox-8,oy-8,cell*N+16,cell*M+16)}
+  for(const d of deb){d.t+=dt;const s0=cell*.92;if(d.t<d.del){g.drawImage(im[d.img],d.x-s0/2,d.y-s0/2,s0,s0);continue}
+   if(!d.go){d.go=1;burst(d.cx,d.cy,0);glow(d.x,d.y,cell*.8,'255,200,120',.9);d.scx=d.x;d.scy=d.y;for(let i=0;i<5;i++)spark(d.x,d.y,Math.random()*6.283,1.5+Math.random()*3,{c:'255,230,170',l:.35,w:1.2,gr:.05,br:2})}
+   const e=Math.max(0,1-(d.t-d.del)/.5);glow(d.scx,d.scy,cell*.55,'255,140,50',e*.55);
+   d.x+=d.vx;d.y+=d.vy;d.vy+=d.gr;d.rot+=d.spin;d.l-=dt*1.4;const sc=s0*(1+(d.shr?-d.shr:.15)*(1-d.l));if(d.l<=0)continue;
+   g.save();g.globalAlpha=Math.min(1,d.l*1.6);g.translate(d.x,d.y);g.rotate(d.rot);if(ok(im[d.img]))g.drawImage(im[d.img],-sc/2,-sc/2,sc,sc);g.restore();
+   if(Math.random()<.5)spark(d.x,d.y,Math.random()*6.283,.5,{c:'255,240,200',l:.25,w:1,gr:.02,gl:1})}
+  deb=deb.filter(d=>d.t<d.del||d.l>0);
   fx.forEach(f=>{f.t+=dt;const cx=ox+(f.x+.5)*cell,cy=oy+(f.y+.5)*cell;
    if(f.k==='sparkler'){const T=.7,u=Math.min(1,f.t/T);if(f.t<T)[-1,1].forEach(dr=>{const hx=cx+dr*u*(dr>0?(N-.5-f.x):(f.x+.5))*cell;glow(hx,cy,cell*.55,'255,240,200',.9);for(let i=0;i<7;i++)spark(hx,cy,Math.random()*6.283,2+Math.random()*6,{c:Math.random()<.6?'255,250,235':'255,205,110',l:.25+Math.random()*.35,w:1.4,gr:.06,br:Math.random()<.5?3:0})})}
    else if(f.k==='rocket'){const T=.5,u=Math.min(1,f.t/T),top=oy+cell*.8,ry=cy+(top-cy)*(1-(1-u)*(1-u));if(f.t<T){glow(cx,ry,cell*.5,'255,200,120',.9);for(let i=0;i<4;i++)spark(cx+(Math.random()-.5)*4,ry,Math.PI/2+(Math.random()-.5)*.5,2+Math.random()*3,{c:'255,170,70',l:.35,w:2,gr:.03})}
