@@ -144,6 +144,8 @@ blockquote p{margin:0}
 .card b{font-family:var(--display);font-size:20px;color:var(--flame);display:block;line-height:1.2}
 .card span{color:var(--muted);font-size:15px}
 @media (max-width:560px){.card{grid-template-columns:1fr}}
+.wa{margin:28px 0 8px;padding:16px 18px;background:var(--night-2);border:1px solid var(--line);border-left:4px solid #25d366;border-radius:16px}
+.wa h2{margin:0 0 6px;font-size:22px;color:var(--flame)} .wa p{margin:0 0 10px}
 .foot{margin-top:40px;color:var(--muted);font-size:15px;border-top:1px solid var(--line);padding-top:16px}
 """
 
@@ -180,6 +182,11 @@ def shell(title, desc, canon, body, ld):
 """
 
 
+WA_URL = "https://whatsapp.com/channel/0029VbDbyex4o7qNAsIg0H21"
+WA_BLOCK = (f'<div class="wa"><h2>Join our WhatsApp Channel for daily updates</h2>'
+            f'<p>A new story, thought or game from World of Wonders every day: <a href="{WA_URL}" target="_blank" rel="noopener">follow World of Wonders on WhatsApp</a></p>'
+            f'<a class="btn" href="{WA_URL}" target="_blank" rel="noopener">Join the World of Wonders WhatsApp Channel</a></div>')
+
 ORG = {"@id": BASE + "#org"}
 
 
@@ -199,7 +206,7 @@ def post_page(p, others):
     chips = (f'<span class="chip">{html.escape(p["series"])}</span>' if p.get("series") else "")
     body = (f'<div class="crumb"><a href="/">World of Wonders</a> › <a href="/blog/">Blog</a></div>'
             f'<h1>{html.escape(p["title"])}</h1><p class="meta">{chips}{nice_date(p["date"])} · {p["mins"]} min read</p>'
-            f'{vid}' + (f'<div class="btns">{"".join(btns)}</div>' if btns else "") + p["html"] +
+            f'{vid}' + (f'<div class="btns">{"".join(btns)}</div>' if btns else "") + p["html"] + WA_BLOCK +
             (f'<h2>More from the blog</h2><ul>{more}</ul>' if more else ""))
     ld = {"@context": "https://schema.org", "@type": "BlogPosting", "headline": p["title"], "description": p["description"],
           "datePublished": p["date"].isoformat(), "url": p["url"], "image": p["thumb"], "inLanguage": "en-IN",
