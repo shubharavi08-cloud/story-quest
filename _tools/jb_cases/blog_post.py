@@ -29,14 +29,30 @@ H = {"kn": {"case": "ಕೇಸ್", "says": "ಮಿಸ್ಟರ್ ಪ್ರಾ�
 HELPTXT = {"1930": "1930 · cybercrime.gov.in", "1915": "1915 · National Consumer Helpline", "": "1930 · cybercrime.gov.in"}
 
 
+WA = "https://whatsapp.com/channel/0029VbE8UbfIXnlyGVUePh2j"
+
+
+def utm(c, s):
+    d = (s.get("sched") or "")[:10].replace("-", "") or "evergreen"
+    return f'utm_source=blogspot&amp;utm_medium=post&amp;utm_campaign=jb-{d}-{c["slug"]}'
+
+
+def wa_block():
+    return (f'<div style="border:3px solid #1f9d55;border-radius:22px;padding:14px 18px;margin:18px 0;background:#e8f7ee;text-align:center">'
+            f'<h3 style="margin:0 0 6px">Join our WhatsApp Channel for daily updates</h3>'
+            f'<p style="margin:0 0 10px">ದಿನಕ್ಕೊಂದು ಹೊಸ ಮೌನ ಕೇಸ್ · A new scam alert every day · रोज़ एक नया स्कैम अलर्ट: <a href="{WA}">{WA[8:]}</a></p>'
+            f'<a href="{WA}" style="display:inline-block;background:#1f9d55;color:#fff;border-radius:99px;padding:10px 20px;font-weight:800;text-decoration:none">Join the Jagruth Bharath WhatsApp Channel</a></div>')
+
+
 def block(c, s, l, first):
-    h = H[l]; col = c["color"]
+    h = H[l]; col = c["color"]; long_ = c.get("_weekly")
     steps = "".join(f'<li style="margin:4px 0">{E(x)}</li>' for x in c["steps"][l])
     rules = "".join(f'<li style="margin:4px 0">✅ {E(x)}</li>' for x in c["rules"][l])
-    vid = (f'<div style="max-width:340px;margin:12px auto"><iframe width="100%" height="600" style="border:0;border-radius:16px;aspect-ratio:9/16;height:auto" '
-           f'src="https://www.youtube.com/embed/{s[l]}" title="{E(c["t"][l])}" allowfullscreen></iframe></div>') if first else \
-          f'<p>▶️ <a href="https://youtube.com/shorts/{s[l]}">{h["watch"]}</a></p>'
-    link = f'{WOW}?ep={c["n"]}&amp;lang={l}'
+    ar, mw, ht = ("16/9", "100%", "360") if long_ else ("9/16", "340px", "600")
+    vid = (f'<div style="max-width:{mw};margin:12px auto"><iframe width="100%" height="{ht}" style="border:0;border-radius:16px;aspect-ratio:{ar};height:auto" '
+           f'src="https://www.youtube-nocookie.com/embed/{s[l]}?rel=0" title="{E(c["t"][l])}" allow="encrypted-media; picture-in-picture" allowfullscreen></iframe></div>') if first else \
+          (f'<p>▶️ <a href="https://www.youtube.com/watch?v={s[l]}">{h["watch"]}</a></p>' if long_ else f'<p>▶️ <a href="https://youtube.com/shorts/{s[l]}">{h["watch"]}</a></p>')
+    link = f'{WOW}?{"weekly" if long_ else "ep"}={c["n"]}&amp;lang={l}&amp;{utm(c, s)}'
     return f'''
 <div style="border:3px solid #2b2140;border-radius:22px;padding:16px 18px;margin:18px 0;background:#fffaf0">
 <p style="margin:0"><span style="background:{col};color:#fff;border-radius:99px;padding:3px 12px;font-weight:700">{c["icon"]} {h["case"]} {c["n"]:02d}</span></p>
@@ -51,13 +67,22 @@ def block(c, s, l, first):
 </div>'''
 
 
+def write(c, s, name, title, labels):
+    body = (f'<div style="font-size:17px;line-height:1.6">'
+            + block(c, s, "kn", True) + wa_block() + block(c, s, "en", False) + block(c, s, "hi", False)
+            + f'<p style="text-align:center">📲 {H["kn"]["share"]} · <a href="{WA}">WhatsApp</a> · '
+              f'<a href="https://www.youtube.com/channel/UCQHpj5OWL4VXSR9UmMofMQw">YouTube</a> · <a href="{WOW}?{utm(c, s)}">Mauna\'s Case Book</a></p></div>')
+    json.dump({"n": c["n"], "title": title, "labels": labels, "html": body,
+               "sched": s.get("sched")}, open(os.path.join(out, name), "w", encoding="utf-8"), ensure_ascii=False)
+
+
 for c in con:
     s = src[c["n"]]
-    body = (f'<div style="font-size:17px;line-height:1.6">'
-            + block(c, s, "kn", True) + block(c, s, "en", False) + block(c, s, "hi", False)
-            + f'<p style="text-align:center">📲 {H["kn"]["share"]} · <a href="https://whatsapp.com/channel/0029VbE8UbfIXnlyGVUePh2j">WhatsApp</a> · '
-              f'<a href="https://www.youtube.com/channel/UCQHpj5OWL4VXSR9UmMofMQw">YouTube</a> · <a href="{WOW}">Mauna\'s Case Book</a></p></div>')
-    title = f'{c["t"]["kn"]} | {c["t"]["en"]} | ಮೌನ ಕೇಸ್ {c["n"]}'
-    json.dump({"n": c["n"], "title": title, "labels": ["Mauna Shorts", "ಕನ್ನಡ", "English", "हिन्दी"], "html": body,
-               "sched": s.get("sched")}, open(os.path.join(out, f'ep{c["n"]:02d}.json'), "w", encoding="utf-8"), ensure_ascii=False)
-print("posts:", len(con))
+    write(c, s, f'ep{c["n"]:02d}.json', f'{c["t"]["kn"]} | {c["t"]["en"]} | ಮೌನ ಕೇಸ್ {c["n"]}',
+          ["Mauna Shorts", "ಕನ್ನಡ", "English", "हिन्दी"])
+wsrc = {e["n"]: e for e in json.load(open(src_p, encoding="utf-8")).get("weekly", [])}
+wcon = json.load(open(con_p, encoding="utf-8")).get("weekly", [])
+for c in wcon:
+    c = dict(c, _weekly=True); s = wsrc[c["n"]]
+    write(c, s, f'wk{c["n"]:02d}.json', f'{c["t"]["kn"]} | {s["title_en"]}', ["Mauna Crime Report", "ಕನ್ನಡ", "English", "हिन्दी"])
+print("posts:", len(con), "weekly:", len(wcon))
