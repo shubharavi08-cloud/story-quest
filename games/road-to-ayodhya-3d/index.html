@@ -90,16 +90,19 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
 .map button.cur{border-color:#3a1d0c;background:#ffe9b8}
 .map button:disabled{opacity:.45;cursor:default}
 @keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
-/* portrait / narrow: board on top, controls below */
+/* portrait / narrow: board on top (main), compact controls below */
 @media (max-aspect-ratio:1/1){
   :root{--rail:100%}
-  .top{right:12px}.top h1 small{display:none}.top h1{font-size:22px}.lvchip{font-size:13px;padding:5px 10px}
-  .rail{left:8px;right:8px;top:auto;bottom:8px;width:auto;gap:6px}
-  .rail .btns{position:fixed;top:48px;left:8px;right:8px;justify-content:center}
-  .rail .panel.pp:last-child{display:none}
-  .players{flex-direction:row;flex-wrap:wrap}.pl{flex:1;min-width:140px}
-  #toast{width:100%;top:94px}
-  #dice{width:76px;height:76px}
+  .top{left:8px;right:8px;top:6px;gap:6px}.top h1 small{display:none}.top h1{font-size:19px;white-space:nowrap}.lvchip{font-size:12px;padding:5px 9px}
+  .rail{left:6px;right:6px;top:auto;bottom:6px;width:auto;gap:5px}
+  .rail .btns{position:fixed;top:36px;left:6px;right:6px;justify-content:center;flex-wrap:nowrap;gap:4px}
+  .pill{min-width:30px;height:30px;padding:0 7px;font-size:13px}
+  .panel{padding:6px 10px;border-radius:13px}
+  .rail .panel.pp:last-child,.rail .panel.lp{display:none}
+  .players{flex-direction:row;gap:4px}.pl{flex:1;min-width:0;padding:2px 6px;font-size:13px}.pl b{font-size:14px}.pl i{width:14px;height:14px}
+  .dicerow{gap:8px}#dice{width:58px;height:58px}.roll{font-size:18px;padding:9px 8px}
+  .hint{font-size:12.5px;min-height:0}.choice button{font-size:14px;padding:8px 4px}
+  #toast{width:100%;top:74px}#toast div{font-size:14px;padding:6px 12px}
 }
 @media (max-height:560px){.card{padding:12px 16px}.card h3{font-size:22px}.stars{font-size:26px;margin:0 0 4px}.card p{margin:0 0 6px;font-size:14.5px}.card .go{padding:9px 14px;font-size:16px}}
 @media (max-height:470px) and (min-aspect-ratio:1/1){
@@ -136,7 +139,7 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
     </div>
     <p class="hint" id="hint"></p>
   </section>
-  <section class="panel">
+  <section class="panel lp">
     <div class="lamps"><span id="t-lamps">Your lamps</span><div class="tok" id="tok"></div></div>
   </section>
   <section class="panel pp"><div class="progress" id="prog"></div></section>

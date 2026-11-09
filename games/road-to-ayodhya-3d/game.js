@@ -259,7 +259,7 @@ function rollDie(v){return new Promise(res=>{const k=FACE_VAL.indexOf(v),q=new T
 let area={x:0,y:0,w:1,h:1},W=1,H=1,portrait=false;
 function layout(){W=innerWidth;H=innerHeight;portrait=W/H<1;renderer.setSize(W,H,false);
  const rail=document.querySelector('.rail').getBoundingClientRect(),top=50;
- if(portrait){area={x:0,y:92,w:W,h:Math.max(200,rail.top-96)}}else{area={x:0,y:top,w:Math.max(200,rail.left-6),h:H-top}}
+ if(portrait){area={x:0,y:70,w:W,h:Math.max(160,rail.top-74)}}else{area={x:0,y:top,w:Math.max(200,rail.left-6),h:H-top}}
  camera.aspect=area.w/area.h;fitCamera();sizeDice();fxSize()}
 const camDir=new THREE.Vector3(0,Math.sin(THREE.MathUtils.degToRad(57)),Math.cos(THREE.MathUtils.degToRad(57)));
 let camDist=20,camTarget=new THREE.Vector3(0,0,.25);
@@ -314,7 +314,7 @@ function renderUI(){
  $('#tok').innerHTML=[0,1,2].map(i=>`<span class="${i<me.lamps?'on':''}">🪔</span>`).join('');
  $('#prog').innerHTML=LEVELS.map((_,i)=>`<span class="${i===LV?'cur':(SAVE.stars[i]?'done':'')}" title="${tx(LEVELS[i].place)}"></span>`).join('')}
 function setHint(first){if(!G||G.winner)return;const p=G.players[G.turn];
- $('#hint').textContent=first&&!p.bot&&!SAVE.played?t('tipStart'):p.bot?t('botTurn')(displayName(p)):t('yourTurn')(G.players.filter(q=>!q.bot).length>1?displayName(p):(p.name===null?null:p.name));
+ $('#hint').textContent=first&&!p.bot&&!SAVE.played?(matchMedia('(pointer:coarse)').matches?t('tipStart').replace(/\s*\([^)]*\)/,''):t('tipStart')):p.bot?t('botTurn')(displayName(p)):t('yourTurn')(G.players.filter(q=>!q.bot).length>1?displayName(p):(p.name===null?null:p.name));
  $('#roll').disabled=G.busy||p.bot;$('#roll').classList.toggle('pulse',!G.busy&&!p.bot);renderUI()}
 let toastT=null;function toast(msg,cls='',ms=1900){const d=$('#toast div');d.className='';d.textContent=msg;void d.offsetWidth;d.className='on '+cls;clearTimeout(toastT);toastT=setTimeout(()=>d.className=cls,ms)}
 function overlay(html,cls=''){$('#overlay').innerHTML=`<div class="ov"><div class="card ${cls}">${html}</div></div>`;return $('#overlay .card')}
@@ -431,7 +431,7 @@ function frame(ts){requestAnimationFrame(frame);placeCamera(ts);if(diceAnim)dice
  drend.render(dscene,dcam);fxDraw()}
 
 /* ======================= boot ======================= */
-addEventListener('resize',layout);
+addEventListener('resize',layout);try{new ResizeObserver(()=>layout()).observe(document.querySelector('.rail'))}catch(e){}
 const startAt=Math.min(SAVE.unlocked-1,LEVELS.length-1);
 LV=startAt;renderUI();layout();startLevel(startAt);requestAnimationFrame(frame);
 document.fonts?.ready?.then(()=>{if(G){buildBoard(LEVELS[LV],LV);Object.keys(G.lit).forEach(n=>lightLamp(+n))}});
