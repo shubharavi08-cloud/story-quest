@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="robots" content="noindex"><title>Happy Deepavali</title>
+<style>
+@font-face{font-family:Yatra;src:url(fonts/yatra-one-latin-400-normal.woff2)}
+@font-face{font-family:Marcellus;src:url(fonts/marcellus-latin-400-normal.woff2)}
+@font-face{font-family:KN;font-weight:700;src:url(fonts/noto-serif-kannada-kannada-700-normal.woff2)}
+*{margin:0;box-sizing:border-box}html,body{width:100vw;height:100vh;overflow:hidden;background:#120822}
+.p{position:relative;width:100vw;height:100vh;overflow:hidden;background:radial-gradient(circle at 28% 52%,#7a2a12 0%,#4a1430 30%,#24103f 60%,#120822 100%);color:#fff3d6;font-family:Marcellus,serif}
+.frame{position:absolute;inset:2.4vh;border:3px solid #e9b44c;border-radius:24px}.frame2{position:absolute;inset:3.8vh;border:1.5px dashed #e9b44c99;border-radius:18px}
+.spark{position:absolute;border-radius:50%;background:#ffe9a8;box-shadow:0 0 10px 3px #ffcf5a88}
+.diya{position:absolute;left:4vw;top:52%;transform:translateY(-50%);width:36vw;filter:drop-shadow(0 18px 30px #000a)}
+.r{position:absolute;left:44vw;right:5vw;top:9vh;bottom:7vh;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center}
+.kn{font-family:KN;font-weight:700;font-size:4.6vh;color:#ffd06a}
+h1{font-family:Yatra;font-weight:400;font-size:10vh;line-height:1.02;color:#ffcf5a;text-shadow:0 0 24px #ff9d2a88,0 4px 0 #8a2e00}
+.sub{font-size:3.6vh;letter-spacing:1px}
+.wish{font-size:3.9vh;line-height:1.35}.wish b{color:#ffcf5a;font-weight:400}
+.rg{display:flex;gap:1.3vh}.rg i{width:1.2vh;height:1.2vh;border-radius:50%;display:block}
+.logos{display:flex;gap:2.4vh;align-items:center}.chip{background:#fff;border-radius:14px;height:11vh;display:flex;align-items:center;padding:.8vh 1.4vh;box-shadow:0 6px 18px #0007}.chip img{max-height:9.4vh;max-width:18vw;display:block}
+.sign{font-size:3.3vh;color:#ffd06a}.sign small{display:block;font-size:2.6vh;color:#fff3d6cc;margin-top:.4vh}
+</style></head><body><div class="p"><div class="frame"></div><div class="frame2"></div><div id="sp"></div>
+<img class="diya" src="../diya_wave.png">
+<div class="r"><div class="kn">ದೀಪಾವಳಿ ಹಬ್ಬದ ಶುಭಾಶಯಗಳು</div><h1>Happy Deepavali</h1><div class="sub">&amp; BALI PADYAMI</div>
+<div class="wish">May every lamp you light bring <b>health</b>, <b>happiness</b><br>and <b>bright learning</b> to your home.</div>
+<div class="rg" id="rg"></div>
+<div class="logos"><div class="chip"><img src="osh_logo.png"></div><div class="chip"><img src="quad_logo.jpg"></div><div class="chip"><img src="../wow_logo_512.png"></div></div>
+<div class="sign">With warm wishes, Shubha M<small>Education Consultant, OurSchoolHouse (OSH)</small></div></div></div>
+<script>const sp=document.getElementById('sp');let s=11;const r=()=>{s=(s*9301+49297)%233280;return s/233280};const W=innerWidth,H=innerHeight;
+for(let i=0;i<50;i++){const z=2+r()*5,x=30+r()*(W-60),y=30+r()*(H-60);const d=document.createElement('div');d.className='spark';d.style.cssText=`left:${x}px;top:${y}px;width:${z}px;height:${z}px;opacity:${.35+r()*.6}`;sp.appendChild(d)}
+const rg=document.getElementById('rg'),c=['#ff5a5f','#ffcf5a','#3ec1a8','#ff8a00','#c86dd7'];for(let i=0;i<21;i++){const e=document.createElement('i');e.style.background=c[i%5];rg.appendChild(e)}</script></body></html>
