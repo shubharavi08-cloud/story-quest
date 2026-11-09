@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Bali Padyami Story for Children: King Bali, Vamana and the Promise of Three Steps",
+   "url": "https://worldofwondersstudio.com/blog/bali-padyami-story-king-bali-vamana/",
+   "date": "2026-11-09",
+   "description": "The story of King Bali and Vamana told for children, why Bali Padyami is celebrated after Deepavali in Karnataka and Maharashtra, its link with Onam, and a simple promise activity for families."
+  },
+  {
    "title": "Why Do We Light Diyas on Deepavali? Rama's Return to Ayodhya, Told for Children",
    "url": "https://worldofwondersstudio.com/blog/why-we-light-diyas-deepavali-rama-ayodhya/",
    "date": "2026-11-08",
@@ -17,6 +23,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/bali-padyami-story-king-bali-vamana/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/why-we-light-diyas-deepavali-rama-ayodhya/index.html",
