@@ -9,11 +9,18 @@ window.WOWHit=hit; window.WOWHitOnce=once;
 (function(){
   var page=(location.pathname.replace(/^\/|\.html$/g,'').replace(/\/$/,'').replace(/\//g,'-'))||'index';
   var q=location.search, ref=document.referrer||'';
-  var ad=/[?&](gclid|gbraid|wbraid|gad_source|utm_source)=/.test(q)||/googleads|doubleclick|googlesyndication/.test(ref);
+  var src=((q.match(/[?&](?:utm_source|src)=([^&]*)/)||[])[1]||'').toLowerCase();
+  var ad=/[?&](gclid|gbraid|wbraid|gad_source)=/.test(q)||/[?&]utm_medium=(cpc|paid|ppc)/i.test(q)||/googleads|doubleclick|googlesyndication/.test(ref);
   if(ad){try{sessionStorage.setItem('wow-ad','1')}catch(e){}}
   once('visits'); once('page-'+page);
+  try{if(!localStorage.getItem('wow-seen')){localStorage.setItem('wow-seen','1');once('new-visitors')}else once('returning-visitors')}catch(e){}
   if(fromAd()) once('visits-from-ad');
-  else if(/youtube\.com|youtu\.be/.test(ref)) once('visits-from-youtube');
+  else if(/^(wa|whatsapp)/.test(src)||/whatsapp|wa\.me/.test(ref)) once('visits-from-whatsapp');
+  else if(/^(yt|youtube)/.test(src)||/youtube\.com|youtu\.be/.test(ref)) once('visits-from-youtube');
+  else if(/^(ig|instagram|fb|facebook)/.test(src)||/instagram\.com|facebook\.com/.test(ref)) once('visits-from-social');
+  else if(/google\.|bing\.|duckduckgo|yahoo\./.test(ref)) once('visits-from-search');
+  else if(/itch\.io|crazygames/.test(ref)) once('visits-from-gameportals');
+  else if(!ref&&!src) once('visits-direct');
   var AGAIN=['Play again','फिर से खेलें','ಮತ್ತೆ ಆಡಿ','Churn again','फिर से मंथन','ಮತ್ತೆ ಮಥಿಸಿ'];
   var YT='https://www.youtube.com/@WorldofWondersstudio?sub_confirmation=1', WA='https://whatsapp.com/channel/0029VbDbyex4o7qNAsIg0H21';
   var T={en:{h:'🪔 Loved it? A new story and game comes every festival.',s:'Subscribe on YouTube',w:'Follow on WhatsApp',e:'or get updates by email',
