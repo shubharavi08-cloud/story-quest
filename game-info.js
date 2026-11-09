@@ -92,7 +92,7 @@ var G=[
   learn:['Finding a way','Staying calm','Day 7 story']},
  {id:'chowka-bhara',cat:'traditional',tag:'Traditional · Karnataka',name:'Chowka Bhara',href:'chowka-bhara.html',img:'img/games/chowka-bhara.webp',players:'2–4 players',
   hook:'Throw real cowrie shells and race your pawns to the lotus in the centre!',
-  how:'Throw the cowries and count the shells that land mouth-up. Race all your pawns round the board and into the centre. Hit a rival pawn to send it home. Pick the 5-house board (4 cowries) or the 7-house board (6 cowries), Easy or Traditional rules, and play with family or against Ajji, Thatha and Atthe.',
+  how:'Throw the cowries and count the shells that land mouth-up. Race all your pawns round the board and into the centre. Hit a rival pawn to send it home. Two inner pawns together make a Jodi that blocks rivals. Pick the 5-house or 7-house board, Easy or Traditional rules, and play with family or against Ajji, Thatha and Atthe. New players can start with the step-by-step tutorial.',
   fact:'<b>Chowka Bhara</b> is also called Ashta Chamma, Chakka and Daayam. It is named after its two best throws: <b>chowka</b> (four) and <b>bhara</b>. Families drew the board on the floor with chalk or rangoli powder and used seeds, stones or bits of old bangles as pawns.',
   learn:['Counting','Strategy','Taking turns']},
  {id:'t1',cat:'vedicmaths',tag:'Vedic Maths · Trick 1',name:'Add from the Left',href:'vedic-maths/#t1',img:'img/games/vm-t1.webp',players:'Class 6–10',

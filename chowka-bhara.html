@@ -115,7 +115,7 @@ body.kn .label,body.hi .label{text-transform:none;letter-spacing:0;font-size:14p
 .throw{padding:0 16px;height:96px;border-radius:16px;font-weight:800;font-size:17px;color:#fff;min-width:118px;line-height:1.1;
   background:linear-gradient(180deg,#ff8a1f,#e5532a);box-shadow:0 5px 0 #a8341a}
 .throw:active{transform:translateY(3px);box-shadow:0 2px 0 #a8341a}
-.throw:disabled{filter:grayscale(.8) brightness(1.1);opacity:.6;box-shadow:none}
+.throw:disabled{pointer-events:none;filter:grayscale(.8) brightness(1.1);opacity:.6;box-shadow:none}
 .toast{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%) scale(.6);opacity:0;pointer-events:none;z-index:20;
   background:#fff;padding:10px 22px;border-radius:999px;font-weight:800;font-size:26px;box-shadow:0 10px 30px rgba(0,0,0,.3);
   transition:.25s cubic-bezier(.2,1.6,.4,1);white-space:nowrap}
@@ -135,6 +135,28 @@ body.kn .label,body.hi .label{text-transform:none;letter-spacing:0;font-size:14p
 .btns{display:flex;gap:10px}
 .btns .play{flex:1}
 .btns .alt{background:linear-gradient(90deg,#7b5cff,#3a7bff);box-shadow:0 8px 20px rgba(58,123,255,.35)}
+.tutb{background:linear-gradient(90deg,#7b5cff,#3a7bff);box-shadow:0 8px 20px rgba(58,123,255,.35);margin-top:10px;font-size:18px;padding:11px}
+.box h2{font-size:22px;line-height:1.25}
+ul.card{list-style:none;padding:0;margin:0 0 4px;display:grid;gap:8px}
+ul.card li{display:flex;gap:8px;align-items:flex-start;background:#fff;border:2px solid #f0e2cc;border-radius:12px;padding:6px 9px;font-size:14px;line-height:1.35}
+ul.card .ci{font-size:22px;line-height:1;flex:none;width:28px;text-align:center}
+.dock{position:relative}
+.tip{position:absolute;left:8px;right:8px;bottom:calc(100% + 8px);background:#2b1d3a;color:#fff;border-radius:16px;padding:10px 14px;font-size:15px;line-height:1.35;
+  box-shadow:0 10px 24px rgba(0,0,0,.35);opacity:0;transform:translateY(8px);pointer-events:none;transition:.22s;z-index:30}
+.tip.on{opacity:1;transform:none}
+.tip::after{content:"";position:absolute;bottom:-7px;left:50%;margin-left:-8px;border:8px solid transparent;border-top-color:#2b1d3a;border-bottom:0}
+.tw{display:inline-block}
+.coach{width:min(560px,100%);margin:0 0 8px;z-index:25;background:rgba(255,250,242,.97);border:3px solid #7b5cff;border-radius:18px;padding:10px 12px;
+  box-shadow:0 10px 28px rgba(40,0,80,.35);display:none;font-size:15px;line-height:1.4}
+.coach.on{display:block;animation:pop .25s ease-out}
+#game.tutmode .players{display:none}
+@keyframes pop{from{transform:scale(.92);opacity:0}to{transform:none;opacity:1}}
+.coach .cb{display:flex;justify-content:flex-end;gap:8px;margin-top:8px}
+.coach button{padding:7px 14px;border-radius:12px;font-weight:800;font-size:14px}
+.coach .cnext{background:#7b5cff;color:#fff}.coach .cskip{background:#f3e6d3;color:#6b5878}
+.hl{position:absolute;width:var(--cs);height:var(--cs);margin:calc(var(--cs)/-2) 0 0 calc(var(--cs)/-2);border-radius:18%;border:4px solid #7b5cff;
+  box-shadow:0 0 0 4px rgba(123,92,255,.25),0 0 18px rgba(123,92,255,.6);pointer-events:none;z-index:4;animation:fade .8s infinite alternate}
+.pawn.jodi{border-color:#ffd23f;box-shadow:0 3px 0 var(--cd),0 0 0 3px #ffd23f,0 5px 8px rgba(0,0,0,.35)}
 .confetti{position:fixed;top:-20px;width:10px;height:14px;z-index:60;pointer-events:none;animation:fall linear forwards}
 @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
 </style>
@@ -174,6 +196,7 @@ body.kn .label,body.hi .label{text-transform:none;letter-spacing:0;font-size:14p
     </div>
     <div class="seats" id="seats"></div>
     <button class="play" id="btnPlay"></button>
+    <button class="play tutb" id="btnTut"></button>
     <div class="minor">
       <button class="chip" id="btnHow"></button>
       <button class="chip" id="btnShare"></button>
@@ -192,23 +215,25 @@ body.kn .label,body.hi .label{text-transform:none;letter-spacing:0;font-size:14p
     <button class="ib" id="btnSnd2" aria-label="sound">♪</button>
   </div>
   <div class="players" id="players"></div>
+  <div class="coach" id="coach"></div>
   <div class="boardwrap" id="boardwrap">
     <svg id="boardsvg"></svg>
     <div id="pawns"></div>
     <div class="toast" id="toast"></div>
   </div>
   <div class="dock">
+    <div class="tip" id="tip"></div>
     <div class="msg" id="msg"></div>
     <div class="dockrow">
       <div class="tray" id="tray"><span class="val" id="val"></span></div>
-      <button class="throw" id="btnThrow"></button>
+      <span id="btnThrowWrap" class="tw"><button class="throw" id="btnThrow"></button></span>
     </div>
   </div>
 </section>
 
 </div>
 <div id="throwLayer"></div>
-<div class="ov" id="ovHow"><div class="box"><h2 id="hTitle"></h2><ol id="hList"></ol><button class="play" id="hClose"></button></div></div>
+<div class="ov" id="ovHow"><div class="box"><h2 id="hTitle"></h2><ul class="card" id="hList"></ul><button class="play" id="hClose"></button><button class="play tutb" id="hTut"></button></div></div>
 <div class="ov" id="ovWin"><div class="box win"><div class="crown">🏆</div><div class="big" id="wText"></div>
   <div class="btns"><button class="play" id="wAgain"></button><button class="play alt" id="wMenu"></button></div>
   <button class="chip" id="wShare" style="margin-top:12px;width:100%;padding:12px;font-size:16px"></button></div></div>
@@ -221,59 +246,143 @@ body.kn .label,body.hi .label{text-transform:none;letter-spacing:0;font-size:14p
 /* ================= TEXT ================= */
 const T={
  en:{title:"Chowka Bhara",sub:"Traditional board game of Karnataka",board:"Board",h5:"5 Houses",h7:"7 Houses",
-  h5s:"4 cowries · 4 pawns",h7s:"6 cowries · 6 pawns",players:"Players",you:"You",player:"Player",
+  h5s:"4 cowries · 4 pawns",h7s:"4 cowries · 4 pawns · longer path",players:"Players",you:"You",player:"Player",
   cpuNames:["Ajji","Thatha","Atthe"],colors:["Red","Green","Yellow","Blue"],
-  play:"Play",how:"How to play",soundOn:"♪ Music on",soundOff:"♪ Music off",throw:"Throw\ncowries",
+  play:"Play",how:"How to play",tutorial:"🎓 Tutorial",soundOn:"♪ Music on",soundOff:"♪ Music off",throw:"Throw\ncowries",
   turn:n=>`${n}'s turn`,yourTurn:"Your turn — throw the cowries",
-  tap:v=>`Tap a glowing pawn to move ${v}`,noMove:"No move possible",extra:"Throw again!",
+  tap:v=>`Tap a glowing pawn to move ${v}`,tapJodi:v=>`Throw ${v}: a Jodi moves ${v/2}, a single pawn moves ${v}`,
+  noMove:"No move possible",extra:"Throw again!",
   hit:(a,b)=>`${a} hit ${b}'s pawn!`,youHit:b=>`You hit ${b}'s pawn!`,
-  gate:"No hit yet — this pawn waits at the entrance",open:"Everyone was stuck — the inner houses are now open for all",entry:"Entry to inner houses",easy:"Easy",easyS:"No hit needed",hard:"Traditional",hardS:"Hit a pawn first",home:"Pawn reached the centre!",
-  won:n=>`${n} wins!`,youWon:"You win!",again:"Play again",menu:"Menu",ok:"Got it",
-  quit:"Leave this game?",yes:"Yes",no:"No",chowka:"Chowka!",bhara:"Bhara!",
-  homeCount:"home",
-  rules:[
-   "Throw the cowries and count the shells that land mouth-up — move that many houses. <b>5 houses:</b> 4 cowries; all four up = 4 (<b>Chowka</b>), all face down = 8 (<b>Bhara</b>). <b>7 houses:</b> 6 cowries; all six up = 6, all face down = 12. These best throws give you another throw.",
-   "Every pawn starts on its own ✕ house. Go round the outer houses, then wind inwards to the centre.",
-   "Land on an opponent's pawn to hit it — it goes back to its start and you throw again. ✕ houses are safe: no hitting there.",
-   "<b>Traditional:</b> you cannot enter the inner houses until you have hit at least one pawn — your pawn waits on the last outer house. <b>Easy:</b> no hit needed.",
-   "Two of your pawns on one house make a pair (<b>gatti</b>) — opponents cannot land there.",
-   "Reach the centre with an exact count. The first to bring all pawns to the centre wins."]},
+  gate:"No hit yet — pawns wait at the entrance to the inner houses",open:"Everyone was stuck — the inner houses are now open for all",
+  entry:"Rules",easy:"Easy",easyS:"No hit needed to go inside",hard:"Traditional",hardS:"Hit first · 3 bonus throws cancel",
+  won:n=>`${n} wins!`,youWon:"You win!",again:"Play again",menu:"Menu",ok:"Got it",start:"Start game",
+  quit:"Leave this game?",yes:"Yes",no:"No",chowka:"Chowka!",bhara:"Bara!",jodi:"Jodi!",three:"Three Chowka/Bara in a row — this turn is cancelled!",
+  homeCount:"home",home:"A pawn reached the centre! 🪷",cardTitle:b=>`How to play · ${b}`,
+  card:{throw:"Throw 4 cowries and count the shells mouth-up: 1, 2 or 3. All 4 up = 4 (<b>Chowka</b>), all down = 8 (<b>Bara</b>): both give another throw.",
+   path:"Start on your ✕ house, go round the outer houses anticlockwise, then wind inwards to the lotus 🪷.",
+   hit:"Land on a rival pawn to send it home and throw again. ✕ houses are safe: no hitting there.",
+   gate:"Hit one pawn first — only then can your pawns enter the inner houses.",
+   jodi:"Two of your pawns together on an inner house make a <b>Jodi</b>: rivals can't pass or land on it, and it moves only on 2, 4 or 8 — half the count. A Jodi can hit a single pawn.",
+   three:"Three Chowka/Bara in a row cancels that whole turn.",
+   seven:"7 houses: a longer path, with extra safe ✕ houses on the inner ring.",
+   win:"Bring all 4 pawns to the lotus with an exact count to win."},
+  why:{home:"This pawn is already home in the centre 🪷",
+   exact:n=>`To reach the centre this pawn needs exactly ${n}. Move another pawn.`,
+   gate:"The inner houses are locked 🔒 — hit a rival pawn first. This pawn waits at the entrance.",
+   block:"A Jodi (pair) is blocking the way. A single pawn can't pass it or land on it.",
+   jodiOdd:"This is a Jodi. A pair moves together only on 2, 4 or 8, going half the count.",
+   jodiVsJodi:"Your Jodi can't land on another Jodi.",
+   notYours:n=>`That's ${n}'s pawn. Tap one of your own glowing pawns.`,
+   throwFirst:"Throw the cowries first, then move a pawn.",moveFirst:"First move a glowing pawn with this throw.",
+   wait:n=>`Wait — it's ${n}'s turn.`,lesson:"In this lesson, tap the glowing pawn.",idle:"Read the tip, then tap Next."},
+  tut:{next:"Next",skip:"Skip tutorial",playNow:"Play now",
+   t0:"This is your home ✕ house. Your 4 red pawns start here. Ajji plays yellow, from the opposite side.",
+   t1:"Tap “Throw cowries”. Count the shells that land mouth-up — that's how many houses you move.",
+   t1b:"3 shells mouth-up = 3. Tap your glowing pawn to move it 3 houses.",
+   t2:"All 4 mouth-up is Chowka = 4. All face-down is Bara = 8. Both give another throw! Throw again.",
+   t2b:"Chowka! Move your pawn 4 houses.",
+   t3:"Ajji's pawn is 2 houses ahead of yours. Throw, then land on it to hit it!",
+   t3b:"Tap your glowing pawn to land on Ajji's pawn.",
+   t3c:"You hit it! Ajji's pawn goes back home and you throw again. 🔓 Your inner houses are now open.",
+   t4:"✕ houses are safe. No one can be hit there, and pawns of different colours can share them.",
+   t5:"Two of your pawns on one inner house make a Jodi. It blocks rivals and moves only on 2, 4 or 8 — half the count. Throw!",
+   t5b:"Tap the Jodi. Both pawns move together: half of 2 = 1 house.",
+   t5c:"Your Jodi moved 1 house together.",
+   t6:"Reach the lotus 🪷 in the centre with an exact count. You need 1 — throw!",
+   t6b:"Tap your pawn to bring it home.",
+   t7:"Well played! You know the rules. The first to bring all 4 pawns home wins."}},
  kn:{title:"ಚೌಕಾಬಾರ",sub:"ಕರ್ನಾಟಕದ ಸಾಂಪ್ರದಾಯಿಕ ಆಟ",board:"ಆಟದ ಹಲಗೆ",h5:"೫ ಮನೆ",h7:"೭ ಮನೆ",
-  h5s:"೪ ಕವಡೆ · ೪ ಕಾಯಿ",h7s:"೬ ಕವಡೆ · ೬ ಕಾಯಿ",players:"ಆಟಗಾರರು",you:"ನೀವು",player:"ಆಟಗಾರ",
+  h5s:"೪ ಕವಡೆ · ೪ ಕಾಯಿ",h7s:"೪ ಕವಡೆ · ೪ ಕಾಯಿ · ಉದ್ದ ದಾರಿ",players:"ಆಟಗಾರರು",you:"ನೀವು",player:"ಆಟಗಾರ",
   cpuNames:["ಅಜ್ಜಿ","ತಾತ","ಅತ್ತೆ"],colors:["ಕೆಂಪು","ಹಸಿರು","ಹಳದಿ","ನೀಲಿ"],
-  play:"ಆಟ ಶುರು",how:"ಆಡುವುದು ಹೇಗೆ",soundOn:"♪ ಸಂಗೀತ ಇದೆ",soundOff:"♪ ಸಂಗೀತ ಇಲ್ಲ",throw:"ಕವಡೆ\nಹಾಕಿ",
+  play:"ಆಟ ಶುರು",how:"ಆಡುವುದು ಹೇಗೆ",tutorial:"🎓 ಆಟ ಕಲಿಯಿರಿ",soundOn:"♪ ಸಂಗೀತ ಇದೆ",soundOff:"♪ ಸಂಗೀತ ಇಲ್ಲ",throw:"ಕವಡೆ\nಹಾಕಿ",
   turn:n=>`${n} ಸರದಿ`,yourTurn:"ನಿಮ್ಮ ಸರದಿ — ಕವಡೆ ಹಾಕಿ",
-  tap:v=>`${v} ಮನೆ ನಡೆಸಲು ಹೊಳೆಯುವ ಕಾಯಿ ಮುಟ್ಟಿ`,noMove:"ನಡೆಸಲು ಕಾಯಿ ಇಲ್ಲ",extra:"ಇನ್ನೊಮ್ಮೆ ಹಾಕಿ!",
+  tap:v=>`${v} ಮನೆ ನಡೆಸಲು ಹೊಳೆಯುವ ಕಾಯಿ ಮುಟ್ಟಿ`,tapJodi:v=>`${v} ಬಿದ್ದಿದೆ: ಜೋಡಿ ${v/2} ಮನೆ, ಒಂಟಿ ಕಾಯಿ ${v} ಮನೆ ನಡೆಯುತ್ತದೆ`,
+  noMove:"ನಡೆಸಲು ಕಾಯಿ ಇಲ್ಲ",extra:"ಇನ್ನೊಮ್ಮೆ ಹಾಕಿ!",
   hit:(a,b)=>`${a} ${b} ಕಾಯಿ ಹೊಡೆದರು!`,youHit:b=>`ನೀವು ${b} ಕಾಯಿ ಹೊಡೆದಿರಿ!`,
-  gate:"ಇನ್ನೂ ಕಾಯಿ ಹೊಡೆದಿಲ್ಲ — ಕಾಯಿ ಒಳಮನೆಯ ಬಾಗಿಲಲ್ಲಿ ಕಾಯುತ್ತದೆ",open:"ಯಾರಿಗೂ ನಡೆಸಲು ಆಗಲಿಲ್ಲ — ಈಗ ಎಲ್ಲರಿಗೂ ಒಳಮನೆ ತೆರೆದಿದೆ",entry:"ಒಳಮನೆ ಪ್ರವೇಶ",easy:"ಸುಲಭ",easyS:"ಹೊಡೆಯದೆಯೂ ಒಳಗೆ ಹೋಗಬಹುದು",hard:"ಸಾಂಪ್ರದಾಯಿಕ",hardS:"ಕಾಯಿ ಹೊಡೆದ ಮೇಲೆ ಮಾತ್ರ",home:"ಕಾಯಿ ನಡುಮನೆ ಸೇರಿತು!",
-  won:n=>`${n} ಗೆದ್ದರು!`,youWon:"ನೀವು ಗೆದ್ದಿರಿ!",again:"ಮತ್ತೆ ಆಡಿ",menu:"ಹಿಂದಕ್ಕೆ",ok:"ಸರಿ",
-  quit:"ಈ ಆಟ ಬಿಡುವಿರಾ?",yes:"ಹೌದು",no:"ಇಲ್ಲ",chowka:"ಚೌಕ!",bhara:"ಬಾರ!",
-  homeCount:"ಒಳಗೆ",
-  rules:[
-   "ಕವಡೆ ಹಾಕಿ, ಬಾಯಿ ಮೇಲಾಗಿ ಬಿದ್ದ ಕವಡೆಗಳನ್ನು ಎಣಿಸಿ — ಅಷ್ಟು ಮನೆ ನಡೆಯಿರಿ. <b>೫ ಮನೆ:</b> ೪ ಕವಡೆ; ನಾಲ್ಕೂ ಮೇಲಾದರೆ ೪ (<b>ಚೌಕ</b>), ಎಲ್ಲಾ ಕವುಚಿದರೆ ೮ (<b>ಬಾರ</b>). <b>೭ ಮನೆ:</b> ೬ ಕವಡೆ; ಆರೂ ಮೇಲಾದರೆ ೬, ಎಲ್ಲಾ ಕವುಚಿದರೆ ೧೨. ಈ ದೊಡ್ಡ ಎಸೆತಗಳಿಗೆ ಇನ್ನೊಮ್ಮೆ ಹಾಕುವ ಅವಕಾಶ.",
-   "ಪ್ರತಿ ಕಾಯಿ ತನ್ನ ✕ ಗುರುತಿನ ಮನೆಯಿಂದ ಹೊರಡುತ್ತದೆ. ಹೊರಗಿನ ಮನೆಗಳನ್ನು ಸುತ್ತಿ, ನಂತರ ಒಳಗೆ ಸುತ್ತುತ್ತಾ ನಡುಮನೆ ತಲುಪಿ.",
-   "ಎದುರಾಳಿಯ ಕಾಯಿ ಇರುವ ಮನೆಗೆ ಬಂದರೆ ಅದನ್ನು ಹೊಡೆಯಬಹುದು — ಅದು ಮತ್ತೆ ಮೊದಲ ಮನೆಗೆ ಹೋಗುತ್ತದೆ, ನಿಮಗೆ ಇನ್ನೊಮ್ಮೆ ಹಾಕುವ ಅವಕಾಶ. ✕ ಮನೆಗಳು ಸುರಕ್ಷಿತ — ಅಲ್ಲಿ ಹೊಡೆಯುವಂತಿಲ್ಲ.",
-   "<b>ಸಾಂಪ್ರದಾಯಿಕ:</b> ಕನಿಷ್ಠ ಒಂದು ಕಾಯಿ ಹೊಡೆಯುವವರೆಗೆ ಒಳಮನೆಗೆ ಹೋಗುವಂತಿಲ್ಲ — ಕಾಯಿ ಹೊರಗಿನ ಕೊನೆಯ ಮನೆಯಲ್ಲೇ ಕಾಯುತ್ತದೆ. <b>ಸುಲಭ:</b> ಈ ನಿಯಮ ಇಲ್ಲ.",
-   "ನಿಮ್ಮ ಎರಡು ಕಾಯಿ ಒಂದೇ ಮನೆಯಲ್ಲಿದ್ದರೆ ಅದು ಜೋಡಿ (<b>ಗಟ್ಟಿ</b>) — ಎದುರಾಳಿ ಅಲ್ಲಿಗೆ ಬರುವಂತಿಲ್ಲ.",
-   "ನಡುಮನೆಗೆ ಸರಿಯಾದ ಎಣಿಕೆಯಿಂದಲೇ ಬರಬೇಕು. ಎಲ್ಲಾ ಕಾಯಿಗಳನ್ನು ಮೊದಲು ನಡುಮನೆಗೆ ಸೇರಿಸಿದವರು ಗೆಲ್ಲುತ್ತಾರೆ."]},
+  gate:"ಇನ್ನೂ ಕಾಯಿ ಹೊಡೆದಿಲ್ಲ — ಕಾಯಿಗಳು ಒಳಮನೆಯ ಬಾಗಿಲಲ್ಲಿ ಕಾಯುತ್ತವೆ",open:"ಯಾರಿಗೂ ನಡೆಸಲು ಆಗಲಿಲ್ಲ — ಈಗ ಎಲ್ಲರಿಗೂ ಒಳಮನೆ ತೆರೆದಿದೆ",
+  entry:"ನಿಯಮಗಳು",easy:"ಸುಲಭ",easyS:"ಹೊಡೆಯದೆಯೂ ಒಳಗೆ ಹೋಗಬಹುದು",hard:"ಸಾಂಪ್ರದಾಯಿಕ",hardS:"ಮೊದಲು ಹೊಡೆಯಬೇಕು · ಸತತ ೩ ಚೌಕ/ಬಾರ ರದ್ದು",
+  won:n=>`${n} ಗೆದ್ದರು!`,youWon:"ನೀವು ಗೆದ್ದಿರಿ!",again:"ಮತ್ತೆ ಆಡಿ",menu:"ಹಿಂದಕ್ಕೆ",ok:"ಸರಿ",start:"ಆಟ ಶುರು",
+  quit:"ಈ ಆಟ ಬಿಡುವಿರಾ?",yes:"ಹೌದು",no:"ಇಲ್ಲ",chowka:"ಚೌಕ!",bhara:"ಬಾರ!",jodi:"ಜೋಡಿ!",three:"ಸತತ ಮೂರು ಚೌಕ/ಬಾರ — ಈ ಸರದಿ ರದ್ದು!",
+  homeCount:"ಒಳಗೆ",home:"ಒಂದು ಕಾಯಿ ನಡುಮನೆ ಸೇರಿತು! 🪷",cardTitle:b=>`ಆಡುವುದು ಹೇಗೆ · ${b}`,
+  card:{throw:"೪ ಕವಡೆ ಹಾಕಿ, ಬಾಯಿ ಮೇಲಾದವನ್ನು ಎಣಿಸಿ: ೧, ೨ ಅಥವಾ ೩. ನಾಲ್ಕೂ ಮೇಲೆ = ೪ (<b>ಚೌಕ</b>), ಎಲ್ಲಾ ಕವುಚಿದರೆ = ೮ (<b>ಬಾರ</b>): ಎರಡಕ್ಕೂ ಇನ್ನೊಮ್ಮೆ ಹಾಕುವ ಅವಕಾಶ.",
+   path:"ನಿಮ್ಮ ✕ ಮನೆಯಿಂದ ಹೊರಟು, ಹೊರಗಿನ ಮನೆಗಳನ್ನು ಸುತ್ತಿ, ನಂತರ ಒಳಗೆ ಸುತ್ತುತ್ತಾ ನಡುವಿನ ಕಮಲ 🪷 ತಲುಪಿ.",
+   hit:"ಎದುರಾಳಿಯ ಕಾಯಿ ಇರುವ ಮನೆಗೆ ಬಂದರೆ ಅದನ್ನು ಹೊಡೆದು ಮೊದಲ ಮನೆಗೆ ಕಳಿಸಿ, ಇನ್ನೊಮ್ಮೆ ಹಾಕಿ. ✕ ಮನೆಗಳು ಸುರಕ್ಷಿತ: ಅಲ್ಲಿ ಹೊಡೆಯುವಂತಿಲ್ಲ.",
+   gate:"ಮೊದಲು ಒಂದು ಕಾಯಿ ಹೊಡೆಯಿರಿ — ಆಮೇಲೆ ಮಾತ್ರ ನಿಮ್ಮ ಕಾಯಿಗಳು ಒಳಮನೆಗೆ ಹೋಗಬಹುದು.",
+   jodi:"ಒಳಮನೆಯಲ್ಲಿ ನಿಮ್ಮ ಎರಡು ಕಾಯಿ ಒಂದೇ ಮನೆಯಲ್ಲಿದ್ದರೆ ಅದು <b>ಜೋಡಿ</b>: ಎದುರಾಳಿ ಅದನ್ನು ದಾಟಲು ಅಥವಾ ಅಲ್ಲಿ ನಿಲ್ಲಲು ಆಗದು. ಜೋಡಿ ೨, ೪, ೮ ಬಿದ್ದಾಗ ಮಾತ್ರ ಅರ್ಧ ಮನೆ ನಡೆಯುತ್ತದೆ. ಜೋಡಿ ಒಂಟಿ ಕಾಯಿಯನ್ನು ಹೊಡೆಯಬಹುದು.",
+   three:"ಸತತ ಮೂರು ಚೌಕ/ಬಾರ ಬಿದ್ದರೆ ಆ ಇಡೀ ಸರದಿ ರದ್ದು.",
+   seven:"೭ ಮನೆ: ದಾರಿ ಉದ್ದ, ಒಳಸುತ್ತಿನಲ್ಲಿ ಇನ್ನಷ್ಟು ಸುರಕ್ಷಿತ ✕ ಮನೆಗಳು.",
+   win:"ನಾಲ್ಕೂ ಕಾಯಿಗಳನ್ನು ಸರಿಯಾದ ಎಣಿಕೆಯಿಂದ ಕಮಲದ ಮನೆಗೆ ಸೇರಿಸಿದರೆ ಗೆಲುವು."},
+  why:{home:"ಈ ಕಾಯಿ ಈಗಾಗಲೇ ನಡುಮನೆ ಸೇರಿದೆ 🪷",
+   exact:n=>`ನಡುಮನೆ ಸೇರಲು ಈ ಕಾಯಿಗೆ ಸರಿಯಾಗಿ ${n} ಬೇಕು. ಬೇರೆ ಕಾಯಿ ನಡೆಸಿ.`,
+   gate:"ಒಳಮನೆಗಳು ಮುಚ್ಚಿವೆ 🔒 — ಮೊದಲು ಎದುರಾಳಿಯ ಒಂದು ಕಾಯಿ ಹೊಡೆಯಿರಿ. ಈ ಕಾಯಿ ಬಾಗಿಲಲ್ಲೇ ಕಾಯುತ್ತದೆ.",
+   block:"ದಾರಿಯಲ್ಲಿ ಜೋಡಿ ಅಡ್ಡ ಇದೆ. ಒಂಟಿ ಕಾಯಿ ಅದನ್ನು ದಾಟಲು ಅಥವಾ ಅಲ್ಲಿ ನಿಲ್ಲಲು ಆಗದು.",
+   jodiOdd:"ಇದು ಜೋಡಿ. ಜೋಡಿ ೨, ೪ ಅಥವಾ ೮ ಬಿದ್ದಾಗ ಮಾತ್ರ ಒಟ್ಟಿಗೆ, ಅರ್ಧ ಮನೆ ನಡೆಯುತ್ತದೆ.",
+   jodiVsJodi:"ನಿಮ್ಮ ಜೋಡಿ ಇನ್ನೊಂದು ಜೋಡಿಯ ಮನೆಗೆ ಬರಲು ಆಗದು.",
+   notYours:n=>`ಅದು ${n} ಕಾಯಿ. ನಿಮ್ಮದೇ ಹೊಳೆಯುವ ಕಾಯಿ ಮುಟ್ಟಿ.`,
+   throwFirst:"ಮೊದಲು ಕವಡೆ ಹಾಕಿ, ನಂತರ ಕಾಯಿ ನಡೆಸಿ.",moveFirst:"ಮೊದಲು ಈ ಎಸೆತದಿಂದ ಹೊಳೆಯುವ ಕಾಯಿಯನ್ನು ನಡೆಸಿ.",
+   wait:n=>`ಸ್ವಲ್ಪ ತಾಳಿ — ಈಗ ${n} ಸರದಿ.`,lesson:"ಈ ಪಾಠದಲ್ಲಿ ಹೊಳೆಯುವ ಕಾಯಿಯನ್ನೇ ಮುಟ್ಟಿ.",idle:"ಸೂಚನೆ ಓದಿ, ನಂತರ “ಮುಂದೆ” ಒತ್ತಿ."},
+  tut:{next:"ಮುಂದೆ",skip:"ಕಲಿಕೆ ಸಾಕು",playNow:"ಈಗ ಆಡಿ",
+   t0:"ಇದು ನಿಮ್ಮ ✕ ಮನೆ. ನಿಮ್ಮ ೪ ಕೆಂಪು ಕಾಯಿಗಳು ಇಲ್ಲಿಂದ ಹೊರಡುತ್ತವೆ. ಎದುರು ಬದಿಯಿಂದ ಅಜ್ಜಿ ಹಳದಿ ಕಾಯಿಗಳಲ್ಲಿ ಆಡುತ್ತಾರೆ.",
+   t1:"“ಕವಡೆ ಹಾಕಿ” ಒತ್ತಿ. ಬಾಯಿ ಮೇಲಾಗಿ ಬಿದ್ದ ಕವಡೆಗಳನ್ನು ಎಣಿಸಿ — ಅಷ್ಟು ಮನೆ ನಡೆಯಬೇಕು.",
+   t1b:"೩ ಕವಡೆ ಬಾಯಿ ಮೇಲೆ = ೩. ಹೊಳೆಯುವ ಕಾಯಿ ಮುಟ್ಟಿ, ಅದು ೩ ಮನೆ ನಡೆಯುತ್ತದೆ.",
+   t2:"ನಾಲ್ಕೂ ಬಾಯಿ ಮೇಲಾದರೆ ಚೌಕ = ೪. ಎಲ್ಲಾ ಕವುಚಿದರೆ ಬಾರ = ೮. ಎರಡಕ್ಕೂ ಇನ್ನೊಮ್ಮೆ ಹಾಕುವ ಅವಕಾಶ! ಮತ್ತೆ ಹಾಕಿ.",
+   t2b:"ಚೌಕ! ನಿಮ್ಮ ಕಾಯಿಯನ್ನು ೪ ಮನೆ ನಡೆಸಿ.",
+   t3:"ಅಜ್ಜಿಯ ಕಾಯಿ ನಿಮ್ಮ ಕಾಯಿಗಿಂತ ೨ ಮನೆ ಮುಂದಿದೆ. ಕವಡೆ ಹಾಕಿ, ಅದೇ ಮನೆಗೆ ಬಂದು ಹೊಡೆಯಿರಿ!",
+   t3b:"ಹೊಳೆಯುವ ಕಾಯಿ ಮುಟ್ಟಿ, ಅಜ್ಜಿಯ ಕಾಯಿಯ ಮನೆಗೆ ಬನ್ನಿ.",
+   t3c:"ಹೊಡೆದಿರಿ! ಅಜ್ಜಿಯ ಕಾಯಿ ಮತ್ತೆ ಮೊದಲ ಮನೆಗೆ ಹೋಯಿತು, ನಿಮಗೆ ಇನ್ನೊಮ್ಮೆ ಹಾಕುವ ಅವಕಾಶ. 🔓 ಈಗ ನಿಮಗೆ ಒಳಮನೆಗಳು ತೆರೆದಿವೆ.",
+   t4:"✕ ಮನೆಗಳು ಸುರಕ್ಷಿತ. ಅಲ್ಲಿ ಯಾರನ್ನೂ ಹೊಡೆಯುವಂತಿಲ್ಲ, ಬೇರೆ ಬೇರೆ ಬಣ್ಣದ ಕಾಯಿಗಳು ಒಟ್ಟಿಗೆ ಇರಬಹುದು.",
+   t5:"ಒಳಮನೆಯಲ್ಲಿ ನಿಮ್ಮ ಎರಡು ಕಾಯಿ ಒಂದೇ ಮನೆಯಲ್ಲಿದ್ದರೆ ಅದು ಜೋಡಿ. ಅದು ಎದುರಾಳಿಗೆ ದಾರಿ ಬಿಡುವುದಿಲ್ಲ, ೨, ೪ ಅಥವಾ ೮ ಬಿದ್ದಾಗ ಮಾತ್ರ ಅರ್ಧ ಮನೆ ನಡೆಯುತ್ತದೆ. ಹಾಕಿ!",
+   t5b:"ಜೋಡಿಯನ್ನು ಮುಟ್ಟಿ. ಎರಡೂ ಒಟ್ಟಿಗೆ ನಡೆಯುತ್ತವೆ: ೨ರ ಅರ್ಧ = ೧ ಮನೆ.",
+   t5c:"ನಿಮ್ಮ ಜೋಡಿ ಒಟ್ಟಿಗೆ ೧ ಮನೆ ನಡೆಯಿತು.",
+   t6:"ನಡುವಿನ ಕಮಲ 🪷 ಮನೆಗೆ ಸರಿಯಾದ ಎಣಿಕೆಯಿಂದಲೇ ಬರಬೇಕು. ನಿಮಗೆ ೧ ಬೇಕು — ಹಾಕಿ!",
+   t6b:"ನಿಮ್ಮ ಕಾಯಿ ಮುಟ್ಟಿ, ಅದನ್ನು ನಡುಮನೆಗೆ ಸೇರಿಸಿ.",
+   t7:"ಚೆನ್ನಾಗಿ ಆಡಿದಿರಿ! ನಿಯಮಗಳು ಗೊತ್ತಾದವು. ನಾಲ್ಕೂ ಕಾಯಿಗಳನ್ನು ಮೊದಲು ನಡುಮನೆಗೆ ಸೇರಿಸಿದವರು ಗೆಲ್ಲುತ್ತಾರೆ."}},
  hi:{title:"चौका बारा",sub:"कर्नाटक का पारंपरिक खेल",board:"बोर्ड",h5:"5 घर",h7:"7 घर",
-  h5s:"4 कौड़ी · 4 गोटी",h7s:"6 कौड़ी · 6 गोटी",players:"खिलाड़ी",you:"आप",player:"खिलाड़ी",
+  h5s:"4 कौड़ी · 4 गोटी",h7s:"4 कौड़ी · 4 गोटी · लंबा रास्ता",players:"खिलाड़ी",you:"आप",player:"खिलाड़ी",
   cpuNames:["दादी","दादा","बुआ"],colors:["लाल","हरा","पीला","नीला"],
-  play:"खेल शुरू",how:"कैसे खेलें",soundOn:"♪ संगीत चालू",soundOff:"♪ संगीत बंद",throw:"कौड़ियाँ\nफेंको",
+  play:"खेल शुरू",how:"कैसे खेलें",tutorial:"🎓 खेल सीखें",soundOn:"♪ संगीत चालू",soundOff:"♪ संगीत बंद",throw:"कौड़ियाँ\nफेंको",
   turn:n=>`बारी: ${n}`,yourTurn:"आपकी बारी — कौड़ियाँ फेंको",
-  tap:v=>`${v} घर चलने के लिए चमकती गोटी छुएँ`,noMove:"कोई चाल नहीं",extra:"फिर से फेंको!",
+  tap:v=>`${v} घर चलने के लिए चमकती गोटी छुएँ`,tapJodi:v=>`${v} आया: जोड़ी ${v/2} घर, अकेली गोटी ${v} घर चलेगी`,
+  noMove:"कोई चाल नहीं",extra:"फिर से फेंको!",
   hit:(a,b)=>`${a} ने ${b} की गोटी मारी!`,youHit:b=>`आपने ${b} की गोटी मारी!`,
-  gate:"अभी कोई गोटी नहीं मारी — गोटी अंदर के दरवाज़े पर रुकेगी",open:"कोई चल नहीं पा रहा था — अब सबके लिए अंदर के घर खुले हैं",entry:"अंदर प्रवेश",easy:"आसान",easyS:"बिना मारे अंदर जा सकते हैं",hard:"पारंपरिक",hardS:"गोटी मारने के बाद ही",home:"गोटी बीच के घर पहुँची!",
-  won:n=>`${n} जीते!`,youWon:"आप जीत गए!",again:"फिर खेलें",menu:"वापस",ok:"ठीक है",
-  quit:"यह खेल छोड़ें?",yes:"हाँ",no:"नहीं",chowka:"चौका!",bhara:"बारा!",
-  homeCount:"अंदर",
-  rules:[
-   "कौड़ियाँ फेंको — जितनी कौड़ियाँ मुँह ऊपर गिरें, उतने घर चलो। <b>5 घर:</b> 4 कौड़ी; चारों ऊपर = 4 (<b>चौका</b>), सब उलटी = 8 (<b>बारा</b>)। <b>7 घर:</b> 6 कौड़ी; छहों ऊपर = 6, सब उलटी = 12। इन बड़ी चालों पर एक और बारी।",
-   "हर गोटी अपने ✕ वाले घर से शुरू होती है। बाहर के घरों का चक्कर लगाकर अंदर की ओर घूमते हुए बीच के घर तक पहुँचो।",
-   "विरोधी की गोटी वाले घर पर पहुँचो तो वह मारी जाती है — वापस शुरू पर, और आपको एक और बारी। ✕ वाले घर सुरक्षित हैं।",
-   "<b>पारंपरिक:</b> कम से कम एक गोटी मारे बिना अंदर नहीं जा सकते — गोटी बाहर के आख़िरी घर पर रुककर इंतज़ार करती है। <b>आसान:</b> यह नियम नहीं है।",
-   "आपकी दो गोटियाँ एक घर पर हों तो जोड़ी बनती है — विरोधी वहाँ नहीं आ सकता।",
-   "बीच के घर में ठीक गिनती से ही पहुँचना है। सबसे पहले सारी गोटियाँ बीच में पहुँचाने वाला जीतता है।"]}
+  gate:"अभी कोई गोटी नहीं मारी — गोटियाँ अंदर के दरवाज़े पर रुकेंगी",open:"कोई चल नहीं पा रहा था — अब सबके लिए अंदर के घर खुले हैं",
+  entry:"नियम",easy:"आसान",easyS:"बिना मारे अंदर जा सकते हैं",hard:"पारंपरिक",hardS:"पहले मारना होगा · लगातार 3 चौका/बारा रद्द",
+  won:n=>`${n} जीते!`,youWon:"आप जीत गए!",again:"फिर खेलें",menu:"वापस",ok:"ठीक है",start:"खेल शुरू",
+  quit:"यह खेल छोड़ें?",yes:"हाँ",no:"नहीं",chowka:"चौका!",bhara:"बारा!",jodi:"जोड़ी!",three:"लगातार तीन चौका/बारा — यह बारी रद्द!",
+  homeCount:"अंदर",home:"एक गोटी बीच के घर पहुँची! 🪷",cardTitle:b=>`कैसे खेलें · ${b}`,
+  card:{throw:"4 कौड़ियाँ फेंको और मुँह ऊपर वाली गिनो: 1, 2 या 3. चारों ऊपर = 4 (<b>चौका</b>), सब उलटी = 8 (<b>बारा</b>): दोनों पर एक और बारी।",
+   path:"अपने ✕ घर से शुरू करो, बाहर के घरों का चक्कर लगाओ, फिर अंदर घूमते हुए बीच के कमल 🪷 तक पहुँचो।",
+   hit:"विरोधी की गोटी वाले घर पर पहुँचो तो उसे मारकर वापस भेजो और फिर फेंको। ✕ वाले घर सुरक्षित हैं: वहाँ कोई नहीं मारा जाता।",
+   gate:"पहले एक गोटी मारो — तभी आपकी गोटियाँ अंदर के घरों में जा सकती हैं।",
+   jodi:"अंदर के किसी घर पर आपकी दो गोटियाँ हों तो <b>जोड़ी</b> बनती है: विरोधी उसे पार नहीं कर सकता, न उस पर रुक सकता है। जोड़ी सिर्फ़ 2, 4 या 8 पर आधे घर चलती है, और अकेली गोटी को मार सकती है।",
+   three:"लगातार तीन चौका/बारा आने पर वह पूरी बारी रद्द हो जाती है।",
+   seven:"7 घर: लंबा रास्ता, और अंदर के घेरे में और भी ✕ सुरक्षित घर।",
+   win:"चारों गोटियाँ ठीक गिनती से कमल वाले घर पहुँचाओ और जीतो।"},
+  why:{home:"यह गोटी पहले ही बीच के घर पहुँच चुकी है 🪷",
+   exact:n=>`बीच के घर तक पहुँचने के लिए इस गोटी को ठीक ${n} चाहिए। दूसरी गोटी चलाएँ।`,
+   gate:"अंदर के घर बंद हैं 🔒 — पहले विरोधी की एक गोटी मारें। यह गोटी दरवाज़े पर रुकेगी।",
+   block:"रास्ते में जोड़ी खड़ी है। अकेली गोटी उसे पार नहीं कर सकती, न उस पर रुक सकती है।",
+   jodiOdd:"यह जोड़ी है। जोड़ी सिर्फ़ 2, 4 या 8 पर साथ चलती है — आधे घर।",
+   jodiVsJodi:"आपकी जोड़ी दूसरी जोड़ी के घर पर नहीं आ सकती।",
+   notYours:n=>`यह ${n} की गोटी है। अपनी चमकती गोटी छुएँ।`,
+   throwFirst:"पहले कौड़ियाँ फेंको, फिर गोटी चलाओ।",moveFirst:"पहले इस फेंक से चमकती गोटी चलाएँ।",
+   wait:n=>`रुकिए — अभी ${n} की बारी है।`,lesson:"इस पाठ में चमकती गोटी ही छुएँ।",idle:"सुझाव पढ़ें, फिर “आगे” दबाएँ।"},
+  tut:{next:"आगे",skip:"सीखना छोड़ें",playNow:"अभी खेलें",
+   t0:"यह आपका ✕ घर है। आपकी 4 लाल गोटियाँ यहीं से शुरू होती हैं। सामने से दादी पीली गोटियों से खेलती हैं।",
+   t1:"“कौड़ियाँ फेंको” दबाएँ। जितनी कौड़ियाँ मुँह ऊपर गिरें, उतने घर चलना है।",
+   t1b:"3 कौड़ियाँ मुँह ऊपर = 3. चमकती गोटी छुएँ, वह 3 घर चलेगी।",
+   t2:"चारों मुँह ऊपर = चौका (4)। सब उलटी = बारा (8)। दोनों पर एक और बारी! फिर से फेंको।",
+   t2b:"चौका! अपनी गोटी 4 घर चलाओ।",
+   t3:"दादी की गोटी आपकी गोटी से 2 घर आगे है। फेंको और उसी घर पर पहुँचकर उसे मारो!",
+   t3b:"चमकती गोटी छुएँ और दादी की गोटी वाले घर पर पहुँचें।",
+   t3c:"मार दी! दादी की गोटी वापस शुरू पर गई और आपको एक और बारी मिली। 🔓 अब आपके लिए अंदर के घर खुल गए।",
+   t4:"✕ वाले घर सुरक्षित हैं। वहाँ कोई मारा नहीं जा सकता, और अलग-अलग रंग की गोटियाँ साथ रह सकती हैं।",
+   t5:"अंदर के किसी घर पर आपकी दो गोटियाँ हों तो जोड़ी बनती है। जोड़ी विरोधियों का रास्ता रोकती है और सिर्फ़ 2, 4 या 8 पर आधे घर चलती है। फेंको!",
+   t5b:"जोड़ी को छुएँ। दोनों साथ चलेंगी: 2 का आधा = 1 घर।",
+   t5c:"आपकी जोड़ी साथ में 1 घर चली।",
+   t6:"बीच के कमल 🪷 घर में ठीक गिनती से ही पहुँचना है। आपको 1 चाहिए — फेंको!",
+   t6b:"अपनी गोटी छुएँ और उसे बीच के घर पहुँचाएँ।",
+   t7:"बहुत बढ़िया! आप नियम सीख गए। सबसे पहले चारों गोटियाँ बीच में पहुँचाने वाला जीतता है।"}}
 };
 const KN_DIG="೦೧೨೩೪೫೬೭೮೯";
 const num=n=>S.lang==="kn"?String(n).replace(/\d/g,d=>KN_DIG[d]):String(n);
@@ -321,80 +430,84 @@ function pathFor(N,seat){let p=buildBasePath(N);for(let i=0;i<seat;i++)p=p.map(x
 function safeSet(N){const m=(N-1)/2,s=new Set([`${N-1},${m}`,`${m},${N-1}`,`0,${m}`,`${m},0`,`${m},${m}`]);
   if(N===7){[[1,1],[1,5],[5,1],[5,5]].forEach(([r,c])=>s.add(`${r},${c}`))}return s}
 
-/* ================= GAME STATE ================= */
+/* ================= GAME STATE & RULES ================= */
 let G=null;
-function newGame(){
-  const N=S.size,seats=SEATS[S.count];const L0=L();let cpuI=0;
+function newGame(o){
+  o=o||{};const N=o.size||S.size,count=o.count||S.count,types=o.types||S.types,seats=SEATS[count];const L0=L();let cpuI=0;
   const players=seats.map((seat,i)=>{
-    const type=S.types[i];let name;
+    const type=types[i];let name;
     if(type==="cpu")name=L0.cpuNames[cpuI++%3];else name=(i===0?L0.you:L0.colors[seat]);
-    return{seat,type,name,color:COLORS[seat],path:pathFor(N,seat),pawns:Array(N-1).fill(0),hit:false,isYou:type==="human"&&i===0};
+    return{seat,type,name,color:COLORS[seat],path:pathFor(N,seat),pawns:[0,0,0,0],hit:false,isYou:type==="human"&&i===0};
   });
-  // if no human seat 0 is human, "you" = none
-  G={N,m:(N-1)/2,players,cur:0,phase:"throw",throwVal:0,extra:false,safe:safeSet(N),
-     last:players[0].path.length-1,gate:4*(N-1),entry:S.entry,open:false,stuck:0,cowries:N===5?4:6,legal:[],over:false,timer:null,streak:0};
+  G={N,m:(N-1)/2,players,cur:0,phase:"idle",throwVal:0,extra:false,safe:safeSet(N),
+     last:players[0].path.length-1,gate:4*(N-1),entry:o.entry||S.entry,open:false,stuck:0,cowries:4,legal:[],
+     over:false,timer:null,streak:0,run:0,snap:null,tut:!!o.tut,force:[]};
 }
 const cellKey=(p,i)=>{const c=p.path[i];return c[0]+","+c[1]};
+const centreKey=()=>G.m+","+G.m;
+function ringOfKey(key){const [r,c]=key.split(",").map(Number);return Math.min(r,c,G.N-1-r,G.N-1-c)}
+function isInnerKey(key){return ringOfKey(key)>=1&&key!==centreKey()}
+function ownAt(P,key){let n=0;P.pawns.forEach(i=>{if(i<G.last&&cellKey(P,i)===key)n++});return n}
+function oppAt(pi,key){const out=[];G.players.forEach((O,oj)=>{if(oj===pi)return;const c=ownAt(O,key);if(c)out.push({oj,c})});return out}
+function jodiBlock(pi,key){return !G.safe.has(key)&&isInnerKey(key)&&oppAt(pi,key).some(o=>o.c>=2)}
+function canEnter(P){return G.entry==="easy"||P.hit||G.open}
+function isJodiAt(P,idx){const key=cellKey(P,idx);return idx<G.last&&isInnerKey(key)&&ownAt(P,key)>=2}
 function throwCowries(){
-  const n=G.cowries;const ups=[];for(let i=0;i<n;i++)ups.push(Math.random()<0.5);
+  const ups=[];for(let i=0;i<4;i++)ups.push(Math.random()<0.5);
   const k=ups.filter(Boolean).length;let v,extra=false,label="";
-  if(k===0){v=n===4?8:12;extra=true;label=L().bhara}
-  else if(k===n){v=n;extra=true;if(n===4)label=L().chowka}
-  else v=k;
+  if(k===0){v=8;extra=true;label=L().bhara}else if(k===4){v=4;extra=true;label=L().chowka}else v=k;
   return{ups,v,extra,label};
 }
-function legalMoves(pi,v){
-  const P=G.players[pi],res=[],seen=new Set();
-  P.pawns.forEach((idx,k)=>{
-    if(idx>=G.last)return;const t=idx+v,wrap=false;
-    if(t>G.last)return;
-    if(idx<G.gate&&t>=G.gate&&!canEnter(P))return; // waits at the entrance
-    if(seen.has(idx))return; // identical pawns on the same house
-    const key=cellKey(P,t);
-    if(!G.safe.has(key)){
-      for(let oj=0;oj<G.players.length;oj++){if(oj===pi)continue;const O=G.players[oj];
-        let cnt=0;O.pawns.forEach(oi=>{if(oi<G.last&&cellKey(O,oi)===key)cnt++});if(cnt>=2)return;}
-    }
-    seen.add(idx);res.push({k,from:idx,to:t,wrap,v});
-  });
-  return res;
+/* can the pawn (or Jodi) standing on path index idx move with throw v? */
+function evalMove(pi,idx,v){
+  const P=G.players[pi];
+  if(idx>=G.last)return{ok:false,why:"home"};
+  const jodi=isJodiAt(P,idx);let step=v;
+  if(jodi){if(v%2)return{ok:false,why:"jodiOdd"};step=v/2}
+  const t=idx+step;
+  if(t>G.last)return{ok:false,why:"exact",need:G.last-idx};
+  if(idx<G.gate&&t>=G.gate&&!canEnter(P))return{ok:false,why:"gate"};
+  for(let i=idx+1;i<t;i++)if(jodiBlock(pi,cellKey(P,i)))return{ok:false,why:"block"};
+  if(t<G.last&&jodiBlock(pi,cellKey(P,t)))return{ok:false,why:jodi?"jodiVsJodi":"block"};
+  return{ok:true,mv:{from:idx,to:t,v,step,jodi}};
 }
-function canEnter(P){return G.entry==="easy"||P.hit||G.open}
-function gateBlocked(pi,v){const P=G.players[pi];return !canEnter(P)&&P.pawns.some(i=>i<G.gate&&i+v>=G.gate&&i+v<=G.last)}
+function legalMoves(pi,v){const P=G.players[pi],seen=new Set(),res=[];
+  P.pawns.forEach(idx=>{if(seen.has(idx))return;seen.add(idx);const r=evalMove(pi,idx,v);if(r.ok)res.push(r.mv)});return res}
+function gateBlocked(pi,v){const P=G.players[pi];return P.pawns.some(i=>i<G.last&&evalMove(pi,i,v).why==="gate")}
+/* pawns that would be hit by landing on key (outer: everyone there; inner: only lone pawns) */
+function victimsAt(pi,key){
+  if(G.safe.has(key)||key===centreKey())return[];const out=[];
+  G.players.forEach((O,oj)=>{if(oj===pi)return;const ks=[];O.pawns.forEach((oi,ok)=>{if(oi<G.last&&cellKey(O,oi)===key)ks.push(ok)});
+    if(!ks.length)return;if(isInnerKey(key)&&ks.length>=2)return;out.push({oj,ks})});
+  return out;
+}
 
 /* ================= AI ================= */
-function throwDist(){ // probability of each value
-  const n=G.cowries,d={};const C=(a,b)=>{let r=1;for(let i=0;i<b;i++)r=r*(a-i)/(i+1);return r};
-  for(let k=0;k<=n;k++){const v=k===0?(n===4?8:12):k;d[v]=(d[v]||0)+C(n,k)/2**n}return d;
-}
-function danger(pi,key){
-  if(G.safe.has(key))return 0;const D=throwDist();let risk=0;
+const DIST={1:.25,2:.375,3:.25,4:.0625,8:.0625};
+function danger(pi,key,willBeJodi){
+  if(G.safe.has(key)||key===centreKey()||willBeJodi)return 0;let risk=0;
   G.players.forEach((O,oj)=>{if(oj===pi)return;
     O.pawns.forEach(oi=>{if(oi>=G.last)return;
-      for(const v in D){const t=oi+ +v;if(t>G.last)continue;if(oi<G.gate&&t>=G.gate&&!canEnter(O))continue;
-        if(cellKey(O,t)===key)risk+=D[v]}})});
+      for(const v in DIST){const t=oi+ +v;if(t>G.last)continue;if(oi<G.gate&&t>=G.gate&&!canEnter(O))continue;
+        if(cellKey(O,t)===key)risk+=DIST[v]}})});
   return Math.min(1,risk);
 }
-function captureAt(pi,key){
-  if(G.safe.has(key))return 0;let n=0;
-  G.players.forEach((O,oj)=>{if(oj===pi)return;let c=0;O.pawns.forEach(oi=>{if(oi<G.last&&cellKey(O,oi)===key)c++});if(c===1)n+=1});return n;
-}
-function hitChance(pi,myIdx){ // chance this pawn can hit someone with the next throw
-  const P=G.players[pi],D=throwDist();let c=0;
-  for(const v in D){const t=myIdx+ +v;if(t>=G.gate||t>G.last)continue;if(captureAt(pi,cellKey(P,t)))c+=D[v]}return c;
-}
+function hitChance(pi,myIdx){const P=G.players[pi];let c=0;
+  for(const v in DIST){const t=myIdx+ +v;if(t>=G.gate||t>G.last)continue;if(victimsAt(pi,cellKey(P,t)).length)c+=DIST[v]}return c}
 function aiPick(pi,moves){
   const P=G.players[pi];let best=null,bs=-1e9;
   for(const mv of moves){
     const kt=cellKey(P,mv.to),kf=cellKey(P,mv.from);let s=0;
-    if(mv.to===G.last)s+=900;
-    const cap=captureAt(pi,kt);s+=cap*600;
-    s-=danger(pi,kt)*(260+mv.to*6);
-    s+=danger(pi,kf)*(200+mv.from*6);
+    const n=mv.jodi?2:1;
+    if(mv.to===G.last)s+=900*n;
+    s+=victimsAt(pi,kt).reduce((a,x)=>a+x.ks.length,0)*650;
+    const joins=isInnerKey(kt)&&ownAt(P,kt)>=1&&mv.to<G.last;
+    s-=danger(pi,kt,mv.jodi||joins)*(280+mv.to*6)*n;
+    s+=danger(pi,kf,mv.jodi)*(200+mv.from*6);
     if(G.safe.has(kt))s+=60;
-    const own=P.pawns.filter(i=>i===mv.to&&i<G.last).length;if(own>=1&&!G.safe.has(kt))s+=90; // forms gatti
+    if(joins&&!mv.jodi)s+=150; // forms a Jodi: blocks rivals
     s+=mv.to*1.5;if(mv.from===0)s+=25;
-    if(!canEnter(P))s+=hitChance(pi,mv.to)*420; // locked out: hunt for a hit
+    if(!canEnter(P))s+=hitChance(pi,mv.to)*420;
     s+=Math.random()*8;
     if(s>bs){bs=s;best=mv}
   }
@@ -564,6 +677,7 @@ function layout(instant){
         if(instant)e.style.transition="none";
         e.style.left=((c+.5+o[0])*cs+sh)+"px";e.style.top=((r+.5+o[1])*cs-sh)+"px";e.style.zIndex=2+j;
         e.innerHTML=(j===s.ks.length-1&&s.ks.length>1)?`<span class="bd">${num(s.ks.length)}</span>`:"";
+        e.classList.toggle("jodi",s.ks.length>=2&&isInnerKey(key));
         if(instant){void e.offsetWidth;e.style.transition=""}
       })});
   }
@@ -582,8 +696,13 @@ const wait=ms=>new Promise(r=>setTimeout(r,DEBUG.fast?0:ms));
 
 /* ================= TURN FLOW ================= */
 function curP(){return G.players[G.cur]}
+let tipT=null;
+function tip(text){const e=$("tip");e.innerHTML="💡 "+text;e.classList.add("on");clearTimeout(tipT);tipT=setTimeout(()=>e.classList.remove("on"),DEBUG.fast?50:3600);sfx.tap(.6)}
+function why(r){const W=L().why;if(!r)return"";if(r.why==="exact")return W.exact(num(r.need));return W[r.why]||""}
+function snapshot(){return JSON.stringify(G.players.map(P=>({p:P.pawns,h:P.hit})))}
+function restore(s){JSON.parse(s).forEach((x,i)=>{G.players[i].pawns=x.p;G.players[i].hit=x.h})}
 function startTurn(){
-  if(G.over)return;const P=curP();G.phase="throw";clearMarks();renderPlayers();
+  if(G.over)return;const P=curP();G.phase="throw";G.run=0;G.snap=snapshot();clearMarks();renderPlayers();
   $("btnThrow").disabled=P.type!=="human";
   msg(P.isYou?L().yourTurn:L().turn(P.name));
   $("val").textContent="";
@@ -591,27 +710,37 @@ function startTurn(){
 }
 async function doThrow(){
   if(G.over||G.phase!=="throw")return;G.phase="rolling";$("btnThrow").disabled=true;
-  const res=throwCowries();if(DEBUG.force&&DEBUG.force.length){const f=DEBUG.force.shift();Object.assign(res,f)}
+  const res=throwCowries();const f=(G.force&&G.force.shift())||(DEBUG.force&&DEBUG.force.shift());if(f)Object.assign(res,f);
   $("val").textContent="";
   if(DEBUG.fast)setTray(res.ups);else await throwAnim(res.ups);
   $("val").textContent=num(res.v);G.throwVal=res.v;G.extra=res.extra;
   DEBUG.log.push({p:G.cur,v:res.v});
   if(res.extra){toast((res.label||num(res.v))+" ✦",curP().color[0]);sfx.bonus()}
+  G.run=res.extra?G.run+1:0;
+  if(!G.tut&&G.entry==="hard"&&G.run>=3){ // three Chowka/Bara in a row: the whole turn is undone
+    await wait(500);restore(G.snap);layout();renderPlayers();msg(L().three);toast("✋",curP().color[0]);sfx.hit();DEBUG.log.push({three:G.cur});
+    await wait(1600);G.extra=false;return endMove(false,true);
+  }
   await wait(350);
-  const moves=legalMoves(G.cur,res.v);G.legal=moves;
+  let moves=legalMoves(G.cur,res.v);
+  if(G.tut&&Tut.only!=null)moves=moves.filter(m=>m.from===Tut.only);
+  G.legal=moves;
   if(!moves.length){
-    G.stuck++;msg(gateBlocked(G.cur,res.v)?L().gate:L().noMove);
+    G.stuck++;const P=curP();
+    const r=P.pawns.map(i=>evalMove(G.cur,i,res.v)).find(x=>!x.ok&&x.why!=="home");
+    msg(L().noMove+(r?"<br><small>"+why(r)+"</small>":""));
     if(G.entry==="hard"&&!G.open&&G.stuck>=G.players.length*2){G.open=true;await wait(900);msg(L().open);toast("🔓");sfx.bonus();renderPlayers()}
-    await wait(1100);return endMove(false);
+    await wait(1400);return endMove(false);
   }
   G.phase="move";G.stuck=0;
   const P=curP();
-  if(P.type==="cpu"){await wait(500);const mv=aiPick(G.cur,moves);return doMove(mv)}
-  if(moves.length===1&&P.pawns.filter((x,i)=>x===moves[0].from).length>=1&&new Set(moves.map(m=>m.from)).size===1){
-    markLegal(moves);msg(L().tap(num(res.v)));
-    G.timer=setTimeout(()=>{if(G.phase==="move")doMove(moves[0])},DEBUG.fast?0:900);return;
-  }
-  markLegal(moves);msg(L().tap(num(res.v))+(gateBlocked(G.cur,res.v)?"<br><small>"+L().gate+"</small>":""));
+  if(P.type==="cpu"){await wait(500);return doMove(aiPick(G.cur,moves))}
+  markLegal(moves);
+  const anyJodi=moves.some(m=>m.jodi);
+  msg(anyJodi?L().tapJodi(res.v):L().tap(num(res.v)));
+  if(G.tut){Tut.afterThrow();return}
+  if(new Set(moves.map(m=>m.from)).size===1&&moves.length===1)
+    G.timer=setTimeout(()=>{if(G.phase==="move")doMove(moves[0])},DEBUG.fast?0:1100);
 }
 function markLegal(moves){
   clearMarks();const P=curP();
@@ -621,44 +750,123 @@ function markLegal(moves){
 }
 function clearMarks(){document.querySelectorAll(".pawn.can").forEach(e=>e.classList.remove("can"));document.querySelectorAll(".ghost").forEach(e=>e.remove())}
 function onPawnTap(e){
-  if(!G||G.phase!=="move")return;const pi=+e.currentTarget.dataset.p,k=+e.currentTarget.dataset.k;
-  if(pi!==G.cur||curP().type!=="human")return;const idx=curP().pawns[k];
-  const mv=G.legal.find(m=>m.from===idx);if(!mv)return;clearTimeout(G.timer);doMove(mv);
+  if(!G||G.over)return;const pi=+e.currentTarget.dataset.p,k=+e.currentTarget.dataset.k,W=L().why;
+  const P=curP();
+  if(G.phase==="idle"){if(G.tut)tip(W.idle);return}
+  if(P.type!=="human"){tip(W.wait(P.name));return}
+  if(pi!==G.cur){tip(W.notYours(G.players[pi].name));return}
+  if(G.phase==="throw"){tip(W.throwFirst);return}
+  if(G.phase!=="move")return;
+  const idx=P.pawns[k],mv=G.legal.find(m=>m.from===idx);
+  if(mv){clearTimeout(G.timer);return doMove(mv)}
+  const r=evalMove(G.cur,idx,G.throwVal);
+  tip(r.ok?W.lesson:why(r));
 }
 async function doMove(mv){
   if(G.phase!=="move")return;G.phase="anim";clearMarks();
-  const P=curP(),pi=G.cur;let k=P.pawns.findIndex((x,i)=>x===mv.from);
-  const el=pawnEls[pi][k];el.classList.add("hop");
-  for(let i=mv.from+1;i<=mv.to;i++){P.pawns[k]=i;layout();sfx.step();await wait(190)}
-  el.classList.remove("hop");
+  const P=curP(),pi=G.cur;
+  const ks=[];P.pawns.forEach((x,i)=>{if(x===mv.from&&ks.length<(mv.jodi?2:1))ks.push(i)});
+  ks.forEach(k=>pawnEls[pi][k].classList.add("hop"));
+  for(let i=mv.from+1;i<=mv.to;i++){ks.forEach(k=>P.pawns[k]=i);layout();sfx.step();await wait(190)}
+  ks.forEach(k=>pawnEls[pi][k].classList.remove("hop"));
   let bonus=false;const key=cellKey(P,mv.to);
-  if(!G.safe.has(key)){
-    for(let oj=0;oj<G.players.length;oj++){if(oj===pi)continue;const O=G.players[oj];
-      const hitK=[];O.pawns.forEach((oi,ok)=>{if(oi<G.last&&cellKey(O,oi)===key)hitK.push(ok)});
-      if(hitK.length===1){O.pawns[hitK[0]]=0;P.hit=true;bonus=true;sfx.hit();
-        const b=O.name;msg(P.isYou?L().youHit(b):L().hit(P.name,b));toast("⚔️",P.color[0]);DEBUG.log.push({hit:[pi,oj]})}
-    }
-    layout();
-  }
-  if(mv.to===G.last){sfx.home();toast("🪷",P.color[0]);msg(L().home)}
+  victimsAt(pi,key).forEach(({oj,ks:hk})=>{const O=G.players[oj];hk.forEach(ok=>O.pawns[ok]=0);P.hit=true;bonus=true;
+    sfx.hit();msg(P.isYou?L().youHit(O.name):L().hit(P.name,O.name));toast("⚔️",P.color[0]);DEBUG.log.push({hit:[pi,oj,hk.length]})});
+  if(!mv.jodi&&mv.to<G.last&&isInnerKey(key)&&ownAt(P,key)===2&&!bonus){toast("👫 "+L().jodi,P.color[0])}
+  layout();
+  if(mv.to===G.last){sfx.home();toast("🪷",P.color[0]);msg(L().home||"")}
   renderPlayers();
-  if(P.pawns.every(x=>x>=G.last)){return finish(pi)}
+  if(P.pawns.every(x=>x>=G.last))return finish(pi);
   await wait(bonus?900:250);
   endMove(bonus);
 }
-function endMove(bonus){
+function endMove(bonus,cancelled){
   if(G.over)return;
-  if(G.extra||bonus){G.streak++;if(G.streak<12){msg(L().extra);startTurnSame();return}}
+  if(G.tut)return Tut.afterMove(bonus);
+  if(!cancelled&&(G.extra||bonus)){G.streak++;if(G.streak<12){msg(L().extra);startTurnSame();return}}
   G.streak=0;G.cur=(G.cur+1)%G.players.length;startTurn();
 }
 function startTurnSame(){setTimeout(()=>{if(!G.over){const P=curP();G.phase="throw";clearMarks();renderPlayers();$("btnThrow").disabled=P.type!=="human";
   msg((P.isYou?"":P.name+": ")+L().extra);if(P.type==="cpu")G.timer=setTimeout(doThrow,DEBUG.fast?0:700)}},DEBUG.fast?0:350)}
 function finish(pi){
+  if(G.tut)return Tut.done();
   G.over=true;G.winner=pi;renderPlayers();const P=G.players[pi];sfx.win();
   $("wText").textContent=P.isYou?L().youWon:L().won(P.name);$("wText").style.color=P.color[0];
   if(!DEBUG.fast)confetti();
   setTimeout(()=>$("ovWin").classList.add("on"),DEBUG.fast?0:700);DEBUG.done=true;
 }
+
+/* ================= HOW-TO CARD ================= */
+function cardLines(size,entry){
+  const c=L().card,rows=[["🐚",c.throw],["🏁",c.path],["⚔️",c.hit]];
+  if(entry!=="easy")rows.push(["🔒",c.gate]);
+  rows.push(["👫",c.jodi]);
+  if(entry!=="easy")rows.push(["✋",c.three]);
+  if(size===7)rows.push(["🗺️",c.seven]);
+  rows.push(["🏆",c.win]);
+  return rows;
+}
+let cardMode="help";
+function showCard(mode){
+  cardMode=mode;const t=L(),size=G&&!G.tut?G.N:S.size,entry=G&&!G.tut?G.entry:S.entry;
+  $("hTitle").textContent=t.cardTitle(size===5?t.h5:t.h7)+" · "+(entry==="easy"?t.easy:t.hard);
+  $("hList").innerHTML=cardLines(size,entry).map(([i,x])=>`<li><span class="ci">${i}</span><span>${x}</span></li>`).join("");
+  $("hClose").textContent=mode==="start"?t.start:t.ok;$("hTut").textContent=t.tutorial;
+  $("hTut").style.display=mode==="game"?"none":"";
+  $("ovHow").classList.add("on");
+}
+function closeCard(){$("ovHow").classList.remove("on");if(cardMode==="start"&&G&&!G.tut&&G.phase==="idle")startTurn()}
+
+/* ================= TUTORIAL ================= */
+const Tut={i:0,only:null,
+  steps(){const P0=G.players[0],P1=G.players[1],tt=L().tut;
+    const S0=()=>{P0.pawns=[0,0,0,0];P1.pawns=[0,0,0,0];P0.hit=false};
+    return[
+     {kind:"next",text:tt.t0,setup:S0,hl:()=>[cellKey(P0,0)]},
+     {kind:"throw",text:tt.t1,text2:tt.t1b,force:{ups:[true,true,true,false],v:3,extra:false},only:0},
+     {kind:"throw",text:tt.t2,text2:tt.t2b,force:{ups:[true,true,true,true],v:4,extra:true},only:3},
+     {kind:"throw",text:tt.t3,text2:tt.t3b,text3:tt.t3c,force:{ups:[true,true,false,false],v:2,extra:false},only:5,
+      setup:()=>{P0.pawns=[5,0,0,0];P0.hit=false;const target=cellKey(P0,7);let j=0;for(;j<G.gate;j++)if(cellKey(P1,j)===target)break;P1.pawns=[j,0,0,0]},
+      hl:()=>[cellKey(P0,7)]},
+     {kind:"next",text:tt.t4,hl:()=>[...G.safe].filter(k=>k!==centreKey())},
+     {kind:"throw",text:tt.t5,text2:tt.t5b,text3:tt.t5c,force:{ups:[true,false,true,false],v:2,extra:false},only:G.gate+1,
+      setup:()=>{P0.pawns=[G.gate+1,G.gate+1,0,0];P0.hit=true;P1.pawns=[0,0,0,0]},hl:()=>[cellKey(P0,G.gate+1)]},
+     {kind:"throw",text:tt.t6,text2:tt.t6b,force:{ups:[true,false,false,false],v:1,extra:false},only:G.last-1,
+      setup:()=>{P0.pawns=[G.last-1,G.last,G.last,G.last]},hl:()=>[centreKey()]}]},
+  start(){
+    audio();if(AC&&AC.resume)AC.resume();if(S.sound)startMusic();
+    if(G&&G.timer)clearTimeout(G.timer);
+    newGame({size:5,count:2,types:["human","cpu"],entry:"hard",tut:true});
+    show("game");renderText();drawBoard();buildPawns();setTray([false,false,false,false]);
+    this.list=this.steps();this.i=0;this.run();
+  },
+  run(){
+    const s=this.list[this.i];G.cur=0;if(s.setup)s.setup();layout(true);renderPlayers();clearMarks();clearHl();
+    this.only=s.only!=null?s.only:null;G.force=s.force?[Object.assign({},s.force)]:[];
+    if(s.kind==="throw"){G.phase="throw";$("btnThrow").disabled=false;msg(L().yourTurn)}else{G.phase="idle";$("btnThrow").disabled=true;msg("")}
+    if(s.hl)showHl(s.hl());coach(s.text,s.kind==="next"?"next":null);
+  },
+  afterThrow(){const s=this.list[this.i];clearHl();if(s.text2)coach(s.text2,null)},
+  afterMove(){const s=this.list[this.i];G.phase="idle";$("btnThrow").disabled=true;
+    if(s.text3)coach(s.text3,"next");else this.next()},
+  next(){this.i++;if(this.i>=this.list.length)return this.done();this.run()},
+  done(){G.phase="idle";clearHl();renderPlayers();sfx.win();coach(L().tut.t7,"end")},
+  stop(){$("coach").classList.remove("on");$("game").classList.remove("tutmode");clearHl();if(G)G.tut=false}
+};
+function coach(text,btn){
+  const c=$("coach"),tt=L().tut;
+  c.innerHTML=`<div class="ct">${text}</div><div class="cb">`+
+   (btn==="next"?`<button class="cnext" id="cNext">${tt.next} ▶</button>`:"")+
+   (btn==="end"?`<button class="cnext" id="cPlay">${tt.playNow} ▶</button>`:`<button class="cskip" id="cSkip">${tt.skip}</button>`)+`</div>`;
+  c.classList.add("on");$("game").classList.add("tutmode");
+  const n=$("cNext");if(n)n.onclick=()=>{sfx.tap();Tut.next()};
+  const p=$("cPlay");if(p)p.onclick=()=>{Tut.stop();start()};
+  const sk=$("cSkip");if(sk)sk.onclick=()=>{Tut.stop();if(G){G.over=true;clearTimeout(G.timer)}show("menu")};
+}
+function showHl(keys){const cs=$("boardwrap").clientWidth/G.N;keys.forEach(k=>{const [r,c]=k.split(",").map(Number);
+  const d=document.createElement("div");d.className="hl";d.style.left=(c+.5)*cs+"px";d.style.top=(r+.5)*cs+"px";$("pawns").appendChild(d)})}
+function clearHl(){document.querySelectorAll(".hl").forEach(e=>e.remove())}
+
 function confetti(){const cols=["#e63946","#16a37f","#f2b705","#3a7bff","#ff7aa8"];
   for(let i=0;i<70;i++){const d=document.createElement("div");d.className="confetti";d.style.left=Math.random()*100+"vw";
     d.style.background=cols[i%5];d.style.animationDuration=(1.6+Math.random()*1.8)+"s";d.style.animationDelay=Math.random()*.6+"s";
@@ -671,7 +879,7 @@ function renderText(){
   $("btnPlay").textContent=t.play;$("btnHow").textContent=t.how;$("btnSound").textContent=S.sound?t.soundOn:t.soundOff;
   $("btnSnd2").textContent=S.sound?"♪":"✕";$("btnThrow").innerHTML=t.throw.replace("\n","<br>");
   $("btnShare").textContent="⤴ "+WOWShare.t;$("wShare").textContent="⤴ "+WOWShare.t;WOWShare.setLang(S.lang);
-  $("hTitle").textContent=t.how;$("hList").innerHTML=t.rules.map(r=>`<li>${r}</li>`).join("");$("hClose").textContent=t.ok;
+  $("btnTut").textContent=t.tutorial;
   $("wAgain").textContent=t.again;$("wMenu").textContent=t.menu;$("qText").textContent=t.quit;$("qYes").textContent=t.yes;$("qNo").textContent=t.no;
   $("langs").innerHTML=[["en","EN"],["kn","ಕ"],["hi","हि"]].map(([k,l])=>`<button data-l="${k}" class="${S.lang===k?"on":""}">${l}</button>`).join("");
   $("segBoard").innerHTML=`<button data-s="5" class="${S.size===5?"on":""}">${t.h5}<small>${t.h5s}</small></button><button data-s="7" class="${S.size===7?"on":""}">${t.h7}<small>${t.h7s}</small></button>`;
@@ -698,22 +906,29 @@ document.addEventListener("click",e=>{
 function show(id){document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("on",s.id===id))}
 function start(){
   audio();if(AC&&AC.resume)AC.resume();if(S.sound)startMusic();
-  if(G&&G.timer)clearTimeout(G.timer);newGame();show("game");renderText();drawBoard();buildPawns();setTray(Array(G.cowries).fill(false));renderPlayers();startTurn();
+  if(G&&G.timer)clearTimeout(G.timer);Tut.stop();newGame();show("game");renderText();drawBoard();buildPawns();setTray(Array(G.cowries).fill(false));renderPlayers();
+  msg("");$("btnThrow").disabled=true;
+  if(DEBUG.fast)startTurn();else showCard("start");
 }
 $("btnPlay").onclick=start;
 $("btnShare").onclick=$("btnShare2").onclick=$("wShare").onclick=()=>WOWShare.open();
-$("btnThrow").onclick=()=>{if(G&&G.phase==="throw"&&curP().type==="human")doThrow()};
-$("btnHow").onclick=$("btnHow2").onclick=()=>$("ovHow").classList.add("on");
-$("hClose").onclick=()=>$("ovHow").classList.remove("on");
+$("btnThrow").onclick=()=>{if(!G||G.over)return;const W=L().why,P=curP();
+  if(G.phase==="throw"&&P.type==="human")return doThrow();
+  if(G.phase==="move"&&P.type==="human")return tip(W.moveFirst);
+  if(P.type!=="human")return tip(W.wait(P.name));};
+$("btnThrowWrap").onclick=e=>{if(e.target===$("btnThrowWrap")&&$("btnThrow").disabled)$("btnThrow").onclick()};
+$("btnHow").onclick=()=>showCard("help");$("btnHow2").onclick=()=>showCard(G&&G.tut?"help":"game");
+$("hClose").onclick=closeCard;$("hTut").onclick=()=>{$("ovHow").classList.remove("on");Tut.start()};
+$("btnTut").onclick=()=>Tut.start();
 $("btnSound").onclick=$("btnSnd2").onclick=toggleSound;
-$("btnHome").onclick=()=>{if(G&&!G.over)$("ovQuit").classList.add("on");else{show("menu")}};
+$("btnHome").onclick=()=>{if(G&&G.tut){Tut.stop();G.over=true;show("menu");return}if(G&&!G.over)$("ovQuit").classList.add("on");else{show("menu")}};
 $("qYes").onclick=()=>{$("ovQuit").classList.remove("on");if(G){G.over=true;clearTimeout(G.timer)}show("menu")};
 $("qNo").onclick=()=>$("ovQuit").classList.remove("on");
 $("wAgain").onclick=()=>{$("ovWin").classList.remove("on");start()};
 $("wMenu").onclick=()=>{$("ovWin").classList.remove("on");show("menu")};
 window.addEventListener("resize",()=>{if(G)layout(true)});
 document.addEventListener("visibilitychange",()=>{if(document.hidden)stopMusic();else if(S.sound&&AC&&$("game").classList.contains("on"))startMusic()});
-CB.start=start;CB.state=()=>G;CB.legal=legalMoves;CB.path=pathFor;
+CB.start=start;CB.state=()=>G;CB.legal=legalMoves;CB.path=pathFor;CB.evalMove=evalMove;CB.Tut=Tut;CB.newGame=newGame;
 WOWShare.init({lang:S.lang,url:"https://worldofwondersstudio.com/chowka-bhara.html",
   title:{en:"Chowka Bhara",kn:"ಚೌಕಾಬಾರ",hi:"चौका बारा"},
   text:{en:"Come play Chowka Bhara! Karnataka's traditional board game with real cowrie shells 🐚",
@@ -727,7 +942,7 @@ renderText();
 <div class="wf-sis">Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></div>
 <div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
 </div></footer>
-<script src="join.js?v=6" defer></script>
+<script src="join.js?v=5" defer></script>
 <script src="game-info.js?v=6" data-game="chowka-bhara" defer></script>
 </body>
 </html>
