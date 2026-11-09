@@ -1,5 +1,6 @@
 /* World of Wonders: "Join the family" sign-up, stored in a Google Form/Sheet */
 /* Visit counting (hits.sh, no cookies, no personal data) + sign-up prompt on game end screens */
+(function(){ /* private scope: never overwrite a game's own globals (e.g. hit) */
 var HITS='https://hits.sh/worldofwondersstudio.com/';
 function hit(n){try{var i=new Image();i.src=HITS+n+'.svg?r='+Date.now()}catch(e){}}
 function once(n){try{if(sessionStorage.getItem('wow-h-'+n))return;sessionStorage.setItem('wow-h-'+n,'1')}catch(e){}hit(n)}
@@ -101,4 +102,5 @@ window.WOWHit=hit; window.WOWHitOnce=once;
     });
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',build);else build();
+})();
 })();
