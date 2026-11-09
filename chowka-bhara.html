@@ -246,7 +246,7 @@ ul.card .ci{font-size:22px;line-height:1;flex:none;width:28px;text-align:center}
 /* ================= TEXT ================= */
 const T={
  en:{title:"Chowka Bhara",sub:"Traditional board game of Karnataka",board:"Board",h5:"5 Houses",h7:"7 Houses",
-  h5s:"4 cowries · 4 pawns",h7s:"4 cowries · 4 pawns · longer path",players:"Players",you:"You",player:"Player",
+  h5s:"4 cowries · 4 pawns",h7s:"6 cowries · 6 pawns · longer path",players:"Players",you:"You",player:"Player",
   cpuNames:["Ajji","Thatha","Atthe"],colors:["Red","Green","Yellow","Blue"],
   play:"Play",how:"How to play",tutorial:"🎓 Tutorial",soundOn:"♪ Music on",soundOff:"♪ Music off",throw:"Throw\ncowries",
   turn:n=>`${n}'s turn`,yourTurn:"Your turn — throw the cowries",
@@ -256,21 +256,22 @@ const T={
   gate:"No hit yet — pawns wait at the entrance to the inner houses",open:"Everyone was stuck — the inner houses are now open for all",
   entry:"Rules",easy:"Easy",easyS:"No hit needed to go inside",hard:"Traditional",hardS:"Hit first · 3 bonus throws cancel",
   won:n=>`${n} wins!`,youWon:"You win!",again:"Play again",menu:"Menu",ok:"Got it",start:"Start game",
-  quit:"Leave this game?",yes:"Yes",no:"No",chowka:"Chowka!",bhara:"Bara!",jodi:"Jodi!",three:"Three Chowka/Bara in a row — this turn is cancelled!",
+  quit:"Leave this game?",yes:"Yes",no:"No",chowka:"Chowka!",bhara:"Bara!",jodi:"Jodi!",three:"Three bonus throws in a row — this turn is cancelled!",
   homeCount:"home",home:"A pawn reached the centre! 🪷",cardTitle:b=>`How to play · ${b}`,
   card:{throw:"Throw 4 cowries and count the shells mouth-up: 1, 2 or 3. All 4 up = 4 (<b>Chowka</b>), all down = 8 (<b>Bara</b>): both give another throw.",
+   throw7:"Throw 6 cowries and count the shells mouth-up: 1 to 5. All 6 up = 6, all down = 12: both give another throw.",
    path:"Start on your ✕ house, go round the outer houses anticlockwise, then wind inwards to the lotus 🪷.",
    hit:"Land on a rival pawn to send it home and throw again. ✕ houses are safe: no hitting there.",
    gate:"Hit one pawn first — only then can your pawns enter the inner houses.",
-   jodi:"Two of your pawns together on an inner house make a <b>Jodi</b>: rivals can't pass or land on it, and it moves only on 2, 4 or 8 — half the count. A Jodi can hit a single pawn.",
-   three:"Three Chowka/Bara in a row cancels that whole turn.",
+   jodi:"Two of your pawns together on an inner house make a <b>Jodi</b>: rivals can't pass or land on it, and it moves only on an even throw, going half the count. A Jodi can hit a single pawn.",
+   three:"Three bonus throws in a row (Chowka, Bara, 6 or 12) cancel that whole turn.",
    seven:"7 houses: a longer path, with extra safe ✕ houses on the inner ring.",
-   win:"Bring all 4 pawns to the lotus with an exact count to win."},
+   win:"Bring all 4 pawns to the lotus with an exact count to win.",win7:"Bring all 6 pawns to the lotus with an exact count to win."},
   why:{home:"This pawn is already home in the centre 🪷",
    exact:n=>`To reach the centre this pawn needs exactly ${n}. Move another pawn.`,
    gate:"The inner houses are locked 🔒 — hit a rival pawn first. This pawn waits at the entrance.",
    block:"A Jodi (pair) is blocking the way. A single pawn can't pass it or land on it.",
-   jodiOdd:"This is a Jodi. A pair moves together only on 2, 4 or 8, going half the count.",
+   jodiOdd:"This is a Jodi. A pair moves together only on an even throw, going half the count.",
    jodiVsJodi:"Your Jodi can't land on another Jodi.",
    notYours:n=>`That's ${n}'s pawn. Tap one of your own glowing pawns.`,
    throwFirst:"Throw the cowries first, then move a pawn.",moveFirst:"First move a glowing pawn with this throw.",
@@ -292,7 +293,7 @@ const T={
    t6b:"Tap your pawn to bring it home.",
    t7:"Well played! You know the rules. The first to bring all 4 pawns home wins."}},
  kn:{title:"ಚೌಕಾಬಾರ",sub:"ಕರ್ನಾಟಕದ ಸಾಂಪ್ರದಾಯಿಕ ಆಟ",board:"ಆಟದ ಹಲಗೆ",h5:"೫ ಮನೆ",h7:"೭ ಮನೆ",
-  h5s:"೪ ಕವಡೆ · ೪ ಕಾಯಿ",h7s:"೪ ಕವಡೆ · ೪ ಕಾಯಿ · ಉದ್ದ ದಾರಿ",players:"ಆಟಗಾರರು",you:"ನೀವು",player:"ಆಟಗಾರ",
+  h5s:"೪ ಕವಡೆ · ೪ ಕಾಯಿ",h7s:"೬ ಕವಡೆ · ೬ ಕಾಯಿ · ಉದ್ದ ದಾರಿ",players:"ಆಟಗಾರರು",you:"ನೀವು",player:"ಆಟಗಾರ",
   cpuNames:["ಅಜ್ಜಿ","ತಾತ","ಅತ್ತೆ"],colors:["ಕೆಂಪು","ಹಸಿರು","ಹಳದಿ","ನೀಲಿ"],
   play:"ಆಟ ಶುರು",how:"ಆಡುವುದು ಹೇಗೆ",tutorial:"🎓 ಆಟ ಕಲಿಯಿರಿ",soundOn:"♪ ಸಂಗೀತ ಇದೆ",soundOff:"♪ ಸಂಗೀತ ಇಲ್ಲ",throw:"ಕವಡೆ\nಹಾಕಿ",
   turn:n=>`${n} ಸರದಿ`,yourTurn:"ನಿಮ್ಮ ಸರದಿ — ಕವಡೆ ಹಾಕಿ",
@@ -300,23 +301,24 @@ const T={
   noMove:"ನಡೆಸಲು ಕಾಯಿ ಇಲ್ಲ",extra:"ಇನ್ನೊಮ್ಮೆ ಹಾಕಿ!",
   hit:(a,b)=>`${a} ${b} ಕಾಯಿ ಹೊಡೆದರು!`,youHit:b=>`ನೀವು ${b} ಕಾಯಿ ಹೊಡೆದಿರಿ!`,
   gate:"ಇನ್ನೂ ಕಾಯಿ ಹೊಡೆದಿಲ್ಲ — ಕಾಯಿಗಳು ಒಳಮನೆಯ ಬಾಗಿಲಲ್ಲಿ ಕಾಯುತ್ತವೆ",open:"ಯಾರಿಗೂ ನಡೆಸಲು ಆಗಲಿಲ್ಲ — ಈಗ ಎಲ್ಲರಿಗೂ ಒಳಮನೆ ತೆರೆದಿದೆ",
-  entry:"ನಿಯಮಗಳು",easy:"ಸುಲಭ",easyS:"ಹೊಡೆಯದೆಯೂ ಒಳಗೆ ಹೋಗಬಹುದು",hard:"ಸಾಂಪ್ರದಾಯಿಕ",hardS:"ಮೊದಲು ಹೊಡೆಯಬೇಕು · ಸತತ ೩ ಚೌಕ/ಬಾರ ರದ್ದು",
+  entry:"ನಿಯಮಗಳು",easy:"ಸುಲಭ",easyS:"ಹೊಡೆಯದೆಯೂ ಒಳಗೆ ಹೋಗಬಹುದು",hard:"ಸಾಂಪ್ರದಾಯಿಕ",hardS:"ಮೊದಲು ಹೊಡೆಯಬೇಕು · ಸತತ ೩ ಹೆಚ್ಚುವರಿ ಎಸೆತ ರದ್ದು",
   won:n=>`${n} ಗೆದ್ದರು!`,youWon:"ನೀವು ಗೆದ್ದಿರಿ!",again:"ಮತ್ತೆ ಆಡಿ",menu:"ಹಿಂದಕ್ಕೆ",ok:"ಸರಿ",start:"ಆಟ ಶುರು",
-  quit:"ಈ ಆಟ ಬಿಡುವಿರಾ?",yes:"ಹೌದು",no:"ಇಲ್ಲ",chowka:"ಚೌಕ!",bhara:"ಬಾರ!",jodi:"ಜೋಡಿ!",three:"ಸತತ ಮೂರು ಚೌಕ/ಬಾರ — ಈ ಸರದಿ ರದ್ದು!",
+  quit:"ಈ ಆಟ ಬಿಡುವಿರಾ?",yes:"ಹೌದು",no:"ಇಲ್ಲ",chowka:"ಚೌಕ!",bhara:"ಬಾರ!",jodi:"ಜೋಡಿ!",three:"ಸತತ ಮೂರು ಹೆಚ್ಚುವರಿ ಎಸೆತ — ಈ ಸರದಿ ರದ್ದು!",
   homeCount:"ಒಳಗೆ",home:"ಒಂದು ಕಾಯಿ ನಡುಮನೆ ಸೇರಿತು! 🪷",cardTitle:b=>`ಆಡುವುದು ಹೇಗೆ · ${b}`,
   card:{throw:"೪ ಕವಡೆ ಹಾಕಿ, ಬಾಯಿ ಮೇಲಾದವನ್ನು ಎಣಿಸಿ: ೧, ೨ ಅಥವಾ ೩. ನಾಲ್ಕೂ ಮೇಲೆ = ೪ (<b>ಚೌಕ</b>), ಎಲ್ಲಾ ಕವುಚಿದರೆ = ೮ (<b>ಬಾರ</b>): ಎರಡಕ್ಕೂ ಇನ್ನೊಮ್ಮೆ ಹಾಕುವ ಅವಕಾಶ.",
+   throw7:"೬ ಕವಡೆ ಹಾಕಿ, ಬಾಯಿ ಮೇಲಾದವನ್ನು ಎಣಿಸಿ: ೧ರಿಂದ ೫. ಆರೂ ಮೇಲೆ = ೬, ಎಲ್ಲಾ ಕವುಚಿದರೆ = ೧೨: ಎರಡಕ್ಕೂ ಇನ್ನೊಮ್ಮೆ ಹಾಕುವ ಅವಕಾಶ.",
    path:"ನಿಮ್ಮ ✕ ಮನೆಯಿಂದ ಹೊರಟು, ಹೊರಗಿನ ಮನೆಗಳನ್ನು ಸುತ್ತಿ, ನಂತರ ಒಳಗೆ ಸುತ್ತುತ್ತಾ ನಡುವಿನ ಕಮಲ 🪷 ತಲುಪಿ.",
    hit:"ಎದುರಾಳಿಯ ಕಾಯಿ ಇರುವ ಮನೆಗೆ ಬಂದರೆ ಅದನ್ನು ಹೊಡೆದು ಮೊದಲ ಮನೆಗೆ ಕಳಿಸಿ, ಇನ್ನೊಮ್ಮೆ ಹಾಕಿ. ✕ ಮನೆಗಳು ಸುರಕ್ಷಿತ: ಅಲ್ಲಿ ಹೊಡೆಯುವಂತಿಲ್ಲ.",
    gate:"ಮೊದಲು ಒಂದು ಕಾಯಿ ಹೊಡೆಯಿರಿ — ಆಮೇಲೆ ಮಾತ್ರ ನಿಮ್ಮ ಕಾಯಿಗಳು ಒಳಮನೆಗೆ ಹೋಗಬಹುದು.",
-   jodi:"ಒಳಮನೆಯಲ್ಲಿ ನಿಮ್ಮ ಎರಡು ಕಾಯಿ ಒಂದೇ ಮನೆಯಲ್ಲಿದ್ದರೆ ಅದು <b>ಜೋಡಿ</b>: ಎದುರಾಳಿ ಅದನ್ನು ದಾಟಲು ಅಥವಾ ಅಲ್ಲಿ ನಿಲ್ಲಲು ಆಗದು. ಜೋಡಿ ೨, ೪, ೮ ಬಿದ್ದಾಗ ಮಾತ್ರ ಅರ್ಧ ಮನೆ ನಡೆಯುತ್ತದೆ. ಜೋಡಿ ಒಂಟಿ ಕಾಯಿಯನ್ನು ಹೊಡೆಯಬಹುದು.",
-   three:"ಸತತ ಮೂರು ಚೌಕ/ಬಾರ ಬಿದ್ದರೆ ಆ ಇಡೀ ಸರದಿ ರದ್ದು.",
+   jodi:"ಒಳಮನೆಯಲ್ಲಿ ನಿಮ್ಮ ಎರಡು ಕಾಯಿ ಒಂದೇ ಮನೆಯಲ್ಲಿದ್ದರೆ ಅದು <b>ಜೋಡಿ</b>: ಎದುರಾಳಿ ಅದನ್ನು ದಾಟಲು ಅಥವಾ ಅಲ್ಲಿ ನಿಲ್ಲಲು ಆಗದು. ಜೋಡಿ ಸಮ ಸಂಖ್ಯೆ (೨, ೪, ೬, ೮…) ಬಿದ್ದಾಗ ಮಾತ್ರ ಅರ್ಧ ಮನೆ ನಡೆಯುತ್ತದೆ. ಜೋಡಿ ಒಂಟಿ ಕಾಯಿಯನ್ನು ಹೊಡೆಯಬಹುದು.",
+   three:"ಸತತ ಮೂರು ಬಾರಿ ಹೆಚ್ಚುವರಿ ಎಸೆತ ಸಿಕ್ಕರೆ (ಚೌಕ, ಬಾರ, ೬ ಅಥವಾ ೧೨) ಆ ಇಡೀ ಸರದಿ ರದ್ದು.",
    seven:"೭ ಮನೆ: ದಾರಿ ಉದ್ದ, ಒಳಸುತ್ತಿನಲ್ಲಿ ಇನ್ನಷ್ಟು ಸುರಕ್ಷಿತ ✕ ಮನೆಗಳು.",
-   win:"ನಾಲ್ಕೂ ಕಾಯಿಗಳನ್ನು ಸರಿಯಾದ ಎಣಿಕೆಯಿಂದ ಕಮಲದ ಮನೆಗೆ ಸೇರಿಸಿದರೆ ಗೆಲುವು."},
+   win:"ನಾಲ್ಕೂ ಕಾಯಿಗಳನ್ನು ಸರಿಯಾದ ಎಣಿಕೆಯಿಂದ ಕಮಲದ ಮನೆಗೆ ಸೇರಿಸಿದರೆ ಗೆಲುವು.",win7:"ಆರೂ ಕಾಯಿಗಳನ್ನು ಸರಿಯಾದ ಎಣಿಕೆಯಿಂದ ಕಮಲದ ಮನೆಗೆ ಸೇರಿಸಿದರೆ ಗೆಲುವು."},
   why:{home:"ಈ ಕಾಯಿ ಈಗಾಗಲೇ ನಡುಮನೆ ಸೇರಿದೆ 🪷",
    exact:n=>`ನಡುಮನೆ ಸೇರಲು ಈ ಕಾಯಿಗೆ ಸರಿಯಾಗಿ ${n} ಬೇಕು. ಬೇರೆ ಕಾಯಿ ನಡೆಸಿ.`,
    gate:"ಒಳಮನೆಗಳು ಮುಚ್ಚಿವೆ 🔒 — ಮೊದಲು ಎದುರಾಳಿಯ ಒಂದು ಕಾಯಿ ಹೊಡೆಯಿರಿ. ಈ ಕಾಯಿ ಬಾಗಿಲಲ್ಲೇ ಕಾಯುತ್ತದೆ.",
    block:"ದಾರಿಯಲ್ಲಿ ಜೋಡಿ ಅಡ್ಡ ಇದೆ. ಒಂಟಿ ಕಾಯಿ ಅದನ್ನು ದಾಟಲು ಅಥವಾ ಅಲ್ಲಿ ನಿಲ್ಲಲು ಆಗದು.",
-   jodiOdd:"ಇದು ಜೋಡಿ. ಜೋಡಿ ೨, ೪ ಅಥವಾ ೮ ಬಿದ್ದಾಗ ಮಾತ್ರ ಒಟ್ಟಿಗೆ, ಅರ್ಧ ಮನೆ ನಡೆಯುತ್ತದೆ.",
+   jodiOdd:"ಇದು ಜೋಡಿ. ಜೋಡಿ ಸಮ ಸಂಖ್ಯೆ ಬಿದ್ದಾಗ ಮಾತ್ರ ಒಟ್ಟಿಗೆ, ಅರ್ಧ ಮನೆ ನಡೆಯುತ್ತದೆ.",
    jodiVsJodi:"ನಿಮ್ಮ ಜೋಡಿ ಇನ್ನೊಂದು ಜೋಡಿಯ ಮನೆಗೆ ಬರಲು ಆಗದು.",
    notYours:n=>`ಅದು ${n} ಕಾಯಿ. ನಿಮ್ಮದೇ ಹೊಳೆಯುವ ಕಾಯಿ ಮುಟ್ಟಿ.`,
    throwFirst:"ಮೊದಲು ಕವಡೆ ಹಾಕಿ, ನಂತರ ಕಾಯಿ ನಡೆಸಿ.",moveFirst:"ಮೊದಲು ಈ ಎಸೆತದಿಂದ ಹೊಳೆಯುವ ಕಾಯಿಯನ್ನು ನಡೆಸಿ.",
@@ -338,7 +340,7 @@ const T={
    t6b:"ನಿಮ್ಮ ಕಾಯಿ ಮುಟ್ಟಿ, ಅದನ್ನು ನಡುಮನೆಗೆ ಸೇರಿಸಿ.",
    t7:"ಚೆನ್ನಾಗಿ ಆಡಿದಿರಿ! ನಿಯಮಗಳು ಗೊತ್ತಾದವು. ನಾಲ್ಕೂ ಕಾಯಿಗಳನ್ನು ಮೊದಲು ನಡುಮನೆಗೆ ಸೇರಿಸಿದವರು ಗೆಲ್ಲುತ್ತಾರೆ."}},
  hi:{title:"चौका बारा",sub:"कर्नाटक का पारंपरिक खेल",board:"बोर्ड",h5:"5 घर",h7:"7 घर",
-  h5s:"4 कौड़ी · 4 गोटी",h7s:"4 कौड़ी · 4 गोटी · लंबा रास्ता",players:"खिलाड़ी",you:"आप",player:"खिलाड़ी",
+  h5s:"4 कौड़ी · 4 गोटी",h7s:"6 कौड़ी · 6 गोटी · लंबा रास्ता",players:"खिलाड़ी",you:"आप",player:"खिलाड़ी",
   cpuNames:["दादी","दादा","बुआ"],colors:["लाल","हरा","पीला","नीला"],
   play:"खेल शुरू",how:"कैसे खेलें",tutorial:"🎓 खेल सीखें",soundOn:"♪ संगीत चालू",soundOff:"♪ संगीत बंद",throw:"कौड़ियाँ\nफेंको",
   turn:n=>`बारी: ${n}`,yourTurn:"आपकी बारी — कौड़ियाँ फेंको",
@@ -346,23 +348,24 @@ const T={
   noMove:"कोई चाल नहीं",extra:"फिर से फेंको!",
   hit:(a,b)=>`${a} ने ${b} की गोटी मारी!`,youHit:b=>`आपने ${b} की गोटी मारी!`,
   gate:"अभी कोई गोटी नहीं मारी — गोटियाँ अंदर के दरवाज़े पर रुकेंगी",open:"कोई चल नहीं पा रहा था — अब सबके लिए अंदर के घर खुले हैं",
-  entry:"नियम",easy:"आसान",easyS:"बिना मारे अंदर जा सकते हैं",hard:"पारंपरिक",hardS:"पहले मारना होगा · लगातार 3 चौका/बारा रद्द",
+  entry:"नियम",easy:"आसान",easyS:"बिना मारे अंदर जा सकते हैं",hard:"पारंपरिक",hardS:"पहले मारना होगा · लगातार 3 अतिरिक्त बारी रद्द",
   won:n=>`${n} जीते!`,youWon:"आप जीत गए!",again:"फिर खेलें",menu:"वापस",ok:"ठीक है",start:"खेल शुरू",
-  quit:"यह खेल छोड़ें?",yes:"हाँ",no:"नहीं",chowka:"चौका!",bhara:"बारा!",jodi:"जोड़ी!",three:"लगातार तीन चौका/बारा — यह बारी रद्द!",
+  quit:"यह खेल छोड़ें?",yes:"हाँ",no:"नहीं",chowka:"चौका!",bhara:"बारा!",jodi:"जोड़ी!",three:"लगातार तीन अतिरिक्त बारी — यह बारी रद्द!",
   homeCount:"अंदर",home:"एक गोटी बीच के घर पहुँची! 🪷",cardTitle:b=>`कैसे खेलें · ${b}`,
   card:{throw:"4 कौड़ियाँ फेंको और मुँह ऊपर वाली गिनो: 1, 2 या 3. चारों ऊपर = 4 (<b>चौका</b>), सब उलटी = 8 (<b>बारा</b>): दोनों पर एक और बारी।",
+   throw7:"6 कौड़ियाँ फेंको और मुँह ऊपर वाली गिनो: 1 से 5. छहों ऊपर = 6, सब उलटी = 12: दोनों पर एक और बारी।",
    path:"अपने ✕ घर से शुरू करो, बाहर के घरों का चक्कर लगाओ, फिर अंदर घूमते हुए बीच के कमल 🪷 तक पहुँचो।",
    hit:"विरोधी की गोटी वाले घर पर पहुँचो तो उसे मारकर वापस भेजो और फिर फेंको। ✕ वाले घर सुरक्षित हैं: वहाँ कोई नहीं मारा जाता।",
    gate:"पहले एक गोटी मारो — तभी आपकी गोटियाँ अंदर के घरों में जा सकती हैं।",
-   jodi:"अंदर के किसी घर पर आपकी दो गोटियाँ हों तो <b>जोड़ी</b> बनती है: विरोधी उसे पार नहीं कर सकता, न उस पर रुक सकता है। जोड़ी सिर्फ़ 2, 4 या 8 पर आधे घर चलती है, और अकेली गोटी को मार सकती है।",
-   three:"लगातार तीन चौका/बारा आने पर वह पूरी बारी रद्द हो जाती है।",
+   jodi:"अंदर के किसी घर पर आपकी दो गोटियाँ हों तो <b>जोड़ी</b> बनती है: विरोधी उसे पार नहीं कर सकता, न उस पर रुक सकता है। जोड़ी सिर्फ़ सम अंक (2, 4, 6, 8…) पर आधे घर चलती है, और अकेली गोटी को मार सकती है।",
+   three:"लगातार तीन बार अतिरिक्त बारी मिले (चौका, बारा, 6 या 12) तो वह पूरी बारी रद्द हो जाती है।",
    seven:"7 घर: लंबा रास्ता, और अंदर के घेरे में और भी ✕ सुरक्षित घर।",
-   win:"चारों गोटियाँ ठीक गिनती से कमल वाले घर पहुँचाओ और जीतो।"},
+   win:"चारों गोटियाँ ठीक गिनती से कमल वाले घर पहुँचाओ और जीतो।",win7:"छहों गोटियाँ ठीक गिनती से कमल वाले घर पहुँचाओ और जीतो।"},
   why:{home:"यह गोटी पहले ही बीच के घर पहुँच चुकी है 🪷",
    exact:n=>`बीच के घर तक पहुँचने के लिए इस गोटी को ठीक ${n} चाहिए। दूसरी गोटी चलाएँ।`,
    gate:"अंदर के घर बंद हैं 🔒 — पहले विरोधी की एक गोटी मारें। यह गोटी दरवाज़े पर रुकेगी।",
    block:"रास्ते में जोड़ी खड़ी है। अकेली गोटी उसे पार नहीं कर सकती, न उस पर रुक सकती है।",
-   jodiOdd:"यह जोड़ी है। जोड़ी सिर्फ़ 2, 4 या 8 पर साथ चलती है — आधे घर।",
+   jodiOdd:"यह जोड़ी है। जोड़ी सिर्फ़ सम अंक पर साथ चलती है — आधे घर।",
    jodiVsJodi:"आपकी जोड़ी दूसरी जोड़ी के घर पर नहीं आ सकती।",
    notYours:n=>`यह ${n} की गोटी है। अपनी चमकती गोटी छुएँ।`,
    throwFirst:"पहले कौड़ियाँ फेंको, फिर गोटी चलाओ।",moveFirst:"पहले इस फेंक से चमकती गोटी चलाएँ।",
@@ -437,10 +440,10 @@ function newGame(o){
   const players=seats.map((seat,i)=>{
     const type=types[i];let name;
     if(type==="cpu")name=L0.cpuNames[cpuI++%3];else name=(i===0?L0.you:L0.colors[seat]);
-    return{seat,type,name,color:COLORS[seat],path:pathFor(N,seat),pawns:[0,0,0,0],hit:false,isYou:type==="human"&&i===0};
+    return{seat,type,name,color:COLORS[seat],path:pathFor(N,seat),pawns:Array(N===5?4:6).fill(0),hit:false,isYou:type==="human"&&i===0};
   });
   G={N,m:(N-1)/2,players,cur:0,phase:"idle",throwVal:0,extra:false,safe:safeSet(N),
-     last:players[0].path.length-1,gate:4*(N-1),entry:o.entry||S.entry,open:false,stuck:0,cowries:4,legal:[],
+     last:players[0].path.length-1,gate:4*(N-1),entry:o.entry||S.entry,open:false,stuck:0,cowries:N===5?4:6,legal:[],
      over:false,timer:null,streak:0,run:0,snap:null,tut:!!o.tut,force:[]};
 }
 const cellKey=(p,i)=>{const c=p.path[i];return c[0]+","+c[1]};
@@ -453,9 +456,9 @@ function jodiBlock(pi,key){return !G.safe.has(key)&&isInnerKey(key)&&oppAt(pi,ke
 function canEnter(P){return G.entry==="easy"||P.hit||G.open}
 function isJodiAt(P,idx){const key=cellKey(P,idx);return idx<G.last&&isInnerKey(key)&&ownAt(P,key)>=2}
 function throwCowries(){
-  const ups=[];for(let i=0;i<4;i++)ups.push(Math.random()<0.5);
+  const n=G.cowries,ups=[];for(let i=0;i<n;i++)ups.push(Math.random()<0.5);
   const k=ups.filter(Boolean).length;let v,extra=false,label="";
-  if(k===0){v=8;extra=true;label=L().bhara}else if(k===4){v=4;extra=true;label=L().chowka}else v=k;
+  if(k===0){v=n===4?8:12;extra=true;label=L().bhara}else if(k===n){v=n;extra=true;label=n===4?L().chowka:""}else v=k;
   return{ups,v,extra,label};
 }
 /* can the pawn (or Jodi) standing on path index idx move with throw v? */
@@ -483,17 +486,18 @@ function victimsAt(pi,key){
 }
 
 /* ================= AI ================= */
-const DIST={1:.25,2:.375,3:.25,4:.0625,8:.0625};
+const DISTS={4:{1:.25,2:.375,3:.25,4:.0625,8:.0625},6:{1:6/64,2:15/64,3:20/64,4:15/64,5:6/64,6:1/64,12:1/64}};
+const distNow=()=>DISTS[G.cowries];
 function danger(pi,key,willBeJodi){
   if(G.safe.has(key)||key===centreKey()||willBeJodi)return 0;let risk=0;
   G.players.forEach((O,oj)=>{if(oj===pi)return;
     O.pawns.forEach(oi=>{if(oi>=G.last)return;
-      for(const v in DIST){const t=oi+ +v;if(t>G.last)continue;if(oi<G.gate&&t>=G.gate&&!canEnter(O))continue;
-        if(cellKey(O,t)===key)risk+=DIST[v]}})});
+      for(const v in distNow()){const t=oi+ +v;if(t>G.last)continue;if(oi<G.gate&&t>=G.gate&&!canEnter(O))continue;
+        if(cellKey(O,t)===key)risk+=distNow()[v]}})});
   return Math.min(1,risk);
 }
 function hitChance(pi,myIdx){const P=G.players[pi];let c=0;
-  for(const v in DIST){const t=myIdx+ +v;if(t>=G.gate||t>G.last)continue;if(victimsAt(pi,cellKey(P,t)).length)c+=DIST[v]}return c}
+  for(const v in distNow()){const t=myIdx+ +v;if(t>=G.gate||t>G.last)continue;if(victimsAt(pi,cellKey(P,t)).length)c+=distNow()[v]}return c}
 function aiPick(pi,moves){
   const P=G.players[pi];let best=null,bs=-1e9;
   for(const mv of moves){
@@ -798,12 +802,12 @@ function finish(pi){
 
 /* ================= HOW-TO CARD ================= */
 function cardLines(size,entry){
-  const c=L().card,rows=[["🐚",c.throw],["🏁",c.path],["⚔️",c.hit]];
+  const c=L().card,rows=[["🐚",size===7?c.throw7:c.throw],["🏁",c.path],["⚔️",c.hit]];
   if(entry!=="easy")rows.push(["🔒",c.gate]);
   rows.push(["👫",c.jodi]);
   if(entry!=="easy")rows.push(["✋",c.three]);
   if(size===7)rows.push(["🗺️",c.seven]);
-  rows.push(["🏆",c.win]);
+  rows.push(["🏆",size===7?c.win7:c.win]);
   return rows;
 }
 let cardMode="help";
