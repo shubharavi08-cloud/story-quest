@@ -238,7 +238,8 @@ function makePawn(color,bot){const g=new THREE.Group();
 
 /* dice: separate small renderer */
 const dcv=$('#dice'),drend=new THREE.WebGLRenderer({canvas:dcv,antialias:true,alpha:true});drend.setPixelRatio(Math.min(2,devicePixelRatio||1));
-const dscene=new THREE.Scene(),dcam=new THREE.PerspectiveCamera(32,1,.1,20);dcam.position.set(0,3.1,2.4);dcam.lookAt(0,0,0);
+const dscene=new THREE.Scene(),dcam=new THREE.PerspectiveCamera(30,1,.1,40);dcam.position.set(0,6.2,3.4);dcam.lookAt(0,0,.15);
+const dshadow=new THREE.Mesh(new THREE.CircleGeometry(.62,32),new THREE.MeshBasicMaterial({color:0x000000,transparent:true,opacity:.35,depthWrite:false}));dshadow.rotation.x=-Math.PI/2;dshadow.position.y=-.5;dscene.add(dshadow);
 dscene.add(new THREE.HemisphereLight(0xffffff,0x553366,1.1));const dl=new THREE.DirectionalLight(0xffffff,1.4);dl.position.set(-2,4,3);dscene.add(dl);
 function faceTex(v){const c=document.createElement('canvas');c.width=c.height=128;const x=c.getContext('2d');x.fillStyle='#fffaf0';x.fillRect(0,0,128,128);x.strokeStyle='#e9d6b0';x.lineWidth=10;x.strokeRect(5,5,118,118);
  const P={1:[[64,64]],2:[[34,34],[94,94]],3:[[30,30],[64,64],[98,98]],4:[[34,34],[94,34],[34,94],[94,94]],5:[[32,32],[96,32],[64,64],[32,96],[96,96]],6:[[34,30],[34,64],[34,98],[94,30],[94,64],[94,98]]}[v];
@@ -247,25 +248,30 @@ const FACE_VAL=[3,4,1,6,2,5]; // +x,-x,+y,-y,+z,-z
 const NORMALS=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]].map(a=>new THREE.Vector3(...a));
 const die=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),FACE_VAL.map(v=>new THREE.MeshStandardMaterial({map:faceTex(v),roughness:.35})));dscene.add(die);
 die.quaternion.setFromUnitVectors(NORMALS[2],new THREE.Vector3(0,1,0));
-function sizeDice(){const r=dcv.getBoundingClientRect();drend.setSize(r.width,r.height,false);dcam.aspect=1;dcam.updateProjectionMatrix()}
+function sizeDice(){const r=dcv.getBoundingClientRect();if(!r.width)return;drend.setSize(r.width,r.height,false);dcam.aspect=r.width/r.height;
+ const k=r.height<110?1.3:1;dcam.position.set(0,4.9*k,2.7*k);dcam.lookAt(0,0,-.75*k);dcam.updateProjectionMatrix();trayHalf=Math.max(.6,Math.min(4.5,dcam.aspect*1.15*k))}
+let trayHalf=2;
 let diceAnim=null;
 function rollDie(v){return new Promise(res=>{const k=FACE_VAL.indexOf(v),q=new THREE.Quaternion().setFromUnitVectors(NORMALS[k],new THREE.Vector3(0,1,0));
  q.premultiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),(Math.random()-.5)*.8));
- const axis=new THREE.Vector3(Math.random()-.5,Math.random()*.4,Math.random()-.5).normalize(),start=performance.now(),D=950;
- diceAnim=now=>{const s=Math.min(1,(now-start)/D),e=1-Math.pow(1-s,3);const spin=new THREE.Quaternion().setFromAxisAngle(axis,(1-e)*Math.PI*7);
-  die.quaternion.copy(q).premultiply(spin);die.position.y=Math.abs(Math.sin(s*Math.PI*3))*(1-s)*.9;if(s>=1){diceAnim=null;die.position.y=0;res()}}})}
+ const side=Math.random()<.5?-1:1,x0=side*trayHalf,x1=(Math.random()-.5)*.6,z0=(Math.random()-.5)*.6,start=performance.now(),D=1100;
+ const axis=new THREE.Vector3(0,0,-side).add(new THREE.Vector3((Math.random()-.5)*.4,0,(Math.random()-.5)*.4)).normalize();
+ diceAnim=now=>{const s=Math.min(1,(now-start)/D),e=1-Math.pow(1-s,3);const spin=new THREE.Quaternion().setFromAxisAngle(axis,(1-e)*Math.PI*6);
+  die.quaternion.copy(q).premultiply(spin);die.position.x=x0+(x1-x0)*e;die.position.z=z0*(1-e);const hop=Math.abs(Math.sin(s*Math.PI*3.2))*(1-s)*1.1;die.position.y=hop;
+  dshadow.position.x=die.position.x;dshadow.position.z=die.position.z;dshadow.material.opacity=.35-hop*.18;dshadow.scale.setScalar(1-hop*.25);
+  if(s>=1){diceAnim=null;die.position.y=0;res()}}})}
 
 /* ======================= layout & camera fit ======================= */
 let area={x:0,y:0,w:1,h:1},W=1,H=1,portrait=false;
 function layout(){W=innerWidth;H=innerHeight;portrait=W/H<1;renderer.setSize(W,H,false);
- const rail=document.querySelector('.rail').getBoundingClientRect(),top=50;
- if(portrait){area={x:0,y:70,w:W,h:Math.max(160,rail.top-74)}}else{area={x:0,y:top,w:Math.max(200,rail.left-6),h:H-top}}
+ const rail=document.querySelector('.rail').getBoundingClientRect(),top=document.querySelector('.top').getBoundingClientRect().bottom+4;
+ if(portrait){area={x:0,y:top,w:W,h:Math.max(160,rail.top-top-6)}}else{area={x:0,y:top,w:Math.max(200,rail.left-6),h:H-top}}
  camera.aspect=area.w/area.h;fitCamera();sizeDice();fxSize()}
-const camDir=new THREE.Vector3(0,Math.sin(THREE.MathUtils.degToRad(57)),Math.cos(THREE.MathUtils.degToRad(57)));
+let camDir=new THREE.Vector3(0,Math.sin(THREE.MathUtils.degToRad(57)),Math.cos(THREE.MathUtils.degToRad(57)));
 let camDist=20,camTarget=new THREE.Vector3(0,0,.25);
-function fitCamera(){const corners=[[-5.6,-5.6],[5.6,-5.6],[-5.6,5.6],[5.6,5.6]].map(([x,z])=>new THREE.Vector3(x,.3,z));corners.push(new THREE.Vector3(sq(100).x,1.1,sq(100).z));
+function fitCamera(){const el=THREE.MathUtils.degToRad(camera.aspect<1.05?71:camera.aspect<1.5?66:57);camDir=new THREE.Vector3(0,Math.sin(el),Math.cos(el));const corners=[[-5.6,-5.6],[5.6,-5.6],[-5.6,5.6],[5.6,5.6]].map(([x,z])=>new THREE.Vector3(x,.3,z));corners.push(new THREE.Vector3(sq(100).x,1.1,sq(100).z));
  let lo=6,hi=60;for(let i=0;i<24;i++){const d=(lo+hi)/2;camera.position.copy(camTarget).addScaledVector(camDir,d);camera.lookAt(camTarget);camera.updateProjectionMatrix();camera.updateMatrixWorld();
-  const ok=corners.every(c=>{const p=c.clone().project(camera);return Math.abs(p.x)<.97&&Math.abs(p.y)<.96});if(ok)hi=d;else lo=d}
+  const ok=corners.every(c=>{const p=c.clone().project(camera);return Math.abs(p.x)<.985&&Math.abs(p.y)<.97});if(ok)hi=d;else lo=d}
  camDist=hi}
 const ptr={x:0,y:0};let shake=0;
 function placeCamera(ts){const az=ptr.x*.05+Math.sin(ts/5200)*.012,el=ptr.y*.03;
@@ -304,17 +310,14 @@ function startLevel(li){
 
 /* ======================= UI ======================= */
 function renderUI(){
- $('#t-eyebrow').textContent=t('eyebrow');$('#t-title').textContent=t('title');$('#t-lamps').textContent=t('lamps');$('#roll').textContent=t('roll');
+ $('#t-title').textContent=t('title');$('#langbtn').textContent={en:'EN',hi:'हिं',kn:'ಕ'}[lang];if(!G||!G.busy)$('#roll').textContent=t('roll');
  $('#move').textContent=t('move');$('#reroll').textContent=t('reroll');document.documentElement.lang=lang;document.title=t('title')+' · Moksha Patam 3D';
- document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang));
- $('#lvchip').textContent=`${t('level')} ${LV+1}/${LEVELS.length} · ${tx(LEVELS[LV].place)} ▾`;
+ $('#lvchip').textContent=`${LEVELS[LV].icon} ${t('level')} ${LV+1}/${LEVELS.length} · ${tx(LEVELS[LV].place)} ▾`;
  if(!G)return;
- $('#players').innerHTML=G.players.map((p,i)=>`<div class="pl ${i===G.turn&&!G.winner?'turn':''}"><i style="background:${p.color}"></i><b>${esc(displayName(p))}</b>${p.lamps?`<em>🪔${p.lamps}</em>`:''}<span>${p.pos||0}/100</span></div>`).join('');
- const me=G.players.find(p=>!p.bot)||G.players[0];
- $('#tok').innerHTML=[0,1,2].map(i=>`<span class="${i<me.lamps?'on':''}">🪔</span>`).join('');
+ $('#players').innerHTML=G.players.map((p,i)=>`<div class="pc ${i===G.turn&&!G.winner?'turn':''}"><span class="av" style="background:${p.color}">${p.bot?'<img src="img/diya_wave.png" alt="">':esc(displayName(p)[0]||'?')}</span><span class="nm"><b>${esc(displayName(p))}</b><small>${p.pos||0} / 100</small></span>${p.lamps?`<span class="lm">🪔${p.lamps}</span>`:''}</div>`).join('');
  $('#prog').innerHTML=LEVELS.map((_,i)=>`<span class="${i===LV?'cur':(SAVE.stars[i]?'done':'')}" title="${tx(LEVELS[i].place)}"></span>`).join('')}
 function setHint(first){if(!G||G.winner)return;const p=G.players[G.turn];
- $('#hint').textContent=first&&!p.bot&&!SAVE.played?(matchMedia('(pointer:coarse)').matches?t('tipStart').replace(/\s*\([^)]*\)/,''):t('tipStart')):p.bot?t('botTurn')(displayName(p)):t('yourTurn')(G.players.filter(q=>!q.bot).length>1?displayName(p):(p.name===null?null:p.name));
+ $('#hint').textContent=first&&!p.bot&&!SAVE.played?(matchMedia('(pointer:coarse)').matches?t('tipStart').replace(/\s*\([^)]*\)/,'').split(/[.!।]/)[0]+'!':t('tipStart')):p.bot?t('botTurn')(displayName(p)):t('yourTurn')(G.players.filter(q=>!q.bot).length>1?displayName(p):(p.name===null?null:p.name));
  $('#roll').disabled=G.busy||p.bot;$('#roll').classList.toggle('pulse',!G.busy&&!p.bot);renderUI()}
 let toastT=null;function toast(msg,cls='',ms=1900){const d=$('#toast div');d.className='';d.textContent=msg;void d.offsetWidth;d.className='on '+cls;clearTimeout(toastT);toastT=setTimeout(()=>d.className=cls,ms)}
 function overlay(html,cls=''){$('#overlay').innerHTML=`<div class="ov"><div class="card ${cls}">${html}</div></div>`;return $('#overlay .card')}
@@ -403,12 +406,12 @@ const WOW={start(){try{window.WOWPortal&&WOWPortal.start&&WOWPortal.start()}catc
 
 /* ======================= input ======================= */
 const firstGesture=()=>{ac();startMusic()};
-$('#roll').onclick=()=>{firstGesture();takeTurn()};dcv.onclick=()=>{if(!$('#roll').disabled&&$('#roll').style.display!=='none'){firstGesture();takeTurn()}};
+$('#roll').onclick=()=>{firstGesture();takeTurn()};$('#tray').onclick=()=>{if(!$('#roll').disabled&&$('#roll').style.display!=='none'){firstGesture();takeTurn()}};
 addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;if(e.key===' '||e.key==='Enter'){if($('#overlay').innerHTML)return;e.preventDefault();firstGesture();
  if(choiceResolve){choiceResolve(false);return}if(!$('#roll').disabled)takeTurn()}
  if((e.key==='r'||e.key==='R')&&choiceResolve)choiceResolve(true)});
 addEventListener('pointerdown',firstGesture,{once:true});
-document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{lang=b.dataset.lang;try{localStorage.setItem('sq_lang',lang)}catch(e){}SFX.click();buildBoard(LEVELS[LV],LV);G&&G.lit&&Object.keys(G.lit).forEach(n=>lightLamp(+n));renderUI();setHint()});
+$('#langbtn').onclick=()=>{lang={en:'hi',hi:'kn',kn:'en'}[lang];try{localStorage.setItem('sq_lang',lang)}catch(e){}SFX.click();buildBoard(LEVELS[LV],LV);G&&G.lit&&Object.keys(G.lit).forEach(n=>lightLamp(+n));renderUI();setHint()};
 $('#sound').onclick=()=>{sfxOn=!sfxOn;$('#sound').textContent=sfxOn?'🔊':'🔇';$('#sound').setAttribute('aria-pressed',sfxOn)};
 $('#music').onclick=()=>{firstGesture();setMusic(!musicOn)};
 $('#who').onclick=showSetup;$('#mapbtn').onclick=showMap;$('#lvchip').onclick=showMap;
