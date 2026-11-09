@@ -417,12 +417,12 @@ function inward(N,k,[r,c]){const lo=k,hi=N-1-k;
   if(c===hi&&r>lo&&r<hi)return[r,c-1];if(c===lo&&r>lo&&r<hi)return[r,c+1];return null}
 function rotTo(list,cell){const i=list.findIndex(p=>p[0]===cell[0]&&p[1]===cell[1]);return list.slice(i).concat(list.slice(0,i))}
 function buildBasePath(N){
-  if(N===7){ // outer anticlockwise; middle ring clockwise from the house above-left of home, all the way back to it;
+  if(N===7){ // outer anticlockwise; middle ring clockwise from its ✕ corner round to the house beside it;
              // inner ring clockwise from just above that house; into the lotus from below
     const outer=rotTo(ringList(7,0),[6,3]);
-    const mid=rotTo(ringList(7,1).slice().reverse(),[5,2]);
+    const mid=rotTo(ringList(7,1).slice().reverse(),[5,1]); // enter on the ✕ corner, end on the house beside it
     const inner=rotTo(ringList(7,2).slice().reverse(),[4,2]);
-    return outer.concat(mid,[[5,2]],inner,[[3,3]]);
+    return outer.concat(mid,inner,[[3,3]]);
   }
   const m=(N-1)/2,path=[];let entry=[N-1,m];const rings=m;
   for(let k=0;k<rings;k++){
