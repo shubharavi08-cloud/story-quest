@@ -209,6 +209,7 @@ footer{color:var(--muted);font-size:13px;text-align:center}
       <button class="btn" id="win-close">Keep exploring</button>
       <button class="btn ghost" id="win-again">Play again</button>
     </div>
+    <p style="margin:14px 0 0"><a class="btn" href="chowka-bhara.html" style="text-decoration:none">🐚 Next: play Chowka Bhara with family</a></p>
   </div>
 </div>
 
@@ -402,7 +403,7 @@ const quizEl=$('quiz');
 function renderQuiz(){
   const i=state.quiz.i;
   if(i>=Q.length){const n=state.quiz.done.filter(Boolean).length;
-    quizEl.innerHTML=`<div class="card"><h2>Quiz complete!</h2><p class="hint">You answered ${n} of 12 right on the first try and lit ${n} diyas.</p><div class="row"><button class="btn" id="qr">Play again</button></div></div>`;
+    quizEl.innerHTML=`<div class="card"><h2>Quiz complete!</h2><p class="hint">You answered ${n} of 12 right on the first try and lit ${n} diyas.</p><div class="row"><button class="btn" id="qr">Play again</button><a class="btn ghost" href="chowka-bhara.html" style="text-decoration:none">🐚 Play Chowka Bhara</a></div></div>`;
     $('qr').onclick=()=>{state.quiz={i:0,done:[]};state.won=false;save();paint();renderQuiz()};return}
   const [q,opts,ans,ex]=Q[i];
   quizEl.innerHTML=`<p class="hint">Get it right on the first try to light a diya.</p><div class="card"><div class="qmeta">Question ${i+1} of ${Q.length}</div><p class="qtext">${q}</p><div class="opts">${opts.map((o,k)=>`<button class="opt" data-k="${k}">${o}</button>`).join('')}</div><div id="qf"></div></div>`;
@@ -506,5 +507,5 @@ $('go-music').onclick=()=>start(true);$('go-quiet').onclick=()=>start(false);
 <div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
 </div></footer>
 <script src="join.js?v=5" defer></script>
-<script src="game-info.js?v=5" data-game="finale" defer></script>
+<script src="game-info.js?v=6" data-game="finale" defer></script>
 </body></html>

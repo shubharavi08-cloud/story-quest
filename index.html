@@ -281,7 +281,7 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="pal" id="pal" aria-live="polite"><img src="img/diya_wave.png" alt="Diya"><div class="bubble" id="bubble"></div></div>
 
-<script src="game-info.js?v=5"></script>
+<script src="game-info.js?v=6"></script>
 <script>
 /* ===== content ===== */
 const DEEPAVALI = [
@@ -326,6 +326,7 @@ const SECTIONS = [
  {k:'dasara', name:'Dasara · Navratri', group:'Festivals', blurb:'Nine nights, nine forms of Maa Durga, and the victory of good over evil: 14 story and song videos in Hindi, Kannada and Telugu.', img:'img/dasara/navadurga.jpg', open:true, chip:'Watch & play'},
  {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/', gcat:'vedicmaths'},
  {k:'scamalert', name:'Scam Alert', group:'Jagruth Bharath', blurb:'Real scam cases with Mauna the detective owl: watch the video, read the case file, then play. Can Mr. Promise trick you?', img:'jagruth-bharath/img/tile.jpg', open:true, chip:'Watch & play', href:'jagruth-bharath/', gcat:'scamalert'},
+ {k:'traditional', name:'Traditional Games', group:'Games of India', blurb:'Board games our grandparents played, with real cowrie shells and real rules. Start with Chowka Bhara, Karnataka\'s favourite.', img:'img/games/chowka-bhara.webp', open:true, href:'chowka-bhara.html', chip:'Play now', gcat:'traditional'},
  {k:'thought', name:'A Thought a Day', group:'Wisdom · Daily', blurb:'One story. One shloka. One small step. A new thought for your day, in English, Hindi and Kannada.', img:'img/thought/tile.jpg', open:true, href:'thought.html', chip:'Watch now'},
  {k:'songs', name:'Songs', group:'Music · Bhajans', blurb:'All our bhajans and festival songs: Deepavali, Rajyotsava, Navratri and Dasara, and more.', img:'img/celebrate.jpg', open:true, chip:'Listen now'},
  {k:'books', name:'Books', group:'Read', blurb:'Vedic Maths workbooks and story books from World of Wonders.', img:'img/book_vm1_cover.jpg', open:true, href:'books.html', chip:'Coming soon'},
@@ -391,7 +392,7 @@ function langPicker(vers,note=''){
     <div class="lp-row">${vers.map(([l,id],i)=>`<button type="button" class="lang lbtn${i?'':' on'}" data-id="${id}" data-l="${l}" aria-pressed="${!i}" style="--lc:${LCOL[l]||'#ffd35a'}"><b>${LGLYPH[l]||'🌐'}</b>${l}<i aria-hidden="true">✓</i></button>`).join('')}</div>${note}</div>`;
 }
 /* ===== game gallery: big gameplay pictures; full "how to play" + history live on each game page (game-info.js) ===== */
-const GAME_CATS=[['all','🌟 All series'],['deepavali','🪔 Deepavali'],['dasara','🔱 Dasara'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert']];
+const GAME_CATS=[['all','🌟 All series'],['deepavali','🪔 Deepavali'],['dasara','🔱 Dasara'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert'],['traditional','🐚 Traditional']];
 const gameList=()=>window.WOW_GAMES||[];
 const gSoon=()=>`<span class="gsoon" aria-label="Game yet to come"><span>YET TO<br>COME</span></span>`;
 const dsGameImg=e=>{const g=gameList().find(x=>x.href===e.play);return g?g.img:ytImg(e.yt[0][1])};
@@ -423,6 +424,8 @@ function seriesList(){
     videos:[],videoNote:'Video lessons coming soon',extras:[['🧑‍🏫','6 lessons with Acharya ji, inside the games'],['📖','Book 1: Brain Speed! (workbook coming soon)','books.html']]},
    {cat:'scamalert',icon:'🦉',name:'Scam Alert · Jagruth Bharath',line:'Real Indian scam cases solved by Mauna the detective owl: watch, read the case file, then play.',href:'jagruth-bharath/',
     videos:(window.WOW_JB_CASES||[]).map(c=>({t:c.t,img:yt(c.yt),href:'jagruth-bharath/#'+c.id})),extras:[['📂',(window.WOW_JB_CASES||[]).length+' case files to read'],['☎️','Lost money? Call 1930']]}
+   ,{cat:'traditional',icon:'🐚',name:'Traditional Games · Games of India',line:'Board games our grandparents played, with real cowrie shells and real rules.',href:'chowka-bhara.html',
+    videos:[],extras:[['🐚','Real cowrie shells, real rules'],['👪','Play with family on one phone']]}
   ].map(x=>({...x,games:G.filter(g=>g.cat===x.cat)}));
 }
 function seriesBlock(x,o={}){
@@ -539,6 +542,8 @@ function dasara(){
    <p class="lede" style="margin-top:12px">Meet the nine forms of Maa Durga, one each night, and end with Vijayadashami, the day truth wins. Watch each day's story or song, then play its game. More days' games are on the way.</p></div>
    <div class="art"><img class="scene" src="img/dasara/navadurga.jpg" alt="The nine forms of Maa Durga"></div></section>
    ${topicRow('dasara')}
+   <section class="finale"><div><span class="eyebrow">Play together this festival</span><h2>Chowka Bhara</h2><p class="lede">The cowrie board game families in Mysuru and all over Karnataka play together. Throw real shells, race to the lotus. 2–4 players.</p></div>
+   <a class="btn" href="chowka-bhara.html">🐚 Play Chowka Bhara</a></section>
    <section class="finale"><div><span class="eyebrow">Coming soon</span><h2>More Dasara games and a story book</h2><p class="lede">A game for every day of Navratri, and a picture story book of the Navadurga to read together.</p></div>
    <a class="btn ghost" href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">Subscribe for updates</a></section>`;
 }
