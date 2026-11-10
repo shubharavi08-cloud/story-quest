@@ -18,7 +18,8 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 let SAVE={unlocked:1,stars:[],best:[],set:{fast:false,diff:1,music:true,sfx:true,free:false,learn:false},cur:null,played:0,stat:{ladder:0,brave:0,know:0},ach:{}};
 try{const s=JSON.parse(localStorage.getItem('rta3d2')||'null');if(s&&s.unlocked){const set=Object.assign({},SAVE.set,s.set||{}),stat=Object.assign({},SAVE.stat,s.stat||{});SAVE=Object.assign(SAVE,s,{set,stat,ach:s.ach||{}})}}catch(e){}
 function persist(){try{localStorage.setItem('rta3d2',JSON.stringify(SAVE))}catch(e){}}
-const SPD=()=>SAVE.set.fast?.45:1;
+const TURBO=QA&&new URLSearchParams(location.search).has('turbo');   /* QA only: near-instant animation for automated tests */
+const SPD=()=>TURBO?.02:SAVE.set.fast?.45:1;
 
 /* ======================= audio ======================= */
 let AC=null,sfxOn=SAVE.set.sfx,musicOn=SAVE.set.music,musicNode=null;
@@ -186,7 +187,7 @@ let trayHalf=2;
 let diceAnim=null;
 function rollDie(v){return new Promise(res=>{const k=FACE_VAL.indexOf(v),q=new THREE.Quaternion().setFromUnitVectors(NORMALS[k],new THREE.Vector3(0,1,0));
  q.premultiply(new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0,1,0),(Math.random()-.5)*.8));
- const side=Math.random()<.5?-1:1,x0=side*trayHalf,x1=(Math.random()-.5)*.6,z0=(Math.random()-.5)*.6,start=performance.now(),D=1100*(SAVE.set.fast?.6:1);
+ const side=Math.random()<.5?-1:1,x0=side*trayHalf,x1=(Math.random()-.5)*.6,z0=(Math.random()-.5)*.6,start=performance.now(),D=1100*(TURBO?.03:SAVE.set.fast?.6:1);
  const axis=new THREE.Vector3(0,0,-side).add(new THREE.Vector3((Math.random()-.5)*.4,0,(Math.random()-.5)*.4)).normalize();
  diceAnim=now=>{const s=Math.min(1,(now-start)/D),e=1-Math.pow(1-s,3);const spin=new THREE.Quaternion().setFromAxisAngle(axis,(1-e)*Math.PI*6);
   die.quaternion.copy(q).premultiply(spin);die.position.x=x0+(x1-x0)*e;die.position.z=z0*(1-e);const hop=Math.abs(Math.sin(s*Math.PI*3.2))*(1-s)*1.1;die.position.y=hop;
@@ -345,7 +346,7 @@ const forced=[];   /* QA only: queued dice values (?qa) */
 async function takeTurn(){
  if(!G||G.busy||G.winner||G.intro)return;G.busy=true;$('#roll').disabled=true;$('#roll').classList.remove('pulse');$('#roll').textContent=t('rolling');SAVE.played=1;
  const i=G.turn,p=G.players[i];G.extra=false;if(!p.bot)award('first');
- const v=forced.length&&i===0?forced.shift():1+Math.floor(Math.random()*6);$('#rolled').className='';SFX.dice();await rollDie(v);$('#rolled').textContent=v;$('#rolled').className='on';
+ const v=forced.length&&!p.bot?forced.shift():1+Math.floor(Math.random()*6);$('#rolled').className='';SFX.dice();await rollDie(v);$('#rolled').textContent=v;$('#rolled').className='on';
  if(p.pos===0){p.pos=1;pawnMeshes[i].position.copy(pawnSpot(i));if(v>1)await hopTo(i,v);else renderUI()}
  else if(p.pos+v>100){const back=200-(p.pos+v);await hopTo(i,100);toast(t('bounce'));SFX.wrong();await hopTo(i,back)}
  else await hopTo(i,p.pos+v);
@@ -365,9 +366,9 @@ function endLevel(p){WOW.stop();SAVE.cur=null;persist();renderUI();$('#hint').te
   for(let k=0;k<(last?12:6);k++)setTimeout(()=>burst(W*(.15+Math.random()*.7),H*(.15+Math.random()*.35),'fire',60),k*260);setTimeout(()=>burst(W/2,H*.2,'petal',last?140:70),300);
   setTimeout(()=>{const c=overlay(`${last?'<img class="hero" src="img/return.jpg" alt="">':`<div class="big">${lv.icon}</div>`}<span class="tag">${t('level')} ${LV+1} · ${tx(lv.place)}</span><h3>${t('winTitle')(esc(displayName(p)),tx(lv.goal||lv.place))}</h3>${starHtml(s)}
    <p><b>${t('score')}: ${p.score}</b></p><p>${last?t('finalText'):t('stepText')}</p>${last?`<p><b>${t('cert')(esc(displayName(p)),SAVE.stars.reduce((a,b)=>a+(b||0),0))}</b></p>`:''}<p class="small">${t('starsRule')}</p><div class="stack ${last?"":"row"}">${last?'':`<button class="go" id="nx">${t('next')}</button>`}<button class="go alt" id="ag">${t('again')}</button><button class="go ghost" id="mp">${t('map')}</button></div>`);
-   c.querySelector('#nx')?.addEventListener('click',()=>{closeOv();startLevel(LV+1)});c.querySelector('#ag').onclick=()=>{closeOv();startLevel(LV)};c.querySelector('#mp').onclick=()=>showMap(true)},900)}
+   c.querySelector('#nx')?.addEventListener('click',()=>{closeOv();WOW.ad(()=>startLevel(LV+1))});c.querySelector('#ag').onclick=()=>{closeOv();WOW.ad(()=>startLevel(LV))};c.querySelector('#mp').onclick=()=>showMap(true)},900)}
  else{SFX.lose();setTimeout(()=>{const c=overlay(`<div class="big">${lv.icon}</div><span class="tag">${t('level')} ${LV+1} · ${tx(lv.place)}</span><h3>${t('loseTitle')(esc(displayName(p)))}</h3><p>${t('loseText')}</p><div class="stack"><button class="go" id="ag">${t('retry')}</button><button class="go ghost" id="mp">${t('map')}</button></div>`);
-   c.querySelector('#ag').onclick=()=>{closeOv();startLevel(LV)};c.querySelector('#mp').onclick=()=>showMap(true)},700)}}
+   c.querySelector('#ag').onclick=()=>{closeOv();WOW.ad(()=>startLevel(LV))};c.querySelector('#mp').onclick=()=>showMap(true)},700)}}
 
 /* ======================= menu, journey map, players, rules ======================= */
 function showMap(mustPick){SFX.click();WOW.stop();const c=overlay(`<span class="tag">🗺️ ${t('journey')}</span><h3>${t('mapTitle')}</h3><div class="map">${LEVELS.map((l,i)=>{const open=mapOpen(i),s=SAVE.stars[i]||0;
@@ -406,7 +407,10 @@ function showSetup(){SFX.click();let cnt=playerCfg.length;const prev=[...playerC
  c.querySelector('#st').onclick=()=>{collect();let list=prev.slice(0,cnt);if(cnt===1)list.push({name:'Diya',bot:true});if(list.every(x=>x.bot))list[0].bot=false;playerCfg=list;closeOv();startLevel(LV)}}
 
 /* ======================= portal hooks ======================= */
-const WOW={start(){try{window.WOWPortal&&WOWPortal.start&&WOWPortal.start()}catch(e){}},stop(){try{window.WOWPortal&&WOWPortal.stop&&WOWPortal.stop()}catch(e){}}};
+/* the engine only ever talks to window.WOWPortal (platform.js); with no portal it is a no-op */
+const WP=()=>window.WOWPortal;
+const WOW={start(){try{WP()&&WP().start()}catch(e){}},stop(){try{WP()&&WP().stop()}catch(e){}},loaded(){try{WP()&&WP().loaded()}catch(e){}},
+ ad(done){try{if(WP()&&WP().breakAd)return WP().breakAd(done)}catch(e){}done()}};
 
 /* ======================= input ======================= */
 const firstGesture=()=>{ac();startMusic()};
@@ -426,7 +430,7 @@ canvas.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;
  if(hit){const o=hit.object.userData.owner.userData;tip.textContent=`${o.kind==='snake'?'🐍':'🪜'} ${tx(o.title)} · ${o.from} → ${o.to}`;tip.style.display='block';tip.style.left=Math.min(W-tip.offsetWidth-8,e.clientX+14)+'px';tip.style.top=(e.clientY+14)+'px'}
  else tip.style.display='none'});
 canvas.addEventListener('pointerleave',()=>{tip.style.display='none'});
-document.addEventListener('visibilitychange',()=>{if(AC){document.hidden?AC.suspend():AC.resume()}if(document.hidden)WOW.stop();else if(G&&!G.winner&&!G.intro&&!ovOpen())WOW.start()});
+document.addEventListener('visibilitychange',()=>{if(AC){document.hidden?AC.suspend():AC.resume()}if(WP()&&WP().pauseOnHide===false)return;if(document.hidden)WOW.stop();else if(G&&!G.winner&&!G.intro&&!ovOpen())WOW.start()});
 
 /* ======================= loop ======================= */
 function frame(ts){requestAnimationFrame(frame);placeCamera();if(diceAnim)diceAnim(ts);
@@ -441,6 +445,6 @@ function frame(ts){requestAnimationFrame(frame);placeCamera();if(diceAnim)diceAn
 addEventListener('resize',layout);try{new ResizeObserver(()=>layout()).observe(document.querySelector('.rail'))}catch(e){}
 syncButtons();renderUI();layout();
 {const cur=SAVE.cur;if(cur&&LEVELS[cur.lv]&&cur.cfg&&cur.players&&cur.players.some(p=>p.pos>0)){playerCfg=cur.cfg;startLevel(cur.lv,cur)}else startLevel(Math.min(SAVE.unlocked-1,LEVELS.length-1))}
-requestAnimationFrame(frame);
+requestAnimationFrame(()=>{frame(performance.now());WOW.loaded()});
 document.fonts?.ready?.then(()=>{numMat.map.dispose();numMat.map=numbersTexture();numMat.needsUpdate=true;if(G)buildBoard(LEVELS[LV],LV)});
-if(QA)window.__rta={get G(){return G},get LV(){return LV},startLevel,takeTurn,LEVELS,forced,SAVE,place(n,i=0){G.players[i].pos=n;pawnMeshes[i].position.copy(pawnSpot(i));renderUI()}};
+if(QA)window.__rta={get G(){return G},get LV(){return LV},startLevel,takeTurn,LEVELS,forced,SAVE,place(n,i=0){G.players[i].pos=n;pawnMeshes[i].position.copy(pawnSpot(i));renderUI()},sq:n=>{const v=sq(n);return[v.x,v.z]},setCfg(list){playerCfg=list;startLevel(LV)}};
