@@ -233,7 +233,7 @@ function makePawn(color,bot){const g=new THREE.Group();
  const m=new THREE.MeshStandardMaterial({color,roughness:.28,metalness:.15});const b=new THREE.Mesh(new THREE.LatheGeometry(prof,24),m);b.castShadow=true;g.add(b);
  const h=new THREE.Mesh(new THREE.SphereGeometry(.12,20,16),m);h.position.y=.5;h.castShadow=true;g.add(h);
  if(bot){const tex=new THREE.TextureLoader().load('img/diya_wave.png',tx=>{tx.colorSpace=THREE.SRGBColorSpace});const s=new THREE.Sprite(new THREE.SpriteMaterial({map:tex,transparent:true}));s.scale.set(.55,.55,1);s.position.y=.95;g.add(s)}
- const ring=new THREE.Mesh(new THREE.TorusGeometry(.3,.025,8,32),new THREE.MeshBasicMaterial({color,transparent:true,opacity:0}));ring.rotation.x=Math.PI/2;ring.position.y=.02;g.add(ring);
+ const ring=new THREE.Mesh(new THREE.TorusGeometry(.3,.025,8,32),new THREE.MeshBasicMaterial({color,transparent:true,opacity:0}));ring.rotation.x=Math.PI/2;ring.position.y=.02;g.add(ring);const rimW=new THREE.Mesh(new THREE.CylinderGeometry(.285,.285,.03,28),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.5}));rimW.position.y=.015;rimW.castShadow=true;g.add(rimW);
  g.userData={ring};return g}
 
 /* dice: separate small renderer */
@@ -249,7 +249,7 @@ const NORMALS=[[1,0,0],[-1,0,0],[0,1,0],[0,-1,0],[0,0,1],[0,0,-1]].map(a=>new TH
 const die=new THREE.Mesh(new THREE.BoxGeometry(1,1,1),FACE_VAL.map(v=>new THREE.MeshStandardMaterial({map:faceTex(v),roughness:.35})));dscene.add(die);
 die.quaternion.setFromUnitVectors(NORMALS[2],new THREE.Vector3(0,1,0));
 function sizeDice(){const r=dcv.getBoundingClientRect();if(!r.width)return;drend.setSize(r.width,r.height,false);dcam.aspect=r.width/r.height;
- const k=r.height<110?1.3:1;dcam.position.set(0,4.9*k,2.7*k);dcam.lookAt(0,0,-.75*k);dcam.updateProjectionMatrix();trayHalf=Math.max(.6,Math.min(4.5,dcam.aspect*1.15*k))}
+ const k=r.height<80?1.08:r.height<110?1.3:1;dcam.position.set(0,4.9*k,2.7*k);dcam.lookAt(0,0,-.75*k);dcam.updateProjectionMatrix();trayHalf=Math.max(.6,Math.min(4.5,dcam.aspect*1.15*k))}
 let trayHalf=2;
 let diceAnim=null;
 function rollDie(v){return new Promise(res=>{const k=FACE_VAL.indexOf(v),q=new THREE.Quaternion().setFromUnitVectors(NORMALS[k],new THREE.Vector3(0,1,0));
@@ -269,12 +269,12 @@ function layout(){W=innerWidth;H=innerHeight;portrait=W/H<1;renderer.setSize(W,H
  camera.aspect=area.w/area.h;fitCamera();sizeDice();fxSize()}
 let camDir=new THREE.Vector3(0,Math.sin(THREE.MathUtils.degToRad(57)),Math.cos(THREE.MathUtils.degToRad(57)));
 let camDist=20,camTarget=new THREE.Vector3(0,0,.25);
-function fitCamera(){const el=THREE.MathUtils.degToRad(portrait?80:camera.aspect<1.5?66:57);camDir=new THREE.Vector3(0,Math.sin(el),Math.cos(el));const corners=[[-5.6,-5.6],[5.6,-5.6],[-5.6,5.6],[5.6,5.6]].map(([x,z])=>new THREE.Vector3(x,.3,z));corners.push(new THREE.Vector3(sq(100).x,1.1,sq(100).z));const mx=portrait?.972:.985,my=portrait?.985:.97;
+function fitCamera(){const el=THREE.MathUtils.degToRad(portrait?89.2:camera.aspect<1.5?66:57);camDir=new THREE.Vector3(0,Math.sin(el),Math.cos(el));const corners=[[-5.6,-5.6],[5.6,-5.6],[-5.6,5.6],[5.6,5.6]].map(([x,z])=>new THREE.Vector3(x*(portrait?.985:1),portrait?0:.3,z*(portrait?.985:1)));if(!portrait)corners.push(new THREE.Vector3(sq(100).x,1.1,sq(100).z));camTarget.z=portrait?0:.25;const mx=portrait?.999:.985,my=portrait?.999:.97;
  let lo=6,hi=60;for(let i=0;i<24;i++){const d=(lo+hi)/2;camera.position.copy(camTarget).addScaledVector(camDir,d);camera.lookAt(camTarget);camera.updateProjectionMatrix();camera.updateMatrixWorld();
   const ok=corners.every(c=>{const p=c.clone().project(camera);return Math.abs(p.x)<mx&&Math.abs(p.y)<my});if(ok)hi=d;else lo=d}
  camDist=hi}
 const ptr={x:0,y:0};let shake=0;
-function placeCamera(ts){const az=ptr.x*.05+Math.sin(ts/5200)*.012,el=ptr.y*.03;
+function placeCamera(ts){const az=portrait?0:ptr.x*.05+Math.sin(ts/5200)*.012,el=portrait?0:ptr.y*.03;
  const dir=camDir.clone().applyAxisAngle(new THREE.Vector3(0,1,0),az);dir.y+=el;dir.normalize();
  camera.position.copy(camTarget).addScaledVector(dir,camDist);if(shake>0){camera.position.x+=(Math.random()-.5)*shake;camera.position.y+=(Math.random()-.5)*shake;shake*=.9;if(shake<.002)shake=0}
  camera.lookAt(camTarget)}
@@ -297,7 +297,7 @@ function fxDraw(){fc.clearRect(0,0,W,H);for(let i=parts.length-1;i>=0;i--){const
 let G=null,LV=0,players=[],playerCfg=[{name:null,bot:false},{name:'Diya',bot:true}];
 const pawnMeshes=[];
 function pawnSpot(i){const p=G.players[i],base=sq(p.pos||1),same=G.players.filter(q=>(q.pos||1)===(p.pos||1)),k=same.indexOf(p),n=same.length;
- if(n>1){const a=k/n*Math.PI*2;base.x+=Math.cos(a)*.2;base.z+=Math.sin(a)*.2}if(!p.pos){base.x+=-.62+i*.0;base.z+=.85-i*.0;base.x+= (i%2)*.32-.1; base.z+=Math.floor(i/2)*.32}return base}
+ if(n>1){const a=k/n*Math.PI*2;base.x+=Math.cos(a)*.2;base.z+=Math.sin(a)*.2}if(!p.pos){base.x+=(i%2)*.36-.18;base.z+=.12+Math.floor(i/2)*.26}return base}
 function displayName(p){return p.name===null?t('youWord'):p.name}
 
 function startLevel(li){
