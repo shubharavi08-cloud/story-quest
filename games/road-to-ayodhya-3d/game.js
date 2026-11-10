@@ -447,4 +447,4 @@ syncButtons();renderUI();layout();
 {const cur=SAVE.cur;if(cur&&LEVELS[cur.lv]&&cur.cfg&&cur.players&&cur.players.some(p=>p.pos>0)){playerCfg=cur.cfg;startLevel(cur.lv,cur)}else startLevel(Math.min(SAVE.unlocked-1,LEVELS.length-1))}
 requestAnimationFrame(()=>{frame(performance.now());WOW.loaded()});
 document.fonts?.ready?.then(()=>{numMat.map.dispose();numMat.map=numbersTexture();numMat.needsUpdate=true;if(G)buildBoard(LEVELS[LV],LV)});
-if(QA)window.__rta={get G(){return G},get LV(){return LV},startLevel,takeTurn,LEVELS,forced,SAVE,place(n,i=0){G.players[i].pos=n;pawnMeshes[i].position.copy(pawnSpot(i));renderUI()},sq:n=>{const v=sq(n);return[v.x,v.z]},setCfg(list){playerCfg=list;startLevel(LV)}};
+if(QA)window.__rta={get G(){return G},get LV(){return LV},startLevel,takeTurn,LEVELS,forced,SAVE,place(n,i=0){G.players[i].pos=n;pawnMeshes[i].position.copy(pawnSpot(i));renderUI()},sq:n=>{const v=sq(n);return[v.x,v.z]},game:k=>{window.__mg=null;runGame(k,{card:overlay,close:closeOv,t,tx,SFX,peek:v=>({sq:v,mark:''})}).then(r=>window.__mg=r)},setCfg(list){playerCfg=list;startLevel(LV)}};
