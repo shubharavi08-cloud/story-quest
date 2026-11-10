@@ -103,6 +103,14 @@ L.kn.mg={tag:'ಸವಾಲು',win:'ಭೇಷ್! +25 ಅಂಕ, 3 ಹೆಜ್�
  dice2:{t:'ನಿಮ್ಮ ನಡೆ ಆರಿಸಿ',d:'ಎರಡು ದಾಳ ಬಿದ್ದಿವೆ. ಬೇಕಾದದ್ದನ್ನು ಆರಿಸಿ.',opt:(v,n)=>`${v} → ಮನೆ ${n}`}};
 L.kn.cert=(n,s)=>`🏆 ಪಯಣ ಪೂರ್ಣ! ${n} ಒಂಬತ್ತೂ ಹಂತಗಳನ್ನು 27ರಲ್ಲಿ ${s} ನಕ್ಷತ್ರಗಳೊಂದಿಗೆ ಮುಗಿಸಿದರು.`;
 
+/* achievements and play modes */
+Object.assign(L.en,{achTitle:'Badges',achNew:'🏅 New badge:',free:'Free play (all levels open)',learn:'Learning mode (more questions)',learnQ:'Right! +10 points.',
+ ach:{first:['First Roll','Roll the dice once'],ladder:['Ladder Climber','Climb 5 ladders'],brave:['Brave Explorer','Win 3 challenges'],know:['Knowledge Champion','Answer 10 questions right'],hunter:['Treasure Hunter','Collect every treasure on one board'],master:['Journey Master','Finish all nine levels']}});
+Object.assign(L.hi,{achTitle:'बिल्ले',achNew:'🏅 नया बिल्ला:',free:'खुला खेल (सभी स्तर खुले)',learn:'सीखने का तरीका (ज़्यादा सवाल)',learnQ:'सही! +10 अंक।',
+ ach:{first:['पहला पासा','एक बार पासा फेंको'],ladder:['सीढ़ी वीर','5 सीढ़ियाँ चढ़ो'],brave:['साहसी यात्री','3 चुनौतियाँ जीतो'],know:['ज्ञान विजेता','10 सवालों के सही उत्तर दो'],hunter:['ख़ज़ाना खोजी','एक बोर्ड के सारे ख़ज़ाने जमा करो'],master:['यात्रा विजेता','नौ के नौ स्तर पूरे करो']}});
+Object.assign(L.kn,{achTitle:'ಪದಕಗಳು',achNew:'🏅 ಹೊಸ ಪದಕ:',free:'ಮುಕ್ತ ಆಟ (ಎಲ್ಲ ಹಂತ ತೆರೆದಿವೆ)',learn:'ಕಲಿಕೆಯ ಆಟ (ಹೆಚ್ಚು ಪ್ರಶ್ನೆ)',learnQ:'ಸರಿ! +10 ಅಂಕ.',
+ ach:{first:['ಮೊದಲ ದಾಳ','ಒಮ್ಮೆ ದಾಳ ಎಸೆಯಿರಿ'],ladder:['ಏಣಿ ವೀರ','5 ಏಣಿ ಏರಿ'],brave:['ಧೀರ ಪಯಣಿಗ','3 ಸವಾಲು ಗೆಲ್ಲಿ'],know:['ಜ್ಞಾನ ವಿಜೇತ','10 ಪ್ರಶ್ನೆಗಳಿಗೆ ಸರಿ ಉತ್ತರ ಕೊಡಿ'],hunter:['ನಿಧಿ ಶೋಧಕ','ಒಂದು ಹಲಗೆಯ ಎಲ್ಲ ನಿಧಿ ಸಂಗ್ರಹಿಸಿ'],master:['ಪಯಣ ವಿಜೇತ','ಒಂಬತ್ತೂ ಹಂತ ಮುಗಿಸಿ']}});
+
 export const VIRTUES=[{en:"Kevat's kindness",hi:'केवट की सेवा',kn:'ಕೇವಟನ ಸೇವೆ'},{en:"Bharat's loyalty",hi:'भरत की निष्ठा',kn:'ಭರತನ ನಿಷ್ಠೆ'},{en:"Shabari's devotion",hi:'शबरी की भक्ति',kn:'ಶಬರಿಯ ಭಕ್ತಿ'},
  {en:"Jatayu's courage",hi:'जटायु का साहस',kn:'ಜಟಾಯುವಿನ ಧೈರ್ಯ'},{en:"Hanuman's great leap",hi:'हनुमान की छलाँग',kn:'ಹನುಮಂತನ ನೆಗೆತ'},{en:"Vibhishana's truth",hi:'विभीषण का सत्य',kn:'ವಿಭೀಷಣನ ಸತ್ಯ'},
  {en:"The squirrel's help",hi:'गिलहरी की मदद',kn:'ಅಳಿಲು ಸೇವೆ'},{en:"Lakshman's service",hi:'लक्ष्मण की सेवा',kn:'ಲಕ್ಷ್ಮಣನ ಸೇವೆ'},{en:"Sita's courage",hi:'सीता का धैर्य',kn:'ಸೀತೆಯ ಧೈರ್ಯ'}];

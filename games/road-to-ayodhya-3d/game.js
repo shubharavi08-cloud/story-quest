@@ -15,8 +15,8 @@ const t=k=>L[lang][k]??L.en[k], tx=o=>o[lang]||o.en, $=s=>document.querySelector
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 /* ======================= save (all storage access is guarded: private browsing must not break the game) ======================= */
-let SAVE={unlocked:1,stars:[],best:[],set:{fast:false,diff:1,music:true,sfx:true},cur:null,played:0};
-try{const s=JSON.parse(localStorage.getItem('rta3d2')||'null');if(s&&s.unlocked){const set=Object.assign({},SAVE.set,s.set||{});SAVE=Object.assign(SAVE,s,{set})}}catch(e){}
+let SAVE={unlocked:1,stars:[],best:[],set:{fast:false,diff:1,music:true,sfx:true,free:false,learn:false},cur:null,played:0,stat:{ladder:0,brave:0,know:0},ach:{}};
+try{const s=JSON.parse(localStorage.getItem('rta3d2')||'null');if(s&&s.unlocked){const set=Object.assign({},SAVE.set,s.set||{}),stat=Object.assign({},SAVE.stat,s.stat||{});SAVE=Object.assign(SAVE,s,{set,stat,ach:s.ach||{}})}}catch(e){}
 function persist(){try{localStorage.setItem('rta3d2',JSON.stringify(SAVE))}catch(e){}}
 const SPD=()=>SAVE.set.fast?.45:1;
 
@@ -161,7 +161,7 @@ function buildBoard(lv,li){
 function makePawn(p,label){const g=new THREE.Group(),cv=document.createElement('canvas');cv.width=cv.height=160;const x=cv.getContext('2d'),tex=new THREE.CanvasTexture(cv);tex.colorSpace=THREE.SRGBColorSpace;
  const draw=img=>{x.clearRect(0,0,160,160);x.fillStyle='#fff';x.beginPath();x.arc(80,80,78,0,7);x.fill();x.fillStyle=p.color;x.beginPath();x.arc(80,80,66,0,7);x.fill();
   if(img){x.save();x.beginPath();x.arc(80,80,66,0,7);x.clip();x.drawImage(img,2,8,156,156);x.restore()}
-  else{x.fillStyle='#fff';x.font='800 92px "Baloo 2",sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(label,80,88)}tex.needsUpdate=true};
+  else{x.fillStyle='#fff';x.font=`800 ${label.length>1?72:92}px "Baloo 2","Baloo Tamma 2",sans-serif`;x.textAlign='center';x.textBaseline='middle';x.fillText(label,80,88)}tex.needsUpdate=true};
  draw();if(p.bot){const im=new Image();im.onload=()=>draw(im);im.src='img/diya_wave.png'}
  const side=new THREE.MeshStandardMaterial({color:p.color,roughness:.4,transparent:true}),cap=new THREE.MeshBasicMaterial({map:tex,transparent:true,toneMapped:false});
  const body=new THREE.Mesh(new THREE.CylinderGeometry(.36,.38,.16,40),[side,cap,side]);body.position.y=.08;body.rotation.y=Math.PI/2;body.castShadow=true;body.renderOrder=8;g.add(body);
@@ -228,7 +228,10 @@ let G=null,LV=0,playerCfg=[{name:null,bot:false},{name:'Diya',bot:true}];
 const pawnMeshes=[];
 function pawnSpot(i){const p=G.players[i],base=sq(p.pos||1),same=G.players.filter(q=>(q.pos||1)===(p.pos||1)),k=same.indexOf(p),n=same.length;
  if(n>1){const a=k/n*Math.PI*2+.6;base.x+=Math.cos(a)*.25;base.z+=Math.sin(a)*.25}return base}
-function displayName(p){return p.name===null?t('youWord'):p.name}
+const DIYA={en:'Diya',hi:'दिया',kn:'ದಿಯಾ'};
+function displayName(p){return p.name===null?t('youWord'):(p.bot&&p.name==='Diya'?tx(DIYA):p.name)}
+/* first letter as people read it (keeps Indian-script vowel signs with their consonant) */
+function initial(p){const s=displayName(p)||'?';try{return [...new Intl.Segmenter(lang,{granularity:'grapheme'}).segment(s)][0].segment.toUpperCase()}catch(e){return s[0].toUpperCase()}}
 const humans=()=>G.players.filter(q=>!q.bot).length;
 
 function startLevel(li,restore){
@@ -237,7 +240,7 @@ function startLevel(li,restore){
  if(restore){G.turn=restore.turn||0;G.taken=restore.taken||{};G.stones=restore.stones||0;G.bridge=!!restore.bridge;restore.players.forEach((s,i)=>G.players[i]&&Object.assign(G.players[i],s))}
  buildBoard(lv,li);
  pawnMeshes.forEach(m=>world.remove(m));pawnMeshes.length=0;
- G.players.forEach((p,i)=>{const m=makePawn(p,(displayName(p)[0]||'?').toUpperCase());pawnMeshes.push(m);world.add(m);m.position.copy(pawnSpot(i))});
+ G.players.forEach((p,i)=>{const m=makePawn(p,initial(p));pawnMeshes.push(m);world.add(m);m.position.copy(pawnSpot(i))});
  $('#rolled').className='';renderUI();setHint(true);
  if(restore){WOW.start();maybeBot();return}
  saveCur();showIntro()}
@@ -260,7 +263,7 @@ function renderUI(){
  $('#prog').innerHTML=LEVELS.map((_,i)=>`<span class="${i===LV?'cur':(SAVE.stars[i]?'done':'')}"></span>`).join('');
  $('#menu').title=t('menu');$('#music').title=t('music');$('#sound').title=t('sound');
  if(!G)return;const lead=Math.max(...G.players.map(p=>p.pos||0));
- $('#players').innerHTML=G.players.map((p,i)=>`<div class="pc ${i===G.turn&&!G.winner?'turn':''}">${lead>0&&(p.pos||0)===lead&&G.players.filter(q=>(q.pos||0)===lead).length===1?`<span class="crown" title="${t('ahead')}">👑</span>`:''}<span class="av" style="background:${p.color}">${p.bot?'<img src="img/diya_wave.png" alt="">':esc((displayName(p)[0]||'?').toUpperCase())}</span><span class="nm"><b>${esc(displayName(p))}</b><small>${p.pos||0} / 100 · <em>⭐ ${p.score}</em></small></span></div>`).join('')}
+ $('#players').innerHTML=G.players.map((p,i)=>`<div class="pc ${i===G.turn&&!G.winner?'turn':''}">${lead>0&&(p.pos||0)===lead&&G.players.filter(q=>(q.pos||0)===lead).length===1?`<span class="crown" title="${t('ahead')}">👑</span>`:''}<span class="av" style="background:${p.color}">${p.bot?'<img src="img/diya_wave.png" alt="">':esc(initial(p))}</span><span class="nm"><b>${esc(displayName(p))}</b><small>${p.pos||0} / 100 · <em>⭐ ${p.score}</em></small></span></div>`).join('')}
 function setHint(first){if(!G||G.winner)return;const p=G.players[G.turn];
  $('#hint').textContent=first&&!p.bot&&!SAVE.played?(matchMedia('(pointer:coarse)').matches?t('tipStart').replace(/\s*\([^)]*\)/,'').split(/[.!।]/)[0]+'!':t('tipStart')):p.bot?t('botTurn')(displayName(p)):t('yourTurn')(humans()>1?displayName(p):(p.name===null?null:p.name));
  $('#roll').disabled=G.busy||p.bot;$('#roll').classList.toggle('pulse',!G.busy&&!p.bot);renderUI()}
@@ -279,6 +282,12 @@ async function glideTo(i,n){const m=pawnMeshes[i],from=m.position.clone();G.play
 async function followPath(i,path,ms,lift){const m=pawnMeshes[i];const curve=new THREE.CatmullRomCurve3(path.map(v=>v.clone()));
  await animate(s=>{const e=s<.5?2*s*s:1-Math.pow(-2*s+2,2)/2;const v=curve.getPointAt(e);m.position.set(v.x,v.y+lift,v.z);if(Math.random()<.4)burstAt(m.position,lift>.2?'green':'smoke',1)},ms)}
 function addScore(p,n,at){p.score+=n;if(at)burstAt(at,'spark',14);renderUI()}
+
+/* ---------- badges (only people earn them, not Diya) ---------- */
+const ACH_ICON={first:'🎲',ladder:'🪜',brave:'🎯',know:'📚',hunter:'💎',master:'🏆'},ACH_NEED={ladder:5,brave:3,know:10};
+function award(id){if(SAVE.ach[id])return;SAVE.ach[id]=1;persist();setTimeout(()=>{toast(`${t('achNew')} ${ACH_ICON[id]} ${t('ach')[id][0]}`,'ladder',2600);SFX.bell()},1700)}
+function count(p,k){if(p.bot)return;SAVE.stat[k]=(SAVE.stat[k]||0)+1;persist();if(SAVE.stat[k]>=ACH_NEED[k])award(k)}
+const mapOpen=i=>SAVE.set.free||i<SAVE.unlocked;
 
 /* ---------- cards ---------- */
 function pickQ(){const ok=q=>!q.d||q.d<=SAVE.set.diff+1;let pool=QUESTIONS.map((_,i)=>i).filter(i=>ok(QUESTIONS[i])&&!G.usedQ.includes(i));
@@ -299,13 +308,14 @@ function infoCard(icon,tag,title,text){WOW.stop();return new Promise(res=>{const
 async function resolveSquare(i,depth=0){const p=G.players[i],lv=LEVELS[LV],m=pawnMeshes[i];if(p.pos>=100)return;
  const lad=hoverables.find(h=>h.userData.kind==='ladder'&&h.userData.from===p.pos),snk=hoverables.find(h=>h.userData.kind==='snake'&&h.userData.from===p.pos);
  if(lad){toast(`🪜 ${t('ladderUp')} ${lad.userData.from} → ${lad.userData.to} · ${tx(lad.userData.title)}`,'ladder',2300);SFX.ladder();glowObj(lad,0x46b882);
-  await followPath(i,lad.userData.path,1000,.25);p.pos=lad.userData.to;m.position.copy(pawnSpot(i));addScore(p,10,m.position);return resolveSquare(i,depth+1)}
+  await followPath(i,lad.userData.path,1000,.25);p.pos=lad.userData.to;m.position.copy(pawnSpot(i));addScore(p,10,m.position);count(p,'ladder');return resolveSquare(i,depth+1)}
  if(snk){toast(`🐍 ${t('snakeDown')} ${snk.userData.from} → ${snk.userData.to} · ${tx(snk.userData.title)}`,'snake',2300);SFX.snake();shake=.25;p.bites++;snk.userData.bite=performance.now();glowObj(snk,0xe0405a);
   await followPath(i,snk.userData.path,1300,.1);p.pos=snk.userData.to;m.position.copy(pawnSpot(i));burstAt(m.position,'smoke',14);renderUI();
   if(p.cp>p.pos){await sleep(350*SPD());toast(t('cpSave'),'ladder');SFX.right();await glideTo(i,p.cp)}return}
  const ty=lv.sp[p.pos];if(!ty||depth>2)return;const n=p.pos,key=ty+n;
- if(ty==='s'){if(!p.done[key]){p.done[key]=1;addScore(p,10,m.position);toast('⭐ +10');SFX.bell()}}
- else if(ty==='t'){if(!G.taken[n]){G.taken[n]=1;p.items++;const s=itemObjs[n];if(s){boardGroup.remove(s);delete itemObjs[n]}addScore(p,20,m.position);toast(`${itemIcon(lv,n)} ${t('treasure')} +20`);SFX.right();if(lv.bridge){await sleep(900*SPD());await addStone()}}}
+ if(ty==='s'){if(!p.done[key]){p.done[key]=1;addScore(p,10,m.position);toast('⭐ +10');SFX.bell();
+   if(SAVE.set.learn&&!p.bot){await sleep(700*SPD());if(await quiz('⭐',t('sqName').q,t('learnQ'),t('wrong'))){addScore(p,10,m.position);count(p,'know')}}}}
+ else if(ty==='t'){if(!G.taken[n]){G.taken[n]=1;p.items++;const s=itemObjs[n];if(s){boardGroup.remove(s);delete itemObjs[n]}addScore(p,20,m.position);toast(`${itemIcon(lv,n)} ${t('treasure')} +20`);SFX.right();if(!p.bot&&p.items>=Object.values(lv.sp).filter(x=>x==='t').length)award('hunter');if(lv.bridge){await sleep(900*SPD());await addStone()}}}
  else if(ty==='k'){if(p.cp<n){p.cp=n;toast(t('cpSet'));SFX.bell();burstAt(m.position,'green',20)}}
  else if(ty==='b'){G.extra=true;toast(t('bonusRoll'));SFX.right()}
  else if(ty==='y'){if(!p.done[key]){p.done[key]=1;addScore(p,5);const sc=lv.scenes.length?lv.scenes[Object.keys(p.done).filter(k=>k[0]==='y').length%lv.scenes.length]:lv.line;
@@ -316,16 +326,16 @@ async function resolveSquare(i,depth=0){const p=G.players[i],lv=LEVELS[LV],m=paw
   else{await hopTo(i,Math.max(1,Math.min(100,n+(o==='mFwd'?3:-2))));return resolveSquare(i,depth+1)}}
  else if(ty==='q'){const ok=p.bot?Math.random()<lv.bot:await quiz('❓',t('sqName').q,t('qRight'),t('wrong'));
   if(p.bot)toast(`❓ ${displayName(p)}: ${ok?'✓':'✗'}`);
-  if(ok){addScore(p,15,m.position);await hopTo(i,Math.min(100,n+2));return resolveSquare(i,depth+1)}}
+  if(ok){count(p,'know');addScore(p,15,m.position);await hopTo(i,Math.min(100,n+2));return resolveSquare(i,depth+1)}}
  else if(ty==='c'){const kinds=lv.games&&lv.games.length?lv.games:['order'],kind=kinds[(G.cCount++)%kinds.length];let r;
   if(p.bot){const ok=Math.random()<lv.bot;r=kind==='paths'?{ok,move:ok?6:-2,pts:ok?25:0}:kind==='dice2'?{ok:true,move:1+(Math.random()*6|0),pts:10}:{ok};toast(`🎯 ${displayName(p)}: ${r.ok?'✓':'✗'}`,'',1500);await sleep(700*SPD())}
   else{WOW.stop();r=await runGame(kind,{card:overlay,close:closeOv,t,tx,SFX,peek:v=>{let s=n+v;if(s>100)s=200-s;return{sq:s,mark:lv.S.some(x=>x[0]===s)?'🐍':lv.L.some(x=>x[0]===s)?'🪜':lv.sp[s]?(lv.sp[s]==='t'?itemIcon(lv,s):SQ_ICON[lv.sp[s]]):''}}});WOW.start()}
-  const pts=r.pts??(r.ok?25:0),mvn=r.move??(r.ok?3:0);if(pts)addScore(p,pts,m.position);
+  const pts=r.pts??(r.ok?25:0),mvn=r.move??(r.ok?3:0);if(pts)addScore(p,pts,m.position);if(r.ok)count(p,'brave');
   if(r.ok&&kind==='team'){toast(t('mg').team.teamWin,'ladder',2200);for(let k=0;k<G.players.length;k++){const q=G.players[k];if(k!==i&&q.pos>0&&q.pos<99){q.score+=10;await hopTo(k,q.pos+1)}}}
   if(r.ok&&kind==='bridge')await addStone();
   if(mvn){let tg=n+mvn;if(tg>100)tg=200-tg;await hopTo(i,Math.max(1,tg));return resolveSquare(i,depth+1)}}
  else if(ty==='o'){const ok=p.bot?Math.random()<lv.bot:await quiz('🚧',t('sqName').o,t('oRight'),t('oWrong'));
-  if(!ok){p.skip=1;if(p.bot)toast('🚧 '+t('skip')(displayName(p)))}else if(p.bot)toast('🚧 ✓')}}
+  if(!ok){p.skip=1;if(p.bot)toast('🚧 '+t('skip')(displayName(p)))}else{count(p,'know');if(p.bot)toast('🚧 ✓')}}}
 /* Rameswaram: every stone brings the bridge closer; the finished bridge is a new ladder */
 async function addStone(){const lv=LEVELS[LV];if(!lv.bridge||G.bridge)return;G.stones++;toast('🪨 '+t('mg').bridge.count(Math.min(G.stones,lv.need),lv.need),'',1600);
  if(G.stones>=lv.need){G.bridge=true;await sleep(1000*SPD());const m=makeLadder(lv.bridge[0],lv.bridge[1],6);boardGroup.add(m);hoverables.push(m);glowObj(m,0x46b882);SFX.ladder();toast(t('mg').bridge.built,'ladder',2800);await sleep(1300*SPD())}}
@@ -334,7 +344,7 @@ function glowObj(g,col){g.traverse(o=>{if(o.material&&o.material.emissive){o.mat
 const forced=[];   /* QA only: queued dice values (?qa) */
 async function takeTurn(){
  if(!G||G.busy||G.winner||G.intro)return;G.busy=true;$('#roll').disabled=true;$('#roll').classList.remove('pulse');$('#roll').textContent=t('rolling');SAVE.played=1;
- const i=G.turn,p=G.players[i];G.extra=false;
+ const i=G.turn,p=G.players[i];G.extra=false;if(!p.bot)award('first');
  const v=forced.length&&i===0?forced.shift():1+Math.floor(Math.random()*6);$('#rolled').className='';SFX.dice();await rollDie(v);$('#rolled').textContent=v;$('#rolled').className='on';
  if(p.pos===0){p.pos=1;pawnMeshes[i].position.copy(pawnSpot(i));if(v>1)await hopTo(i,v);else renderUI()}
  else if(p.pos+v>100){const back=200-(p.pos+v);await hopTo(i,100);toast(t('bounce'));SFX.wrong();await hopTo(i,back)}
@@ -351,7 +361,7 @@ async function maybeBot(){if(!G||G.winner||G.intro)return;const p=G.players[G.tu
 function stars(p){return 1+(p.score>=60?1:0)+(p.bites<=1?1:0)}
 function starHtml(n){return `<div class="stars">${[0,1,2].map(i=>`<i class="${i<n?'on':''}">★</i>`).join('')}</div>`}
 function endLevel(p){WOW.stop();SAVE.cur=null;persist();renderUI();$('#hint').textContent='';const lv=LEVELS[LV],last=LV===LEVELS.length-1;
- if(!p.bot){p.score+=50;const s=stars(p);SAVE.stars[LV]=Math.max(SAVE.stars[LV]||0,s);SAVE.best[LV]=Math.max(SAVE.best[LV]||0,p.score);SAVE.unlocked=Math.max(SAVE.unlocked,Math.min(LEVELS.length,LV+2));persist();SFX.win();renderUI();
+ if(!p.bot){p.score+=50;const s=stars(p);SAVE.stars[LV]=Math.max(SAVE.stars[LV]||0,s);SAVE.best[LV]=Math.max(SAVE.best[LV]||0,p.score);SAVE.unlocked=Math.max(SAVE.unlocked,Math.min(LEVELS.length,LV+2));persist();SFX.win();if(LEVELS.every((_,k)=>SAVE.stars[k]))award('master');renderUI();
   for(let k=0;k<(last?12:6);k++)setTimeout(()=>burst(W*(.15+Math.random()*.7),H*(.15+Math.random()*.35),'fire',60),k*260);setTimeout(()=>burst(W/2,H*.2,'petal',last?140:70),300);
   setTimeout(()=>{const c=overlay(`${last?'<img class="hero" src="img/return.jpg" alt="">':`<div class="big">${lv.icon}</div>`}<span class="tag">${t('level')} ${LV+1} · ${tx(lv.place)}</span><h3>${t('winTitle')(esc(displayName(p)),tx(lv.goal||lv.place))}</h3>${starHtml(s)}
    <p><b>${t('score')}: ${p.score}</b></p><p>${last?t('finalText'):t('stepText')}</p>${last?`<p><b>${t('cert')(esc(displayName(p)),SAVE.stars.reduce((a,b)=>a+(b||0),0))}</b></p>`:''}<p class="small">${t('starsRule')}</p><div class="stack ${last?"":"row"}">${last?'':`<button class="go" id="nx">${t('next')}</button>`}<button class="go alt" id="ag">${t('again')}</button><button class="go ghost" id="mp">${t('map')}</button></div>`);
@@ -360,7 +370,7 @@ function endLevel(p){WOW.stop();SAVE.cur=null;persist();renderUI();$('#hint').te
    c.querySelector('#ag').onclick=()=>{closeOv();startLevel(LV)};c.querySelector('#mp').onclick=()=>showMap(true)},700)}}
 
 /* ======================= menu, journey map, players, rules ======================= */
-function showMap(mustPick){SFX.click();WOW.stop();const c=overlay(`<span class="tag">🗺️ ${t('journey')}</span><h3>${t('mapTitle')}</h3><div class="map">${LEVELS.map((l,i)=>{const open=i<SAVE.unlocked,s=SAVE.stars[i]||0;
+function showMap(mustPick){SFX.click();WOW.stop();const c=overlay(`<span class="tag">🗺️ ${t('journey')}</span><h3>${t('mapTitle')}</h3><div class="map">${LEVELS.map((l,i)=>{const open=mapOpen(i),s=SAVE.stars[i]||0;
  return `<button data-l="${i}" class="${i===LV?'cur':''}" ${open?'':'disabled title="'+t('locked')+'"'}><b>${open?l.icon:'🔒'}</b>${i+1}. ${tx(l.place)}<small>${'★'.repeat(s)}${'☆'.repeat(3-s)}</small></button>`}).join('')}</div>
  <p class="small">${t('locked')}</p>${mustPick===true?'':`<button class="go ghost" id="cl">${t('close')}</button>`}`);
  c.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>{closeOv();startLevel(+b.dataset.l)});const cl=c.querySelector('#cl');if(cl)cl.onclick=resume}
@@ -375,13 +385,16 @@ function showMenu(){if(G&&(G.busy||G.intro))return;SFX.click();WOW.stop();
   <div class="setrow"><label>${t('sound')}</label>${seg('s-sfx',onoff,sfxOn?1:0)}</div>
   <div class="setrow"><label>${t('fast')}</label>${seg('s-fast',onoff,SAVE.set.fast?1:0)}</div>
   <div class="setrow"><label>${t('qLevel')}</label>${seg('s-diff',t('diff').map((l,i)=>[i,l]),SAVE.set.diff)}</div>
+  <div class="setrow"><label>${t('learn')}</label>${seg('s-learn',onoff,SAVE.set.learn?1:0)}</div>
+  <div class="setrow"><label>${t('free')}</label>${seg('s-free',onoff,SAVE.set.free?1:0)}</div>
   <div class="stack row" style="margin-top:4px"><button class="go" id="m-how">❔ ${t('howTitle')}</button><button class="go alt" id="m-map">🗺️ ${t('journey')}</button><button class="go alt" id="m-who">👥 ${t('playersBtn')}</button></div>
-  <div class="stack" style="margin-top:8px"><button class="go ghost" id="m-re">↺ ${t('restart')}</button><button class="go ghost" id="cl">${t('close')}</button></div>`);
+  <div class="stack" style="margin-top:8px"><button class="go ghost" id="m-ach">🏅 ${t('achTitle')} ${Object.keys(SAVE.ach).length}/6</button><button class="go ghost" id="m-re">↺ ${t('restart')}</button><button class="go ghost" id="cl">${t('close')}</button></div>`);
  const on=(id,fn)=>c.querySelectorAll('#'+id+' button').forEach(b=>b.onclick=()=>{SFX.click();fn(b.dataset.v);if(id!=='s-lang')c.querySelectorAll('#'+id+' button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
  on('s-lang',v=>{lang=v;try{localStorage.setItem('sq_lang',lang)}catch(e){}buildBoard(LEVELS[LV],LV);renderUI();setHint();showMenu()});
- on('s-mus',v=>{firstGesture();setMusic(v==='1')});on('s-sfx',v=>setSfx(v==='1'));on('s-fast',v=>{SAVE.set.fast=v==='1';persist()});on('s-diff',v=>{SAVE.set.diff=+v;persist()});
+ on('s-mus',v=>{firstGesture();setMusic(v==='1')});on('s-sfx',v=>setSfx(v==='1'));on('s-fast',v=>{SAVE.set.fast=v==='1';persist()});on('s-diff',v=>{SAVE.set.diff=+v;persist()});on('s-learn',v=>{SAVE.set.learn=v==='1';persist()});on('s-free',v=>{SAVE.set.free=v==='1';persist()});
  c.querySelector('#m-how').onclick=showHow;c.querySelector('#m-map').onclick=()=>showMap();c.querySelector('#m-who').onclick=showSetup;
- c.querySelector('#m-re').onclick=()=>{closeOv();startLevel(LV)};c.querySelector('#cl').onclick=resume}
+ c.querySelector('#m-ach').onclick=showAch;c.querySelector('#m-re').onclick=()=>{closeOv();startLevel(LV)};c.querySelector('#cl').onclick=resume}
+function showAch(){SFX.click();const c=overlay(`<span class="tag">🏅 ${t('achTitle')}</span><ul class="legend" style="margin-top:10px">${Object.keys(ACH_ICON).map(k=>`<li style="opacity:${SAVE.ach[k]?1:.5}"><span>${SAVE.ach[k]?ACH_ICON[k]:'🔒'}</span><div><b>${t('ach')[k][0]}</b> · ${t('ach')[k][1]}${ACH_NEED[k]&&!SAVE.ach[k]?` (${Math.min(SAVE.stat[k]||0,ACH_NEED[k])}/${ACH_NEED[k]})`:''}</div></li>`).join('')}</ul><button class="go" id="cl">${t('close')}</button>`);c.querySelector('#cl').onclick=showMenu}
 
 function showSetup(){SFX.click();let cnt=playerCfg.length;const prev=[...playerCfg.map(c=>({...c}))];while(prev.length<4)prev.push({name:t('name')(prev.length),bot:false});
  const c=overlay(`<span class="tag">👥 ${t('playersBtn')}</span><h3>${t('setupTitle')}</h3><p>${t('setupText')}</p><div class="count">${[1,2,3,4].map(n=>`<button data-n="${n}" aria-pressed="${n===cnt}">${n}</button>`).join('')}</div>
