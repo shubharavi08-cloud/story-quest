@@ -104,6 +104,22 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
 .map button small{display:block;color:#f6a723;font-size:14px;letter-spacing:1px}
 .map button.cur{border-color:#3a1d0c;background:#ffe9b8}
 .map button:disabled{opacity:.45;cursor:default}
+/* ---------- mini-games ---------- */
+.mgfb{font-weight:700;min-height:20px;margin:8px 0}
+.mg-meter{position:relative;height:34px;border-radius:17px;background:#e9d6b0;border:2px solid #3a1d0c;margin:10px 0 14px;overflow:hidden}
+.mg-meter .zone{position:absolute;left:36%;width:28%;top:0;bottom:0;background:var(--leaf)}
+.mg-meter .mark{position:absolute;top:-2px;bottom:-2px;width:8px;margin-left:-4px;background:#3a1d0c;border-radius:4px}
+.mg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}
+.mg-grid.four{grid-template-columns:repeat(4,1fr)}
+.mg-cell{font-size:34px;line-height:1;padding:12px 0;border-radius:14px;border:2px solid #d9bf8d;background:#fffaf0;cursor:pointer;color:#3a1d0c;font-family:var(--display);font-weight:800}
+.mg-cell.ok{background:#c8f2d8;border-color:var(--leaf)}.mg-cell.bad{background:#fbd0d6;border-color:var(--kumkum)}
+.mg-cell.lit{background:var(--flame);border-color:#3a1d0c;transform:scale(1.08)}
+.mg-cell.stone{background:#d9d2c5;border-color:#8a8172;font-size:28px}
+.mg-row{position:relative;height:74px;margin:8px 0}
+.mg-bush{position:absolute;top:0;width:32%;height:70px;font-size:40px;border-radius:14px;border:2px solid #d9bf8d;background:#eaf5df;cursor:pointer;transition:left .45s ease}
+.mg-bush:disabled{opacity:1}
+.mg-time{height:10px;border-radius:5px;background:#e9d6b0;overflow:hidden;margin:6px 0}.mg-time i{display:block;height:100%;width:100%;background:var(--kumkum)}
+.card .opt b.n{color:#1f7a47}
 @keyframes pop{from{transform:scale(.8);opacity:0}to{transform:none;opacity:1}}
 
 /* ---------- PHONE (portrait): header · board (full width) · players · hint · dice + Roll in one row ---------- */
@@ -150,6 +166,6 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
 <div id="toast"><div></div></div>
 <div id="tip"></div>
 <div id="overlay"></div>
-<script type="module" src="game.js?v=20261110c"></script>
+<script type="module" src="game.js?v=20261110d"></script>
 </body>
 </html>

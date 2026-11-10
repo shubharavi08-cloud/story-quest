@@ -43,7 +43,7 @@ Object.assign(L.en,{menu:'Menu',howTitle:'How to play',score:'Score',close:'Clos
  diff:['Easy','Medium','Advanced'],playersBtn:'Players',journey:'Journey map',restart:'Restart level',on:'On',off:'Off',letsGo:'Start',newHere:'On this board',
  rules:'Roll the dice and race to square 100. Ladders lift you up, snakes pull you down. Special squares give stars, treasures, questions and surprises.',
  sqName:{s:'Star',t:'Treasure',q:'Question',m:'Mystery',b:'Bonus roll',c:'Challenge',y:'Story',k:'Checkpoint',o:'Obstacle'},
- sqDesc:{s:'+10 points',t:'Collect it: +20 points',q:'Answer right: +15 points and 2 steps forward',m:'A surprise, good or bad',b:'Roll again',c:'A mini-game for a big reward',y:'A short scene from the story',k:'A snake cannot pull you below this square',o:'Answer right or miss a turn'},
+ sqDesc:{s:'+10 points',t:'Collect it: +20 points',q:'Answer right: +15 points and 2 steps forward',m:'A surprise, good or bad',b:'Roll again',c:'A mini-game. Win: +25 points and 3 steps',y:'A short scene from the story',k:'A snake cannot pull you below this square',o:'Answer right or miss a turn'},
  bonusRoll:'🎲 Bonus! Roll again.',cpSet:'🚩 Checkpoint reached',cpSave:'🚩 The checkpoint held you!',skip:n=>`${n} misses this turn`,
  qRight:'Right! +15 points and 2 steps forward.',oRight:'Right! The path is clear.',oWrong:a=>`The answer is: ${a}. You miss one turn.`,
  mPts:'A gift! +20 points',mFwd:'A kind wind carries you 3 steps forward',mBack:'A thorny path. 2 steps back',mRoll:'Good luck! Roll again',
@@ -70,6 +70,38 @@ Object.assign(L.kn,{menu:'ಮೆನು',howTitle:'ಆಡುವ ಬಗೆ',score:
  mPts:'ಉಡುಗೊರೆ! +20 ಅಂಕ',mFwd:'ತಂಗಾಳಿ ನಿಮ್ಮನ್ನು 3 ಹೆಜ್ಜೆ ಮುಂದೆ ಒಯ್ದಿತು',mBack:'ಮುಳ್ಳಿನ ದಾರಿ. 2 ಹೆಜ್ಜೆ ಹಿಂದೆ',mRoll:'ಅದೃಷ್ಟ! ಮತ್ತೆ ಎಸೆಯಿರಿ',
  storyTag:'ಕಥೆ',treasure:'ನಿಧಿ',ladderUp:'ಏಣಿ!',snakeDown:'ಹಾವು!',ahead:'ಮುಂದಿದ್ದಾರೆ',sqWord:'ಮನೆ',
  starsRule:'★ ಗೆಲುವು · ★ 60 ಅಥವಾ ಹೆಚ್ಚು ಅಂಕ · ★ ಹಾವು ಒಂದಕ್ಕಿಂತ ಹೆಚ್ಚು ಬಾರಿ ಕಚ್ಚದಿರಲಿ',loseText:'ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ. ನಕ್ಷತ್ರ, ನಿಧಿ ಮತ್ತು ಸರಿ ಉತ್ತರಗಳಿಂದ ಅಂಕ ಸಿಗುತ್ತವೆ.'});
+
+/* mini-games (Challenge squares) and the final certificate */
+L.en.mg={tag:'Challenge',win:'Well done! +25 points and 3 steps forward.',lose:'Not this time. Keep going!',
+ bow:{t:"Lift Shiva's bow",d:'Tap LIFT when the marker is inside the green band.',btn:'Lift!'},
+ memory:{t:'Forest memory',d:'Find the 3 pairs. You have 6 turns.',left:n=>`Turns left: ${n}`},
+ paths:{t:'Two paths in the forest',d:'Which way will you go?',safe:'Safe path',safeD:'2 steps forward',brave:'Brave path',braveD:'Roll: 4, 5 or 6 → 6 steps forward. 1, 2 or 3 → 2 steps back.',res:(v,ok)=>`You rolled ${v}. `+(ok?'6 steps forward!':'2 steps back.')},
+ deer:{t:'Where is the golden deer?',d:'Watch the bushes, then tap the one hiding the deer.',watch:'Watch…',pick:'Tap a bush'},
+ order:{t:'Put the story in order',d:'Tap the three scenes from first to last.'},
+ team:{t:'Pass the message',d:'Watch the friends light up, then tap them in the same order.',teamWin:'Teamwork! Everyone moves 1 step forward.'},
+ bridge:{t:'Build the bridge',d:'Tap the stones in order, 1 to 6, before time runs out.',built:'🌉 The bridge is built! A new shortcut is open.',count:(n,m)=>`Stones for the bridge: ${n}/${m}`},
+ dice2:{t:'Choose your move',d:'Two dice are rolled. Pick the one you want.',opt:(v,n)=>`${v} → square ${n}`}};
+L.en.cert=(n,s)=>`🏆 Journey complete! ${n} finished all nine levels with ${s} of 27 stars.`;
+L.hi.mg={tag:'चुनौती',win:'शाबाश! +25 अंक और 3 कदम आगे।',lose:'इस बार नहीं। आगे बढ़ते रहो!',
+ bow:{t:'शिव धनुष उठाओ',d:'जब निशान हरी पट्टी में हो, तब "उठाओ" दबाओ।',btn:'उठाओ!'},
+ memory:{t:'वन की याददाश्त',d:'3 जोड़े खोजो। आपके पास 6 बारियाँ हैं।',left:n=>`बची बारियाँ: ${n}`},
+ paths:{t:'वन में दो रास्ते',d:'आप किस रास्ते जाएँगे?',safe:'सुरक्षित रास्ता',safeD:'2 कदम आगे',brave:'साहसी रास्ता',braveD:'पासा फेंको: 4, 5 या 6 आए तो 6 कदम आगे। 1, 2 या 3 आए तो 2 कदम पीछे।',res:(v,ok)=>`पासे पर ${v} आया। `+(ok?'6 कदम आगे!':'2 कदम पीछे।')},
+ deer:{t:'सोने का हिरण कहाँ है?',d:'झाड़ियों को ध्यान से देखो, फिर उस झाड़ी को छुओ जिसमें हिरण छिपा है।',watch:'ध्यान से देखो…',pick:'एक झाड़ी छुओ'},
+ order:{t:'कहानी को क्रम में लगाओ',d:'तीनों दृश्यों को पहले से आख़िरी के क्रम में छुओ।'},
+ team:{t:'संदेश आगे पहुँचाओ',d:'देखो कौन-कौन से साथी चमकते हैं, फिर उसी क्रम में उन्हें छुओ।',teamWin:'मिलकर किया! सब 1 कदम आगे बढ़े।'},
+ bridge:{t:'पुल बनाओ',d:'समय ख़त्म होने से पहले पत्थरों को 1 से 6 के क्रम में छुओ।',built:'🌉 पुल बन गया! एक नया छोटा रास्ता खुल गया।',count:(n,m)=>`पुल के पत्थर: ${n}/${m}`},
+ dice2:{t:'अपनी चाल चुनो',d:'दो पासे फेंके गए हैं। जो चाहिए वह चुनो।',opt:(v,n)=>`${v} → खाना ${n}`}};
+L.hi.cert=(n,s)=>`🏆 यात्रा पूरी! ${n} ने नौ के नौ स्तर ${s}/27 तारों के साथ पूरे किए।`;
+L.kn.mg={tag:'ಸವಾಲು',win:'ಭೇಷ್! +25 ಅಂಕ, 3 ಹೆಜ್ಜೆ ಮುಂದೆ.',lose:'ಈ ಸಲ ಆಗಲಿಲ್ಲ. ಮುಂದೆ ಸಾಗಿ!',
+ bow:{t:'ಶಿವಧನುಸ್ಸು ಎತ್ತಿ',d:'ಗುರುತು ಹಸಿರು ಪಟ್ಟಿಯೊಳಗೆ ಬಂದಾಗ "ಎತ್ತಿ" ಒತ್ತಿ.',btn:'ಎತ್ತಿ!'},
+ memory:{t:'ಕಾಡಿನ ನೆನಪಿನ ಆಟ',d:'3 ಜೋಡಿಗಳನ್ನು ಹುಡುಕಿ. ನಿಮಗೆ 6 ಅವಕಾಶಗಳಿವೆ.',left:n=>`ಉಳಿದ ಅವಕಾಶ: ${n}`},
+ paths:{t:'ಕಾಡಿನಲ್ಲಿ ಎರಡು ದಾರಿ',d:'ನೀವು ಯಾವ ದಾರಿಯಲ್ಲಿ ಹೋಗುತ್ತೀರಿ?',safe:'ಸುರಕ್ಷಿತ ದಾರಿ',safeD:'2 ಹೆಜ್ಜೆ ಮುಂದೆ',brave:'ಧೈರ್ಯದ ದಾರಿ',braveD:'ದಾಳ ಎಸೆಯಿರಿ: 4, 5 ಅಥವಾ 6 ಬಿದ್ದರೆ 6 ಹೆಜ್ಜೆ ಮುಂದೆ. 1, 2 ಅಥವಾ 3 ಬಿದ್ದರೆ 2 ಹೆಜ್ಜೆ ಹಿಂದೆ.',res:(v,ok)=>`ದಾಳದಲ್ಲಿ ${v} ಬಿತ್ತು. `+(ok?'6 ಹೆಜ್ಜೆ ಮುಂದೆ!':'2 ಹೆಜ್ಜೆ ಹಿಂದೆ.')},
+ deer:{t:'ಚಿನ್ನದ ಜಿಂಕೆ ಎಲ್ಲಿದೆ?',d:'ಪೊದೆಗಳನ್ನು ಗಮನಿಸಿ ನೋಡಿ, ಆಮೇಲೆ ಜಿಂಕೆ ಅಡಗಿರುವ ಪೊದೆಯನ್ನು ಮುಟ್ಟಿ.',watch:'ಗಮನಿಸಿ ನೋಡಿ…',pick:'ಒಂದು ಪೊದೆ ಮುಟ್ಟಿ'},
+ order:{t:'ಕಥೆಯನ್ನು ಕ್ರಮವಾಗಿ ಜೋಡಿಸಿ',d:'ಮೂರು ದೃಶ್ಯಗಳನ್ನು ಮೊದಲಿನಿಂದ ಕೊನೆಯವರೆಗೆ ಕ್ರಮವಾಗಿ ಮುಟ್ಟಿ.'},
+ team:{t:'ಸಂದೇಶ ಮುಂದೆ ಸಾಗಿಸಿ',d:'ಯಾವ ಗೆಳೆಯರು ಬೆಳಗುತ್ತಾರೆ ನೋಡಿ, ಆಮೇಲೆ ಅದೇ ಕ್ರಮದಲ್ಲಿ ಅವರನ್ನು ಮುಟ್ಟಿ.',teamWin:'ಒಗ್ಗಟ್ಟಿನ ಗೆಲುವು! ಎಲ್ಲರೂ 1 ಹೆಜ್ಜೆ ಮುಂದೆ.'},
+ bridge:{t:'ಸೇತುವೆ ಕಟ್ಟಿ',d:'ಸಮಯ ಮುಗಿಯುವ ಮೊದಲು ಕಲ್ಲುಗಳನ್ನು 1ರಿಂದ 6ರವರೆಗೆ ಕ್ರಮವಾಗಿ ಮುಟ್ಟಿ.',built:'🌉 ಸೇತುವೆ ಸಿದ್ಧವಾಯಿತು! ಹೊಸ ಹತ್ತಿರದ ದಾರಿ ತೆರೆಯಿತು.',count:(n,m)=>`ಸೇತುವೆಯ ಕಲ್ಲುಗಳು: ${n}/${m}`},
+ dice2:{t:'ನಿಮ್ಮ ನಡೆ ಆರಿಸಿ',d:'ಎರಡು ದಾಳ ಬಿದ್ದಿವೆ. ಬೇಕಾದದ್ದನ್ನು ಆರಿಸಿ.',opt:(v,n)=>`${v} → ಮನೆ ${n}`}};
+L.kn.cert=(n,s)=>`🏆 ಪಯಣ ಪೂರ್ಣ! ${n} ಒಂಬತ್ತೂ ಹಂತಗಳನ್ನು 27ರಲ್ಲಿ ${s} ನಕ್ಷತ್ರಗಳೊಂದಿಗೆ ಮುಗಿಸಿದರು.`;
 
 export const VIRTUES=[{en:"Kevat's kindness",hi:'केवट की सेवा',kn:'ಕೇವಟನ ಸೇವೆ'},{en:"Bharat's loyalty",hi:'भरत की निष्ठा',kn:'ಭರತನ ನಿಷ್ಠೆ'},{en:"Shabari's devotion",hi:'शबरी की भक्ति',kn:'ಶಬರಿಯ ಭಕ್ತಿ'},
  {en:"Jatayu's courage",hi:'जटायु का साहस',kn:'ಜಟಾಯುವಿನ ಧೈರ್ಯ'},{en:"Hanuman's great leap",hi:'हनुमान की छलाँग',kn:'ಹನುಮಂತನ ನೆಗೆತ'},{en:"Vibhishana's truth",hi:'विभीषण का सत्य',kn:'ವಿಭೀಷಣನ ಸತ್ಯ'},

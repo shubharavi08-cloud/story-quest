@@ -4,6 +4,7 @@ import * as THREE from './three.module.min.js';
 import {L,VIRTUES,TROUBLES} from './data/strings.js';
 import {LEVELS} from './data/levels.js';
 import {QUESTIONS} from './data/questions.js';
+import {runGame} from './minigames.js';
 
 const COLORS=['#e0405a','#3a6fd8','#46b882','#9b59d0'];
 const QA=new URLSearchParams(location.search).has('qa');
@@ -152,6 +153,7 @@ function buildBoard(lv,li){
  const ic=new THREE.Mesh(new THREE.PlaneGeometry(10,10),new THREE.MeshBasicMaterial({map:iconsTexture(lv),transparent:true,depthWrite:false,toneMapped:false}));ic.rotation.x=-Math.PI/2;ic.position.y=.004;boardGroup.add(ic);
  lv.L.forEach(([a,b],i)=>{const m=makeLadder(a,b,i+li);boardGroup.add(m);hoverables.push(m)});
  lv.S.forEach(([a,b],i)=>{const m=makeSnake(a,b,i+li,lv.twist);boardGroup.add(m);hoverables.push(m)});
+ if(G&&G.bridge&&lv.bridge){const m=makeLadder(lv.bridge[0],lv.bridge[1],6);boardGroup.add(m);hoverables.push(m)}
  Object.keys(lv.sp).forEach(k=>{if(lv.sp[k]!=='t'||(G&&G.taken[k]))return;const s=emojiSprite(itemIcon(lv,+k)),p=sq(+k);s.position.set(p.x+.1,.3,p.z+.14);boardGroup.add(s);itemObjs[k]=s});
  world.add(boardGroup)}
 
@@ -231,8 +233,8 @@ const humans=()=>G.players.filter(q=>!q.bot).length;
 
 function startLevel(li,restore){
  LV=li;const lv=LEVELS[li];
- G={players:playerCfg.map((c,i)=>({name:c.name,bot:c.bot,color:COLORS[i],pos:0,score:0,bites:0,items:0,cp:0,skip:0,done:{}})),turn:0,busy:false,winner:null,taken:{},usedQ:[],extra:false,intro:false};
- if(restore){G.turn=restore.turn||0;G.taken=restore.taken||{};restore.players.forEach((s,i)=>G.players[i]&&Object.assign(G.players[i],s))}
+ G={players:playerCfg.map((c,i)=>({name:c.name,bot:c.bot,color:COLORS[i],pos:0,score:0,bites:0,items:0,cp:0,skip:0,done:{}})),turn:0,busy:false,winner:null,taken:{},usedQ:[],extra:false,intro:false,stones:0,bridge:false,cCount:Math.random()*6|0};
+ if(restore){G.turn=restore.turn||0;G.taken=restore.taken||{};G.stones=restore.stones||0;G.bridge=!!restore.bridge;restore.players.forEach((s,i)=>G.players[i]&&Object.assign(G.players[i],s))}
  buildBoard(lv,li);
  pawnMeshes.forEach(m=>world.remove(m));pawnMeshes.length=0;
  G.players.forEach((p,i)=>{const m=makePawn(p,(displayName(p)[0]||'?').toUpperCase());pawnMeshes.push(m);world.add(m);m.position.copy(pawnSpot(i))});
@@ -244,12 +246,12 @@ function startLevel(li,restore){
 function showIntro(){const lv=LEVELS[LV];G.intro=true;const kinds=[...new Set(Object.values(lv.sp))];
  const c=overlay(`<div class="big">${lv.icon}</div><span class="tag">${t('level')} ${LV+1} / ${LEVELS.length}</span><h3>${tx(lv.place)}</h3><p>${tx(lv.line)}</p>
   <div class="small">${t('newHere')}</div><ul class="legend">${kinds.map(k=>`<li><span>${k==='t'?lv.items[0]:SQ_ICON[k]}</span><div><b>${t('sqName')[k]}</b> · ${t('sqDesc')[k]}</div></li>`).join('')}</ul>
-  <button class="go" id="go">${t('letsGo')}</button>`);
+  ${lv.bridge?`<p class="small">🪨 ${t('mg').bridge.count(0,lv.need)}</p>`:''}<button class="go" id="go">${t('letsGo')}</button>`);
  const go=()=>{if(!G.intro)return;G.intro=false;closeOv();firstGesture();SFX.conch();WOW.start();setHint(true);maybeBot()};
  c.querySelector('#go').onclick=go;c.querySelector('#go').focus()}
 
 /* remember the game in progress so a refresh or a closed tab continues where it stopped */
-function saveCur(){if(!G||G.winner)return;SAVE.cur={lv:LV,turn:G.turn,taken:G.taken,cfg:playerCfg,players:G.players.map(p=>({pos:p.pos,score:p.score,bites:p.bites,items:p.items,cp:p.cp,skip:p.skip,done:p.done}))};persist()}
+function saveCur(){if(!G||G.winner)return;SAVE.cur={lv:LV,turn:G.turn,taken:G.taken,stones:G.stones,bridge:G.bridge,cfg:playerCfg,players:G.players.map(p=>({pos:p.pos,score:p.score,bites:p.bites,items:p.items,cp:p.cp,skip:p.skip,done:p.done}))};persist()}
 
 /* ======================= UI ======================= */
 function renderUI(){
@@ -303,7 +305,7 @@ async function resolveSquare(i,depth=0){const p=G.players[i],lv=LEVELS[LV],m=paw
   if(p.cp>p.pos){await sleep(350*SPD());toast(t('cpSave'),'ladder');SFX.right();await glideTo(i,p.cp)}return}
  const ty=lv.sp[p.pos];if(!ty||depth>2)return;const n=p.pos,key=ty+n;
  if(ty==='s'){if(!p.done[key]){p.done[key]=1;addScore(p,10,m.position);toast('⭐ +10');SFX.bell()}}
- else if(ty==='t'){if(!G.taken[n]){G.taken[n]=1;p.items++;const s=itemObjs[n];if(s){boardGroup.remove(s);delete itemObjs[n]}addScore(p,20,m.position);toast(`${itemIcon(lv,n)} ${t('treasure')} +20`);SFX.right()}}
+ else if(ty==='t'){if(!G.taken[n]){G.taken[n]=1;p.items++;const s=itemObjs[n];if(s){boardGroup.remove(s);delete itemObjs[n]}addScore(p,20,m.position);toast(`${itemIcon(lv,n)} ${t('treasure')} +20`);SFX.right();if(lv.bridge){await sleep(900*SPD());await addStone()}}}
  else if(ty==='k'){if(p.cp<n){p.cp=n;toast(t('cpSet'));SFX.bell();burstAt(m.position,'green',20)}}
  else if(ty==='b'){G.extra=true;toast(t('bonusRoll'));SFX.right()}
  else if(ty==='y'){if(!p.done[key]){p.done[key]=1;addScore(p,5);const sc=lv.scenes.length?lv.scenes[Object.keys(p.done).filter(k=>k[0]==='y').length%lv.scenes.length]:lv.line;
@@ -312,12 +314,21 @@ async function resolveSquare(i,depth=0){const p=G.players[i],lv=LEVELS[LV],m=paw
   if(!p.bot)await infoCard('🔮',t('sqName').m,'',t(o));else toast('🔮 '+t(o),'',2000);
   if(o==='mPts')addScore(p,20,m.position);else if(o==='mRoll')G.extra=true;
   else{await hopTo(i,Math.max(1,Math.min(100,n+(o==='mFwd'?3:-2))));return resolveSquare(i,depth+1)}}
- else if(ty==='q'||ty==='c'){const big=ty==='c',pts=big?25:15,steps=big?3:2;
-  const ok=p.bot?Math.random()<lv.bot:await quiz(SQ_ICON[ty],t('sqName')[ty],big?t('qRight').replace('15','§').replace('2',steps).replace('§',pts):t('qRight'),t('wrong'));
-  if(p.bot)toast(`${SQ_ICON[ty]} ${displayName(p)}: ${ok?'✓':'✗'}`);
-  if(ok){addScore(p,pts,m.position);await hopTo(i,Math.min(100,n+steps));return resolveSquare(i,depth+1)}}
+ else if(ty==='q'){const ok=p.bot?Math.random()<lv.bot:await quiz('❓',t('sqName').q,t('qRight'),t('wrong'));
+  if(p.bot)toast(`❓ ${displayName(p)}: ${ok?'✓':'✗'}`);
+  if(ok){addScore(p,15,m.position);await hopTo(i,Math.min(100,n+2));return resolveSquare(i,depth+1)}}
+ else if(ty==='c'){const kinds=lv.games&&lv.games.length?lv.games:['order'],kind=kinds[(G.cCount++)%kinds.length];let r;
+  if(p.bot){const ok=Math.random()<lv.bot;r=kind==='paths'?{ok,move:ok?6:-2,pts:ok?25:0}:kind==='dice2'?{ok:true,move:1+(Math.random()*6|0),pts:10}:{ok};toast(`🎯 ${displayName(p)}: ${r.ok?'✓':'✗'}`,'',1500);await sleep(700*SPD())}
+  else{WOW.stop();r=await runGame(kind,{card:overlay,close:closeOv,t,tx,SFX,peek:v=>{let s=n+v;if(s>100)s=200-s;return{sq:s,mark:lv.S.some(x=>x[0]===s)?'🐍':lv.L.some(x=>x[0]===s)?'🪜':lv.sp[s]?(lv.sp[s]==='t'?itemIcon(lv,s):SQ_ICON[lv.sp[s]]):''}}});WOW.start()}
+  const pts=r.pts??(r.ok?25:0),mvn=r.move??(r.ok?3:0);if(pts)addScore(p,pts,m.position);
+  if(r.ok&&kind==='team'){toast(t('mg').team.teamWin,'ladder',2200);for(let k=0;k<G.players.length;k++){const q=G.players[k];if(k!==i&&q.pos>0&&q.pos<99){q.score+=10;await hopTo(k,q.pos+1)}}}
+  if(r.ok&&kind==='bridge')await addStone();
+  if(mvn){let tg=n+mvn;if(tg>100)tg=200-tg;await hopTo(i,Math.max(1,tg));return resolveSquare(i,depth+1)}}
  else if(ty==='o'){const ok=p.bot?Math.random()<lv.bot:await quiz('🚧',t('sqName').o,t('oRight'),t('oWrong'));
   if(!ok){p.skip=1;if(p.bot)toast('🚧 '+t('skip')(displayName(p)))}else if(p.bot)toast('🚧 ✓')}}
+/* Rameswaram: every stone brings the bridge closer; the finished bridge is a new ladder */
+async function addStone(){const lv=LEVELS[LV];if(!lv.bridge||G.bridge)return;G.stones++;toast('🪨 '+t('mg').bridge.count(Math.min(G.stones,lv.need),lv.need),'',1600);
+ if(G.stones>=lv.need){G.bridge=true;await sleep(1000*SPD());const m=makeLadder(lv.bridge[0],lv.bridge[1],6);boardGroup.add(m);hoverables.push(m);glowObj(m,0x46b882);SFX.ladder();toast(t('mg').bridge.built,'ladder',2800);await sleep(1300*SPD())}}
 function glowObj(g,col){g.traverse(o=>{if(o.material&&o.material.emissive){o.material.emissive.setHex(col);o.material.emissiveIntensity=.6}});setTimeout(()=>g.traverse(o=>{if(o.material&&o.material.emissive)o.material.emissiveIntensity=0}),1300)}
 
 const forced=[];   /* QA only: queued dice values (?qa) */
@@ -343,7 +354,7 @@ function endLevel(p){WOW.stop();SAVE.cur=null;persist();renderUI();$('#hint').te
  if(!p.bot){p.score+=50;const s=stars(p);SAVE.stars[LV]=Math.max(SAVE.stars[LV]||0,s);SAVE.best[LV]=Math.max(SAVE.best[LV]||0,p.score);SAVE.unlocked=Math.max(SAVE.unlocked,Math.min(LEVELS.length,LV+2));persist();SFX.win();renderUI();
   for(let k=0;k<(last?12:6);k++)setTimeout(()=>burst(W*(.15+Math.random()*.7),H*(.15+Math.random()*.35),'fire',60),k*260);setTimeout(()=>burst(W/2,H*.2,'petal',last?140:70),300);
   setTimeout(()=>{const c=overlay(`${last?'<img class="hero" src="img/return.jpg" alt="">':`<div class="big">${lv.icon}</div>`}<span class="tag">${t('level')} ${LV+1} · ${tx(lv.place)}</span><h3>${t('winTitle')(esc(displayName(p)),tx(lv.goal||lv.place))}</h3>${starHtml(s)}
-   <p><b>${t('score')}: ${p.score}</b></p><p>${last?t('finalText'):t('stepText')}</p><p class="small">${t('starsRule')}</p><div class="stack ${last?"":"row"}">${last?'':`<button class="go" id="nx">${t('next')}</button>`}<button class="go alt" id="ag">${t('again')}</button><button class="go ghost" id="mp">${t('map')}</button></div>`);
+   <p><b>${t('score')}: ${p.score}</b></p><p>${last?t('finalText'):t('stepText')}</p>${last?`<p><b>${t('cert')(esc(displayName(p)),SAVE.stars.reduce((a,b)=>a+(b||0),0))}</b></p>`:''}<p class="small">${t('starsRule')}</p><div class="stack ${last?"":"row"}">${last?'':`<button class="go" id="nx">${t('next')}</button>`}<button class="go alt" id="ag">${t('again')}</button><button class="go ghost" id="mp">${t('map')}</button></div>`);
    c.querySelector('#nx')?.addEventListener('click',()=>{closeOv();startLevel(LV+1)});c.querySelector('#ag').onclick=()=>{closeOv();startLevel(LV)};c.querySelector('#mp').onclick=()=>showMap(true)},900)}
  else{SFX.lose();setTimeout(()=>{const c=overlay(`<div class="big">${lv.icon}</div><span class="tag">${t('level')} ${LV+1} · ${tx(lv.place)}</span><h3>${t('loseTitle')(esc(displayName(p)))}</h3><p>${t('loseText')}</p><div class="stack"><button class="go" id="ag">${t('retry')}</button><button class="go ghost" id="mp">${t('map')}</button></div>`);
    c.querySelector('#ag').onclick=()=>{closeOv();startLevel(LV)};c.querySelector('#mp').onclick=()=>showMap(true)},700)}}
@@ -419,4 +430,4 @@ syncButtons();renderUI();layout();
 {const cur=SAVE.cur;if(cur&&LEVELS[cur.lv]&&cur.cfg&&cur.players&&cur.players.some(p=>p.pos>0)){playerCfg=cur.cfg;startLevel(cur.lv,cur)}else startLevel(Math.min(SAVE.unlocked-1,LEVELS.length-1))}
 requestAnimationFrame(frame);
 document.fonts?.ready?.then(()=>{numMat.map.dispose();numMat.map=numbersTexture();numMat.needsUpdate=true;if(G)buildBoard(LEVELS[LV],LV)});
-if(QA)window.__rta={get G(){return G},get LV(){return LV},startLevel,takeTurn,LEVELS,forced,SAVE};
+if(QA)window.__rta={get G(){return G},get LV(){return LV},startLevel,takeTurn,LEVELS,forced,SAVE,place(n,i=0){G.players[i].pos=n;pawnMeshes[i].position.copy(pawnSpot(i));renderUI()}};
