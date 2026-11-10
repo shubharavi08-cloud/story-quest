@@ -149,15 +149,15 @@ const goldMat=new THREE.MeshStandardMaterial({color:0xe6a85a,roughness:.45,metal
 let boardGroup=null, hoverables=[], lampObjs={};
 
 function boardTexture(lv){
- const N=1024,cv=document.createElement('canvas');cv.width=cv.height=N;const c=cv.getContext('2d'),cs=N/10;
+ const N=2048,cv=document.createElement('canvas');cv.width=cv.height=N;const c=cv.getContext('2d'),cs=N/10;
  for(let n=1;n<=100;n++){const r=Math.floor((n-1)/10),c0=(n-1)%10,col=r%2===0?c0:9-c0,x=col*cs,y=N-(r+1)*cs;
   c.fillStyle=n===100?'#ffd35a':n===1?'#fff3d0':lv.tints[(n+r)%4];c.fillRect(x,y,cs,cs);
-  c.strokeStyle='#00000022';c.lineWidth=2;c.strokeRect(x+1,y+1,cs-2,cs-2);
-  c.fillStyle='#ffffff55';c.fillRect(x+3,y+3,cs-6,4);
-  c.fillStyle='#5a2b10';c.font=`800 ${cs*.26}px "Baloo 2",sans-serif`;c.textAlign='left';c.textBaseline='top';c.fillText(n,x+7,y+4);
+  c.strokeStyle='#00000030';c.lineWidth=4;c.strokeRect(x+1,y+1,cs-2,cs-2);
+  c.fillStyle='#ffffff55';c.fillRect(x+6,y+6,cs-12,8);
+  if(n<100){c.font=`800 ${cs*.44}px "Baloo 2",sans-serif`;c.textAlign='left';c.textBaseline='top';c.lineJoin='round';c.lineWidth=cs*.07;c.strokeStyle='#fff8e6';c.strokeText(n,x+cs*.07,y+cs*.03);c.fillStyle='#3a1806';c.fillText(n,x+cs*.07,y+cs*.03)}
   if(lv.lamps.includes(n)){const g=c.createRadialGradient(x+cs/2,y+cs*.58,2,x+cs/2,y+cs*.58,cs*.48);g.addColorStop(0,'#ffd35a99');g.addColorStop(1,'#ffd35a00');c.fillStyle=g;c.fillRect(x,y,cs,cs)}}
  // start & goal labels
- const lab=(n,txt,col)=>{const p=sq(n);const x=(p.x+5)*cs,y=(p.z+5)*cs;c.fillStyle=col;c.font=`800 ${cs*.15}px "Baloo 2",sans-serif`;c.textAlign='center';c.textBaseline='bottom';c.fillText(txt,x,y+cs*.46)};
+ const lab=(n,txt,col)=>{const p=sq(n);const x=(p.x+5)*cs,y=(p.z+5)*cs;c.fillStyle=col;c.font=`800 ${cs*.19}px "Baloo 2",sans-serif`;c.textAlign='center';c.textBaseline='bottom';c.fillText(txt,x,y+cs*.47,cs*.94)};
  lab(1,'START','#3a6fd8');lab(100,tx(lv.goal||lv.place).toUpperCase().slice(0,16),'#7a1f14');
  c.font=`${cs*.36}px serif`;c.textAlign='center';c.textBaseline='middle';const g=sq(100);c.fillText(lv.icon,(g.x+5)*cs,(g.z+5)*cs-cs*.02);
  const tex=new THREE.CanvasTexture(cv);tex.colorSpace=THREE.SRGBColorSpace;tex.anisotropy=renderer.capabilities.getMaxAnisotropy();return tex}
@@ -269,9 +269,9 @@ function layout(){W=innerWidth;H=innerHeight;portrait=W/H<1;renderer.setSize(W,H
  camera.aspect=area.w/area.h;fitCamera();sizeDice();fxSize()}
 let camDir=new THREE.Vector3(0,Math.sin(THREE.MathUtils.degToRad(57)),Math.cos(THREE.MathUtils.degToRad(57)));
 let camDist=20,camTarget=new THREE.Vector3(0,0,.25);
-function fitCamera(){const el=THREE.MathUtils.degToRad(camera.aspect<1.05?71:camera.aspect<1.5?66:57);camDir=new THREE.Vector3(0,Math.sin(el),Math.cos(el));const corners=[[-5.6,-5.6],[5.6,-5.6],[-5.6,5.6],[5.6,5.6]].map(([x,z])=>new THREE.Vector3(x,.3,z));corners.push(new THREE.Vector3(sq(100).x,1.1,sq(100).z));
+function fitCamera(){const el=THREE.MathUtils.degToRad(portrait?80:camera.aspect<1.5?66:57);camDir=new THREE.Vector3(0,Math.sin(el),Math.cos(el));const corners=[[-5.6,-5.6],[5.6,-5.6],[-5.6,5.6],[5.6,5.6]].map(([x,z])=>new THREE.Vector3(x,.3,z));corners.push(new THREE.Vector3(sq(100).x,1.1,sq(100).z));const mx=portrait?.972:.985,my=portrait?.985:.97;
  let lo=6,hi=60;for(let i=0;i<24;i++){const d=(lo+hi)/2;camera.position.copy(camTarget).addScaledVector(camDir,d);camera.lookAt(camTarget);camera.updateProjectionMatrix();camera.updateMatrixWorld();
-  const ok=corners.every(c=>{const p=c.clone().project(camera);return Math.abs(p.x)<.985&&Math.abs(p.y)<.97});if(ok)hi=d;else lo=d}
+  const ok=corners.every(c=>{const p=c.clone().project(camera);return Math.abs(p.x)<mx&&Math.abs(p.y)<my});if(ok)hi=d;else lo=d}
  camDist=hi}
 const ptr={x:0,y:0};let shake=0;
 function placeCamera(ts){const az=ptr.x*.05+Math.sin(ts/5200)*.012,el=ptr.y*.03;
