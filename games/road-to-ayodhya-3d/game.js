@@ -5,6 +5,8 @@ import {L,VIRTUES,TROUBLES} from './data/strings.js';
 import {LEVELS} from './data/levels.js';
 import {QUESTIONS} from './data/questions.js';
 import {runGame} from './minigames.js';
+import {attachStories} from './data/stories.js';
+attachStories(LEVELS);
 
 const COLORS=['#e0405a','#3a6fd8','#46b882','#9b59d0'];
 const QA=new URLSearchParams(location.search).has('qa');
@@ -15,8 +17,8 @@ const t=k=>L[lang][k]??L.en[k], tx=o=>o[lang]||o.en, $=s=>document.querySelector
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 /* ======================= save (all storage access is guarded: private browsing must not break the game) ======================= */
-let SAVE={unlocked:1,stars:[],best:[],set:{fast:false,diff:1,music:true,sfx:true,free:false,learn:false},cur:null,played:0,stat:{ladder:0,brave:0,know:0},ach:{}};
-try{const s=JSON.parse(localStorage.getItem('rta3d2')||'null');if(s&&s.unlocked){const set=Object.assign({},SAVE.set,s.set||{}),stat=Object.assign({},SAVE.stat,s.stat||{});SAVE=Object.assign(SAVE,s,{set,stat,ach:s.ach||{}})}}catch(e){}
+let SAVE={unlocked:1,stars:[],best:[],set:{fast:false,diff:1,music:true,sfx:true,free:false,learn:false,voice:false},cur:null,played:0,stat:{ladder:0,brave:0,know:0},ach:{},story:{}};
+try{const s=JSON.parse(localStorage.getItem('rta3d2')||'null');if(s&&s.unlocked){const set=Object.assign({},SAVE.set,s.set||{}),stat=Object.assign({},SAVE.stat,s.stat||{});SAVE=Object.assign(SAVE,s,{set,stat,ach:s.ach||{},story:s.story||{}})}}catch(e){}
 function persist(){try{localStorage.setItem('rta3d2',JSON.stringify(SAVE))}catch(e){}}
 const TURBO=QA&&new URLSearchParams(location.search).has('turbo');   /* QA only: near-instant animation for automated tests */
 const SPD=()=>TURBO?.02:SAVE.set.fast?.45:1;
@@ -199,6 +201,7 @@ let area={x:0,y:0,w:1,h:1},W=1,H=1,portrait=false;
 function layout(){W=innerWidth;H=innerHeight;portrait=W/H<1;renderer.setSize(W,H,false);
  const rail=document.querySelector('.rail').getBoundingClientRect(),top=document.querySelector('.top').getBoundingClientRect().bottom+3;
  if(portrait){area={x:0,y:top,w:W,h:Math.max(160,rail.top-top-4)}}else{area={x:0,y:top,w:Math.max(200,rail.left-6),h:H-top-4}}
+ document.documentElement.style.setProperty('--railh',(H-rail.top+8)+'px');
  camera.aspect=area.w/area.h;fitCamera();sizeDice();fxSize()}
 const camDir=new THREE.Vector3(0,Math.sin(THREE.MathUtils.degToRad(89.3)),Math.cos(THREE.MathUtils.degToRad(89.3)));
 let camDist=20;const camTarget=new THREE.Vector3(0,0,0);
@@ -237,10 +240,10 @@ const humans=()=>G.players.filter(q=>!q.bot).length;
 
 function startLevel(li,restore){
  LV=li;const lv=LEVELS[li];
- G={players:playerCfg.map((c,i)=>({name:c.name,bot:c.bot,color:COLORS[i],pos:0,score:0,bites:0,items:0,cp:0,skip:0,done:{}})),turn:0,busy:false,winner:null,taken:{},usedQ:[],extra:false,intro:false,stones:0,bridge:false,cCount:Math.random()*6|0};
+ G={players:playerCfg.map((c,i)=>({name:c.name,bot:c.bot,color:COLORS[i],pos:0,score:0,bites:0,items:0,cp:0,skip:0,done:{}})),turn:0,busy:false,winner:null,taken:{},usedQ:[],extra:false,intro:false,glimpsed:{},stones:0,bridge:false,cCount:Math.random()*6|0};
  if(restore){G.turn=restore.turn||0;G.taken=restore.taken||{};G.stones=restore.stones||0;G.bridge=!!restore.bridge;restore.players.forEach((s,i)=>G.players[i]&&Object.assign(G.players[i],s))}
  buildBoard(lv,li);
- pawnMeshes.forEach(m=>world.remove(m));pawnMeshes.length=0;
+ clearGlimpses();pawnMeshes.forEach(m=>world.remove(m));pawnMeshes.length=0;
  G.players.forEach((p,i)=>{const m=makePawn(p,initial(p));pawnMeshes.push(m);world.add(m);m.position.copy(pawnSpot(i))});
  $('#rolled').className='';renderUI();setHint(true);
  if(restore){WOW.start();maybeBot();return}
@@ -262,27 +265,52 @@ function renderUI(){
  $('#roll').textContent=G&&G.busy?t('rolling'):t('roll');document.documentElement.lang=lang;document.title=t('title')+' · Snakes & Ladders Adventure';
  $('#lvchip').textContent=`${LEVELS[LV].icon} ${t('level')} ${LV+1}/${LEVELS.length} · ${tx(LEVELS[LV].place)}`;
  $('#prog').innerHTML=LEVELS.map((_,i)=>`<span class="${i===LV?'cur':(SAVE.stars[i]?'done':'')}"></span>`).join('');
- $('#menu').title=t('menu');$('#music').title=t('music');$('#sound').title=t('sound');
+ $('#menu').title=t('menu');$('#book').title=t('book');$('#music').title=t('music');$('#sound').title=t('sound');
  if(!G)return;const lead=Math.max(...G.players.map(p=>p.pos||0));
  $('#players').innerHTML=G.players.map((p,i)=>`<div class="pc ${i===G.turn&&!G.winner?'turn':''}">${lead>0&&(p.pos||0)===lead&&G.players.filter(q=>(q.pos||0)===lead).length===1?`<span class="crown" title="${t('ahead')}">👑</span>`:''}<span class="av" style="background:${p.color}">${p.bot?'<img src="img/diya_wave.png" alt="">':esc(initial(p))}</span><span class="nm"><b>${esc(displayName(p))}</b><small>${p.pos||0} / 100 · <em>⭐ ${p.score}</em></small></span></div>`).join('')}
 function setHint(first){if(!G||G.winner)return;const p=G.players[G.turn];
  $('#hint').textContent=first&&!p.bot&&!SAVE.played?(matchMedia('(pointer:coarse)').matches?t('tipStart').replace(/\s*\([^)]*\)/,'').split(/[.!।]/)[0]+'!':t('tipStart')):p.bot?t('botTurn')(displayName(p)):t('yourTurn')(humans()>1?displayName(p):(p.name===null?null:p.name));
  $('#roll').disabled=G.busy||p.bot;$('#roll').classList.toggle('pulse',!G.busy&&!p.bot);renderUI()}
 let toastT=null;function toast(msg,cls='',ms=1900){const d=$('#toast div');d.className='';d.textContent=msg;void d.offsetWidth;d.className='on '+cls;clearTimeout(toastT);toastT=setTimeout(()=>d.className=cls,ms)}
-function overlay(html,cls=''){$('#overlay').innerHTML=`<div class="ov"><div class="card ${cls}">${html}</div></div>`;return $('#overlay .card')}
-function closeOv(){$('#overlay').innerHTML=''}
+function overlay(html,cls=''){$('#overlay').innerHTML=`<div class="ov"><div class="card ${cls}">${html}</div></div>`;document.body.classList.add('ov-open');return $('#overlay .card')}
+function closeOv(){$('#overlay').innerHTML='';document.body.classList.remove('ov-open');try{speechSynthesis.cancel()}catch(e){}}
 const ovOpen=()=>!!$('#overlay').innerHTML;
 
 /* ======================= moves ======================= */
 function animate(fn,ms){ms*=SPD();return new Promise(res=>{const t0=performance.now();(function st(now){const s=Math.min(1,(now-t0)/ms);fn(s);if(s<1)requestAnimationFrame(st);else res()})(performance.now())})}
 async function hopTo(i,target){const p=G.players[i],m=pawnMeshes[i];let step=0;const dir=target>p.pos?1:-1;
  while(p.pos!==target){const from=m.position.clone();p.pos+=dir;const to=sq(p.pos);
-  await animate(s=>{m.position.lerpVectors(from,to,s);const h=Math.sin(s*Math.PI);m.position.y=h*.5;m.scale.setScalar(1+h*.28)},160);SFX.hop(step++)}
+  await animate(s=>{m.position.lerpVectors(from,to,s);const h=Math.sin(s*Math.PI);m.position.y=h*.5;m.scale.setScalar(1+h*.28)},160);SFX.hop(step++);
+  if(p.pos!==target&&LEVELS[LV].sp[p.pos]==='y')glimpse(p.pos)}
  m.scale.setScalar(1);const end=pawnSpot(i);await animate(s=>{m.position.lerp(end,s)},90);burstAt(m.position,'spark',8);SFX.land();renderUI()}
 async function glideTo(i,n){const m=pawnMeshes[i],from=m.position.clone();G.players[i].pos=n;const to=pawnSpot(i);await animate(s=>{m.position.lerpVectors(from,to,s);m.position.y=Math.sin(s*Math.PI)*.8;m.scale.setScalar(1+Math.sin(s*Math.PI)*.3)},600);m.scale.setScalar(1);renderUI()}
 async function followPath(i,path,ms,lift){const m=pawnMeshes[i];const curve=new THREE.CatmullRomCurve3(path.map(v=>v.clone()));
  await animate(s=>{const e=s<.5?2*s*s:1-Math.pow(-2*s+2,2)/2;const v=curve.getPointAt(e);m.position.set(v.x,v.y+lift,v.z);if(Math.random()<.4)burstAt(m.position,lift>.2?'green':'smoke',1)},ms)}
 function addScore(p,n,at){p.score+=n;if(at)burstAt(at,'spark',14);renderUI()}
+
+/* ======================= story events =======================
+   Passing a story square queues a short glimpse (shown one at a time, never over a card, never stopping the move).
+   Landing on it opens the full scene. Order of importance: win > full scene / challenge / treasure cards > glimpses > small effects.
+   Everything discovered is kept in SAVE.story and can be re-read in the Storybook. */
+const storyAt=n=>LEVELS[LV].stories.find(s=>s.n===n);
+const srec=id=>SAVE.story[id]||(SAVE.story[id]={seen:0,done:0,skipped:0,replayed:0,answered:0});
+const VOICE={en:'en-IN',hi:'hi-IN',kn:'kn-IN'};
+function speak(text,force){if(!force&&!SAVE.set.voice)return;try{if(!('speechSynthesis' in window)||!sfxOn&&!force)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=VOICE[lang];u.rate=.95;speechSynthesis.speak(u)}catch(e){}}
+const EVQ=[];let evBusy=false;
+function glimpse(n){const s=storyAt(n);if(!s||G.glimpsed[n])return;G.glimpsed[n]=1;const r=srec(s.id);r.seen++;persist();EVQ.push(s);pump()}
+function pump(){if(evBusy||!EVQ.length)return;if(G&&G.winner){EVQ.length=0;return}if(ovOpen()){setTimeout(pump,500);return}
+ evBusy=true;const s=EVQ.shift(),el=$('#glimpse');el.innerHTML=`<span>${s.icon}</span><div><b>${tx(s.title)}</b>${tx(s.glimpse)}</div>`;el.className='on';speak(tx(s.glimpse));
+ setTimeout(()=>{el.className='';setTimeout(()=>{evBusy=false;pump()},350)},3800)}
+function clearGlimpses(){EVQ.length=0;$('#glimpse').className=''}
+/* full scene → resolves 'done' or 'skip' */
+function storyPanel(s,place){WOW.stop();return new Promise(res=>{const c=overlay(`<div class="big">${s.icon}</div><span class="tag">📜 ${t('storyTag')} · ${place}</span><h3>${tx(s.title)}</h3><p>${tx(s.full)}</p>
+  <div class="rowbtn"><button class="go ghost" id="again">🔊 ${t('readAgain')}</button><button class="go ghost" id="skip">${t('skipBtn')}</button></div><button class="go" id="ok">${t('ok')}</button>`);
+ speak(tx(s.full));c.querySelector('#again').onclick=()=>speak(tx(s.full),true);c.querySelector('#ok').focus();
+ c.querySelector('#ok').onclick=()=>{closeOv();WOW.start();res('done')};c.querySelector('#skip').onclick=()=>{closeOv();WOW.start();res('skip')}})}
+function showBook(){if(G&&(G.busy||G.intro))return;SFX.click();WOW.stop();const all=LEVELS.flatMap(l=>l.stories),got=all.filter(s=>SAVE.story[s.id]&&(SAVE.story[s.id].seen||SAVE.story[s.id].done)).length;
+ const c=overlay(`<span class="tag">📖 ${t('book')}</span><h3>${t('found')(got,all.length)}</h3><p class="small">${t('bookHint')}</p><div class="book">${LEVELS.map((l,i)=>`<h4>${l.icon} ${i+1}. ${tx(l.place)}</h4>`+l.stories.map(s=>{const r=SAVE.story[s.id],open=r&&(r.seen||r.done);return `<button data-id="${s.id}" ${open?'':'disabled'}><span>${open?s.icon:'🔒'}</span>${open?tx(s.title)+(r.done?' ✓':''):'· · ·'}</button>`}).join('')).join('')}</div><button class="go" id="cl">${t('close')}</button>`);
+ c.querySelectorAll('[data-id]').forEach(b=>b.onclick=async()=>{const [li]=b.dataset.id.split('-'),s=all.find(x=>x.id===b.dataset.id);srec(s.id).replayed++;persist();await storyPanel(s,tx(LEVELS[li-1].place));showBook()});
+ c.querySelector('#cl').onclick=resume}
 
 /* ---------- badges (only people earn them, not Diya) ---------- */
 const ACH_ICON={first:'🎲',ladder:'🪜',brave:'🎯',know:'📚',hunter:'💎',master:'🏆'},ACH_NEED={ladder:5,brave:3,know:10};
@@ -319,8 +347,13 @@ async function resolveSquare(i,depth=0){const p=G.players[i],lv=LEVELS[LV],m=paw
  else if(ty==='t'){if(!G.taken[n]){G.taken[n]=1;p.items++;const s=itemObjs[n];if(s){boardGroup.remove(s);delete itemObjs[n]}addScore(p,20,m.position);toast(`${itemIcon(lv,n)} ${t('treasure')} +20`);SFX.right();if(!p.bot&&p.items>=Object.values(lv.sp).filter(x=>x==='t').length)award('hunter');if(lv.bridge){await sleep(900*SPD());await addStone()}}}
  else if(ty==='k'){if(p.cp<n){p.cp=n;toast(t('cpSet'));SFX.bell();burstAt(m.position,'green',20)}}
  else if(ty==='b'){G.extra=true;toast(t('bonusRoll'));SFX.right()}
- else if(ty==='y'){if(!p.done[key]){p.done[key]=1;addScore(p,5);const sc=lv.scenes.length?lv.scenes[Object.keys(p.done).filter(k=>k[0]==='y').length%lv.scenes.length]:lv.line;
-   if(!p.bot)await infoCard('📜',`${t('storyTag')} · ${tx(lv.place)}`,'',tx(sc));else toast('📜 '+t('storyTag'))}}
+ else if(ty==='y'){const st=storyAt(n),r=srec(st.id);G.glimpsed[n]=1;
+  if(p.bot){if(!p.done[key]){p.done[key]=1;addScore(p,5);toast('📜 '+tx(st.title))}}
+  else if(r.done){if(!p.done[key]){p.done[key]=1;addScore(p,5,m.position)}toast('📜 '+tx(st.title))}   /* already read: no full repeat */
+  else{r.seen++;const out=await storyPanel(st,tx(lv.place));
+   if(out==='skip'){r.skipped++;persist()}
+   else{r.done=1;p.done[key]=1;persist();addScore(p,10,m.position);toast('📜 '+t('scroll'));SFX.bell();await sleep(600*SPD());
+    if(await quiz('📜',t('storyTag'),t('storyQ'),t('wrong'))){r.answered++;persist();addScore(p,10,m.position);count(p,'know')}}}}
  else if(ty==='m'){const r=Math.random(),o=r<.3?'mPts':r<.6?'mFwd':r<.8?'mRoll':'mBack';
   if(!p.bot)await infoCard('🔮',t('sqName').m,'',t(o));else toast('🔮 '+t(o),'',2000);
   if(o==='mPts')addScore(p,20,m.position);else if(o==='mRoll')G.extra=true;
@@ -361,7 +394,7 @@ async function maybeBot(){if(!G||G.winner||G.intro)return;const p=G.players[G.tu
 /* ======================= level end ======================= */
 function stars(p){return 1+(p.score>=60?1:0)+(p.bites<=1?1:0)}
 function starHtml(n){return `<div class="stars">${[0,1,2].map(i=>`<i class="${i<n?'on':''}">★</i>`).join('')}</div>`}
-function endLevel(p){WOW.stop();SAVE.cur=null;persist();renderUI();$('#hint').textContent='';const lv=LEVELS[LV],last=LV===LEVELS.length-1;
+function endLevel(p){WOW.stop();clearGlimpses();SAVE.cur=null;persist();renderUI();$('#hint').textContent='';const lv=LEVELS[LV],last=LV===LEVELS.length-1;
  if(!p.bot){p.score+=50;const s=stars(p);SAVE.stars[LV]=Math.max(SAVE.stars[LV]||0,s);SAVE.best[LV]=Math.max(SAVE.best[LV]||0,p.score);SAVE.unlocked=Math.max(SAVE.unlocked,Math.min(LEVELS.length,LV+2));persist();SFX.win();if(LEVELS.every((_,k)=>SAVE.stars[k]))award('master');renderUI();
   for(let k=0;k<(last?12:6);k++)setTimeout(()=>burst(W*(.15+Math.random()*.7),H*(.15+Math.random()*.35),'fire',60),k*260);setTimeout(()=>burst(W/2,H*.2,'petal',last?140:70),300);
   setTimeout(()=>{const c=overlay(`${last?'<img class="hero" src="img/return.jpg" alt="">':`<div class="big">${lv.icon}</div>`}<span class="tag">${t('level')} ${LV+1} · ${tx(lv.place)}</span><h3>${t('winTitle')(esc(displayName(p)),tx(lv.goal||lv.place))}</h3>${starHtml(s)}
@@ -387,12 +420,13 @@ function showMenu(){if(G&&(G.busy||G.intro))return;SFX.click();WOW.stop();
   <div class="setrow"><label>${t('fast')}</label>${seg('s-fast',onoff,SAVE.set.fast?1:0)}</div>
   <div class="setrow"><label>${t('qLevel')}</label>${seg('s-diff',t('diff').map((l,i)=>[i,l]),SAVE.set.diff)}</div>
   <div class="setrow"><label>${t('learn')}</label>${seg('s-learn',onoff,SAVE.set.learn?1:0)}</div>
+  <div class="setrow"><label>${t('voice')}</label>${seg('s-voice',onoff,SAVE.set.voice?1:0)}</div>
   <div class="setrow"><label>${t('free')}</label>${seg('s-free',onoff,SAVE.set.free?1:0)}</div>
   <div class="stack row" style="margin-top:4px"><button class="go" id="m-how">❔ ${t('howTitle')}</button><button class="go alt" id="m-map">🗺️ ${t('journey')}</button><button class="go alt" id="m-who">👥 ${t('playersBtn')}</button></div>
   <div class="stack" style="margin-top:8px"><button class="go ghost" id="m-ach">🏅 ${t('achTitle')} ${Object.keys(SAVE.ach).length}/6</button><button class="go ghost" id="m-re">↺ ${t('restart')}</button><button class="go ghost" id="cl">${t('close')}</button></div>`);
  const on=(id,fn)=>c.querySelectorAll('#'+id+' button').forEach(b=>b.onclick=()=>{SFX.click();fn(b.dataset.v);if(id!=='s-lang')c.querySelectorAll('#'+id+' button').forEach(x=>x.setAttribute('aria-pressed',x===b))});
  on('s-lang',v=>{lang=v;try{localStorage.setItem('sq_lang',lang)}catch(e){}buildBoard(LEVELS[LV],LV);renderUI();setHint();showMenu()});
- on('s-mus',v=>{firstGesture();setMusic(v==='1')});on('s-sfx',v=>setSfx(v==='1'));on('s-fast',v=>{SAVE.set.fast=v==='1';persist()});on('s-diff',v=>{SAVE.set.diff=+v;persist()});on('s-learn',v=>{SAVE.set.learn=v==='1';persist()});on('s-free',v=>{SAVE.set.free=v==='1';persist()});
+ on('s-mus',v=>{firstGesture();setMusic(v==='1')});on('s-sfx',v=>setSfx(v==='1'));on('s-fast',v=>{SAVE.set.fast=v==='1';persist()});on('s-diff',v=>{SAVE.set.diff=+v;persist()});on('s-learn',v=>{SAVE.set.learn=v==='1';persist()});on('s-free',v=>{SAVE.set.free=v==='1';persist()});on('s-voice',v=>{SAVE.set.voice=v==='1';persist()});
  c.querySelector('#m-how').onclick=showHow;c.querySelector('#m-map').onclick=()=>showMap();c.querySelector('#m-who').onclick=showSetup;
  c.querySelector('#m-ach').onclick=showAch;c.querySelector('#m-re').onclick=()=>{closeOv();startLevel(LV)};c.querySelector('#cl').onclick=resume}
 function showAch(){SFX.click();const c=overlay(`<span class="tag">🏅 ${t('achTitle')}</span><ul class="legend" style="margin-top:10px">${Object.keys(ACH_ICON).map(k=>`<li style="opacity:${SAVE.ach[k]?1:.5}"><span>${SAVE.ach[k]?ACH_ICON[k]:'🔒'}</span><div><b>${t('ach')[k][0]}</b> · ${t('ach')[k][1]}${ACH_NEED[k]&&!SAVE.ach[k]?` (${Math.min(SAVE.stat[k]||0,ACH_NEED[k])}/${ACH_NEED[k]})`:''}</div></li>`).join('')}</ul><button class="go" id="cl">${t('close')}</button>`);c.querySelector('#cl').onclick=showMenu}
@@ -423,7 +457,7 @@ addEventListener('keydown',e=>{if(e.target.tagName==='INPUT'||e.target.tagName==
 addEventListener('pointerdown',firstGesture,{once:true});
 $('#sound').onclick=()=>{setSfx(!sfxOn);SFX.click()};
 $('#music').onclick=()=>{firstGesture();setMusic(!musicOn)};
-$('#menu').onclick=showMenu;$('#lvchip').onclick=()=>{if(G&&(G.busy||G.intro))return;showMap()};
+$('#menu').onclick=showMenu;$('#book').onclick=showBook;$('#lvchip').onclick=()=>{if(G&&(G.busy||G.intro))return;showMap()};
 const ray=new THREE.Raycaster(),mv=new THREE.Vector2();const tip=$('#tip');
 canvas.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;
  mv.set((e.clientX-area.x)/area.w*2-1,-(e.clientY-area.y)/area.h*2+1);ray.setFromCamera(mv,camera);const hit=ray.intersectObjects(hoverables,true)[0];

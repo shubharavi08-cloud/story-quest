@@ -107,7 +107,7 @@ async def main():
         rec('T11','Progress is saved automatically and restored after a refresh','Play a turn, reload the page','same level, squares and scores; no intro card',f'before {before} after {after} intro={intro}',before==after and not intro,'P0')
         await ctx2.close()
         # T12 special squares
-        want={'s':'+10 points','t':'+20 points, treasure removed','k':'checkpoint stored','b':'same player rolls again','y':'story card, +5','m':'mystery card','q':'question card; right answer +15 and 2 steps','o':'question card; wrong answer = miss a turn','c':'mini-game card opens and closes'}
+        want={'s':'+10 points','t':'+20 points, treasure removed','k':'checkpoint stored','b':'same player rolls again','y':'full story scene, +10 (then a bonus question)','m':'mystery card','q':'question card; right answer +15 and 2 steps','o':'question card; wrong answer = miss a turn','c':'mini-game card opens and closes'}
         for ty in want:
             li=next(i for i,l in enumerate(LV) if ty in l['sp'].values());n=int(next(k for k,v in LV[li]['sp'].items() if v==ty))
             await start(pg,li);i=await who(pg);s0=await P(pg,i);st=await move(pg,n-1,1);card=await pg.evaluate("document.querySelector('#overlay .card')?.innerText.slice(0,40).replace(/\\n/g,' ')||''")
@@ -115,7 +115,7 @@ async def main():
             elif ty=='o':await close_card(pg,False)
             else:await close_card(pg,None)
             await idle(pg);q=await P(pg,i);turn=await who(pg);taken=await pg.evaluate(f"!!__rta.G.taken[{n}]")
-            ok={'s':q['score']-s0['score']==10,'t':q['score']-s0['score']==20 and taken,'k':q['cp']==n,'b':turn==i,'y':bool(card) and q['score']-s0['score']==5,'m':bool(card),'q':bool(card) and q['score']-s0['score']>=15 and q['pos']>=n+2,'o':bool(card) and q['skip']==1,'c':bool(card)}[ty]
+            ok={'s':q['score']-s0['score']==10,'t':q['score']-s0['score']==20 and taken,'k':q['cp']==n,'b':turn==i,'y':bool(card) and q['score']-s0['score'] in (10,20),'m':bool(card),'q':bool(card) and q['score']-s0['score']>=15 and q['pos']>=n+2,'o':bool(card) and q['skip']==1,'c':bool(card)}[ty]
             rec('T12-'+ty,f'Special square: {want[ty]}',f'Level {li+1}: land on square {n}',want[ty],f"card='{card}' score {s0['score']}→{q['score']} square {q['pos']} cp {q['cp']} skip {q['skip']}",ok)
         # T13 every mini-game
         await start(pg,1);done=[];kinds=['bow','memory','paths','deer','order','team','bridge','dice2']
@@ -127,6 +127,14 @@ async def main():
                 await pg.wait_for_timeout(100)
             if r and 'ok' in r and not await pg.evaluate("!!document.querySelector('#overlay .card')"):done.append(title)
         rec('T13','Each of the 8 mini-games opens, can be played to the end and returns to the board','Open every mini-game, play it through, close the result','8 mini-games completed',f'{len(done)}: {", ".join(done)}',len(done)==8)
+        # T23-T25 story events
+        await start(pg,0);st=await pg.evaluate("__rta.LEVELS[0].stories.map(s=>s.n)");i=await who(pg);await move(pg,st[0]-2,4);await pg.wait_for_timeout(500)
+        g=await pg.evaluate("({on:document.querySelector('#glimpse').className,txt:document.querySelector('#glimpse').innerText.slice(0,40).replace(/\\n/g,' '),card:!!document.querySelector('#overlay .card'),seen:Object.values(__rta.SAVE.story).filter(r=>r.seen).length})");q=await P(pg,i)
+        rec('T23','Passing a story square shows a short glimpse and does not stop the move',f'Level 1: from {st[0]-2} roll 4 (passes story square {st[0]})',f'glimpse card visible, no blocking card, token on {st[0]+2}, story recorded',f"glimpse='{g['txt']}' class='{g['on']}' blocking={g['card']} token {q['pos']} stories seen {g['seen']}",g['on']=='on' and not g['card'] and q['pos']==st[0]+2 and g['seen']>=1)
+        await pg.evaluate("__rta.G.turn=0");await move(pg,st[1]-1,1);panel=await pg.evaluate("!!document.querySelector('#overlay #skip')&&!!document.querySelector('#overlay #again')");await pg.evaluate("document.querySelector('#overlay #skip').click()");await pg.wait_for_timeout(300);await idle(pg);sk=await pg.evaluate("Object.values(__rta.SAVE.story).filter(r=>r.skipped).length")
+        rec('T24','Landing on a story square opens the full scene with Read again, Skip and Continue',f'Level 1: land on story square {st[1]}, tap Skip','panel with the three controls; skip is recorded; play resumes',f'panel={panel} skipped={sk}',panel and sk==1)
+        await pg.evaluate("document.querySelector('#book').click()");await pg.wait_for_selector('#overlay .book');bk=await pg.evaluate("({open:[...document.querySelectorAll('#overlay .book button')].filter(b=>!b.disabled).length,all:document.querySelectorAll('#overlay .book button').length})");await pg.evaluate("document.querySelector('#overlay .book button:not([disabled])').click()");await pg.wait_for_selector('#overlay #again');await pg.evaluate("document.querySelector('#overlay #ok').click()");await pg.wait_for_selector('#overlay .book');rp=await pg.evaluate("Object.values(__rta.SAVE.story).filter(r=>r.replayed).length");await pg.evaluate("document.querySelector('#overlay #cl').click()")
+        rec('T25','Storybook lists discovered stories and replays them','Open the Storybook, open a discovered story, return','18 entries, 2 unlocked, replay counted',f"{bk['all']} entries, {bk['open']} unlocked, replayed={rp}",bk['all']==18 and bk['open']==2 and rp==1)
         # T14 checkpoint
         li=next(i for i,l in enumerate(LV) if 'k' in l['sp'].values());k=max(int(a) for a,v in LV[li]['sp'].items() if v=='k');sn=next(((a,t) for a,t in LV[li]['S'] if t<k and a>k),None)
         await start(pg,li);i=await who(pg);await move(pg,k-1,1)

@@ -110,6 +110,17 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
 .map button small{display:block;color:#f6a723;font-size:14px;letter-spacing:1px}
 .map button.cur{border-color:#3a1d0c;background:#ffe9b8}
 .map button:disabled{opacity:.45;cursor:default}
+/* ---------- story glimpse: small card shown while a token passes a story square (never blocks play) ---------- */
+#glimpse{position:fixed;left:10px;right:calc(var(--rail) + 30px);bottom:14px;z-index:29;display:flex;gap:10px;align-items:center;background:var(--cloth);color:#3a1d0c;border:3px solid var(--marigold);border-radius:16px;padding:8px 12px;box-shadow:0 12px 30px #000a;font:600 14.5px/1.3 var(--body);opacity:0;transform:translateY(14px);pointer-events:none;transition:opacity .3s,transform .3s;max-width:520px;margin:0 auto}
+#glimpse.on{opacity:1;transform:none}
+#glimpse span{font-size:32px;line-height:1;flex:none}
+#glimpse b{display:block;font:800 15.5px/1.15 var(--display)}
+body.ov-open #glimpse{opacity:0}
+.card .rowbtn{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.book{display:grid;gap:6px;margin:8px 0 12px}
+.book h4{margin:6px 0 0;font:800 14px var(--display);color:#7a5a3a}
+.book button{display:grid;grid-template-columns:30px 1fr;gap:8px;align-items:center;text-align:left;border:2px solid #d9bf8d;background:#fffaf0;color:#3a1d0c;border-radius:12px;padding:7px 10px;font:700 14.5px var(--body);cursor:pointer}
+.book button span{font-size:20px;text-align:center}.book button:disabled{opacity:.5;cursor:default}
 /* ---------- mini-games ---------- */
 .mgfb{font-weight:700;min-height:20px;margin:8px 0}
 .mg-meter{position:relative;height:34px;border-radius:17px;background:#e9d6b0;border:2px solid #3a1d0c;margin:10px 0 14px;overflow:hidden}
@@ -140,6 +151,8 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
   .ctrl{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:9px;align-items:stretch;padding:0 3px 6px}
   .tray{height:clamp(62px,14vh,110px)}
   .roll{font-size:22px;padding:8px}
+  #glimpse{left:8px;right:8px;bottom:var(--railh,170px)}
+  .pill{min-width:33px;height:34px;padding:0 6px;font-size:15px}.btns{gap:4px}
   #toast{width:100%;top:50px}#toast div{font-size:14.5px;padding:6px 14px}
 }
 @media (max-height:560px){.card{padding:12px 15px}.card h3{font-size:21px}.stars{font-size:26px;margin:0 0 4px}.card p{margin:0 0 6px;font-size:14.5px}.card .go{padding:9px 14px;font-size:16px}.card .big{font-size:42px}.legend li{font-size:13.5px}}
@@ -156,6 +169,7 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
     <div class="progress" id="prog" aria-hidden="true"></div>
   </div>
   <div class="btns">
+    <button class="pill" id="book" title="Storybook" aria-label="Storybook">📖</button>
     <button class="pill" id="music" aria-pressed="true" title="Music" aria-label="Music">🎵</button>
     <button class="pill" id="sound" aria-pressed="true" title="Sounds" aria-label="Sounds">🔊</button>
     <button class="pill" id="menu" title="Menu" aria-label="Menu">☰</button>
@@ -169,9 +183,10 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
     <button class="roll pulse" id="roll">Roll</button>
   </section>
 </aside>
+<div id="glimpse" aria-live="polite"></div>
 <div id="toast"><div></div></div>
 <div id="tip"></div>
 <div id="overlay"></div>
-<script type="module" src="game.js?v=20261110f"></script>
+<script type="module" src="game.js?v=20261110g"></script>
 </body>
 </html>

@@ -111,6 +111,12 @@ Object.assign(L.hi,{achTitle:'बिल्ले',achNew:'🏅 नया बि�
 Object.assign(L.kn,{achTitle:'ಪದಕಗಳು',achNew:'🏅 ಹೊಸ ಪದಕ:',free:'ಮುಕ್ತ ಆಟ (ಎಲ್ಲ ಹಂತ ತೆರೆದಿವೆ)',learn:'ಕಲಿಕೆಯ ಆಟ (ಹೆಚ್ಚು ಪ್ರಶ್ನೆ)',learnQ:'ಸರಿ! +10 ಅಂಕ.',
  ach:{first:['ಮೊದಲ ದಾಳ','ಒಮ್ಮೆ ದಾಳ ಎಸೆಯಿರಿ'],ladder:['ಏಣಿ ವೀರ','5 ಏಣಿ ಏರಿ'],brave:['ಧೀರ ಪಯಣಿಗ','3 ಸವಾಲು ಗೆಲ್ಲಿ'],know:['ಜ್ಞಾನ ವಿಜೇತ','10 ಪ್ರಶ್ನೆಗಳಿಗೆ ಸರಿ ಉತ್ತರ ಕೊಡಿ'],hunter:['ನಿಧಿ ಶೋಧಕ','ಒಂದು ಹಲಗೆಯ ಎಲ್ಲ ನಿಧಿ ಸಂಗ್ರಹಿಸಿ'],master:['ಪಯಣ ವಿಜೇತ','ಒಂಬತ್ತೂ ಹಂತ ಮುಗಿಸಿ']}});
 
+/* story events: glimpses, full scenes, Storybook */
+Object.assign(L.en,{book:'Storybook',bookHint:'Pass or land on a 📜 square to discover a story.',readAgain:'Read again',skipBtn:'Skip',voice:'Read stories aloud',scroll:'Story scroll +10',storyQ:'Right! +10 points.',found:(a,b)=>`Stories found: ${a} / ${b}`});
+Object.assign(L.hi,{book:'कहानी की किताब',bookHint:'📜 वाले खाने से गुज़रो या उस पर रुको, कहानी खुल जाएगी।',readAgain:'फिर सुनो',skipBtn:'छोड़ो',voice:'कहानियाँ पढ़कर सुनाओ',scroll:'कहानी का पन्ना +10',storyQ:'सही! +10 अंक।',found:(a,b)=>`मिली कहानियाँ: ${a} / ${b}`});
+Object.assign(L.kn,{book:'ಕಥೆ ಪುಸ್ತಕ',bookHint:'📜 ಮನೆಯನ್ನು ದಾಟಿದರೆ ಅಥವಾ ಅಲ್ಲಿ ನಿಂತರೆ ಕಥೆ ತೆರೆಯುತ್ತದೆ.',readAgain:'ಮತ್ತೆ ಕೇಳಿ',skipBtn:'ಬಿಟ್ಟುಬಿಡಿ',voice:'ಕಥೆಗಳನ್ನು ಓದಿ ಹೇಳಿ',scroll:'ಕಥೆಯ ಪುಟ +10',storyQ:'ಸರಿ! +10 ಅಂಕ.',found:(a,b)=>`ಸಿಕ್ಕ ಕಥೆಗಳು: ${a} / ${b}`});
+L.en.sqDesc.y='Pass it for a glimpse; land on it for the full scene and +10';L.hi.sqDesc.y='गुज़रने पर झलक; रुकने पर पूरी कहानी और +10';L.kn.sqDesc.y='ದಾಟಿದರೆ ಒಂದು ನೋಟ; ನಿಂತರೆ ಪೂರ್ತಿ ಕಥೆ, +10';
+
 export const VIRTUES=[{en:"Kevat's kindness",hi:'केवट की सेवा',kn:'ಕೇವಟನ ಸೇವೆ'},{en:"Bharat's loyalty",hi:'भरत की निष्ठा',kn:'ಭರತನ ನಿಷ್ಠೆ'},{en:"Shabari's devotion",hi:'शबरी की भक्ति',kn:'ಶಬರಿಯ ಭಕ್ತಿ'},
  {en:"Jatayu's courage",hi:'जटायु का साहस',kn:'ಜಟಾಯುವಿನ ಧೈರ್ಯ'},{en:"Hanuman's great leap",hi:'हनुमान की छलाँग',kn:'ಹನುಮಂತನ ನೆಗೆತ'},{en:"Vibhishana's truth",hi:'विभीषण का सत्य',kn:'ವಿಭೀಷಣನ ಸತ್ಯ'},
  {en:"The squirrel's help",hi:'गिलहरी की मदद',kn:'ಅಳಿಲು ಸೇವೆ'},{en:"Lakshman's service",hi:'लक्ष्मण की सेवा',kn:'ಲಕ್ಷ್ಮಣನ ಸೇವೆ'},{en:"Sita's courage",hi:'सीता का धैर्य',kn:'ಸೀತೆಯ ಧೈರ್ಯ'}];
