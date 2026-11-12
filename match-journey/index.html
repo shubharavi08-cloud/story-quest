@@ -210,12 +210,13 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
 .pdone2{fill:none;stroke:#b9a27a;stroke-width:6px;stroke-linecap:butt;stroke-dasharray:0 99999}
 .pnext{stroke:#fff!important;stroke-width:4px!important}
 .wtrain{position:absolute;z-index:1;width:0;height:0;pointer-events:none}
-.wtrain svg{position:absolute;left:-24px;top:-11px;width:48px!important;height:23px!important;max-width:none!important;transform-origin:24px 11px;filter:drop-shadow(0 2px 2px #0006)}
-.wtrain.on svg{animation:trbob .28s ease-in-out infinite alternate}@keyframes trbob{to{translate:0 -1.5px}}
+.wtrain .car{position:absolute;left:0;top:0;line-height:0;filter:drop-shadow(0 2px 1.5px #0007)}.wtrain .car svg{display:block;overflow:visible;max-width:none!important;width:22px!important;height:18px!important}.wtrain .car.eng svg{width:30px!important;height:22px!important}
+.wtrain.on .car svg{animation:trbob .3s ease-in-out infinite alternate}.wtrain.on .car:nth-child(2) svg{animation-delay:.1s}.wtrain.on .car:nth-child(3) svg{animation-delay:.2s}@keyframes trbob{to{translate:0 -1px}}
+.wtrain .smk circle{fill:#fff;opacity:0;transform-box:fill-box;transform-origin:center}.wtrain.on .smk circle{animation:puff 1.1s ease-out infinite}.wtrain.on .smk circle:nth-child(2){animation-delay:.35s}.wtrain.on .smk circle:nth-child(3){animation-delay:.7s}@keyframes puff{0%{opacity:.85;transform:translate(0,4px) scale(.5)}100%{opacity:0;transform:translate(-6px,-6px) scale(1.4)}}
 .wme{transition:none!important;transform:translate(-50%,-118%)}
 .wme.ride .arw{display:none}
 .far .pedge{stroke-width:56px!important}.far .pth{stroke-width:42px!important;stroke-dasharray:8 14}.far .prl{stroke-width:24px}.far .prl2,.far .pdone2{stroke-width:11px}.far .pdone{stroke-width:24px!important}
-.far .wtrain svg{transform-origin:24px 11px}
+
 .windia{position:absolute;left:0;right:0;bottom:0;z-index:6;background:#7fc3dd;display:none}
 .windia.on{display:block;animation:fadeIn .35s ease}
 .wmap.ind .wloc,.wmap.ind .wside,.wmap.ind .wjump,.wmap.ind .wnext{display:none}
@@ -515,9 +516,9 @@ const PLACES={
 ka:[
 ["🌺","Bengaluru · Lalbagh","बेंगलुरु · लालबाग","ಬೆಂಗಳೂರು · ಲಾಲ್‌ಬಾಗ್","Lalbagh's glass house holds a famous flower show twice a year.","लालबाग के ग्लास हाउस में साल में दो बार मशहूर फूलों की प्रदर्शनी लगती है।","ಲಾಲ್‌ಬಾಗ್‌ನ ಗಾಜಿನ ಮನೆಯಲ್ಲಿ ವರ್ಷಕ್ಕೆ ಎರಡು ಬಾರಿ ಪ್ರಸಿದ್ಧ ಫಲಪುಷ್ಪ ಪ್ರದರ್ಶನ ನಡೆಯುತ್ತದೆ."],
 ["🪀","Channapatna","चन्नपटना","ಚನ್ನಪಟ್ಟಣ","The \"toy town\" makes wooden toys coloured with natural lacquer.","\"खिलौनों का शहर\" यहाँ लकड़ी के खिलौने प्राकृतिक लाख से रंगे जाते हैं।","\"ಗೊಂಬೆಗಳ ಊರು\" ಇಲ್ಲಿ ಮರದ ಗೊಂಬೆಗಳಿಗೆ ನೈಸರ್ಗಿಕ ಅರಗಿನ ಬಣ್ಣ ಹಚ್ಚುತ್ತಾರೆ."],
+["⛰️","Chamundi Hills","चामुंडी पहाड़ी","ಚಾಮುಂಡಿ ಬೆಟ್ಟ","About 1,000 stone steps climb up to the Chamundeshwari temple.","लगभग एक हज़ार सीढ़ियाँ चामुंडेश्वरी मंदिर तक जाती हैं।","ಸುಮಾರು ಸಾವಿರ ಮೆಟ್ಟಿಲುಗಳು ಚಾಮುಂಡೇಶ್ವರಿ ದೇವಾಲಯಕ್ಕೆ ಹತ್ತುತ್ತವೆ."],
 ["🏰","Srirangapatna","श्रीरंगपट्टण","ಶ್ರೀರಂಗಪಟ್ಟಣ","Tipu Sultan's island fort stands in the middle of the Kaveri river.","टीपू सुल्तान का द्वीप-किला कावेरी नदी के बीच खड़ा है।","ಟಿಪ್ಪು ಸುಲ್ತಾನನ ದ್ವೀಪ ಕೋಟೆ ಕಾವೇರಿ ನದಿಯ ನಡುವೆ ನಿಂತಿದೆ."],
 ["👑","Mysuru Palace","मैसूर महल","ಮೈಸೂರು ಅರಮನೆ","On Dasara nights the palace glows with nearly 100,000 bulbs.","दशहरे की रातों में महल लगभग एक लाख बल्बों से जगमगाता है।","ದಸರಾ ರಾತ್ರಿಗಳಲ್ಲಿ ಅರಮನೆ ಸುಮಾರು ಒಂದು ಲಕ್ಷ ದೀಪಗಳಿಂದ ಬೆಳಗುತ್ತದೆ."],
-["⛰️","Chamundi Hills","चामुंडी पहाड़ी","ಚಾಮುಂಡಿ ಬೆಟ್ಟ","About 1,000 stone steps climb up to the Chamundeshwari temple.","लगभग एक हज़ार सीढ़ियाँ चामुंडेश्वरी मंदिर तक जाती हैं।","ಸುಮಾರು ಸಾವಿರ ಮೆಟ್ಟಿಲುಗಳು ಚಾಮುಂಡೇಶ್ವರಿ ದೇವಾಲಯಕ್ಕೆ ಹತ್ತುತ್ತವೆ."],
 ["☕","Kodagu","कोडगु","ಕೊಡಗು","Misty hills of coffee and cardamom, home of the Kodava people.","कॉफ़ी और इलायची की धुंधली पहाड़ियाँ, कोडव लोगों का घर।","ಕಾಫಿ, ಏಲಕ್ಕಿ ಬೆಳೆಯುವ ಮಂಜಿನ ಬೆಟ್ಟಗಳು, ಕೊಡವರ ನಾಡು."],
 ["🛕","Udupi","उडुपी","ಉಡುಪಿ","Famous for its Krishna temple and for the first masala dosas.","अपने कृष्ण मंदिर और मसाला डोसे के लिए मशहूर।","ಕೃಷ್ಣ ಮಠ ಮತ್ತು ಮಸಾಲೆ ದೋಸೆಗೆ ಹೆಸರುವಾಸಿ."],
 ["💧","Jog Falls","जोग जलप्रपात","ಜೋಗ ಜಲಪಾತ","The Sharavathi river drops 253 metres here in four streams.","शरावती नदी यहाँ चार धाराओं में 253 मीटर नीचे गिरती है।","ಶರಾವತಿ ನದಿ ಇಲ್ಲಿ ನಾಲ್ಕು ಧಾರೆಗಳಾಗಿ 253 ಮೀಟರ್ ಕೆಳಗೆ ಧುಮುಕುತ್ತದೆ."],
@@ -531,11 +532,11 @@ br:[
 ["🥣","Darbhanga","दरभंगा","ದರ್ಭಂಗಾ","Its ponds grow makhana, the puffed fox nut.","यहाँ के तालाबों में मखाना उगता है।","ಇಲ್ಲಿನ ಕೊಳಗಳಲ್ಲಿ ಮಖಾನಾ ಬೆಳೆಯುತ್ತಾರೆ."],
 ["🍒","Muzaffarpur","मुज़फ़्फ़रपुर","ಮುಜಫ್ಫರ್‌ಪುರ","India's litchi land, home of the sweet Shahi litchi.","भारत की लीची धरती, मीठी शाही लीची का घर।","ಭಾರತದ ಲಿಚಿ ನಾಡು, ಸಿಹಿಯಾದ ಶಾಹಿ ಲಿಚಿಯ ತವರು."],
 ["🗿","Vaishali","वैशाली","ವೈಶಾಲಿ","One of the world's first republics, with an Ashokan lion pillar.","दुनिया के पहले गणराज्यों में से एक, अशोक के सिंह-स्तंभ के साथ।","ಜಗತ್ತಿನ ಮೊದಲ ಗಣರಾಜ್ಯಗಳಲ್ಲಿ ಒಂದು, ಅಶೋಕನ ಸಿಂಹ ಸ್ತಂಭವಿದೆ."],
-["🐘","Sonepur","सोनपुर","ಸೋನ್‌ಪುರ","Home to one of Asia's biggest animal fairs every November.","हर नवंबर एशिया के सबसे बड़े पशु मेलों में से एक लगता है।","ಪ್ರತಿ ನವೆಂಬರ್ ಏಷ್ಯಾದ ದೊಡ್ಡ ಜಾನುವಾರು ಜಾತ್ರೆಗಳಲ್ಲಿ ಒಂದು ನಡೆಯುತ್ತದೆ."],
 ["🌾","Patna · Golghar","पटना · गोलघर","ಪಟ್ನಾ · ಗೋಲ್‌ಘರ್","A giant granary built in 1786, with steps winding up its outside.","1786 में बना विशाल अन्न-भंडार, बाहर से घूमती सीढ़ियों वाला।","1786ರಲ್ಲಿ ಕಟ್ಟಿದ ದೊಡ್ಡ ಧಾನ್ಯದ ಕಣಜ, ಹೊರಗಿನಿಂದ ಸುತ್ತುವ ಮೆಟ್ಟಿಲುಗಳು."],
-["🧵","Bhagalpur","भागलपुर","ಭಾಗಲ್ಪುರ","The \"silk city\", famous for soft tussar silk.","\"रेशम नगरी\", मुलायम टसर रेशम के लिए मशहूर।","\"ರೇಷ್ಮೆ ನಗರ\", ಮೃದುವಾದ ಟಸರ್ ರೇಷ್ಮೆಗೆ ಹೆಸರುವಾಸಿ."],
-["🪷","Pawapuri","पावापुरी","ಪಾವಾಪುರಿ","Its white Jal Mandir seems to float on a pond of lotuses.","सफ़ेद जल मंदिर कमल के तालाब पर तैरता-सा लगता है।","ಬಿಳಿಯ ಜಲ ಮಂದಿರ ಕಮಲದ ಕೊಳದ ಮೇಲೆ ತೇಲುತ್ತಿರುವಂತೆ ಕಾಣುತ್ತದೆ."],
+["🐘","Sonepur","सोनपुर","ಸೋನ್‌ಪುರ","Home to one of Asia's biggest animal fairs every November.","हर नवंबर एशिया के सबसे बड़े पशु मेलों में से एक लगता है।","ಪ್ರತಿ ನವೆಂಬರ್ ಏಷ್ಯಾದ ದೊಡ್ಡ ಜಾನುವಾರು ಜಾತ್ರೆಗಳಲ್ಲಿ ಒಂದು ನಡೆಯುತ್ತದೆ."],
 ["📜","Nalanda","नालंदा","ನಳಂದಾ","Ruins of one of the world's oldest universities.","दुनिया के सबसे पुराने विश्वविद्यालयों में से एक के खंडहर।","ಜಗತ್ತಿನ ಅತ್ಯಂತ ಹಳೆಯ ವಿಶ್ವವಿದ್ಯಾಲಯಗಳಲ್ಲಿ ಒಂದರ ಅವಶೇಷಗಳು."],
+["🪷","Pawapuri","पावापुरी","ಪಾವಾಪುರಿ","Its white Jal Mandir seems to float on a pond of lotuses.","सफ़ेद जल मंदिर कमल के तालाब पर तैरता-सा लगता है।","ಬಿಳಿಯ ಜಲ ಮಂದಿರ ಕಮಲದ ಕೊಳದ ಮೇಲೆ ತೇಲುತ್ತಿರುವಂತೆ ಕಾಣುತ್ತದೆ."],
+["🧵","Bhagalpur","भागलपुर","ಭಾಗಲ್ಪುರ","The \"silk city\", famous for soft tussar silk.","\"रेशम नगरी\", मुलायम टसर रेशम के लिए मशहूर।","\"ರೇಷ್ಮೆ ನಗರ\", ಮೃದುವಾದ ಟಸರ್ ರೇಷ್ಮೆಗೆ ಹೆಸರುವಾಸಿ."],
 ["♨️","Rajgir","राजगीर","ರಾಜಗೀರ್","Hot springs, green hills and a ropeway to the Peace Pagoda.","गर्म कुंड, हरी पहाड़ियाँ और शांति स्तूप तक रोपवे।","ಬಿಸಿನೀರಿನ ಬುಗ್ಗೆಗಳು, ಹಸಿರು ಬೆಟ್ಟಗಳು, ಶಾಂತಿ ಸ್ತೂಪಕ್ಕೆ ರೋಪ್‌ವೇ."],
 ["🌳","Bodh Gaya","बोधगया","ಬೋಧಗಯಾ","The Buddha found enlightenment under the Bodhi tree here.","यहीं बोधि वृक्ष के नीचे बुद्ध को ज्ञान मिला।","ಇಲ್ಲಿ ಬೋಧಿ ವೃಕ್ಷದಡಿ ಬುದ್ಧನಿಗೆ ಜ್ಞಾನೋದಯವಾಯಿತು."],
 ["🏞️","Sasaram","सासाराम","ಸಾಸಾರಾಮ್","Sher Shah Suri's tomb rises from the middle of a lake.","शेरशाह सूरी का मकबरा झील के बीच से उठता है।","ಶೇರ್ ಶಾ ಸೂರಿಯ ಸಮಾಧಿ ಸರೋವರದ ನಡುವೆ ಎದ್ದು ನಿಂತಿದೆ."]
@@ -556,13 +557,13 @@ mh:[
 ],
 od:[
 ["🛕","Puri · Jagannath Temple","पुरी · जगन्नाथ मंदिर","ಪುರಿ · ಜಗನ್ನಾಥ ದೇವಾಲಯ","At Rath Yatra, devotees pull three giant chariots for Jagannath, Balabhadra and Subhadra.","रथ यात्रा में भक्त जगन्नाथ, बलभद्र और सुभद्रा के तीन विशाल रथ खींचते हैं।","ರಥಯಾತ್ರೆಯಲ್ಲಿ ಭಕ್ತರು ಜಗನ್ನಾಥ, ಬಲಭದ್ರ ಮತ್ತು ಸುಭದ್ರೆಯರ ಮೂರು ಭವ್ಯ ರಥಗಳನ್ನು ಎಳೆಯುತ್ತಾರೆ."],
-["🎨","Raghurajpur","रघुराजपुर","ರಘುರಾಜಪುರ","A village where almost every home is a Pattachitra painter's studio.","एक गाँव जहाँ लगभग हर घर पट्टचित्र चित्रकार का कलाघर है।","ಬಹುತೇಕ ಪ್ರತಿ ಮನೆಯೂ ಪಟ್ಟಚಿತ್ರ ಕಲಾವಿದರ ಕಲಾಮನೆಯಾಗಿರುವ ಹಳ್ಳಿ."],
 ["☸️","Konark · Sun Temple","कोणार्क · सूर्य मंदिर","ಕೋನಾರ್ಕ್ · ಸೂರ್ಯ ದೇವಾಲಯ","A stone chariot of the Sun with 24 carved wheels, built in the 13th century.","सूर्य का पत्थर का रथ, 24 नक्काशीदार पहियों वाला, 13वीं सदी में बना।","24 ಕೆತ್ತಿದ ಚಕ್ರಗಳಿರುವ ಸೂರ್ಯನ ಕಲ್ಲಿನ ರಥ, 13ನೇ ಶತಮಾನದಲ್ಲಿ ಕಟ್ಟಿದ್ದು."],
+["🎨","Raghurajpur","रघुराजपुर","ರಘುರಾಜಪುರ","A village where almost every home is a Pattachitra painter's studio.","एक गाँव जहाँ लगभग हर घर पट्टचित्र चित्रकार का कलाघर है।","ಬಹುತೇಕ ಪ್ರತಿ ಮನೆಯೂ ಪಟ್ಟಚಿತ್ರ ಕಲಾವಿದರ ಕಲಾಮನೆಯಾಗಿರುವ ಹಳ್ಳಿ."],
+["🛕","Bhubaneswar · Lingaraj","भुवनेश्वर · लिंगराज","ಭುವನೇಶ್ವರ · ಲಿಂಗರಾಜ","The \"Temple City\", with hundreds of old stone temples.","\"मंदिरों का शहर\", जहाँ सैकड़ों पुराने पत्थर के मंदिर हैं।","\"ದೇವಾಲಯಗಳ ನಗರ\", ಇಲ್ಲಿ ನೂರಾರು ಹಳೆಯ ಕಲ್ಲಿನ ದೇವಾಲಯಗಳಿವೆ."],
+["🍮","Pahala","पहाला","ಪಹಾಲಾ","Rows of roadside sweet shops sell soft, juicy rasagola.","सड़क किनारे मिठाई की दुकानों की कतारें नरम, रसीले रसगोले बेचती हैं।","ರಸ್ತೆಬದಿಯ ಸಿಹಿ ಅಂಗಡಿಗಳ ಸಾಲು ಮೆತ್ತನೆಯ, ರಸಭರಿತ ರಸಗೋಲಾ ಮಾರುತ್ತವೆ."],
 ["🐢","Gahirmatha","गहिरमाथा","ಗಹಿರ್‌ಮಾಥಾ","Lakhs of Olive Ridley turtles come ashore together to lay eggs.","लाखों ऑलिव रिडले कछुए एक साथ अंडे देने तट पर आते हैं।","ಲಕ್ಷಾಂತರ ಆಲಿವ್ ರಿಡ್ಲಿ ಆಮೆಗಳು ಒಟ್ಟಿಗೆ ಮೊಟ್ಟೆ ಇಡಲು ದಡಕ್ಕೆ ಬರುತ್ತವೆ."],
 ["🦚","Cuttack","कटक","ಕಟಕ್","City of silver filigree; Bali Jatra remembers sailors who sailed to Bali.","चाँदी की तारकशी का शहर; बाली जात्रा बाली तक गए नाविकों की याद है।","ಬೆಳ್ಳಿಯ ತಾರಕಸಿ ಕಲೆಯ ನಗರ; ಬಾಲಿ ಜಾತ್ರೆ ಬಾಲಿಗೆ ನೌಕಾಯಾನ ಮಾಡಿದ ನಾವಿಕರ ನೆನಪು."],
-["🍮","Pahala","पहाला","ಪಹಾಲಾ","Rows of roadside sweet shops sell soft, juicy rasagola.","सड़क किनारे मिठाई की दुकानों की कतारें नरम, रसीले रसगोले बेचती हैं।","ರಸ್ತೆಬದಿಯ ಸಿಹಿ ಅಂಗಡಿಗಳ ಸಾಲು ಮೆತ್ತನೆಯ, ರಸಭರಿತ ರಸಗೋಲಾ ಮಾರುತ್ತವೆ."],
 ["🗿","Udayagiri Caves","उदयगिरि गुफाएँ","ಉದಯಗಿರಿ ಗುಹೆಗಳು","Caves carved for Jain monks over 2,000 years ago.","2,000 साल से भी पहले जैन मुनियों के लिए काटी गई गुफाएँ।","2,000 ವರ್ಷಗಳಿಗೂ ಹಿಂದೆ ಜೈನ ಮುನಿಗಳಿಗಾಗಿ ಕೊರೆದ ಗುಹೆಗಳು."],
-["🛕","Bhubaneswar · Lingaraj","भुवनेश्वर · लिंगराज","ಭುವನೇಶ್ವರ · ಲಿಂಗರಾಜ","The \"Temple City\", with hundreds of old stone temples.","\"मंदिरों का शहर\", जहाँ सैकड़ों पुराने पत्थर के मंदिर हैं।","\"ದೇವಾಲಯಗಳ ನಗರ\", ಇಲ್ಲಿ ನೂರಾರು ಹಳೆಯ ಕಲ್ಲಿನ ದೇವಾಲಯಗಳಿವೆ."],
 ["☂️","Pipili","पिपली","ಪಿಪಿಲಿ","Bright appliqué umbrellas and lanterns, stitched for Rath Yatra.","रथ यात्रा के लिए सिली चमकीली एप्लिक छतरियाँ और लालटेनें।","ರಥಯಾತ್ರೆಗಾಗಿ ಬಟ್ಟೆಯ ತುಂಡುಗಳನ್ನು ಹೊಲಿದು ಮಾಡಿದ ಬಣ್ಣಬಣ್ಣದ ಕೊಡೆಗಳು ಮತ್ತು ಲಾಂದ್ರಗಳು."],
 ["🐬","Chilika Lake","चिलिका झील","ಚಿಲಿಕಾ ಸರೋವರ","Asia's largest brackish lagoon: shy Irrawaddy dolphins, and boatmen selling pearls and gems.","एशिया की सबसे बड़ी खारे पानी की झील: शर्मीली इरावदी डॉल्फ़िन, और मोती व रत्न बेचते नाविक।","ಏಷ್ಯಾದ ಅತಿ ದೊಡ್ಡ ಉಪ್ಪುನೀರಿನ ಸರೋವರ: ನಾಚಿಕೆಯ ಇರಾವದಿ ಡಾಲ್ಫಿನ್‌ಗಳು, ಮುತ್ತು-ರತ್ನ ಮಾರುವ ದೋಣಿಯವರು."],
 ["🧁","Nayagarh","नयागढ़","ನಯಾಗಢ","Birthplace of chhena poda, a cottage-cheese sweet baked till golden brown.","छेना पोड़ा की जन्मभूमि, जिसे सुनहरा भूरा होने तक सेंका जाता है।","ಛೇನಾ ಪೋಡಾದ ತವರು, ಹೊಂಬಣ್ಣ ಬರುವವರೆಗೆ ಬೇಯಿಸುವ ಪನೀರ್ ಸಿಹಿ."],
@@ -604,8 +605,8 @@ gj:[
 ["🌕","Dhordo · White Rann","धोरडो · सफ़ेद रण","ಧೋರ್ಡೋ · ಬಿಳಿ ರಣ","Dhordo is the gateway to the White Rann, a huge salt desert. In 2023 the UN named it a Best Tourism Village, and Rann Utsav is held here every winter.","धोरडो सफ़ेद रण, यानी विशाल नमक रेगिस्तान का द्वार है। 2023 में संयुक्त राष्ट्र ने इसे सर्वश्रेष्ठ पर्यटन गाँव चुना, और हर सर्दी यहाँ रण उत्सव होता है।","ಧೋರ್ಡೋ ಬಿಳಿ ರಣ ಎಂಬ ದೊಡ್ಡ ಉಪ್ಪಿನ ಮರುಭೂಮಿಯ ಹೆಬ್ಬಾಗಿಲು. 2023ರಲ್ಲಿ ವಿಶ್ವಸಂಸ್ಥೆ ಇದನ್ನು ಅತ್ಯುತ್ತಮ ಪ್ರವಾಸಿ ಹಳ್ಳಿ ಎಂದು ಆರಿಸಿತು; ಪ್ರತಿ ಚಳಿಗಾಲ ಇಲ್ಲಿ ರಣ ಉತ್ಸವ ನಡೆಯುತ್ತದೆ."],
 ["🎨","Nirona · Rogan art","निरोणा · रोगन कला","ನಿರೋಣಾ · ರೋಗನ್ ಕಲೆ","In Nirona village, a few families still paint Rogan art: thick castor-oil paint is pulled into thin threads with a metal stick.","निरोणा गाँव में कुछ परिवार आज भी रोगन कला बनाते हैं: अरंडी के तेल का गाढ़ा रंग धातु की सलाई से पतले धागों में खींचा जाता है।","ನಿರೋಣಾ ಹಳ್ಳಿಯಲ್ಲಿ ಕೆಲವು ಕುಟುಂಬಗಳು ಇಂದಿಗೂ ರೋಗನ್ ಕಲೆ ಮಾಡುತ್ತಾರೆ: ಹರಳೆಣ್ಣೆಯ ದಪ್ಪ ಬಣ್ಣವನ್ನು ಲೋಹದ ಕಡ್ಡಿಯಿಂದ ತೆಳು ದಾರದಂತೆ ಎಳೆಯುತ್ತಾರೆ."],
 ["🚩","Dwarka","द्वारका","ದ್ವಾರಕಾ","Dwarka is Lord Krishna's city. The flag on top of the Dwarkadhish temple is changed several times every day.","द्वारका भगवान कृष्ण की नगरी है। द्वारकाधीश मंदिर के शिखर का ध्वज रोज़ कई बार बदला जाता है।","ದ್ವಾರಕಾ ಶ್ರೀಕೃಷ್ಣನ ನಗರ. ದ್ವಾರಕಾಧೀಶ ದೇವಾಲಯದ ಶಿಖರದ ಧ್ವಜವನ್ನು ದಿನಕ್ಕೆ ಹಲವು ಬಾರಿ ಬದಲಿಸುತ್ತಾರೆ."],
-["🌊","Somnath","सोमनाथ","ಸೋಮನಾಥ","Somnath is the first of the twelve Jyotirlingas. A pillar by the sea says there is no land in a straight line from here to the South Pole.","सोमनाथ बारह ज्योतिर्लिंगों में पहला है। समुद्र किनारे का एक स्तंभ बताता है कि यहाँ से दक्षिणी ध्रुव तक सीधी रेखा में कोई ज़मीन नहीं है।","ಸೋಮನಾಥ ಹನ್ನೆರಡು ಜ್ಯೋತಿರ್ಲಿಂಗಗಳಲ್ಲಿ ಮೊದಲನೆಯದು. ಇಲ್ಲಿಂದ ದಕ್ಷಿಣ ಧ್ರುವದವರೆಗೆ ನೇರ ರೇಖೆಯಲ್ಲಿ ಎಲ್ಲೂ ನೆಲವಿಲ್ಲ ಎಂದು ಕಡಲ ತೀರದ ಒಂದು ಕಂಬ ಹೇಳುತ್ತದೆ."],
 ["🦁","Gir","गिर","ಗಿರ್","Gir is the only wild home of Asiatic lions. The 2025 count found 891 lions in Gujarat.","गिर एशियाई शेरों का इकलौता जंगली घर है। 2025 की गिनती में गुजरात में 891 शेर मिले।","ಗಿರ್ ಏಷ್ಯಾದ ಸಿಂಹಗಳ ಏಕೈಕ ಕಾಡಿನ ಮನೆ. 2025ರ ಎಣಿಕೆಯಲ್ಲಿ ಗುಜರಾತ್‌ನಲ್ಲಿ 891 ಸಿಂಹಗಳು ಸಿಕ್ಕವು."],
+["🌊","Somnath","सोमनाथ","ಸೋಮನಾಥ","Somnath is the first of the twelve Jyotirlingas. A pillar by the sea says there is no land in a straight line from here to the South Pole.","सोमनाथ बारह ज्योतिर्लिंगों में पहला है। समुद्र किनारे का एक स्तंभ बताता है कि यहाँ से दक्षिणी ध्रुव तक सीधी रेखा में कोई ज़मीन नहीं है।","ಸೋಮನಾಥ ಹನ್ನೆರಡು ಜ್ಯೋತಿರ್ಲಿಂಗಗಳಲ್ಲಿ ಮೊದಲನೆಯದು. ಇಲ್ಲಿಂದ ದಕ್ಷಿಣ ಧ್ರುವದವರೆಗೆ ನೇರ ರೇಖೆಯಲ್ಲಿ ಎಲ್ಲೂ ನೆಲವಿಲ್ಲ ಎಂದು ಕಡಲ ತೀರದ ಒಂದು ಕಂಬ ಹೇಳುತ್ತದೆ."],
 ["⚓","Lothal","लोथल","ಲೋಥಲ್","Over 4,000 years ago, Lothal was a Harappan port town with one of the oldest dockyards in the world.","4,000 साल से भी पहले लोथल हड़प्पा काल का बंदरगाह शहर था, जहाँ दुनिया की सबसे पुरानी गोदियों में से एक थी।","4,000 ವರ್ಷಗಳಿಗೂ ಹಿಂದೆ ಲೋಥಲ್ ಹರಪ್ಪಾ ಕಾಲದ ಬಂದರು ಪಟ್ಟಣ; ಜಗತ್ತಿನ ಅತಿ ಹಳೆಯ ಹಡಗುಕಟ್ಟೆಗಳಲ್ಲಿ ಒಂದು ಇಲ್ಲಿತ್ತು."],
 ["🏰","Champaner-Pavagadh","चांपानेर-पावागढ़","ಚಾಂಪಾನೇರ್-ಪಾವಾಗಢ","Champaner-Pavagadh is a UNESCO site with old mosques and forts, and the Kalika Mata temple on top of Pavagadh hill.","चांपानेर-पावागढ़ यूनेस्को धरोहर है, जहाँ पुरानी मस्जिदें, किले और पावागढ़ पहाड़ी पर कालिका माता मंदिर है।","ಚಾಂಪಾನೇರ್-ಪಾವಾಗಢ ಯುನೆಸ್ಕೋ ತಾಣ; ಇಲ್ಲಿ ಹಳೆಯ ಮಸೀದಿಗಳು, ಕೋಟೆಗಳು ಮತ್ತು ಪಾವಾಗಢ ಬೆಟ್ಟದ ತುದಿಯಲ್ಲಿ ಕಾಳಿಕಾ ಮಾತೆಯ ದೇವಾಲಯವಿದೆ."],
 ["🗽","Statue of Unity","स्टैच्यू ऑफ़ यूनिटी","ಏಕತಾ ಪ್ರತಿಮೆ","The Statue of Unity of Sardar Vallabhbhai Patel is 182 metres tall, the tallest statue in the world.","सरदार वल्लभभाई पटेल की स्टैच्यू ऑफ़ यूनिटी 182 मीटर ऊँची है, दुनिया की सबसे ऊँची प्रतिमा।","ಸರ್ದಾರ್ ವಲ್ಲಭಭಾಯಿ ಪಟೇಲರ ಏಕತಾ ಪ್ರತಿಮೆ 182 ಮೀಟರ್ ಎತ್ತರ; ಜಗತ್ತಿನ ಅತಿ ಎತ್ತರದ ಪ್ರತಿಮೆ."]
@@ -975,9 +976,9 @@ const PLOC={
 ka:[
 [12.95,77.585],
 [12.65,77.21],
+[12.27,76.67],
 [12.42,76.68],
 [12.305,76.655],
-[12.27,76.67],
 [12.42,75.74],
 [13.34,74.75],
 [14.23,74.81],
@@ -991,11 +992,11 @@ br:[
 [26.15,85.9],
 [26.12,85.39],
 [25.99,85.13],
-[25.7,85.18],
 [25.62,85.14],
-[25.24,86.98],
-[25.09,85.53],
+[25.7,85.18],
 [25.135,85.44],
+[25.09,85.53],
+[25.24,86.98],
 [25.03,85.42],
 [24.7,84.99],
 [24.95,84.03]
@@ -1030,13 +1031,13 @@ ap:[
 ],
 od:[
 [19.805,85.818],
-[19.88,85.89],
 [19.887,86.095],
+[19.88,85.89],
+[20.238,85.834],
+[20.32,85.88],
 [20.75,86.95],
 [20.46,85.88],
-[20.32,85.88],
 [20.263,85.785],
-[20.238,85.834],
 [20.115,85.83],
 [19.72,85.32],
 [20.13,85.1],
@@ -1064,8 +1065,8 @@ gj:[
 [23.81,69.66],
 [23.44,69.42],
 [22.238,68.968],
-[20.888,70.401],
 [21.17,70.6],
+[20.888,70.401],
 [22.522,72.249],
 [22.486,73.537],
 [21.838,73.719]
@@ -1112,6 +1113,7 @@ function gP(key,la,lo){const g=GEO[key];return[(lo-g.x0)*g.k*g.s,(g.y1-la)*g.s]}
 function geoLayout(key){if(GLAY[key])return GLAY[key];const g=GEO[key],it=[];
   (PLOC[key]||[]).forEach(([la,lo],i)=>{const[x,y]=gP(key,la,lo);it.push({t:'n',i,ax:x,ay:y,x,y,r:32})});
   (SPEC[key]||[]).forEach(([ty,la,lo])=>{const[x,y]=gP(key,la,lo);it.push({t:'s',ty,ax:x,ay:y,x,y,r:30})});
+  it.sort((p,q)=>p.ax-q.ax||p.ay-q.ay);
   let sd=7;const rnd=()=>((sd=sd*16807%2147483647)/2147483647)-.5;
   for(let k=0;k<420;k++){for(let a=0;a<it.length;a++)for(let b=a+1;b<it.length;b++){const A=it[a],B=it[b];let dx=B.x-A.x,dy=B.y-A.y,d=Math.hypot(dx,dy);const mn=A.r+B.r+(A.t==='n'&&B.t==='n'?14:6);
       if(d<mn){if(d<.01){dx=rnd();dy=rnd();d=Math.hypot(dx,dy)}const p=(mn-d)/2/d;A.x-=dx*p;A.y-=dy*p;B.x+=dx*p;B.y+=dy*p}}
@@ -1238,19 +1240,18 @@ function showMap(opt={}){closeOv();const st=PG().stars,done=st.filter(Boolean).l
   if(opt.from!=null&&opt.to!=null)setTimeout(()=>walkTo(opt.from,opt.to),500)}
 function scrollToNode(i,smooth){if(!$('#wworld'))return;const p=nodeXY(i);smooth?camGlide(p.x,p.y,null,550):(camStop(),camCenter(p.x,p.y))}
 function walkTo(a,b){const me_=$('#wme');if(!me_||!window.__TL)return;SFX.tap(6);whistle();
-  const T=window.__TL,L0=T.len[a],L1=T.len[b],t0=performance.now(),dur=2800;camStop();const id=CAM.anim,v=camView();me_.classList.add('ride');const tr_=$('#wtrain');tr_&&tr_.classList.add('on');
+  const T=window.__TL,L0=T.len[a],L1=T.len[b],t0=performance.now(),dur=2800;camStop();{const P=T.p,d=L1>=L0?1:-1,ax=P.getPointAtLength(L0).x,bx=P.getPointAtLength(L1).x;window.__legDir=d;window.__legLeft=bx<ax}camStop();const id=CAM.anim,v=camView();me_.classList.add('ride');const tr_=$('#wtrain');tr_&&tr_.classList.add('on');
   (function f(t){const k=Math.min(1,(t-t0)/dur),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2,L=L0+(L1-L0)*e,p=trainAt(L);
     if(id===CAM.anim){const cx=CAM.x+v.w/2/CAM.z,cy=CAM.y+v.h*.55/CAM.z;camCenter(cx+(p.x-cx)*.08,cy+(p.y-cy)*.08)}
     if(k<1)return requestAnimationFrame(f);
     me_.classList.remove('ride');{const tr_=$('#wtrain');tr_&&tr_.classList.remove('on')}const n=document.querySelector(`.wn[data-i="${b}"]`);if(n){n.classList.add('pop');sparks(n)}SFX.match(2);vib(30);
     const pn=document.querySelector('.pnext');if(pn)pn.remove();setTimeout(()=>showPlace(b),700)})(t0)}
-const TRAIN=`<svg viewBox="0 0 64 30" width="48" height="23"><path d="M3 6H42Q60 9 62 22Q62 25 59 25H3Q1 25 1 23V8Q1 6 3 6Z" fill="#fff" stroke="#24324f" stroke-width="2"/>
- <path d="M2 16H61V20H2Z" fill="#1f4fa8"/><path d="M2 14H58V15.5H2Z" fill="#f08a24"/>
- <rect x="6" y="9" width="8" height="5" rx="1.5" fill="#2b3a5a"/><rect x="17" y="9" width="8" height="5" rx="1.5" fill="#2b3a5a"/><rect x="28" y="9" width="8" height="5" rx="1.5" fill="#2b3a5a"/><path d="M43 9Q54 11 58 16H44Z" fill="#2b3a5a"/>
- <circle cx="59" cy="21" r="1.6" fill="#ffe680"/><circle cx="12" cy="27" r="3" fill="#333" stroke="#999" stroke-width="1"/><circle cx="48" cy="27" r="3" fill="#333" stroke="#999" stroke-width="1"/></svg>`;
-function trainAt(L){const T=window.__TL,pt=T.p,cl=v=>Math.max(0,Math.min(T.tot,v)),me0=pt.getPointAtLength(cl(L)),ah=pt.getPointAtLength(cl(L+6)),bh=pt.getPointAtLength(cl(L-6));
-  // small level carriage right under Diya, facing the way she travels (never tilted, so it never hangs off the route)
-  const dx=(ah.x-bh.x)||1,tr=$('#wtrain');if(tr){tr.style.left=me0.x+'px';tr.style.top=(me0.y+4)+'px';tr.firstElementChild.style.transform=dx<0?'scaleX(-1)':'none'}
+const TRAIN=`<div class="car eng"><svg viewBox="0 0 40 30" width="30" height="22"><path d="M30 25L39 25L36 21L30 21Z" fill="#5a3a22"/><rect x="11" y="11" width="21" height="10" rx="4.5" fill="#2f3b2f" stroke="#141a14" stroke-width="1.2"/><rect x="2" y="5" width="11" height="16" rx="1.5" fill="#8c1f1a" stroke="#4a0f0c" stroke-width="1.2"/><rect x="4" y="8" width="6" height="5" rx="1" fill="#ffe7a3"/><path d="M0 4H15V6H0Z" fill="#4a0f0c"/><rect x="25" y="4" width="4" height="8" fill="#141a14"/><path d="M23.5 3H30.5V5H23.5Z" fill="#141a14"/><rect x="18" y="8" width="3.5" height="4" rx="1.5" fill="#c9a227"/><circle cx="33" cy="15" r="1.8" fill="#ffd25e"/><path d="M11 21H33" stroke="#c9a227" stroke-width="1.2"/><circle cx="8" cy="24" r="4" fill="#b8231c" stroke="#3a0d0a" stroke-width="1.2"/><circle cx="19" cy="25" r="3.2" fill="#b8231c" stroke="#3a0d0a" stroke-width="1.2"/><circle cx="27" cy="25" r="3.2" fill="#b8231c" stroke="#3a0d0a" stroke-width="1.2"/><path d="M8 24L27 25" stroke="#d9d0c0" stroke-width="1.1"/><g class="smk"><circle cx="27" cy="0" r="2.6"/><circle cx="23" cy="-4" r="3.2"/><circle cx="18" cy="-7" r="3.8"/></g></svg></div><div class="car"><svg viewBox="0 0 30 24" width="22" height="18"><rect x="1" y="5" width="28" height="14" rx="2" fill="#9a2b22" stroke="#4a120d" stroke-width="1.2"/><path d="M0 4.5Q15 0 30 4.5V6.5H0Z" fill="#5a3a22"/><rect x="4" y="8" width="5" height="5" rx="1" fill="#ffe7a3"/><rect x="12.5" y="8" width="5" height="5" rx="1" fill="#ffe7a3"/><rect x="21" y="8" width="5" height="5" rx="1" fill="#ffe7a3"/><path d="M1 15H29" stroke="#e8c15a" stroke-width="1"/><circle cx="8" cy="20.5" r="2.8" fill="#2b2b2b" stroke="#888" stroke-width="1"/><circle cx="22" cy="20.5" r="2.8" fill="#2b2b2b" stroke="#888" stroke-width="1"/></svg></div><div class="car"><svg viewBox="0 0 30 24" width="22" height="18"><rect x="1" y="5" width="28" height="14" rx="2" fill="#9a2b22" stroke="#4a120d" stroke-width="1.2"/><path d="M0 4.5Q15 0 30 4.5V6.5H0Z" fill="#5a3a22"/><rect x="4" y="8" width="5" height="5" rx="1" fill="#ffe7a3"/><rect x="12.5" y="8" width="5" height="5" rx="1" fill="#ffe7a3"/><rect x="21" y="8" width="5" height="5" rx="1" fill="#ffe7a3"/><path d="M1 15H29" stroke="#e8c15a" stroke-width="1"/><circle cx="8" cy="20.5" r="2.8" fill="#2b2b2b" stroke="#888" stroke-width="1"/><circle cx="22" cy="20.5" r="2.8" fill="#2b2b2b" stroke="#888" stroke-width="1"/></svg></div>`;
+function trainAt(L){const T=window.__TL,pt=T.p,cl=v=>Math.max(0,Math.min(T.tot,v)),me0=pt.getPointAtLength(cl(L)),dir=window.__legDir||1,left=!!window.__legLeft;
+  // old steam engine + 2 coaches: every car sits on the route and turns with it; the train faces one way for the whole leg, so it never flips
+  const tr=$('#wtrain');if(tr){const G=[0,20,37];[...tr.children].forEach((c,i)=>{const l=cl(L-dir*G[i]),a=pt.getPointAtLength(cl(l+7*dir)),z=pt.getPointAtLength(cl(l-7*dir)),q=pt.getPointAtLength(l);
+    let ang=Math.atan2(a.y-z.y,a.x-z.x)*180/Math.PI;if(left)ang-=180;ang=((ang+540)%360)-180;
+    c.style.transform=`translate(${q.x.toFixed(1)}px,${q.y.toFixed(1)}px) rotate(${ang.toFixed(1)}deg)${left?' scaleX(-1)':''} translate(-50%,-82%)`})}
   const m=$('#wme');if(m){m.style.left=me0.x+'px';m.style.top=(me0.y-14)+'px'}
   ['pdone','pdone2','pglow'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.strokeDasharray=`${L} 99999`});return me0}
 function trackInit(at,unl){const pt=$('#ptrack');if(!pt)return;const tot=pt.getTotalLength(),S=[];for(let l=0;l<=tot;l+=3){const q=pt.getPointAtLength(l);S.push([l,q.x,q.y])}
