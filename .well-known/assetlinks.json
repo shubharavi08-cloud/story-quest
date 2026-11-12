@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.worldofwondersstudio.bharatyatra",
+      "sha256_cert_fingerprints": [
+        "CB:F4:A6:54:6A:10:E6:4E:89:DD:F2:C0:FB:4F:59:EE:6C:44:53:AC:08:F5:A6:D0:84:79:7A:21:2E:C4:15:12"
+      ]
+    }
+  }
+]
