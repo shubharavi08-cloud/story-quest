@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Steady Hands in the Storm: The Potter, Calm Action and Bhagavad Gita 2.48",
+   "url": "https://worldofwondersstudio.com/blog/potter-steady-hands-calm-action-gita-2-48/",
+   "date": "2026-11-12",
+   "description": "A short story of a potter who keeps his hands steady in a storm, what Bhagavad Gita 2.48 says about samatvam (evenness of mind), and one calm-action step for children and families."
+  },
+  {
    "title": "Bali Padyami Story for Children: King Bali, Vamana and the Promise of Three Steps",
    "url": "https://worldofwondersstudio.com/blog/bali-padyami-story-king-bali-vamana/",
    "date": "2026-11-09",
@@ -23,6 +29,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/potter-steady-hands-calm-action-gita-2-48/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/bali-padyami-story-king-bali-vamana/index.html",
