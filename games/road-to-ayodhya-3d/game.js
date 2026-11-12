@@ -10,7 +10,7 @@ attachStories(LEVELS);
 
 const COLORS=['#e0405a','#3a6fd8','#46b882','#9b59d0'];
 const QA=new URLSearchParams(location.search).has('qa');
-let lang='en';try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){}
+let lang='en';try{const nl=(navigator.language||'en').slice(0,2).toLowerCase();lang=localStorage.getItem('sq_lang')||(['hi','kn'].includes(nl)?nl:'en')}catch(e){}  /* saved choice, else the player's locale (portal rule), else English */
 {const q=new URLSearchParams(location.search).get('lang');if(['en','hi','kn'].includes(q))lang=q}
 if(!L[lang])lang='en';
 const t=k=>L[lang][k]??L.en[k], tx=o=>o[lang]||o.en, $=s=>document.querySelector(s), sleep=ms=>new Promise(r=>setTimeout(r,ms));
