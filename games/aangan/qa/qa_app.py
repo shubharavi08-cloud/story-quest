@@ -16,7 +16,7 @@ async def main():
             st=await pg.evaluate(f"async()=>(await fetch('{ic}')).status"); ck(f'icon {ic}',st==200)
         await pg.wait_for_function("navigator.serviceWorker.ready.then(()=>true)",timeout=20000)
         await pg.wait_for_timeout(4000)
-        n=await pg.evaluate("caches.open('aangan-v1').then(c=>c.keys()).then(k=>k.length)")
+        n=await pg.evaluate("caches.open('aangan-v2').then(c=>c.keys()).then(k=>k.length)")
         ck('service worker cached the shell',n>=80,f'cached={n}')
         await ctx.set_offline(True)
         await pg.reload(); await pg.wait_for_timeout(1200)
