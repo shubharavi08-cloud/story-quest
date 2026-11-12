@@ -15,7 +15,7 @@ Done since the first audit: zoom re-enabled (viewport no longer blocks pinch-zoo
 1. DONE Tap targets raised to 44 px.
 2. DONE Zoom re-enabled.
 3. DONE Small text raised to 12 px.
-3a. DONE Reading text: story and dialogue text is already 16 to 20 px. Secondary hub labels raised to 13 px on phones. Contrast check still to do (WCAG AA).
+3a. DONE Reading text: story and dialogue text is already 16 to 20 px. Secondary hub labels raised to 13 px on phones. Contrast checked (see below).
 3b. DONE Relaxed mode: a ⏱ button in the top bar turns on 3x time for timed levels (kites, dosa, rangoli-style timers, mango). Saved on the device. Move-limited puzzles are unchanged.
 3c. DONE Top-bar buttons pinned at 44 px so they stay tappable on 360 px phones.
 4. REVIEW Mid-game ads (now a mixed audience; keep ads non-intrusive and never block progress): CrazyGames shows a mid-game ad every third screen change, and a rewarded ad can add moves. Check this against CrazyGames' children's-content rules and India's DPDP Act (children under 18). Consider no ads in the first session and only rewarded ads the child chooses.
@@ -34,3 +34,9 @@ Avoid for children: countdown timers that punish, streak guilt, paid pressure, a
 
 ## Playtest before launch
 Recommended: a short playtest with women in their 40s and 50s in Bengaluru or Mysuru, checking text size, pacing and whether the nostalgia lands.
+
+## Contrast check (WCAG AA), 2026-11-12
+- Automated (axe-core) on title, hub, game menu and Hindi hub: 0 failing text items on solid backgrounds. Found and fixed: festival badge (3.66:1, now above 4.5:1).
+- Text over artwork (title, hub, game cards): measured by sampling the pixels behind each label with text hidden. Found and fixed: active room tab, language buttons, Play and Continue buttons, game-card captions (now a solid dark band), house label and subtitle (shadow and backing).
+- Remaining: the sampling method is conservative for small rounded pills, so a few readings may still look low. Visual check on a real phone is recommended. The two emoji icon buttons (eye, sound) are icons, not text.
+- Scripts: qa/qa_contrast_axe.py (axe) and qa/qa_contrast_art.py (artwork sampling).
