@@ -2,47 +2,272 @@
   "status": "proposal v2 (common everyday words), not wired into index.html; for native-speaker check",
   "structure": "12 small tasks per room, 3 per existing restoration stage (stage 0-3); stage costs and art unchanged",
   "rooms": [
-    {"room": "aangan", "tasks": [
-      {"id": "a01", "stage": 0, "icon": "🧹", "kn": "ಅಂಗಳ ಗುಡಿಸಿ", "en": "Sweep the courtyard"},
-      {"id": "a02", "stage": 0, "icon": "🗑️", "kn": "ಕಸ ಬುಟ್ಟಿಗೆ ಹಾಕಿ", "en": "Put the rubbish in the basket"},
-      {"id": "a03", "stage": 0, "icon": "🪑", "kn": "ಉಯ್ಯಾಲೆ ಸರಿ ಮಾಡಿ", "en": "Fix the swing"},
-      {"id": "a04", "stage": 1, "icon": "💧", "kn": "ತುಳಸಿಗೆ ನೀರು ಹಾಕಿ", "en": "Water the tulsi"},
-      {"id": "a05", "stage": 1, "icon": "🍂", "kn": "ಒಣ ಎಲೆ ತೆಗೆಯಿರಿ", "en": "Remove dry leaves"},
-      {"id": "a06", "stage": 1, "icon": "🌸", "kn": "ಗಿಡಗಳಿಗೆ ನೀರು ಹಾಕಿ", "en": "Water the plants"},
-      {"id": "a07", "stage": 2, "icon": "🪔", "kn": "ದೀಪಕ್ಕೆ ಎಣ್ಣೆ ಹಾಕಿ", "en": "Add oil to the lamp"},
-      {"id": "a08", "stage": 2, "icon": "🔥", "kn": "ದೀಪ ಹಚ್ಚಿ", "en": "Light the lamp"},
-      {"id": "a09", "stage": 2, "icon": "🎨", "kn": "ರಂಗೋಲಿ ಬಿಡಿಸಿ", "en": "Draw a rangoli"},
-      {"id": "a10", "stage": 3, "icon": "🪵", "kn": "ಕಂಬಕ್ಕೆ ಬಣ್ಣ ಹಚ್ಚಿ", "en": "Paint the pillar"},
-      {"id": "a11", "stage": 3, "icon": "🖼️", "kn": "ಚಿತ್ರ ನೇತು ಹಾಕಿ", "en": "Hang the picture"},
-      {"id": "a12", "stage": 3, "icon": "🏠", "kn": "ಗೋಡೆಗೆ ಬಣ್ಣ ಬಳಿಯಿರಿ", "en": "Paint the wall"}
-    ]},
-    {"room": "adugemane", "tasks": [
-      {"id": "k01", "stage": 0, "icon": "🧽", "kn": "ಕಪಾಟು ಒರೆಸಿ", "en": "Wipe the cupboard"},
-      {"id": "k02", "stage": 0, "icon": "🍽️", "kn": "ಪಾತ್ರೆ ತೊಳೆಯಿರಿ", "en": "Wash the utensils"},
-      {"id": "k03", "stage": 0, "icon": "✨", "kn": "ಪಾತ್ರೆ ಜೋಡಿಸಿ", "en": "Arrange the utensils"},
-      {"id": "k04", "stage": 1, "icon": "🥕", "kn": "ತರಕಾರಿ ತೊಳೆಯಿರಿ", "en": "Wash the vegetables"},
-      {"id": "k05", "stage": 1, "icon": "🌿", "kn": "ಕೊತ್ತಂಬರಿ ಕೊಯ್ಯಿರಿ", "en": "Chop the coriander"},
-      {"id": "k06", "stage": 1, "icon": "🥥", "kn": "ತೆಂಗಿನಕಾಯಿ ತುರಿಯಿರಿ", "en": "Grate the coconut"},
-      {"id": "k07", "stage": 2, "icon": "🔥", "kn": "ಒಲೆ ಹಚ್ಚಿ", "en": "Light the stove"},
-      {"id": "k08", "stage": 2, "icon": "🍲", "kn": "ಸಾರು ಕುದಿಸಿ", "en": "Boil the saaru"},
-      {"id": "k09", "stage": 2, "icon": "🥄", "kn": "ಅಮ್ಮನ ಜೊತೆ ಅಡುಗೆ ಮಾಡಿ", "en": "Cook with Amma"},
-      {"id": "k10", "stage": 3, "icon": "🚪", "kn": "ಕಪಾಟಿನ ಬಾಗಿಲು ಸರಿ ಮಾಡಿ", "en": "Fix the cupboard door"},
-      {"id": "k11", "stage": 3, "icon": "🟫", "kn": "ನೆಲ ಹೊಳೆಯುವಂತೆ ಒರೆಸಿ", "en": "Wipe the floor until it shines"},
-      {"id": "k12", "stage": 3, "icon": "🖼️", "kn": "ಗೋಡೆಗೆ ಚಿತ್ರ ನೇತು ಹಾಕಿ", "en": "Hang a picture on the wall"}
-    ]},
-    {"room": "taarase", "tasks": [
-      {"id": "t01", "stage": 0, "icon": "🧹", "kn": "ತಾರಸಿ ಗುಡಿಸಿ", "en": "Sweep the terrace"},
-      {"id": "t02", "stage": 0, "icon": "🧱", "kn": "ಒಡೆದ ಹೆಂಚು ಬದಲಿಸಿ", "en": "Replace the broken tile"},
-      {"id": "t03", "stage": 0, "icon": "🧺", "kn": "ಬಟ್ಟೆ ಒಣಗಿಸಲು ಹಗ್ಗ ಕಟ್ಟಿ", "en": "Tie a rope to dry clothes"},
-      {"id": "t04", "stage": 1, "icon": "🪣", "kn": "ಕುಂಡದಲ್ಲಿ ಮಣ್ಣು ಹಾಕಿ", "en": "Put soil in the pot"},
-      {"id": "t05", "stage": 1, "icon": "🌱", "kn": "ಗಿಡ ನೆಡಿ", "en": "Plant the sapling"},
-      {"id": "t06", "stage": 1, "icon": "🌶️", "kn": "ಗಿಡಕ್ಕೆ ನೀರು ಹಾಕಿ", "en": "Water the plant"},
-      {"id": "t07", "stage": 2, "icon": "🪁", "kn": "ಗಾಳಿಪಟ ಹಾರಿಸಿ", "en": "Fly the kite"},
-      {"id": "t08", "stage": 2, "icon": "🧵", "kn": "ದಾರ ಸುತ್ತಿ ಇಡಿ", "en": "Wind the string and keep it"},
-      {"id": "t09", "stage": 2, "icon": "🎈", "kn": "ಗಾಳಿಪಟಕ್ಕೆ ದಾರ ಕಟ್ಟಿ", "en": "Tie the string to the kite"},
-      {"id": "t10", "stage": 3, "icon": "🏛️", "kn": "ಕಂಬ ಸರಿ ಮಾಡಿ", "en": "Fix the pillar"},
-      {"id": "t11", "stage": 3, "icon": "🌸", "kn": "ಹೂವಿನ ಮಾಲೆ ಕಟ್ಟಿ", "en": "Tie a flower garland"},
-      {"id": "t12", "stage": 3, "icon": "🪔", "kn": "ದೀಪ ಬೆಳಗಿಸಿ", "en": "Light the lamps"}
-    ]}
+    {
+      "room": "aangan",
+      "tasks": [
+        {
+          "id": "a01",
+          "stage": 0,
+          "icon": "🧹",
+          "kn": "ಅಂಗಳ ಗುಡಿಸಿ",
+          "en": "Sweep the courtyard"
+        },
+        {
+          "id": "a02",
+          "stage": 0,
+          "icon": "🗑️",
+          "kn": "ಕಸ ಬುಟ್ಟಿಗೆ ಹಾಕಿ",
+          "en": "Put the rubbish in the basket"
+        },
+        {
+          "id": "a03",
+          "stage": 0,
+          "icon": "🪑",
+          "kn": "ಉಯ್ಯಾಲೆ ಸರಿ ಮಾಡಿ",
+          "en": "Fix the swing"
+        },
+        {
+          "id": "a04",
+          "stage": 1,
+          "icon": "💧",
+          "kn": "ಒಣ ಎಲೆ ತೆಗೆಯಿರಿ",
+          "en": "Remove dry leaves"
+        },
+        {
+          "id": "a05",
+          "stage": 1,
+          "icon": "🍂",
+          "kn": "ತುಳಸಿಗೆ ನೀರು ಹಾಕಿ",
+          "en": "Water the tulsi"
+        },
+        {
+          "id": "a06",
+          "stage": 1,
+          "icon": "🌸",
+          "kn": "ಗಿಡಗಳಿಗೆ ನೀರು ಹಾಕಿ",
+          "en": "Water the plants"
+        },
+        {
+          "id": "a07",
+          "stage": 2,
+          "icon": "🪔",
+          "kn": "ದೀಪಕ್ಕೆ ಎಣ್ಣೆ ಹಾಕಿ",
+          "en": "Add oil to the lamp"
+        },
+        {
+          "id": "a08",
+          "stage": 2,
+          "icon": "🔥",
+          "kn": "ದೀಪ ಹಚ್ಚಿ",
+          "en": "Light the lamp"
+        },
+        {
+          "id": "a09",
+          "stage": 2,
+          "icon": "🎨",
+          "kn": "ರಂಗೋಲಿ ಬಿಡಿಸಿ",
+          "en": "Draw a rangoli"
+        },
+        {
+          "id": "a10",
+          "stage": 3,
+          "icon": "🪵",
+          "kn": "ಕಂಬಕ್ಕೆ ಬಣ್ಣ ಹಚ್ಚಿ",
+          "en": "Paint the pillar"
+        },
+        {
+          "id": "a11",
+          "stage": 3,
+          "icon": "🖼️",
+          "kn": "ಗೋಡೆಗೆ ಬಣ್ಣ ಬಳಿಯಿರಿ",
+          "en": "Paint the wall"
+        },
+        {
+          "id": "a12",
+          "stage": 3,
+          "icon": "🏠",
+          "kn": "ಚಿತ್ರ ನೇತು ಹಾಕಿ",
+          "en": "Hang the picture"
+        }
+      ]
+    },
+    {
+      "room": "adugemane",
+      "tasks": [
+        {
+          "id": "k01",
+          "stage": 0,
+          "icon": "🧽",
+          "kn": "ಕಪಾಟು ಒರೆಸಿ",
+          "en": "Wipe the cupboard"
+        },
+        {
+          "id": "k02",
+          "stage": 0,
+          "icon": "🍽️",
+          "kn": "ಪಾತ್ರೆ ತೊಳೆಯಿರಿ",
+          "en": "Wash the utensils"
+        },
+        {
+          "id": "k03",
+          "stage": 0,
+          "icon": "✨",
+          "kn": "ಪಾತ್ರೆ ಜೋಡಿಸಿ",
+          "en": "Arrange the utensils"
+        },
+        {
+          "id": "k04",
+          "stage": 1,
+          "icon": "🥕",
+          "kn": "ತರಕಾರಿ ತೊಳೆಯಿರಿ",
+          "en": "Wash the vegetables"
+        },
+        {
+          "id": "k05",
+          "stage": 1,
+          "icon": "🌿",
+          "kn": "ಕೊತ್ತಂಬರಿ ಕೊಯ್ಯಿರಿ",
+          "en": "Chop the coriander"
+        },
+        {
+          "id": "k06",
+          "stage": 1,
+          "icon": "🥥",
+          "kn": "ತೆಂಗಿನಕಾಯಿ ತುರಿಯಿರಿ",
+          "en": "Grate the coconut"
+        },
+        {
+          "id": "k07",
+          "stage": 2,
+          "icon": "🔥",
+          "kn": "ಒಲೆ ಹಚ್ಚಿ",
+          "en": "Light the stove"
+        },
+        {
+          "id": "k08",
+          "stage": 2,
+          "icon": "🍲",
+          "kn": "ಸಾರು ಕುದಿಸಿ",
+          "en": "Boil the saaru"
+        },
+        {
+          "id": "k09",
+          "stage": 2,
+          "icon": "🥄",
+          "kn": "ಅಮ್ಮನ ಜೊತೆ ಅಡುಗೆ ಮಾಡಿ",
+          "en": "Cook with Amma"
+        },
+        {
+          "id": "k10",
+          "stage": 3,
+          "icon": "🚪",
+          "kn": "ಕಪಾಟಿನ ಬಾಗಿಲು ಸರಿ ಮಾಡಿ",
+          "en": "Fix the cupboard door"
+        },
+        {
+          "id": "k11",
+          "stage": 3,
+          "icon": "🟫",
+          "kn": "ನೆಲ ಹೊಳೆಯುವಂತೆ ಒರೆಸಿ",
+          "en": "Wipe the floor until it shines"
+        },
+        {
+          "id": "k12",
+          "stage": 3,
+          "icon": "🖼️",
+          "kn": "ಗೋಡೆಗೆ ಚಿತ್ರ ನೇತು ಹಾಕಿ",
+          "en": "Hang a picture on the wall"
+        }
+      ]
+    },
+    {
+      "room": "taarase",
+      "tasks": [
+        {
+          "id": "t01",
+          "stage": 0,
+          "icon": "🧹",
+          "kn": "ತಾರಸಿ ಗುಡಿಸಿ",
+          "en": "Sweep the terrace"
+        },
+        {
+          "id": "t02",
+          "stage": 0,
+          "icon": "🧱",
+          "kn": "ಒಡೆದ ಹೆಂಚು ಬದಲಿಸಿ",
+          "en": "Replace the broken tile"
+        },
+        {
+          "id": "t03",
+          "stage": 0,
+          "icon": "🧺",
+          "kn": "ಬಟ್ಟೆ ಒಣಗಿಸಲು ಹಗ್ಗ ಕಟ್ಟಿ",
+          "en": "Tie a rope to dry clothes"
+        },
+        {
+          "id": "t04",
+          "stage": 1,
+          "icon": "🪣",
+          "kn": "ಕುಂಡದಲ್ಲಿ ಮಣ್ಣು ಹಾಕಿ",
+          "en": "Put soil in the pot"
+        },
+        {
+          "id": "t05",
+          "stage": 1,
+          "icon": "🌱",
+          "kn": "ಗಿಡ ನೆಡಿ",
+          "en": "Plant the sapling"
+        },
+        {
+          "id": "t06",
+          "stage": 1,
+          "icon": "🌶️",
+          "kn": "ಗಿಡಕ್ಕೆ ನೀರು ಹಾಕಿ",
+          "en": "Water the plant"
+        },
+        {
+          "id": "t07",
+          "stage": 2,
+          "icon": "🪁",
+          "kn": "ಗಾಳಿಪಟಕ್ಕೆ ದಾರ ಕಟ್ಟಿ",
+          "en": "Tie the string to the kite"
+        },
+        {
+          "id": "t08",
+          "stage": 2,
+          "icon": "🧵",
+          "kn": "ಗಾಳಿಪಟ ಹಾರಿಸಿ",
+          "en": "Fly the kite"
+        },
+        {
+          "id": "t09",
+          "stage": 2,
+          "icon": "🎈",
+          "kn": "ದಾರ ಸುತ್ತಿ ಇಡಿ",
+          "en": "Wind the string and keep it"
+        },
+        {
+          "id": "t10",
+          "stage": 3,
+          "icon": "🏛️",
+          "kn": "ಕಂಬ ಸರಿ ಮಾಡಿ",
+          "en": "Fix the pillar"
+        },
+        {
+          "id": "t11",
+          "stage": 3,
+          "icon": "🌸",
+          "kn": "ಹೂವಿನ ಮಾಲೆ ಕಟ್ಟಿ",
+          "en": "Tie a flower garland"
+        },
+        {
+          "id": "t12",
+          "stage": 3,
+          "icon": "🪔",
+          "kn": "ದೀಪ ಬೆಳಗಿಸಿ",
+          "en": "Light the lamps"
+        }
+      ]
+    }
   ]
 }
