@@ -209,6 +209,11 @@ button{font-family:inherit;color:inherit;border:0;cursor:pointer;background:none
 #hub.admire>*:not(.bg):not(.light):not(.motes):not(.vig){opacity:0;pointer-events:none;transition:opacity .4s}#hub>*{transition:opacity .4s}
 #hub.admire .bg{background-size:cover}#admireTip{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:9;color:#fff;font-weight:800;font-size:13px;background:rgba(0,0,0,.35);padding:4px 12px;border-radius:999px;display:none}
 </style>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#2b1608">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Aangan">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
 </head>
 <body>
 <div class="screen on" id="title"><div class="bg"></div><div class="shade"></div>
@@ -1265,5 +1270,6 @@ window.__aangan={S:()=>S,addWarm:n=>{S.warm+=n;renderHub()},setRooms:a=>{S.rooms
 })();
 
 </script>
+<script>if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}</script>
 </body>
 </html>
