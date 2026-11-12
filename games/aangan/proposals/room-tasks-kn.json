@@ -1,0 +1,48 @@
+{
+  "status": "proposal, not wired into index.html; needs approval and a native Kannada read",
+  "structure": "12 small tasks per room, 3 per existing restoration stage (stage 0-3); the stage's existing warmth cost and art are unchanged",
+  "rooms": [
+    {"room": "aangan", "tasks": [
+      {"id": "a01", "stage": 0, "icon": "🧹", "kn": "ಅಂಗಳ ಗುಡಿಸಿ", "test": "stage 0 task 1 completes on first tap"},
+      {"id": "a02", "stage": 0, "icon": "🗑️", "kn": "ಕಸವನ್ನು ಬುಟ್ಟಿಗೆ ಹಾಕಿ", "test": "tap after a01 unlocks a02"},
+      {"id": "a03", "stage": 0, "icon": "🔗", "kn": "ಉಯ್ಯಾಲೆಯ ಹಗ್ಗ ಬಿಗಿಗೊಳಿಸಿ", "test": "a03 unlocks only after a02"},
+      {"id": "a04", "stage": 1, "icon": "💧", "kn": "ತುಳಸಿ ಕಟ್ಟೆಗೆ ನೀರು ಹಾಕಿ", "test": "unlocks when stage 0 is done"},
+      {"id": "a05", "stage": 1, "icon": "🍂", "kn": "ಒಣಗಿದ ತುಳಸಿ ಎಲೆ ತೆಗೆಯಿರಿ", "test": "a05 unlocks after a04"},
+      {"id": "a06", "stage": 1, "icon": "🌼", "kn": "ಮಲ್ಲಿಗೆ ಬಳ್ಳಿಗೆ ಆಸರೆ ಕಟ್ಟಿ", "test": "a06 unlocks after a05"},
+      {"id": "a07", "stage": 2, "icon": "🪔", "kn": "ದೀಪಕ್ಕೆ ಎಣ್ಣೆ ತುಂಬಿ", "test": "unlocks when stage 1 is done"},
+      {"id": "a08", "stage": 2, "icon": "•", "kn": "ರಂಗೋಲಿಯ ಚುಕ್ಕೆ ಇಡಿ", "test": "a08 unlocks after a07"},
+      {"id": "a09", "stage": 2, "icon": "〰️", "kn": "ರಂಗೋಲಿ ಗೆರೆ ಎಳೆಯಿರಿ", "test": "a09 unlocks after a08"},
+      {"id": "a10", "stage": 3, "icon": "🪵", "kn": "ಕೆತ್ತಿದ ಕಂಬಕ್ಕೆ ಎಣ್ಣೆ ಹಚ್ಚಿ", "test": "unlocks when stage 2 is done"},
+      {"id": "a11", "stage": 3, "icon": "🖼️", "kn": "ಚಿನ್ನದ ಬಣ್ಣದ ಚಿತ್ರ ತೂಗಿಸಿ", "test": "a11 unlocks after a10"},
+      {"id": "a12", "stage": 3, "icon": "🏠", "kn": "ಹಳೆಯ ಗೋಡೆಗೆ ಸುಣ್ಣ ಬಳಿಯಿರಿ", "test": "a12 unlocks after a11"}
+    ]},
+    {"room": "adugemane", "tasks": [
+      {"id": "k01", "stage": 0, "icon": "🧽", "kn": "ಕಪಾಟಿನ ಧೂಳು ಒರೆಸಿ", "test": "stage 0 task 1 completes on first tap"},
+      {"id": "k02", "stage": 0, "icon": "🍽️", "kn": "ಪಾತ್ರೆಗಳನ್ನು ತೊಳೆದು ಜೋಡಿಸಿ", "test": "k02 unlocks after k01"},
+      {"id": "k03", "stage": 0, "icon": "✨", "kn": "ಹಿತ್ತಾಳೆ ಲೋಟ ಉಜ್ಜಿ ಹೊಳೆಯಿಸಿ", "test": "k03 unlocks after k02"},
+      {"id": "k04", "stage": 1, "icon": "🥕", "kn": "ತರಕಾರಿ ಬುಟ್ಟಿ ತುಂಬಿಸಿ", "test": "unlocks when stage 0 is done"},
+      {"id": "k05", "stage": 1, "icon": "🌿", "kn": "ಕೊತ್ತಂಬರಿ ಸೊಪ್ಪು ಕೊಯ್ದಿಡಿ", "test": "k05 unlocks after k04"},
+      {"id": "k06", "stage": 1, "icon": "🥥", "kn": "ತೆಂಗಿನಕಾಯಿ ಒಡೆದು ತುರಿಯಿರಿ", "test": "k06 unlocks after k05"},
+      {"id": "k07", "stage": 2, "icon": "🔥", "kn": "ಒಲೆಗೆ ಬೆಂಕಿ ಹಚ್ಚಿ", "test": "unlocks when stage 1 is done"},
+      {"id": "k08", "stage": 2, "icon": "🍲", "kn": "ಅಮ್ಮನ ಜೊತೆ ಸಾರು ಕುದಿಸಿ", "test": "k08 unlocks after k07"},
+      {"id": "k09", "stage": 2, "icon": "🫓", "kn": "ಹಬ್ಬದ ಒಬ್ಬಟ್ಟಿಗೆ ಹೂರಣ ಬೇಯಿಸಿ", "test": "k09 unlocks after k08"},
+      {"id": "k10", "stage": 3, "icon": "🚪", "kn": "ಕೆತ್ತಿದ ಕಪಾಟಿನ ಬಾಗಿಲು ಸರಿಪಡಿಸಿ", "test": "unlocks when stage 2 is done"},
+      {"id": "k11", "stage": 3, "icon": "🟫", "kn": "ನೆಲದ ಟೈಲ್ ಹೊಳೆಯಿಸಿ", "test": "k11 unlocks after k10"},
+      {"id": "k12", "stage": 3, "icon": "🖼️", "kn": "ಗೋಡೆಯ ಅಲಂಕಾರ ಫಲಕ ತೂಗಿಸಿ", "test": "k12 unlocks after k11"}
+    ]},
+    {"room": "taarase", "tasks": [
+      {"id": "t01", "stage": 0, "icon": "🧹", "kn": "ತಾರಸಿ ಸ್ವಚ್ಛಗೊಳಿಸಿ", "test": "stage 0 task 1 completes on first tap"},
+      {"id": "t02", "stage": 0, "icon": "🧱", "kn": "ಒಡೆದ ಹೆಂಚನ್ನು ಬದಲಿಸಿ", "test": "t02 unlocks after t01"},
+      {"id": "t03", "stage": 0, "icon": "🧺", "kn": "ಬಟ್ಟೆ ಹಗ್ಗ ಕಟ್ಟಿ", "test": "t03 unlocks after t02"},
+      {"id": "t04", "stage": 1, "icon": "🪣", "kn": "ಕುಂಡಕ್ಕೆ ಮಣ್ಣು ತುಂಬಿ", "test": "unlocks when stage 0 is done"},
+      {"id": "t05", "stage": 1, "icon": "🌱", "kn": "ಸಸಿ ನೆಟ್ಟು ನೀರು ಹಾಕಿ", "test": "t05 unlocks after t04"},
+      {"id": "t06", "stage": 1, "icon": "🌶️", "kn": "ಮೆಣಸಿನ ಗಿಡ ಬೆಳೆಸಿ", "test": "t06 unlocks after t05"},
+      {"id": "t07", "stage": 2, "icon": "🧵", "kn": "ಗಾಳಿಪಟದ ದಾರ ಸಿದ್ಧಪಡಿಸಿ", "test": "unlocks when stage 1 is done"},
+      {"id": "t08", "stage": 2, "icon": "🪁", "kn": "ಸಂಕ್ರಾಂತಿ ಸಂಜೆ ಗಾಳಿಪಟ ಹಾರಿಸಿ", "test": "t08 unlocks after t07"},
+      {"id": "t09", "stage": 2, "icon": "🧶", "kn": "ದಾರವನ್ನು ಸುತ್ತಿ ಇಡಿ", "test": "t09 unlocks after t08"},
+      {"id": "t10", "stage": 3, "icon": "🏛️", "kn": "ಮಂಟಪದ ಕೆತ್ತಿದ ಕಂಬ ಸರಿಪಡಿಸಿ", "test": "unlocks when stage 2 is done"},
+      {"id": "t11", "stage": 3, "icon": "🌸", "kn": "ಮಂಟಪಕ್ಕೆ ಹೂವಿನ ಮಾಲೆ ಕಟ್ಟಿ", "test": "t11 unlocks after t10"},
+      {"id": "t12", "stage": 3, "icon": "🪔", "kn": "ಮಂಟಪದಲ್ಲಿ ದೀಪ ಬೆಳಗಿಸಿ", "test": "t12 unlocks after t11"}
+    ]}
+  ]
+}
