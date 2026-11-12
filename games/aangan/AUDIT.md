@@ -2,7 +2,7 @@
 
 Status: NOT yet cleared for upload. Audience: all ages, a family game. Adults, especially women in their 40s and 50s, are a core audience, not a side one.
 
-Done since the first audit: zoom re-enabled (viewport no longer blocks pinch-zoom); room tabs and Restore button raised to 44 px; all 11 px text raised to 12 px. Layout, tap-target and gameplay checks re-run and passing (50/50).
+Done since the first audit: zoom re-enabled (viewport no longer blocks pinch-zoom); room tabs and Restore button raised to 44 px; all 11 px text raised to 12 px. Layout, tap-target and gameplay checks re-run and passing (50/50), plus relaxed-mode timer test (3.0x).
 
 ## Passing
 - Gameplay state tests: 16/16. Subtask tests: 11/11. Mini-game and finale flow tests: 15/15. App/offline tests: 8/8.
@@ -15,8 +15,9 @@ Done since the first audit: zoom re-enabled (viewport no longer blocks pinch-zoo
 1. DONE Tap targets raised to 44 px.
 2. DONE Zoom re-enabled.
 3. DONE Small text raised to 12 px.
-3a. TODO Body text for older players: raise main reading text to 16 px and check contrast (WCAG AA).
-3b. TODO Relaxed-pacing option: a no-timer mode for the kite-cutting and move-limited puzzles.
+3a. DONE Reading text: story and dialogue text is already 16 to 20 px. Secondary hub labels raised to 13 px on phones. Contrast check still to do (WCAG AA).
+3b. DONE Relaxed mode: a ⏱ button in the top bar turns on 3x time for timed levels (kites, dosa, rangoli-style timers, mango). Saved on the device. Move-limited puzzles are unchanged.
+3c. DONE Top-bar buttons pinned at 44 px so they stay tappable on 360 px phones.
 4. REVIEW Mid-game ads (now a mixed audience; keep ads non-intrusive and never block progress): CrazyGames shows a mid-game ad every third screen change, and a rewarded ad can add moves. Check this against CrazyGames' children's-content rules and India's DPDP Act (children under 18). Consider no ads in the first session and only rewarded ads the child chooses.
 5. REVIEW Ad and SDK third parties: the SDK may set its own cookies or storage. Confirm the privacy page covers it.
 6. REVIEW Old English stage titles ("Sweep the aangan & fix the jhoola") do not match the three-task wording. Align them.
