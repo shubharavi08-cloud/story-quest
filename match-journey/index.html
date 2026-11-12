@@ -210,11 +210,12 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
 .pdone2{fill:none;stroke:#b9a27a;stroke-width:6px;stroke-linecap:butt;stroke-dasharray:0 99999}
 .pnext{stroke:#fff!important;stroke-width:4px!important}
 .wtrain{position:absolute;z-index:1;width:0;height:0;pointer-events:none}
-.wtrain svg{position:absolute;left:-59px;top:-20px;width:118px!important;height:33px!important;max-width:none!important;transform-origin:59px 20px;filter:drop-shadow(0 3px 2px #0006)}
+.wtrain svg{position:absolute;left:-24px;top:-11px;width:48px!important;height:23px!important;max-width:none!important;transform-origin:24px 11px;filter:drop-shadow(0 2px 2px #0006)}
+.wtrain.on svg{animation:trbob .28s ease-in-out infinite alternate}@keyframes trbob{to{translate:0 -1.5px}}
 .wme{transition:none!important;transform:translate(-50%,-118%)}
 .wme.ride .arw{display:none}
 .far .pedge{stroke-width:56px!important}.far .pth{stroke-width:42px!important;stroke-dasharray:8 14}.far .prl{stroke-width:24px}.far .prl2,.far .pdone2{stroke-width:11px}.far .pdone{stroke-width:24px!important}
-.far .wtrain svg{transform-origin:59px 20px;scale:2}
+.far .wtrain svg{transform-origin:24px 11px}
 .windia{position:absolute;left:0;right:0;bottom:0;z-index:6;background:#7fc3dd;display:none}
 .windia.on{display:block;animation:fadeIn .35s ease}
 .wmap.ind .wloc,.wmap.ind .wside,.wmap.ind .wjump,.wmap.ind .wnext{display:none}
@@ -284,7 +285,8 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
 .wn.lock button{box-shadow:0 3px 0 #5c574f}.wn.cur button{box-shadow:0 3px 0 #7a4a0e,0 0 0 5px #fff8,0 0 18px #ffd35a}
 .wn i{margin-top:9px}.wn s{font-size:11px}.wn em{font-size:10px;padding:1px 5px;max-width:94px}
 .far .wn{transform:translate(-50%,-50%) scale(calc(var(--iz) * .7))}
-.wtrain{opacity:0;transition:opacity .35s}.wtrain.on{opacity:1}
+.wtrain{opacity:0;transition:opacity .35s;z-index:5!important}.wtrain.on{opacity:1}
+.wme.ride{scale:.8;transform-origin:50% 100%}
 .pglow,.pdone,.pnext{vector-effect:non-scaling-stroke}
 .far .wpath{display:block!important}.far .pth{stroke-width:6px!important;stroke-dasharray:.1 10!important}.far .pdone{stroke-width:6px!important}.far .pglow{stroke-width:11px!important}.far .ldr,.far .wpath circle{display:none}
 .cld{z-index:1!important;opacity:.55;pointer-events:none}
@@ -1242,15 +1244,15 @@ function walkTo(a,b){const me_=$('#wme');if(!me_||!window.__TL)return;SFX.tap(6)
     if(k<1)return requestAnimationFrame(f);
     me_.classList.remove('ride');{const tr_=$('#wtrain');tr_&&tr_.classList.remove('on')}const n=document.querySelector(`.wn[data-i="${b}"]`);if(n){n.classList.add('pop');sparks(n)}SFX.match(2);vib(30);
     const pn=document.querySelector('.pnext');if(pn)pn.remove();setTimeout(()=>showPlace(b),700)})(t0)}
-const TRAIN=`<svg viewBox="0 0 152 42" width="118" height="33"><g stroke="#24324f" stroke-width="2"><rect x="2" y="7" width="58" height="26" rx="6" fill="#fff"/><path d="M64 7H116Q146 11 149 29Q149 33 145 33H64Z" fill="#fff"/></g>
- <path d="M3 22H59V27H3Z" fill="#1f4fa8"/><path d="M3 19H59V21H3Z" fill="#f08a24"/><path d="M65 22H147L148 27H65Z" fill="#1f4fa8"/><path d="M65 19H140L142 21H65Z" fill="#f08a24"/><path d="M60 13h4v14h-4z" fill="#24324f"/>
- ${[8,21,34,47,70,83,96].map(x=>`<rect x="${x}" y="11" width="9" height="7" rx="2" fill="#2b3a5a"/>`).join('')}<path d="M118 11Q137 14 143 23H120Z" fill="#2b3a5a"/><circle cx="145" cy="27" r="2.2" fill="#ffe680"/>
- ${[10,26,42,52,74,90,106,122].map(x=>`<circle cx="${x}" cy="35" r="3.6" fill="#333" stroke="#999" stroke-width="1.2"/>`).join('')}</svg>`;
-function trainAt(L){const T=window.__TL,pt=T.p,me0=pt.getPointAtLength(Math.max(0,Math.min(T.tot,L)));L=L<60?L+50:L-50;const q=pt.getPointAtLength(Math.max(0,Math.min(T.tot,L))),q2=pt.getPointAtLength(Math.max(0,Math.min(T.tot,L+(L+3>T.tot?-3:3))));
-  let ang=Math.atan2(q2.y-q.y,q2.x-q.x)*180/Math.PI;if(L+3>T.tot)ang+=180;const flip=Math.abs(ang)>90;
-  const tr=$('#wtrain');if(tr){tr.style.left=q.x+'px';tr.style.top=q.y+'px';tr.firstElementChild.style.transform=`rotate(${ang}deg)${flip?' scaleY(-1)':''}`}
+const TRAIN=`<svg viewBox="0 0 64 30" width="48" height="23"><path d="M3 6H42Q60 9 62 22Q62 25 59 25H3Q1 25 1 23V8Q1 6 3 6Z" fill="#fff" stroke="#24324f" stroke-width="2"/>
+ <path d="M2 16H61V20H2Z" fill="#1f4fa8"/><path d="M2 14H58V15.5H2Z" fill="#f08a24"/>
+ <rect x="6" y="9" width="8" height="5" rx="1.5" fill="#2b3a5a"/><rect x="17" y="9" width="8" height="5" rx="1.5" fill="#2b3a5a"/><rect x="28" y="9" width="8" height="5" rx="1.5" fill="#2b3a5a"/><path d="M43 9Q54 11 58 16H44Z" fill="#2b3a5a"/>
+ <circle cx="59" cy="21" r="1.6" fill="#ffe680"/><circle cx="12" cy="27" r="3" fill="#333" stroke="#999" stroke-width="1"/><circle cx="48" cy="27" r="3" fill="#333" stroke="#999" stroke-width="1"/></svg>`;
+function trainAt(L){const T=window.__TL,pt=T.p,cl=v=>Math.max(0,Math.min(T.tot,v)),me0=pt.getPointAtLength(cl(L)),ah=pt.getPointAtLength(cl(L+6)),bh=pt.getPointAtLength(cl(L-6));
+  // small level carriage right under Diya, facing the way she travels (never tilted, so it never hangs off the route)
+  const dx=(ah.x-bh.x)||1,tr=$('#wtrain');if(tr){tr.style.left=me0.x+'px';tr.style.top=(me0.y+4)+'px';tr.firstElementChild.style.transform=dx<0?'scaleX(-1)':'none'}
   const m=$('#wme');if(m){m.style.left=me0.x+'px';m.style.top=(me0.y-14)+'px'}
-  ['pdone','pdone2','pglow'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.strokeDasharray=`${L+50} 99999`});return me0}
+  ['pdone','pdone2','pglow'].forEach(id=>{const e=document.getElementById(id);if(e)e.style.strokeDasharray=`${L} 99999`});return me0}
 function trackInit(at,unl){const pt=$('#ptrack');if(!pt)return;const tot=pt.getTotalLength(),S=[];for(let l=0;l<=tot;l+=3){const q=pt.getPointAtLength(l);S.push([l,q.x,q.y])}
   const len=LV.map((_,i)=>{const n=nodeXY(i);let best=0,bd=1e9;S.forEach(([l,x,y])=>{const d=(x-n.x)**2+(y-n.y)**2;if(d<bd){bd=d;best=l}});return best});
   for(let i=1;i<len.length;i++)if(len[i]<len[i-1])len[i]=len[i-1];window.__TL={p:pt,tot,len};trainAt(len[at])}
