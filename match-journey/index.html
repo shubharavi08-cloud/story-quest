@@ -1123,6 +1123,8 @@ const nodeXY=i=>{const L=geoLayout(CH[CI].key).find(q=>q.t==='n'&&q.i===i);retur
 function smoothD(pts){if(!pts.length)return'';let d=`M${pts[0].x.toFixed(0)} ${pts[0].y.toFixed(0)}`;
   for(let i=1;i<pts.length;i++){const p0=pts[i-2]||pts[i-1],p1=pts[i-1],p2=pts[i],p3=pts[i+1]||p2;
     d+=` C${(p1.x+(p2.x-p0.x)/6).toFixed(0)} ${(p1.y+(p2.y-p0.y)/6).toFixed(0)},${(p2.x-(p3.x-p1.x)/6).toFixed(0)} ${(p2.y-(p3.y-p1.y)/6).toFixed(0)},${p2.x.toFixed(0)} ${p2.y.toFixed(0)}`}return d}
+function mapSegD(i,n){const p1=nodeXY(i),p2=nodeXY(i+1),p0=i>0?nodeXY(i-1):p1,p3=i+2<n?nodeXY(i+2):p2,f=v=>v.toFixed(0);
+  return `M${f(p1.x)} ${f(p1.y)} C${f(p1.x+(p2.x-p0.x)/6)} ${f(p1.y+(p2.y-p0.y)/6)},${f(p2.x-(p3.x-p1.x)/6)} ${f(p2.y-(p3.y-p1.y)/6)},${f(p2.x)} ${f(p2.y)}`}
 function mapPathD(from,to){const p=[];for(let i=from;i<=to;i++)p.push(nodeXY(i));return smoothD(p)}
 /* ---- living map: painted terrain, rivers, sea life, clouds, birds, standing landmarks, tap bubbles, pinch zoom ---- */
 const LANDC={ka:['#d8eaa9','#a9cd6c'],br:['#f4e8a8','#dcc56c'],mh:['#f0c097','#d08a5c'],od:['#dcebaa','#a8c66d'],ap:['#d4ecc6','#93c58c'],rj:['#f3dca2','#dbb46c'],gj:['#e6edc9','#b9cb8c']};
@@ -1223,7 +1225,7 @@ function showMap(opt={}){closeOv();const st=PG().stars,done=st.filter(Boolean).l
      <button class="ib" onclick="showShop()">🪙 ${bag.diya}</button></div>
    <div class="wnext ${chapDone(CI)?'open':''}" style="--c:${col}" ${nx&&chapDone(CI)?`onclick="trainTo(${CI+1})"`:!nx?`onclick="showTrack()"`:''}>${nx?`${chapDone(CI)?'🎉':'🔒'} ${t('nextStop')} <b>${nx.name[lang]}</b>`:`🚧 ${t('nextStop')} <b>${NEXT_ST.name[lang]||NEXT_ST.name.en}</b>`}</div>
    ${locatorHTML(key)}<div class="windia" id="windia"></div><div class="wscroll" id="wscroll"><div class="wworld" id="wworld" style="width:${g.w}px;height:${g.h}px;--rc:#2346d8">${geoSVG(key,col)}
-     <svg class="wpath" width="${g.w}" height="${g.h}">${leaders}${(()=>{const D=mapPathD(0,LV.length-1);return `<path d="${D}" class="pedge"/><path d="${D}" class="pth"/><path d="${D}" class="prl"/><path d="${D}" class="prl2"/><path d="${D}" class="pglow" id="pglow"/><path d="${D}" class="pdone" id="pdone"/><path d="${D}" class="pdone2" id="pdone2"/><path d="${D}" id="ptrack" fill="none" stroke="none"/>`})()}${unlocked<LV.length-1?`<path d="${mapPathD(unlocked,unlocked+1)}" class="pnext"/>`:''}</svg>
+     <svg class="wpath" width="${g.w}" height="${g.h}">${leaders}${(()=>{const D=mapPathD(0,LV.length-1);return `<path d="${D}" class="pedge"/><path d="${D}" class="pth"/><path d="${D}" class="prl"/><path d="${D}" class="prl2"/><path d="${D}" class="pglow" id="pglow"/><path d="${D}" class="pdone" id="pdone"/><path d="${D}" class="pdone2" id="pdone2"/><path d="${D}" id="ptrack" fill="none" stroke="none"/>`})()}${unlocked<LV.length-1?`<path d="${mapSegD(unlocked,LV.length)}" class="pnext"/>`:''}</svg>
      ${liveLayer(key)}${specs}${nodes}
      <div class="wtrain" id="wtrain">${TRAIN}</div><div class="wme" id="wme" style="left:${p0.x.toFixed(0)}px;top:${p0.y.toFixed(0)}px"><img class="pl" src="${avSrc(m)}" alt=""><img class="dy" src="${A('img/match/diya_face.png')}" alt="Diya"><span class="arw">▼</span></div>
    </div></div>
