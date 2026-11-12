@@ -7,7 +7,7 @@
 var G=[
  {id:'road-to-ayodhya',vid:'MzVcueVUos8',cat:'deepavali',tag:'Deepavali · Ayodhya',name:'Road to Ayodhya',href:'road-to-ayodhya.html',img:'img/games/road-to-ayodhya.webp',players:'1–4 players',gate:'road-to-ayodhya',
   hook:'Roll the dice and race Shri Ram home past snakes and ladders!',
-  how:'Roll the dice and race Shri Ram home on the old board of ladders and snakes. Ladders are good deeds, snakes are bad habits. Play together on one screen or against Diya.',
+  how:'Nine boards follow Shri Ram\'s journey, from Ayodhya to Lanka and home again. Roll the dice, climb the ladders, dodge the snakes, and play a new mini-game on every level. Play together on one screen or against Diya.',
   fact:'Snakes and Ladders began in India as <b>Moksha Patam</b>. Each ladder stood for a virtue and each snake for a vice. Travellers took it to England in the 1800s.',
   learn:['Counting','Good habits','Taking turns']},
  {id:'samudra-manthan',vid:'ofU33IYt4dE',cat:'deepavali',tag:'Deepavali · Rajasthan',name:'Samudra Manthan',href:'samudra-manthan.html',img:'img/games/samudra-manthan.webp',players:'1 or 2 players',gate:'samudra-manthan',
