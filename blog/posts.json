@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Lift Yourself: Meera's Bicycle and Bhagavad Gita 6.5 for Children",
+   "url": "https://worldofwondersstudio.com/blog/lift-yourself-meera-bicycle-gita-6-5/",
+   "date": "2026-11-13",
+   "description": "A short story of a girl learning to ride a bicycle, what Bhagavad Gita 6.5 says about the mind as our best friend or worst enemy, and one small step for children and families."
+  },
+  {
    "title": "Steady Hands in the Storm: The Potter, Calm Action and Bhagavad Gita 2.48",
    "url": "https://worldofwondersstudio.com/blog/potter-steady-hands-calm-action-gita-2-48/",
    "date": "2026-11-12",
@@ -29,6 +35,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/lift-yourself-meera-bicycle-gita-6-5/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/potter-steady-hands-calm-action-gita-2-48/index.html",
