@@ -1,0 +1,20 @@
+
+.xad2{position:relative;display:flex;align-items:center;gap:18px;overflow:hidden;max-width:1000px;margin:26px auto;padding:18px 20px;border-radius:22px;text-decoration:none;color:#fff5e6;background:linear-gradient(120deg,#65105d,#c2186f 55%,#ff8a32);box-shadow:0 8px 28px #f3299155,inset 0 0 0 1px #ffd66b88;animation:xglow 2.6s ease-in-out infinite}
+.xad2:hover{transform:translateY(-2px)}
+.xad2 .xl{flex:none;width:84px;height:84px;border-radius:50%;background:#190522;padding:5px;box-shadow:0 0 0 3px #ffd66b,0 0 22px #ffd66b99;animation:xbob 2.2s ease-in-out infinite}
+.xad2 .xl img{width:100%;height:100%;border-radius:50%;display:block}
+.xad2 .xt{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px;position:relative;z-index:2}
+.xad2 .xt small{color:#ffe9a8;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:11px}
+.xad2 .xt b{font-size:clamp(18px,3.4vw,26px);line-height:1.15;font-weight:800}
+.xad2 .xt span{font-size:14px;color:#fff1d6}
+.xad2 .xg{flex:none;position:relative;z-index:2;overflow:hidden;background:#ffd66b;color:#190522;font-weight:800;padding:12px 22px;border-radius:999px;font-size:15px;box-shadow:0 4px 0 #b8860b;animation:xpulse 1.6s ease-in-out infinite}
+.xad2 .xg::after{content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;background:linear-gradient(100deg,transparent,#fff9,transparent);animation:xshine 2.4s ease-in-out infinite}
+.xad2 i{position:absolute;bottom:-14px;font-style:normal;font-size:18px;opacity:0;pointer-events:none;animation:xrise 4s linear infinite}
+.xad2 i:nth-of-type(1){left:12%;animation-delay:0s}.xad2 i:nth-of-type(2){left:28%;animation-delay:1.1s;font-size:14px}.xad2 i:nth-of-type(3){left:46%;animation-delay:2.2s}.xad2 i:nth-of-type(4){left:63%;animation-delay:.6s;font-size:15px}.xad2 i:nth-of-type(5){left:78%;animation-delay:1.7s}.xad2 i:nth-of-type(6){left:90%;animation-delay:2.9s;font-size:14px}
+@keyframes xrise{0%{transform:translateY(0) rotate(0);opacity:0}12%{opacity:.95}100%{transform:translateY(-110px) rotate(40deg);opacity:0}}
+@keyframes xbob{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-6px) rotate(4deg)}}
+@keyframes xglow{0%,100%{box-shadow:0 8px 28px #f3299155,inset 0 0 0 1px #ffd66b88}50%{box-shadow:0 8px 36px #ffd66b99,inset 0 0 0 1px #ffd66b}}
+@keyframes xpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@keyframes xshine{0%{left:-60%}60%,100%{left:130%}}
+@media(max-width:620px){.xad2{flex-wrap:wrap;gap:12px;padding:16px}.xad2 .xl{width:64px;height:64px}.xad2 .xg{width:100%;text-align:center}}
+@media(prefers-reduced-motion:reduce){.xad2,.xad2 *{animation:none!important}}

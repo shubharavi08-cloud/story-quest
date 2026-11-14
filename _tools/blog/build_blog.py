@@ -168,7 +168,7 @@ def shell(title, desc, canon, body, ld):
 <link rel="stylesheet" href="/family.css?v=20261105c">
 <style>{CSS}</style>
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
-</head>
+<link rel="stylesheet" href="/cursor-wow.css"></head>
 <body>
 <a class="wow-top" href="/" aria-label="World of Wonders home"><img src="/img/wow_banner.jpg?v=2" alt="World of Wonders · Music · Stories · Creation · Inspiration"></a>
 <div class="wrap">
