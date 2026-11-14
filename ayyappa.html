@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Swami Ayyappa Song Collection | World of Wonders Studio</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Swami Ayyappa devotional songs in Kannada, with lyrics videos, and a free interactive: climb the 18 sacred steps of Sabarimala. By World of Wonders Studio.">
+<meta name="description" content="Swami Ayyappa devotional songs in Kannada and Tamil, with lyrics videos, and a free interactive: climb the 18 sacred steps of Sabarimala. By World of Wonders Studio.">
 <meta property="og:title" content="Swami Ayyappa Song Collection | World of Wonders Studio">
 <meta property="og:description" content="Four Ayyappa devotional songs and a free interactive: climb the 18 sacred steps of Sabarimala.">
 <meta property="og:image" content="https://worldofwondersstudio.com/img/ayyappa_hero.jpg">
@@ -71,7 +71,7 @@ footer nav a{color:var(--muted)}
  <section class="hero">
   <div><span class="eyebrow">Sabarimala season · Devotional songs</span>
    <h1>Swami Ayyappa <span>Song Collection</span></h1>
-   <p class="lede">Songs for the devotee's journey, in Kannada, with lyric videos. Listen, light a deepam, and climb the eighteen sacred steps. Swamiye Sharanam Ayyappa 🙏</p>
+   <p class="lede">Songs for the devotee's journey, in Kannada and Tamil, with lyric videos. Listen, light a deepam, and climb the eighteen sacred steps. Swamiye Sharanam Ayyappa 🙏</p>
    <div class="row" style="margin-top:16px"><a class="btn" href="#songs">Listen now</a><a class="btn ghost" href="#steps">Climb the 18 steps</a></div></div>
   <img src="img/ayyappa_hero.jpg" alt="Lord Ayyappa seated in yogic pose, painting" width="1400" height="787">
  </section>
@@ -109,7 +109,9 @@ const SONGS=[
  {yt:'UOGXzfLW8vc',n:1,t:'Harihara Suthane · ಹರಿಹರ ಸುತನೇ',l:'ಕನ್ನಡ · संस्कृत'},
  {yt:'hfIpmrnAiIk',n:2,t:'ಹುಲಿಯೇರಿ ಬಂದ ಮಣಿಕಂಠ · Huli Yeri Banda Manikanta',l:'ಕನ್ನಡ'},
  {yt:'_Ig9Mpqf9hc',n:3,t:'ಹದಿನೆಂಟಾಂ ಪಡಿ · Pathinettam Padi',l:'ಕನ್ನಡ'},
- {yt:'KplILYGBovg',n:4,t:'ಕರುಣಾಮಯ ಅಯ್ಯಪ್ಪ · Karunamaya Ayyappa',l:'ಕನ್ನಡ'}];
+ {yt:'KplILYGBovg',n:4,t:'ಕರುಣಾಮಯ ಅಯ್ಯಪ್ಪ · Karunamaya Ayyappa',l:'ಕನ್ನಡ'},
+ {yt:'1Zo3yL76uYg',n:5,t:'மலை அழைக்குதடா ஐயப்பா · Malai Azhaikuthada Ayyappa',l:'தமிழ்'},
+ {yt:'rn5pubakWH8',n:6,t:'என்னைத் தாங்கும் மணிகண்டா · Ennai Thaangum Manikanta',l:'தமிழ்',after:'2026-11-15T08:00:00+05:30'}].filter(s=>!s.after||Date.now()>=Date.parse(s.after));
 const grid=document.getElementById('songGrid');
 grid.innerHTML=SONGS.map(s=>`<div class="song"><button class="watch" data-id="${s.yt}" aria-label="Play ${s.t}"><img src="https://i.ytimg.com/vi/${s.yt}/hqdefault.jpg" alt="" loading="lazy"><span class="playbtn" aria-hidden="true">▶</span></button><div class="body"><span class="eyebrow">Song ${s.n} · ${s.l}</span><h3>${s.t}</h3></div></div>`).join('');
 grid.querySelectorAll('.watch').forEach(b=>b.onclick=()=>{b.outerHTML=`<div class="video"><iframe src="https://www.youtube.com/embed/${b.dataset.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="Song" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`});
