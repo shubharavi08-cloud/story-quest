@@ -1,23 +1,203 @@
-{"note":"ids per language; facts = English YouTube description (source of truth). sched = IST publish time if not yet public.",
-"eps":[
-{"n":1,"slug":"fairness-lie","en":"sJuKu-nN-Mk","hi":"tgEYoMgHB9M","kn":"T9CDt25ggRk","title_en":"Dark skin? Don't worry! The fairness cream LIE","facts":"For 45 years, ads told India fairer skin meant a job, a good match and respect. 3-step trick: 1 make you feel something is wrong with you 2 tie your dreams to fixing it 3 sell you the fix. In 2020 the label changed one word; the idea didn't. Ask: who taught us we were broken?"},
-{"n":2,"slug":"fake-face-free-money","en":"4qiVG1AFbpw","hi":"LKDWJKLIYug","kn":"CcmovAyRVbY","title_en":"₹10,000 FREE for every family! The fake face scam","facts":"Famous face (AI deepfake) promises free money; pay ₹99 and enter UPI PIN. Trick: trusted face faked with AI, rush 'only today', small fee or UPI PIN. UPI PIN is only for SENDING money, never receiving. No real scheme asks you to pay first; check official govt website. 1930 / cybercrime.gov.in"},
-{"n":3,"slug":"digital-arrest","en":"hclZZ3RF1Yk","hi":"Ef9g_26bVDo","kn":"Hr1Q2M9L3RY","title_en":"You're under DIGITAL ARREST! The video call scam","facts":"Fake 'CBI officer' video call: parcel with drugs, digital arrest, don't hang up, don't tell anyone, pay for verification. Trick: Fear, Authority, Isolation, Hurry. Real police NEVER arrest on video call and never ask money. Hang up, call family, 1930. Indians lost over ₹4,000 crore to this since 2022 (govt data)."},
-{"n":4,"slug":"ai-voice-clone","en":"RbHkRgO1ZLQ","hi":"1sACcMTX3dM","kn":"CdPGhIFey9A","title_en":"Mummy, help me! It's NOT your child. It's AI","facts":"Call in your child's voice: accident, police, send money now, don't tell Papa. Voice cloned by AI from a few seconds of online video. Trick: Steal, Clone, Panic, Secret. Fix: hang up and call your child back on their own number. Set a secret FAMILY CODE WORD. McAfee 2023 survey: nearly half of Indians said they or someone they knew faced an AI voice scam. 1930."},
-{"n":5,"slug":"fake-sale","en":"MO-Gt0KS22I","hi":"MRz6DIyn6hc","kn":"x8xpSgwbdlE","title_en":"90% OFF… only today! Is this sale REAL?","facts":"₹9,999 → ₹999, only 2 left, 47 watching. 4 tricks: fake MRP, fake rush, fake crowd, hidden fees. Biggest trick: buying things we never needed. Check price history, compare another site, look at FINAL cart total. CCPA banned 13 dark patterns in online shopping including false urgency."},
-{"n":6,"slug":"5000-task","en":"ISrbaQED3oo","hi":"hTGf6e6D9oM","kn":"Y0n1PJL_5fM","title_en":"Earn ₹5,000 a day by liking videos! It's a TRAP","facts":"WhatsApp part-time job: like YouTube videos, ₹5,000 daily; they pay ₹150 first, then 'premium tasks' and money never returns. Trick: Bait, Trust, Trap, Lock. A real job NEVER asks you to pay; first small payout is the hook. Dec 2023 Govt of India blocked over 100 websites run by overseas operators for task-based job fraud. 1930."},
-{"n":7,"slug":"vip-profit-group","en":"hIt4hLpDCB4","hi":"ivh_TgZQPfA","kn":"OBvBNGCqsNc","title_en":"Join our VIP group, 300% profit! It's a SCAM","facts":"Added to WhatsApp 'VIP Profit Group', 2,500 members, profit screenshots hourly, special trading app 'doubles in a week'; then you try to withdraw. Trick: Group, Fake crowd, Fake app, Exit fee. 2024: stock-trading scams were India's biggest cyber-fraud loss, over ₹4,600 crore. Real investing: SEBI-registered broker/adviser, apps only from official app store. 'Guaranteed' high returns = bait. 1930."},
-{"n":8,"slug":"instant-loan-app","en":"dYf-v1GDOIQ","hi":"tOFHqCmYSsc","kn":"kc_-9LH553g","title_en":"₹50,000 in 5 minutes! The loan app TRAP","facts":"Instant loan no documents; tap Allow and app copies contacts and photos; 7 days later you owe ₹90,000 and threats begin. Trick: Bait, Permissions, Debt trap, Shame. RBI rule: a real loan app can never access contacts or photos. Check RBI's list of digital lending apps (rbi.org.in). Don't pay under threat; keep screenshots, tell family. 1930."},
-{"n":9,"slug":"kyc-link","en":"YqsMnITlLFs","hi":"mBZusKybV20","kn":"iDP4ztkVO3U","title_en":"Account BLOCKED today! The KYC link TRAP","facts":"SMS: account blocked today, update KYC via link; one click and card number, PIN, OTP go to thief. Trick: Fear, Fake link, Your details, Empty account. Bank never asks KYC update through a link; real bank messages come from bank sender name, not 10-digit mobile number; never share OTP/PIN even with bank staff; visit branch or bank's own app. 1930. Report fraud SMS on Sanchar Saathi (Chakshu)."},
-{"n":10,"slug":"fake-customer-care","en":"YVut1eqftR8","hi":"8DvDA2fUwR0","kn":"1YvU-NdFvVA","title_en":"Your refund is approved! The fake customer care scam","facts":"You search a helpline, call the number, polite 'agent' promises refund, then install this app, read OTP. Trick: fake number in search results/social media, friendly voice, screen-sharing app, your OTP. Refund never needs OTP, PIN or screen-sharing app. Take helpline numbers only from company's official app/website. Never install apps or share screen because a caller asks. 1930."},
-{"n":11,"slug":"lottery-prize","en":"QBzf3VhmwR4","hi":"2JzUmHYlfWQ","kn":"0bEly8BBhts","title_en":"You WON ₹25 lakh! The lottery prize TRAP","facts":"WhatsApp: you won ₹25 lakh in a lucky draw you never entered; pay 'tax' first. Trick: big prize, famous name or logo, small fee again and again, 'tell no one'. Real prize never asks you to pay first. If you didn't enter, you didn't win. Never share UPI PIN. 1930."},
-{"n":12,"slug":"power-cut-sms","en":"57DT_tEOCq4","hi":"FGHSqng48y4","kn":"iNFCjY_H9z4","title_en":"Power cut at 9:30 tonight! The electricity bill SMS TRAP","facts":"SMS: power cut tonight because last bill 'not updated'; call the officer, install app, pay just ₹10. Trick: Fear, personal mobile number, remote-access app, tiny ₹10 payment captures card, PIN, OTP. Power company never asks you to call a mobile number; check bill only on official app/website; never install apps or pay through SMS links. 1930."},
-{"n":13,"slug":"wrong-upi-transfer","en":"ZplAwmSCVFY","hi":"0hoia2N98tI","kn":"vL9QcLaf7e4","title_en":"I sent it by mistake! The wrong UPI transfer TRAP","facts":"'Sent ₹5,000 by mistake, here's screenshot, mother in hospital, send it back.' Trick: fake credit (fake SMS or edited screenshot), sad story, UPI collect request, your PIN and your own money leaves. You never need a PIN to receive money. Check only your bank app, not his screenshot. Real wrong transfer is reversed through the bank. 1930. Share with shopkeepers."},
-{"n":14,"slug":"job-fee","en":"JBJVwRmDiXI","hi":"eN-UCN5A-28","kn":"fW0Ljr9tUgg","title_en":"You're selected! The fake job offer FEE TRAP","facts":"'Selected! Work from home ₹45,000/month, no interview, pay ₹2,500 registration, only 10 seats.' Trick: dream offer, small fee, more fees (training, uniform, ID, verification), gone: number switched off. Real company never asks you to pay for a job. Check company's own website and official number. No interview, no job. 1930."},
-{"n":15,"slug":"money-game-app","en":"1i8sgv-Rjhw","hi":"eyGLn79Iz6U","kn":"Dq-G6JYTEuc","sched":"2026-11-07T19:00+05:30","title_en":"Play & earn ₹5,000 daily! The money game app TRAP","facts":"'Play games, earn ₹5,000 daily, double bonus on first deposit, download from this link not app store.' Trick: easy wins, bigger deposits, losses (app always wins), no withdrawal: 'pay tax first' or account blocked. Real-money online games are banned in India (Online Gaming Act, 2025). Never install apps from WhatsApp/Telegram links. Games are for fun, not income. 1930."},
-{"n":16,"slug":"celebrity-ad","en":"FiWVeEhzyzA","hi":"9yg27ysLoNA","kn":"bCD6nX-IqII","sched":"2026-11-08T19:00+05:30","title_en":"Superstar's secret! The celebrity ad TRICK","facts":"'My secret? This one drink every morning. Buy now, be like me!' Trick: famous face, big cheque, magic claim, you pay (star's fee is in your price). An ad is a paid job, not advice. Check label, price, real reviews, not the face. By law (CCPA guidelines 2022) an endorser must know or have used the product. Misleading ad: National Consumer Helpline 1915."},
-{"n":17,"slug":"not-sponsored","en":"1HYmmqc1VzI","hi":"2HEFdIex4gg","kn":"1dSKG5HYlFM","sched":"2026-11-09T19:00+05:30","title_en":"Not sponsored, I promise! The fake honest review TRICK","facts":"Influencer: 'not sponsored, I honestly use it, skin changed in 7 days, use my code for 10% off.' Trick: friendly face, hidden deal, fast results (a script), his code (he earns on every sale). Paid posts must clearly say 'Ad' or 'Sponsored'. A personal discount code usually means a paid deal. Read many reviews from real buyers. National Consumer Helpline 1915."},
-{"n":18,"slug":"only-2-left","en":"TrgGJESJiGY","hi":"A_eNdXsDp3E","kn":"TNYyEBVesEY","sched":"2026-11-10T19:00+05:30","title_en":"Only 2 left! The fake urgency shopping TRICK","facts":"'Only 2 left, 47 watching, sale ends in 10 minutes.' Trick: fake stock, fake crowd, fake clock (refresh and it restarts), rush checkout (extra charges sneaked in). In India fake urgency is a banned dark pattern (CCPA Dark Patterns Guidelines 2023). Close the app; if you still need it tomorrow, buy it. Check final bill. NCH 1915."},
-{"n":19,"slug":"free-trial-trap","en":"GSPmSJc36SA","hi":"7t6HiMtZUwI","kn":"Zj-8UOazQsI","sched":"2026-11-11T19:00+05:30","title_en":"Free for 7 days! The free-trial subscription TRAP","facts":"'Free 7 days, just add your card, zero rupees today, cancel anytime.' Trick: card first (auto-debit mandate), you forget, silent charge on day 8 every month, hidden exit ('call us to cancel'). Making cancellation hard is a banned 'subscription trap' dark pattern (CCPA 2023). Set a reminder for day 6. Read bank's pre-debit alert (comes 24 hours before every auto-debit). You can cancel a mandate in your UPI/bank app."}
-],
-"weekly":[{"n":1,"slug":"crime-report-01","en":"S0F_OX7kZ_U","hi":"g-fcpWRi23g","kn":"0GUNUv-wPbk","sched":"2026-11-08T10:00+05:30","title_en":"Mauna Crime Report #1: Farmer loses ₹1.31 crore in 6-week 'Digital Arrest'","facts":"Weekly crime news explained: 1 Puttur farmer loses over ₹1.31 crore to fake 'terror probe' digital arrest; 2 ED arrests advocate in ₹28,000-crore money trail; 3 fake-boss WhatsApp call, gang linked to ₹72 crore; 4 SIM-box hubs with 320 slots busted; 5 fake e-challan links, ₹44 lakh lost; 6 world: same script, new accent; 7 Supreme Court: should banks pay digital-arrest victims? No police agency in India arrests anyone on a video call."}]}
+{
+ "note": "ids per language; facts = English YouTube description (source of truth). sched = IST publish time if not yet public.",
+ "eps": [
+  {
+   "n": 1,
+   "slug": "fairness-lie",
+   "en": "sJuKu-nN-Mk",
+   "hi": "tgEYoMgHB9M",
+   "kn": "T9CDt25ggRk",
+   "title_en": "Dark skin? Don't worry! The fairness cream LIE",
+   "facts": "For 45 years, ads told India fairer skin meant a job, a good match and respect. 3-step trick: 1 make you feel something is wrong with you 2 tie your dreams to fixing it 3 sell you the fix. In 2020 the label changed one word; the idea didn't. Ask: who taught us we were broken?"
+  },
+  {
+   "n": 2,
+   "slug": "fake-face-free-money",
+   "en": "4qiVG1AFbpw",
+   "hi": "LKDWJKLIYug",
+   "kn": "CcmovAyRVbY",
+   "title_en": "₹10,000 FREE for every family! The fake face scam",
+   "facts": "Famous face (AI deepfake) promises free money; pay ₹99 and enter UPI PIN. Trick: trusted face faked with AI, rush 'only today', small fee or UPI PIN. UPI PIN is only for SENDING money, never receiving. No real scheme asks you to pay first; check official govt website. 1930 / cybercrime.gov.in"
+  },
+  {
+   "n": 3,
+   "slug": "digital-arrest",
+   "en": "hclZZ3RF1Yk",
+   "hi": "Ef9g_26bVDo",
+   "kn": "Hr1Q2M9L3RY",
+   "title_en": "You're under DIGITAL ARREST! The video call scam",
+   "facts": "Fake 'CBI officer' video call: parcel with drugs, digital arrest, don't hang up, don't tell anyone, pay for verification. Trick: Fear, Authority, Isolation, Hurry. Real police NEVER arrest on video call and never ask money. Hang up, call family, 1930. Indians lost over ₹4,000 crore to this since 2022 (govt data)."
+  },
+  {
+   "n": 4,
+   "slug": "ai-voice-clone",
+   "en": "RbHkRgO1ZLQ",
+   "hi": "1sACcMTX3dM",
+   "kn": "CdPGhIFey9A",
+   "title_en": "Mummy, help me! It's NOT your child. It's AI",
+   "facts": "Call in your child's voice: accident, police, send money now, don't tell Papa. Voice cloned by AI from a few seconds of online video. Trick: Steal, Clone, Panic, Secret. Fix: hang up and call your child back on their own number. Set a secret FAMILY CODE WORD. McAfee 2023 survey: nearly half of Indians said they or someone they knew faced an AI voice scam. 1930."
+  },
+  {
+   "n": 5,
+   "slug": "fake-sale",
+   "en": "MO-Gt0KS22I",
+   "hi": "MRz6DIyn6hc",
+   "kn": "x8xpSgwbdlE",
+   "title_en": "90% OFF… only today! Is this sale REAL?",
+   "facts": "₹9,999 → ₹999, only 2 left, 47 watching. 4 tricks: fake MRP, fake rush, fake crowd, hidden fees. Biggest trick: buying things we never needed. Check price history, compare another site, look at FINAL cart total. CCPA banned 13 dark patterns in online shopping including false urgency."
+  },
+  {
+   "n": 6,
+   "slug": "5000-task",
+   "en": "ISrbaQED3oo",
+   "hi": "hTGf6e6D9oM",
+   "kn": "Y0n1PJL_5fM",
+   "title_en": "Earn ₹5,000 a day by liking videos! It's a TRAP",
+   "facts": "WhatsApp part-time job: like YouTube videos, ₹5,000 daily; they pay ₹150 first, then 'premium tasks' and money never returns. Trick: Bait, Trust, Trap, Lock. A real job NEVER asks you to pay; first small payout is the hook. Dec 2023 Govt of India blocked over 100 websites run by overseas operators for task-based job fraud. 1930."
+  },
+  {
+   "n": 7,
+   "slug": "vip-profit-group",
+   "en": "hIt4hLpDCB4",
+   "hi": "ivh_TgZQPfA",
+   "kn": "OBvBNGCqsNc",
+   "title_en": "Join our VIP group, 300% profit! It's a SCAM",
+   "facts": "Added to WhatsApp 'VIP Profit Group', 2,500 members, profit screenshots hourly, special trading app 'doubles in a week'; then you try to withdraw. Trick: Group, Fake crowd, Fake app, Exit fee. 2024: stock-trading scams were India's biggest cyber-fraud loss, over ₹4,600 crore. Real investing: SEBI-registered broker/adviser, apps only from official app store. 'Guaranteed' high returns = bait. 1930."
+  },
+  {
+   "n": 8,
+   "slug": "instant-loan-app",
+   "en": "dYf-v1GDOIQ",
+   "hi": "tOFHqCmYSsc",
+   "kn": "kc_-9LH553g",
+   "title_en": "₹50,000 in 5 minutes! The loan app TRAP",
+   "facts": "Instant loan no documents; tap Allow and app copies contacts and photos; 7 days later you owe ₹90,000 and threats begin. Trick: Bait, Permissions, Debt trap, Shame. RBI rule: a real loan app can never access contacts or photos. Check RBI's list of digital lending apps (rbi.org.in). Don't pay under threat; keep screenshots, tell family. 1930."
+  },
+  {
+   "n": 9,
+   "slug": "kyc-link",
+   "en": "YqsMnITlLFs",
+   "hi": "mBZusKybV20",
+   "kn": "iDP4ztkVO3U",
+   "title_en": "Account BLOCKED today! The KYC link TRAP",
+   "facts": "SMS: account blocked today, update KYC via link; one click and card number, PIN, OTP go to thief. Trick: Fear, Fake link, Your details, Empty account. Bank never asks KYC update through a link; real bank messages come from bank sender name, not 10-digit mobile number; never share OTP/PIN even with bank staff; visit branch or bank's own app. 1930. Report fraud SMS on Sanchar Saathi (Chakshu)."
+  },
+  {
+   "n": 10,
+   "slug": "fake-customer-care",
+   "en": "YVut1eqftR8",
+   "hi": "8DvDA2fUwR0",
+   "kn": "1YvU-NdFvVA",
+   "title_en": "Your refund is approved! The fake customer care scam",
+   "facts": "You search a helpline, call the number, polite 'agent' promises refund, then install this app, read OTP. Trick: fake number in search results/social media, friendly voice, screen-sharing app, your OTP. Refund never needs OTP, PIN or screen-sharing app. Take helpline numbers only from company's official app/website. Never install apps or share screen because a caller asks. 1930."
+  },
+  {
+   "n": 11,
+   "slug": "lottery-prize",
+   "en": "QBzf3VhmwR4",
+   "hi": "2JzUmHYlfWQ",
+   "kn": "0bEly8BBhts",
+   "title_en": "You WON ₹25 lakh! The lottery prize TRAP",
+   "facts": "WhatsApp: you won ₹25 lakh in a lucky draw you never entered; pay 'tax' first. Trick: big prize, famous name or logo, small fee again and again, 'tell no one'. Real prize never asks you to pay first. If you didn't enter, you didn't win. Never share UPI PIN. 1930."
+  },
+  {
+   "n": 12,
+   "slug": "power-cut-sms",
+   "en": "57DT_tEOCq4",
+   "hi": "FGHSqng48y4",
+   "kn": "iNFCjY_H9z4",
+   "title_en": "Power cut at 9:30 tonight! The electricity bill SMS TRAP",
+   "facts": "SMS: power cut tonight because last bill 'not updated'; call the officer, install app, pay just ₹10. Trick: Fear, personal mobile number, remote-access app, tiny ₹10 payment captures card, PIN, OTP. Power company never asks you to call a mobile number; check bill only on official app/website; never install apps or pay through SMS links. 1930."
+  },
+  {
+   "n": 13,
+   "slug": "wrong-upi-transfer",
+   "en": "ZplAwmSCVFY",
+   "hi": "0hoia2N98tI",
+   "kn": "vL9QcLaf7e4",
+   "title_en": "I sent it by mistake! The wrong UPI transfer TRAP",
+   "facts": "'Sent ₹5,000 by mistake, here's screenshot, mother in hospital, send it back.' Trick: fake credit (fake SMS or edited screenshot), sad story, UPI collect request, your PIN and your own money leaves. You never need a PIN to receive money. Check only your bank app, not his screenshot. Real wrong transfer is reversed through the bank. 1930. Share with shopkeepers."
+  },
+  {
+   "n": 14,
+   "slug": "job-fee",
+   "en": "JBJVwRmDiXI",
+   "hi": "eN-UCN5A-28",
+   "kn": "fW0Ljr9tUgg",
+   "title_en": "You're selected! The fake job offer FEE TRAP",
+   "facts": "'Selected! Work from home ₹45,000/month, no interview, pay ₹2,500 registration, only 10 seats.' Trick: dream offer, small fee, more fees (training, uniform, ID, verification), gone: number switched off. Real company never asks you to pay for a job. Check company's own website and official number. No interview, no job. 1930."
+  },
+  {
+   "n": 15,
+   "slug": "money-game-app",
+   "en": "1i8sgv-Rjhw",
+   "hi": "eyGLn79Iz6U",
+   "kn": "Dq-G6JYTEuc",
+   "sched": "2026-11-07T19:00+05:30",
+   "title_en": "Play & earn ₹5,000 daily! The money game app TRAP",
+   "facts": "'Play games, earn ₹5,000 daily, double bonus on first deposit, download from this link not app store.' Trick: easy wins, bigger deposits, losses (app always wins), no withdrawal: 'pay tax first' or account blocked. Real-money online games are banned in India (Online Gaming Act, 2025). Never install apps from WhatsApp/Telegram links. Games are for fun, not income. 1930."
+  },
+  {
+   "n": 16,
+   "slug": "celebrity-ad",
+   "en": "FiWVeEhzyzA",
+   "hi": "9yg27ysLoNA",
+   "kn": "bCD6nX-IqII",
+   "sched": "2026-11-08T19:00+05:30",
+   "title_en": "Superstar's secret! The celebrity ad TRICK",
+   "facts": "'My secret? This one drink every morning. Buy now, be like me!' Trick: famous face, big cheque, magic claim, you pay (star's fee is in your price). An ad is a paid job, not advice. Check label, price, real reviews, not the face. By law (CCPA guidelines 2022) an endorser must know or have used the product. Misleading ad: National Consumer Helpline 1915."
+  },
+  {
+   "n": 17,
+   "slug": "not-sponsored",
+   "en": "1HYmmqc1VzI",
+   "hi": "2HEFdIex4gg",
+   "kn": "1dSKG5HYlFM",
+   "sched": "2026-11-09T19:00+05:30",
+   "title_en": "Not sponsored, I promise! The fake honest review TRICK",
+   "facts": "Influencer: 'not sponsored, I honestly use it, skin changed in 7 days, use my code for 10% off.' Trick: friendly face, hidden deal, fast results (a script), his code (he earns on every sale). Paid posts must clearly say 'Ad' or 'Sponsored'. A personal discount code usually means a paid deal. Read many reviews from real buyers. National Consumer Helpline 1915."
+  },
+  {
+   "n": 18,
+   "slug": "only-2-left",
+   "en": "TrgGJESJiGY",
+   "hi": "A_eNdXsDp3E",
+   "kn": "TNYyEBVesEY",
+   "sched": "2026-11-10T19:00+05:30",
+   "title_en": "Only 2 left! The fake urgency shopping TRICK",
+   "facts": "'Only 2 left, 47 watching, sale ends in 10 minutes.' Trick: fake stock, fake crowd, fake clock (refresh and it restarts), rush checkout (extra charges sneaked in). In India fake urgency is a banned dark pattern (CCPA Dark Patterns Guidelines 2023). Close the app; if you still need it tomorrow, buy it. Check final bill. NCH 1915."
+  },
+  {
+   "n": 19,
+   "slug": "free-trial-trap",
+   "en": "GSPmSJc36SA",
+   "hi": "7t6HiMtZUwI",
+   "kn": "Zj-8UOazQsI",
+   "sched": "2026-11-11T19:00+05:30",
+   "title_en": "Free for 7 days! The free-trial subscription TRAP",
+   "facts": "'Free 7 days, just add your card, zero rupees today, cancel anytime.' Trick: card first (auto-debit mandate), you forget, silent charge on day 8 every month, hidden exit ('call us to cancel'). Making cancellation hard is a banned 'subscription trap' dark pattern (CCPA 2023). Set a reminder for day 6. Read bank's pre-debit alert (comes 24 hours before every auto-debit). You can cancel a mandate in your UPI/bank app."
+  },
+  {
+   "n": 20,
+   "slug": "scan-to-receive-qr",
+   "en": "LE15JUpnAGc",
+   "hi": "_giDkkLDMiY",
+   "kn": "MFqGeTrTHlc",
+   "sched": "2026-11-13T19:00+05:30",
+   "title_en": "\"Scan this QR to RECEIVE ₹5,000\" — It's a TRAP!",
+   "facts": "A stranger (a 'buyer' or 'prize giver') sends a QR code and says scan it to receive ₹5,000. Scanning a QR opens a payment screen and the UPI PIN sends money OUT. Receiving money needs no scan and no PIN. If money is lost, call 1930 and report at cybercrime.gov.in."
+  }
+ ],
+ "weekly": [
+  {
+   "n": 1,
+   "slug": "crime-report-01",
+   "en": "S0F_OX7kZ_U",
+   "hi": "g-fcpWRi23g",
+   "kn": "0GUNUv-wPbk",
+   "sched": "2026-11-08T10:00+05:30",
+   "title_en": "Mauna Crime Report #1: Farmer loses ₹1.31 crore in 6-week 'Digital Arrest'",
+   "facts": "Weekly crime news explained: 1 Puttur farmer loses over ₹1.31 crore to fake 'terror probe' digital arrest; 2 ED arrests advocate in ₹28,000-crore money trail; 3 fake-boss WhatsApp call, gang linked to ₹72 crore; 4 SIM-box hubs with 320 slots busted; 5 fake e-challan links, ₹44 lakh lost; 6 world: same script, new accent; 7 Supreme Court: should banks pay digital-arrest victims? No police agency in India arrests anyone on a video call."
+  }
+ ]
+}
