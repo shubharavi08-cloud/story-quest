@@ -25,7 +25,7 @@ head_extra = f'''<meta name="description" content="Play Chowka Bhara (Chowka Bar
 <meta property="og:url" content="{SITE_URL}">
 <link rel="stylesheet" href="family.css?v=20261105c">
 <script type="application/ld+json">{{"@context":"https://schema.org","@type":"VideoGame","name":"Chowka Bhara","url":"{SITE_URL}","genre":["Board game","Traditional"],"gamePlatform":"Web browser","inLanguage":["en","hi","kn"],"isAccessibleForFree":true,"numberOfPlayers":{{"@type":"QuantitativeValue","minValue":2,"maxValue":4}},"audience":{{"@type":"Audience","audienceType":"Children and families"}},"publisher":{{"@id":"https://worldofwondersstudio.com/#org"}}}}</script>
-<link rel="stylesheet" href="/cursor-wow.css?v=2"></head>'''
+<link rel="stylesheet" href="/cursor-wow.css?v=3"></head>'''
 site = site.replace("</head>", head_extra, 1)
 # page scrolls: the game fills the first screen, the About card and footer follow
 site = site.replace("html,body{margin:0;height:100%;overflow:hidden}", "html,body{margin:0}\n#app{position:relative;height:100vh;height:100dvh;overflow:hidden}")
