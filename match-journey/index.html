@@ -299,7 +299,7 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
 .colb{display:grid;grid-template-columns:1fr 1fr;gap:8px}.colb .go{margin:0}
 #gate{position:fixed;inset:0;z-index:9999;background:#0009;display:none;place-items:center}#gate.on{display:grid}#gate .gbox{background:#fbf3e0;color:#3a1d0e;border-radius:18px;padding:20px;width:min(340px,88vw);text-align:center;box-shadow:0 10px 30px #000a}#gate h3{margin:0 0 6px;font:800 22px var(--display)}#gate p{margin:0 0 12px;font:600 17px var(--body)}.gopts{display:grid;grid-template-columns:1fr 1fr;gap:10px}.gopts button{font:800 22px var(--display);padding:12px;border-radius:12px;background:#ffd35a;border:0;box-shadow:0 3px 0 #b8860b}#gate .gx{margin-top:12px;background:none;border:0;color:#7a5a3a;font:700 15px var(--body);text-decoration:underline}
 </style>
-<link rel="stylesheet" href="/cursor-wow.css"></head>
+</head>
 <body>
 <div id="app">
   <div class="bar">
@@ -327,7 +327,7 @@ button:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
 'use strict';
 /* ================= content ================= */
 const CH=[{key:'ka',name:{en:'Karnataka',hi:'कर्नाटक',kn:'ಕರ್ನಾಟಕ'},art:{en:'Mysore painting',hi:'मैसूर चित्रकला',kn:'ಮೈಸೂರು ಚಿತ್ರಕಲೆ'},
-  paint:'img/match/ka/painting.jpg',paintFallback:'img/celebrate.jpg',
+  paint:'img/match/ka/painting.jpg',paintFallback:'img/celebrate.jpg',video:'img/match/ka/alive.mp4',
   // 12 tile objects; art file img/match/ka/tile_01.png … tile_12.png replaces the emoji when present
   // designs: tile_01-12 base set, tile_13-24 look-alikes of 01-12 (same order), tile_25-48 more objects (royal Mysore, Karnataka crafts).
   // avail = how many tile_NN.png files exist (fit them with _tools/match/fit_art.py).
@@ -368,7 +368,7 @@ const CH=[{key:'ka',name:{en:'Karnataka',hi:'कर्नाटक',kn:'ಕರ�
     hi:"यह शिग्मो है, गोवा का वसंत उत्सव! ढोल गूँजते हैं, झंडे लहराते हैं और रंगी हुई झाँकियाँ सड़क पर चलती हैं। दीया भीड़ में सोनाली के साथ नाचती है। पेंटिंग पूरी हुई, कावी मंदिर की दीवार जैसी लाल-सफ़ेद चमकती! अज्जी का नक्शा फिर चमका, तट के साथ उत्तर में महाराष्ट्र की ओर, जहाँ लोग सफ़ेद वारली आकृतियों जैसे घेरे में नाचते हैं।",
     kn:"ಇದು ಶಿಗ್ಮೋ, ಗೋವಾದ ವಸಂತ ಹಬ್ಬ! ಡೋಲುಗಳು ಮೊಳಗುತ್ತವೆ, ಬಾವುಟಗಳು ಸುತ್ತುತ್ತವೆ, ಬಣ್ಣದ ತೇರುಗಳು ಬೀದಿಯಲ್ಲಿ ಸಾಗುತ್ತವೆ. ದಿಯಾ ಜನಸಂದಣಿಯಲ್ಲಿ ಸೋನಾಲಿಯ ಜೊತೆ ಕುಣಿಯುತ್ತಾಳೆ. ಚಿತ್ರ ಪೂರ್ಣವಾಯಿತು, ಕಾವಿ ಕಲೆಯ ದೇವಾಲಯದ ಗೋಡೆಯಂತೆ ಕೆಂಪು-ಬಿಳುಪಿನಲ್ಲಿ ಹೊಳೆಯುತ್ತಿದೆ! ಅಜ್ಜಿಯ ನಕ್ಷೆ ಮತ್ತೆ ಬೆಳಗಿತು, ಕಡಲತೀರದ ಉದ್ದಕ್ಕೂ ಉತ್ತರಕ್ಕೆ ಮಹಾರಾಷ್ಟ್ರದತ್ತ, ಅಲ್ಲಿ ಜನರು ಬಿಳಿ ವಾರ್ಲಿ ಚಿತ್ರಗಳಂತೆ ವೃತ್ತದಲ್ಲಿ ಕುಣಿಯುತ್ತಾರೆ."}]},
  {key:'mh',name:{en:'Maharashtra',hi:'महाराष्ट्र',kn:'ಮಹಾರಾಷ್ಟ್ರ'},art:{en:'Warli painting',hi:'वारली चित्रकला',kn:'ವಾರ್ಲಿ ಚಿತ್ರಕಲೆ'},
-  paint:'img/match/mh/painting.jpg',paintFallback:'img/match/mh/painting.jpg',avail:36,
+  paint:'img/match/mh/painting.jpg',paintFallback:'img/match/mh/painting.jpg',video:'img/match/mh/alive.mp4',avail:36,
   tiles:['💃','🥟','🍔','🥻','🩴','🥁','👳','🏛️','⛰️','🍇','🛞','🍱'],
   names:{en:["Tarpa dance circle", "Modak plate", "Vada pav", "Paithani saree", "Kolhapuri chappals", "Dhol", "Puneri pagadi", "Gateway of India", "Hill fort", "Black grapes", "Bullock cart", "Dabba tiffin"],hi:["तारपा नृत्य घेरा", "मोदक की थाली", "वड़ा पाव", "पैठणी साड़ी", "कोल्हापुरी चप्पल", "ढोल", "पुणेरी पगड़ी", "गेटवे ऑफ इंडिया", "पहाड़ी किला", "काले अंगूर", "बैलगाड़ी", "डब्बा टिफ़िन"],kn:["ತಾರ್ಪಾ ಕುಣಿತದ ವೃತ್ತ", "ಮೋದಕದ ತಟ್ಟೆ", "ವಡಾ ಪಾವ್", "ಪೈಠಣಿ ಸೀರೆ", "ಕೊಲ್ಹಾಪುರಿ ಚಪ್ಪಲಿ", "ಡೋಲು", "ಪುಣೇರಿ ಪೇಟ", "ಗೇಟ್‌ವೇ ಆಫ್ ಇಂಡಿಯಾ", "ಬೆಟ್ಟದ ಕೋಟೆ", "ಕಪ್ಪು ದ್ರಾಕ್ಷಿ", "ಎತ್ತಿನ ಗಾಡಿ", "ಡಬ್ಬಿ ಟಿಫಿನ್"]},look:["Tarpa player", "Single modak", "Misal pav", "Green Paithani", "Tan Kolhapuris", "Tasha drum", "Saffron pheta", "Gateway at night", "Fort with flag", "Green grapes", "Decorated cart", "Brass tiffin"],more:["Warli hut", "Tarpa horn", "Puran poli", "Nauvari saree", "Lezim", "Mumbai local", "Wari flag", "Akash kandil", "Konkan boat", "Kokum sherbet", "Ajanta cave", "Alphonso crate"],
   story:[
@@ -418,7 +418,7 @@ const CH=[{key:'ka',name:{en:'Karnataka',hi:'कर्नाटक',kn:'ಕರ�
     hi:"नवरात्रि है! दीया जगमगाते गरबो दीपक के चारों ओर गरबा के घेरे में घूमती है, चारों तरफ़ डांडिया खनकते हैं। पिथोरा घोड़ों से भरी पेंटिंग पूरी हुई! अज्जी का नक्शा फिर जगमगाया, उत्तर में राजस्थान की ओर, फड़ चित्रों की धरती।",
     kn:"ನವರಾತ್ರಿ ಬಂತು! ದಿಯಾ ಬೆಳಗುವ ಗರ್ಬೋ ದೀಪದ ಸುತ್ತ ಗರ್ಬಾ ವೃತ್ತದಲ್ಲಿ ಸುತ್ತಿ ಕುಣಿಯುತ್ತಾಳೆ, ಸುತ್ತಲೂ ದಾಂಡಿಯಾ ಕೋಲುಗಳ ಸದ್ದು. ಪಿಥೋರಾ ಕುದುರೆಗಳಿಂದ ತುಂಬಿದ ಚಿತ್ರ ಪೂರ್ಣವಾಯಿತು! ಅಜ್ಜಿಯ ನಕ್ಷೆ ಮತ್ತೆ ಬೆಳಗಿತು, ಉತ್ತರಕ್ಕೆ ರಾಜಸ್ಥಾನದತ್ತ, ಫಡ್ ಚಿತ್ರಗಳ ನಾಡು."}]},
  {key:'rj',name:{en:'Rajasthan',hi:'राजस्थान',kn:'ರಾಜಸ್ಥಾನ'},art:{en:'Phad painting',hi:'फड़ चित्रकला',kn:'ಫಡ್ ಚಿತ್ರಕಲೆ'},
-  paint:'img/match/rj/painting.jpg',paintFallback:'img/match/rj/painting.jpg',avail:44,sand:1,
+  paint:'img/match/rj/painting.jpg',paintFallback:'img/match/rj/painting.jpg',video:'img/match/rj/alive.mp4',avail:44,sand:1,
   tiles:['🎎','🏰','🐪','🍯','🏺','👳','🍲','🎻','👞','💃','🗼','🥨'],
   names:{en:["Kathputli puppet","Hawa Mahal","Decorated camel","Ghevar","Jaipur blue vase","Bandhani turban","Dal baati churma","Ravanhatha","Mojari shoes","Ghoomar dancer","Vijay Stambh","Bikaneri bhujia"],
    hi:["कठपुतली","हवा महल","सजा हुआ ऊँट","घेवर","जयपुरी नीला फूलदान","बांधनी पगड़ी","दाल बाटी चूरमा","रावणहत्था","मोजड़ी","घूमर नर्तकी","विजय स्तंभ","बीकानेरी भुजिया"],
