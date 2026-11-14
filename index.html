@@ -64,8 +64,17 @@ h3{font-size:22px}
 .hero .btn,.hero a.btn{margin-bottom:4px}
 .topics{display:flex;flex-direction:column;gap:14px;margin:4px 0 0}.topics-h{display:flex;gap:14px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap}
 .topics-h h2{font-size:clamp(30px,5vw,46px);margin:2px 0 0}.topics-h .lede{margin:4px 0 0}
-.cont{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:center;background:linear-gradient(135deg,#3b2a7a,#241a52);border:1px solid #ffd35a44;border-radius:22px;padding:16px 18px;margin:0 0 22px}
-.cont h2{margin:2px 0}.cont .gcard{width:100%}@media(max-width:700px){.cont{grid-template-columns:1fr}}
+.cont{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#3b2a7a,#241a52);border:1px solid #ffd35a66;border-radius:999px;padding:8px 10px 8px 12px;margin:0 0 16px;text-decoration:none;color:#fdf3dc;transition:transform .15s,border-color .15s}
+.cont:hover,.cont:focus-visible{transform:translateY(-1px);border-color:#ffd35a}
+.cont-p{flex:none;width:34px;height:34px;border-radius:50%;background:#ffcf5a;color:#241a52;display:grid;place-items:center;font-size:14px}
+.cont-t{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.25}
+.cont-t small{color:#ffcf5a;font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.cont-t b{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.xad{display:flex;align-items:center;gap:12px;max-width:760px;margin:26px auto;padding:10px 12px;border-radius:16px;background:linear-gradient(135deg,#65105d,#190522);border:1px solid #ffd66b66;text-decoration:none;color:#fff5e6}
+.xad-i{font-size:24px}.xad-t{flex:1;display:flex;flex-direction:column;line-height:1.3}.xad-t small{color:#ffd66b;font-size:12px}
+.xad-go{background:#f32991;color:#fff;font-weight:800;font-size:13px;padding:8px 14px;border-radius:999px}
+.cont-go{flex:none;background:#ffcf5a;color:#241a52;font-weight:800;font-size:13px;padding:8px 14px;border-radius:999px;white-space:nowrap}
+@media(max-width:520px){.cont-go{padding:7px 11px;font-size:12px}.cont-t small{font-size:10px}}
 .trow{margin:8px 0 26px}.trow .ser{background:none;border:0;padding:0}
 .shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
 .shelf.games{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
@@ -482,7 +491,7 @@ function continueTile(){
   const S=seriesList(),started=Object.keys(prog).length||(()=>{try{return Object.keys(localStorage).some(k=>k.startsWith('wow-watched-'))}catch(e){return false}})();
   if(!started)return '';
   const done=g=>{const k={...Object.fromEntries(DEEPAVALI.filter(e=>e.play).map(e=>[e.play,'dv'+e.n])),...Object.fromEntries([...DASARA,...DASARA_MORE].filter(e=>e.play).map(e=>[e.play,'ds-'+e.k]))}[g.href];return k&&prog[k]};
-  for(const x of S){for(const v of x.videos){const g=v.play&&x.games.find(g=>g.href===v.play);if(g&&!done(g))return `<section class="cont"><div><span class="eyebrow">Welcome back!</span><h2>Continue where you left off</h2><p class="muted">${x.icon} ${x.name.split(' · ')[0]} · ${v.t}</p></div><div class="cont-c">${gameCard(g,{href:v.href,eyebrow:v.t})}</div></section>`}}
+  for(const x of S){for(const v of x.videos){const g=v.play&&x.games.find(g=>g.href===v.play);if(g&&!done(g))return `<a class="cont" href="${v.href}"><span class="cont-p" aria-hidden="true">▶</span><span class="cont-t"><small>Welcome back! Continue where you left off</small><b>${x.icon} ${x.name.split(' · ')[0]} · ${v.t}</b></span><span class="cont-go">Watch &amp; play ›</span></a>`}}
   return '';
 }
 function surprise(){const S=seriesList(),P=[];S.forEach(x=>x.videos.forEach(v=>{if(v.play&&x.games.some(g=>g.href===v.play))P.push(v.href)}));
@@ -703,6 +712,7 @@ function route(){
 addEventListener('hashchange',route);route();
 </script>
 
+<a class="xad" href="https://geethupahar.com/?utm_source=wow&utm_medium=xpromo" rel="noopener"><span class="xad-i">🎁</span><span class="xad-t"><b>Gift a song, made just for them</b><small>Geeth Upahar · personalised songs from ₹499</small></span><span class="xad-go">Create ›</span></a>
 <footer class="wow-foot"><div class="wf-in">
 <a class="wf-brand" href="index.html"><img src="img/wow_logo.png" alt=""><span><b>World of Wonders Studio</b><small>Music · Stories · Creation · Inspiration</small></span></a>
 <nav class="wf-links"><a href="index.html">Home</a> · <a href="thought.html">A Thought a Day</a> · <a href="blog/">Blog</a> · <a href="index.html#deepavali">Deepavali</a> · <a href="index.html#dasara">Dasara</a> · <a href="vedic-maths/">Vedic Maths</a> · <a href="jagruth-bharath/">Scam Alert</a> · <a href="books.html">Books</a> · <a href="ayyappa.html">Ayyappa Songs</a> · <a href="about.html">About</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms</a> · <a href="contact.html">Contact</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
