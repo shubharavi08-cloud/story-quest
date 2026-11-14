@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Swami Ayyappa Song Collection | World of Wonders Studio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Swami Ayyappa devotional songs in Kannada, with lyrics videos, and a free interactive: climb the 18 sacred steps of Sabarimala. By World of Wonders Studio.">
+<meta property="og:title" content="Swami Ayyappa Song Collection | World of Wonders Studio">
+<meta property="og:description" content="Four Ayyappa devotional songs and a free interactive: climb the 18 sacred steps of Sabarimala.">
+<meta property="og:image" content="https://worldofwondersstudio.com/img/ayyappa_hero.jpg">
+<meta property="og:url" content="https://worldofwondersstudio.com/ayyappa.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://worldofwondersstudio.com/ayyappa.html">
+<link rel="icon" href="img/wow_logo.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&display=swap">
+<style>
+:root{--night:#1c1442;--night-2:#2a1f5c;--ink:#fdf3dc;--muted:#c7bce6;--line:rgba(253,243,220,.14);--marigold:#f6a723;--flame:#ffd35a;--kumkum:#e0405a;--display:"Baloo 2","Trebuchet MS",system-ui,sans-serif;--body:"Mukta","Segoe UI",system-ui,sans-serif;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--night);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;padding:0 max(16px,env(safe-area-inset-right,0px)) 60px max(16px,env(safe-area-inset-left,0px));background-image:radial-gradient(1px 1px at 12% 18%,#fff8 50%,transparent 51%),radial-gradient(1px 1px at 72% 9%,#fff6 50%,transparent 51%),radial-gradient(1.5px 1.5px at 88% 30%,#fff7 50%,transparent 51%)}
+a{color:var(--flame)}
+.wrap{max-width:1040px;margin:0 auto;display:flex;flex-direction:column;gap:22px;padding-top:18px}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.15}
+h1{font-size:clamp(30px,6vw,52px)} h1 span{color:var(--flame)} h2{font-size:clamp(24px,4vw,32px)}
+.eyebrow{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--flame);font-weight:700}
+.muted{color:var(--muted)} .lede{font-size:19px;color:var(--muted);margin:10px 0 0}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;gap:24px;align-items:center}
+.hero img{width:100%;border-radius:20px;border:1px solid var(--line);display:block}
+@media(max-width:760px){.hero{grid-template-columns:1fr}}
+.btn{display:inline-flex;align-items:center;gap:8px;background:var(--marigold);color:#2b1700;font-weight:700;text-decoration:none;border:0;border-radius:999px;padding:10px 20px;font-size:16px;cursor:pointer;font-family:var(--body)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.songs{display:grid;grid-template-columns:repeat(auto-fill,minmax(235px,1fr));gap:14px}
+.song{background:rgba(255,255,255,.06);border:1px solid rgba(199,188,230,.18);border-radius:16px;overflow:hidden}
+.song .watch{position:relative;display:block;width:100%;aspect-ratio:16/9;border:0;padding:0;background:#120c30;cursor:pointer}
+.song .watch img{width:100%;height:100%;object-fit:cover;display:block;filter:brightness(.88)}
+.song .playbtn{position:absolute;inset:0;margin:auto;width:56px;height:56px;border-radius:50%;background:rgba(246,167,35,.92);color:#2b1700;display:grid;place-items:center;font-size:22px}
+.song .video{aspect-ratio:16/9}.song iframe{width:100%;height:100%;border:0;display:block}
+.song .body{padding:10px 12px 12px}.song h3{font-size:16px;margin-top:4px}
+/* 18 steps */
+.climb{background:linear-gradient(180deg,#2a1f5c,#1c1442);border:1px solid var(--line);border-radius:22px;padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:760px){.climb{grid-template-columns:1fr}}
+.stage{position:relative;border-radius:16px;overflow:hidden;min-height:330px;background:#120c30 url(img/ayyappa_steps.jpg) center/cover}
+.stage::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(18,12,48,.15),rgba(18,12,48,.55))}
+.stairs{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column-reverse;justify-content:flex-start;gap:3px;padding:14px 16px}
+.st{height:calc((100% - 0px)/18 - 3px);min-height:12px;border-radius:5px;background:rgba(253,243,220,.16);border:1px solid rgba(253,243,220,.28);position:relative;transition:.35s;margin-left:calc(var(--i)*1.6%);width:calc(100% - var(--i)*1.6%)}
+.st.done{background:linear-gradient(90deg,#f6a723,#ffd35a);border-color:#ffe08a;box-shadow:0 0 14px rgba(255,211,90,.55)}
+.st.next{background:rgba(255,211,90,.35);border-color:#ffd35a;animation:pulse 1.1s infinite;cursor:pointer}
+@keyframes pulse{50%{box-shadow:0 0 16px rgba(255,211,90,.9)}}
+.st small{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#2b1700;opacity:0}
+.st.done small{opacity:.85}
+.panel{display:flex;flex-direction:column;gap:12px;justify-content:center}
+.leave{min-height:120px;background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.leave b{font-family:var(--display);font-size:22px;color:var(--flame);display:block}
+.bar{height:10px;border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden}.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f6a723,#ffd35a);transition:.4s}
+/* diya */
+.diya{display:flex;gap:18px;align-items:center;flex-wrap:wrap;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:22px;padding:18px}
+.diya button.lamp{all:unset;cursor:pointer;width:120px;height:120px;position:relative;display:block}
+.diya .bowl{position:absolute;left:10px;right:10px;bottom:10px;height:42px;border-radius:0 0 80px 80px;background:linear-gradient(#d6892a,#8a4f10)}
+.diya .flame{position:absolute;left:50%;bottom:48px;width:24px;height:44px;margin-left:-12px;border-radius:50% 50% 50% 50%/70% 70% 30% 30%;background:radial-gradient(circle at 50% 70%,#fff6c8,#ffb830 55%,#f06a1d);opacity:0;transform:scale(.3);transform-origin:50% 100%;transition:.5s;filter:drop-shadow(0 0 16px #ffb830)}
+.diya.lit .flame{opacity:1;transform:scale(1);animation:flick .15s infinite alternate}
+@keyframes flick{to{transform:scale(1.06,.95) rotate(1.5deg)}}
+.cta{background:linear-gradient(135deg,#362a72,#2a1f5c);border:1px solid var(--line);border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:12px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+footer{color:var(--muted);font-size:14px;text-align:center;margin-top:18px}
+footer nav a{color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#fdf3dc;color:#2b1700;padding:8px 16px;border-radius:99px;font-weight:700;opacity:0;pointer-events:none;transition:.3s}.toast.on{opacity:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <a href="index.html" class="muted">← World of Wonders</a>
+ <section class="hero">
+  <div><span class="eyebrow">Sabarimala season · Devotional songs</span>
+   <h1>Swami Ayyappa <span>Song Collection</span></h1>
+   <p class="lede">Songs for the devotee's journey, in Kannada, with lyric videos. Listen, light a deepam, and climb the eighteen sacred steps. Swamiye Sharanam Ayyappa 🙏</p>
+   <div class="row" style="margin-top:16px"><a class="btn" href="#songs">Listen now</a><a class="btn ghost" href="#steps">Climb the 18 steps</a></div></div>
+  <img src="img/ayyappa_hero.jpg" alt="Lord Ayyappa seated in yogic pose, painting" width="1400" height="787">
+ </section>
+
+ <section id="songs" style="display:flex;flex-direction:column;gap:12px"><h2>The songs</h2>
+  <p class="muted" style="margin:0">More songs, in more languages, will join the collection through the season.</p>
+  <div class="songs" id="songGrid"></div></section>
+
+ <section id="steps" style="display:flex;flex-direction:column;gap:12px"><h2>Climb the 18 sacred steps</h2>
+  <p class="muted" style="margin:0">Tap the glowing step to climb. Each step lets go of one burden, as in our song <i>Pathinettam Padi</i>. Traditional teaching reads the steps as five senses, eight passions, three qualities of nature, knowledge and ignorance.</p>
+  <div class="climb">
+   <div class="stage"><div class="stairs" id="stairs" role="list"></div></div>
+   <div class="panel">
+    <div class="bar" aria-label="Progress"><i id="prog"></i></div>
+    <div class="leave" id="leave" aria-live="polite"><b>Step 1 is waiting</b><span class="muted">Tap the glowing step at the bottom to begin.</span></div>
+    <div class="row"><button class="btn ghost" id="reset">Start again</button><a class="btn" id="stepSong" href="#songs">Play Pathinettam Padi</a></div>
+   </div></div></section>
+
+ <section style="display:flex;flex-direction:column;gap:12px"><h2>Light a deepam for Swami</h2>
+  <div class="diya" id="diya"><button class="lamp" id="lamp" aria-label="Light the lamp"><span class="flame"></span><span class="bowl"></span></button>
+   <div style="flex:1;min-width:220px"><b style="font-family:var(--display);font-size:22px" id="dmsg">Tap the lamp to light it</b><p class="muted" style="margin:6px 0 0" id="dsub">Take one quiet breath and say: Swamiye Sharanam Ayyappa.</p></div></div></section>
+
+ <section class="cta"><span class="eyebrow">Enjoyed the songs?</span><h2>Subscribe, like and share</h2>
+  <p class="muted" style="margin:0">New Ayyappa songs, in more languages, arrive through the Sabarimala season. Subscribe so you never miss one, like the videos you love, and share them with fellow devotees.</p>
+  <div class="row"><a class="btn" href="https://www.youtube.com/@WorldofWondersstudio?sub_confirmation=1" target="_blank" rel="noopener">▶ Subscribe on YouTube</a>
+   <a class="btn ghost" href="https://whatsapp.com/channel/0029VbDbyex4o7qNAsIg0H21" target="_blank" rel="noopener">WhatsApp Channel</a>
+   <button class="btn ghost" id="share">↗ Share this page</button></div></section>
+
+ <footer><nav><a href="index.html">Home</a> · <a href="index.html#songs">All songs</a> · <a href="index.html#dasara">Dasara</a> · <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms</a> · <a href="contact.html">Contact</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
+  <p>© 2026 World of Wonders Studio · Music · Stories · Creation · Inspiration</p></footer>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const SONGS=[
+ {yt:'UOGXzfLW8vc',n:1,t:'Harihara Suthane · ಹರಿಹರ ಸುತನೇ',l:'ಕನ್ನಡ · संस्कृत'},
+ {yt:'hfIpmrnAiIk',n:2,t:'ಹುಲಿಯೇರಿ ಬಂದ ಮಣಿಕಂಠ · Huli Yeri Banda Manikanta',l:'ಕನ್ನಡ'},
+ {yt:'_Ig9Mpqf9hc',n:3,t:'ಹದಿನೆಂಟಾಂ ಪಡಿ · Pathinettam Padi',l:'ಕನ್ನಡ'},
+ {yt:'KplILYGBovg',n:4,t:'ಕರುಣಾಮಯ ಅಯ್ಯಪ್ಪ · Karunamaya Ayyappa',l:'ಕನ್ನಡ'}];
+const grid=document.getElementById('songGrid');
+grid.innerHTML=SONGS.map(s=>`<div class="song"><button class="watch" data-id="${s.yt}" aria-label="Play ${s.t}"><img src="https://i.ytimg.com/vi/${s.yt}/hqdefault.jpg" alt="" loading="lazy"><span class="playbtn" aria-hidden="true">▶</span></button><div class="body"><span class="eyebrow">Song ${s.n} · ${s.l}</span><h3>${s.t}</h3></div></div>`).join('');
+grid.querySelectorAll('.watch').forEach(b=>b.onclick=()=>{b.outerHTML=`<div class="video"><iframe src="https://www.youtube.com/embed/${b.dataset.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1" title="Song" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>`});
+document.getElementById('stepSong').onclick=e=>{e.preventDefault();const b=grid.querySelectorAll('.song')[2].querySelector('.watch');if(b)b.click();grid.scrollIntoView({behavior:'smooth'})};
+/* 18 steps */
+const STEPS=[['Sight','the eyes that only look outward'],['Hearing','ears that gather noise'],['Smell','the nose that chases comfort'],['Taste','the tongue that wants more'],['Touch','the skin that seeks ease'],
+['Desire','wanting without end'],['Anger','the fire that burns the holder'],['Greed','never having enough'],['Attachment','holding what must pass'],['Pride','the weight of "I"'],['Jealousy','measuring against others'],['Hatred','a heavy stone in the heart'],['Arrogance','the wall around the self'],
+['Sattva','calm and clarity: keep it and carry on'],['Rajas','restlessness: let it settle'],['Tamas','heaviness and sleep: wake up'],['Knowledge','even this is offered at the feet'],['Ignorance','the last veil falls away']];
+const stairs=document.getElementById('stairs'),leave=document.getElementById('leave'),prog=document.getElementById('prog');let cur=0,ac;
+stairs.innerHTML=STEPS.map((s,i)=>`<div class="st" role="listitem" style="--i:${i}" data-i="${i}"><small>${i+1}</small></div>`).join('');
+function chime(i){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type='sine';o.frequency.value=392*Math.pow(2,i/18*1);g.gain.setValueAtTime(.0001,ac.currentTime);g.gain.exponentialRampToValueAtTime(.18,ac.currentTime+.02);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+.9);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+1)}catch(e){}}
+function paint(){[...stairs.children].forEach((el,i)=>{el.className='st'+(i<cur?' done':i===cur?' next':'')});prog.style.width=(cur/18*100)+'%';
+ if(cur===0)leave.innerHTML='<b>Step 1 is waiting</b><span class="muted">Tap the glowing step at the bottom to begin.</span>';
+ else if(cur<18)leave.innerHTML=`<b>Step ${cur}: ${STEPS[cur-1][0]}</b><span class="muted">You let go of ${STEPS[cur-1][1]}. ${18-cur} steps to go.</span>`;
+ else leave.innerHTML='<b>🙏 Tat Tvam Asi</b><span class="muted">"You are That." You stand at the top, before Swami. Swamiye Sharanam Ayyappa. Play Pathinettam Padi and sing along.</span>'}
+stairs.addEventListener('click',e=>{const st=e.target.closest('.st');if(!st||+st.dataset.i!==cur||cur>=18)return;chime(cur);cur++;paint();if(cur===18)toast('You reached the 18th step! 🙏')});
+document.getElementById('reset').onclick=()=>{cur=0;paint()};paint();
+/* diya */
+const diya=document.getElementById('diya');let lit=false;
+document.getElementById('lamp').onclick=()=>{lit=!lit;diya.classList.toggle('lit',lit);document.getElementById('dmsg').textContent=lit?'Your deepam is lit 🪔':'Tap the lamp to light it';document.getElementById('dsub').textContent=lit?'Swamiye Sharanam Ayyappa. May the path always have light.':'Take one quiet breath and say: Swamiye Sharanam Ayyappa.';if(lit)chime(6)};
+/* share */
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200)}
+document.getElementById('share').onclick=async()=>{const u='https://worldofwondersstudio.com/ayyappa.html',d={title:'Swami Ayyappa Song Collection',text:'Ayyappa devotional songs, and climb the 18 sacred steps. Swamiye Sharanam!',url:u};
+ try{if(navigator.share){await navigator.share(d)}else{await navigator.clipboard.writeText(u);toast('Link copied')}}catch(e){}};
+</script>
+</body>
+</html>
