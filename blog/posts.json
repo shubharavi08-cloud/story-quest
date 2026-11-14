@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Pampa to Kuvempu: 6 Great Kannada Poets Every Child Should Know",
+   "url": "https://worldofwondersstudio.com/blog/pampa-to-kuvempu-kannada-poets-for-children/",
+   "date": "2026-11-14",
+   "description": "A simple guide for children and families to six great Kannada poets, from Adikavi Pampa and Basavanna to Akka Mahadevi, Sarvajna, Bendre and Kuvempu, with our Rajyotsava song."
+  },
+  {
    "title": "Lift Yourself: Meera's Bicycle and Bhagavad Gita 6.5 for Children",
    "url": "https://worldofwondersstudio.com/blog/lift-yourself-meera-bicycle-gita-6-5/",
    "date": "2026-11-13",
@@ -35,6 +41,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/pampa-to-kuvempu-kannada-poets-for-children/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/lift-yourself-meera-bicycle-gita-6-5/index.html",
