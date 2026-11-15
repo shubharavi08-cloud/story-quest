@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "The Story of Ayyappa for Children: Manikanta, the Tiger and the 18 Steps of Sabarimala",
+   "url": "https://worldofwondersstudio.com/blog/ayyappa-story-for-children-sabarimala/",
+   "date": "2026-11-15",
+   "description": "A simple telling of the Ayyappa story for children and families: baby Manikanta at Pandalam, the ride on the tigress, the 41-day vratham and the 18 sacred steps of Sabarimala."
+  },
+  {
    "title": "Pampa to Kuvempu: 6 Great Kannada Poets Every Child Should Know",
    "url": "https://worldofwondersstudio.com/blog/pampa-to-kuvempu-kannada-poets-for-children/",
    "date": "2026-11-14",
@@ -41,6 +47,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/ayyappa-story-for-children-sabarimala/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/pampa-to-kuvempu-kannada-poets-for-children/index.html",
