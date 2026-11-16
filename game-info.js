@@ -97,7 +97,7 @@ var G=[
   learn:['Quick reactions','Sabarimala traditions','Places of the yatra']},
  {id:'irumudi',vid:'KplILYGBovg',cat:'ayyappa',tag:'Ayyappa · Sabarimala season',name:'Pack the Irumudi',href:'irumudi.html',img:'img/games/irumudi.webp',players:'1 player',
   hook:'Ghee coconut, camphor, a towel... which pouch? Pack the Irumudi right!',
-  how:'Drag each item into the front pouch (offerings for Swami) or the back pouch (things for the journey), or tap the pouch. From round 2, some things must stay at home. Round 3 is against the clock. Then tap to tie the knot and lift the Irumudi onto your head.',
+  how:'Swipe each thing left into the front pouch (offerings for Swami) or right into the back pouch (things for the journey). You can also drag it or tap a pouch. 19 things in 3 stages, each one comes once: from stage 2 some things stay at home in the basket, and stage 3 is against a burning lamp. Then tap to tie the knot and lift the Irumudi onto your head.',
   fact:'<b>Irumudi</b> means "two bundles". The front pouch holds the ghee-filled coconut, whose ghee is poured over Swami at Sabarimala. Only a pilgrim carrying the Irumudi climbs the 18 holy steps.',
   learn:['Sorting','Sabarimala traditions','Caring for nature']},
  {id:'sharanam-steps',vid:'_Ig9Mpqf9hc',cat:'ayyappa',tag:'Ayyappa · Sabarimala season',name:'Sharanam Steps',href:'sharanam-steps.html',img:'img/games/sharanam-steps.webp',players:'1 player',

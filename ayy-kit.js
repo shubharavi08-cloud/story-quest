@@ -35,40 +35,48 @@ AY.pills=function(el){el.innerHTML=[['en','EN'],['kn','ಕ'],['ta','த'],['te',
 
 /* ---------- our swami: drawn standing at (x,y)=feet centre, height h. o:{t:walk time, step:0..1 bob, face:'up'|'side', glow} ---------- */
 AY.pilgrim=function(cx,x,y,h,o){
- o=o||{};var t=o.t||0,sw=Math.sin(t*9)*(o.still?0:1),s=h/100;
- cx.save();cx.translate(x,y);cx.scale(s,s);
- if(o.alpha!=null)cx.globalAlpha=o.alpha;
- /* shadow */
- cx.fillStyle='rgba(0,0,0,.28)';cx.beginPath();cx.ellipse(0,0,20,5,0,0,6.283);cx.fill();
- var bob=Math.abs(sw)*2;cx.translate(0,-bob);
- if(o.glow){var g=cx.createRadialGradient(0,-55,4,0,-55,70);g.addColorStop(0,'rgba(255,214,110,.55)');g.addColorStop(1,'rgba(255,214,110,0)');cx.fillStyle=g;cx.beginPath();cx.arc(0,-55,70,0,6.283);cx.fill()}
- /* legs (seen from behind/side, walking) */
- cx.strokeStyle='#8a5a3c';cx.lineCap='round';cx.lineWidth=7;
- cx.beginPath();cx.moveTo(-5,-30);cx.lineTo(-5+sw*6,-2);cx.moveTo(5,-30);cx.lineTo(5-sw*6,-2);cx.stroke();
- /* black mundu (dhoti) */
- cx.fillStyle='#16141c';cx.beginPath();cx.moveTo(-15,-54);cx.lineTo(15,-54);cx.lineTo(13+sw*2,-20);cx.lineTo(-13+sw*2,-20);cx.closePath();cx.fill();
- cx.strokeStyle='#d9a53c';cx.lineWidth=2;cx.beginPath();cx.moveTo(-13+sw*2,-22);cx.lineTo(13+sw*2,-22);cx.stroke(); /* gold kasavu border */
- /* black shirt / shawl */
- cx.fillStyle='#22202b';cx.beginPath();cx.moveTo(-14,-80);cx.quadraticCurveTo(0,-86,14,-80);cx.lineTo(16,-52);cx.lineTo(-16,-52);cx.closePath();cx.fill();
- /* arms: one up holding the Irumudi, one swinging */
- cx.strokeStyle='#8a5a3c';cx.lineWidth=6;cx.beginPath();cx.moveTo(-13,-78);cx.lineTo(-17,-94);cx.lineTo(-10,-104);cx.stroke();
- cx.beginPath();cx.moveTo(13,-76);cx.lineTo(17-sw*4,-58);cx.stroke();
- /* rudraksha / tulasi mala */
- cx.strokeStyle='#e8c66a';cx.lineWidth=2;cx.setLineDash([2,2]);cx.beginPath();cx.arc(0,-82,9,0.2,Math.PI-0.2);cx.stroke();cx.setLineDash([]);
- /* head + hair */
- cx.fillStyle='#8a5a3c';cx.beginPath();cx.arc(0,-92,9,0,6.283);cx.fill();
- cx.fillStyle='#1b1410';cx.beginPath();cx.arc(0,-94,9,Math.PI*1.05,Math.PI*1.95);cx.fill();
- /* sandal + kumkum on forehead when facing side */
- if(o.face==='side'){cx.fillStyle='#f3e2b0';cx.fillRect(4,-96,4,2);cx.fillStyle='#d2283a';cx.fillRect(5,-94.5,2,2)}
- /* Irumudi: two-knot cloth bundle on the head (front + back pouch) */
- cx.save();cx.translate(0,-104);cx.rotate(sw*.04);
- var ir=o.irumudi||'#c61f2e';
- cx.fillStyle=ir;cx.beginPath();cx.ellipse(-11,-4,13,9,-.15,0,6.283);cx.fill();cx.beginPath();cx.ellipse(11,-4,13,9,.15,0,6.283);cx.fill();
- cx.fillStyle='#8f1420';cx.beginPath();cx.ellipse(0,-3,5,7,0,0,6.283);cx.fill(); /* centre knot */
- cx.strokeStyle='#f0c24a';cx.lineWidth=1.6;cx.beginPath();cx.moveTo(-22,-1);cx.lineTo(22,-1);cx.stroke();
- cx.restore();
- cx.restore();
-};
+ /* v2: a painted swami seen from behind as he walks or climbs towards Swami. o.t walk clock, o.still, o.glow, o.climb (0..1 lift of the step), o.alpha, o.irumudi colour */
+ o=o||{};var t=o.t||0,sw=o.still?0:Math.sin(t*9),s=h/100,cl=o.climb||0;
+ cx.save();cx.translate(x,y);cx.scale(s,s);if(o.alpha!=null)cx.globalAlpha=o.alpha;
+ var sk1='#a8704a',sk2='#6f4127',lift=Math.sin(cl*Math.PI);
+ /* soft contact shadow */
+ var sg=cx.createRadialGradient(0,0,2,0,0,24);sg.addColorStop(0,'rgba(0,0,0,.42)');sg.addColorStop(1,'rgba(0,0,0,0)');cx.fillStyle=sg;cx.beginPath();cx.ellipse(0,0,24,6,0,0,6.283);cx.fill();
+ var bob=Math.abs(sw)*1.6+lift*3;cx.translate(0,-bob);
+ if(o.glow){var g=cx.createRadialGradient(0,-60,6,0,-60,80);g.addColorStop(0,'rgba(255,222,130,.6)');g.addColorStop(1,'rgba(255,214,110,0)');cx.fillStyle=g;cx.beginPath();cx.arc(0,-60,80,0,6.283);cx.fill()}
+ function skin(x0,y0,x1,y1){var gr=cx.createLinearGradient(x0,y0,x1,y1);gr.addColorStop(0,sk2);gr.addColorStop(.45,sk1);gr.addColorStop(1,sk2);return gr}
+ /* legs: calf + foot; one leg lifts for a climb or swings for a walk */
+ function leg(side,ph){var lx=side*5.5,up=Math.max(0,ph)*7,fw=ph*3;cx.save();cx.translate(lx,0);
+  cx.fillStyle=skin(-4,0,4,0);cx.beginPath();cx.moveTo(-3.6,-30);cx.quadraticCurveTo(-5.4,-18-up,-2.6,-4-up);cx.lineTo(2.6,-4-up);cx.quadraticCurveTo(5,-18-up,3.6,-30);cx.closePath();cx.fill();
+  cx.fillStyle=sk2;cx.beginPath();cx.ellipse(fw*.3,-2.4-up,4.4,2.6,0,0,6.283);cx.fill();cx.restore()}
+ var p1=o.still?lift:sw,p2=o.still?0:-sw;leg(-1,p1);leg(1,p2);
+ /* black mundu with folds and a gold kasavu border */
+ cx.save();cx.rotate(sw*.015);var md=cx.createLinearGradient(-16,0,16,0);md.addColorStop(0,'#0c0b10');md.addColorStop(.35,'#2a2732');md.addColorStop(.6,'#1a1820');md.addColorStop(1,'#08070b');
+ cx.fillStyle=md;cx.beginPath();cx.moveTo(-14,-58);cx.lineTo(14,-58);cx.quadraticCurveTo(17,-40,16+sw*1.5,-24);cx.quadraticCurveTo(0,-20.5,-16+sw*1.5,-24);cx.quadraticCurveTo(-17,-40,-14,-58);cx.fill();
+ cx.strokeStyle='rgba(255,255,255,.07)';cx.lineWidth=1.2;for(var i=-2;i<=2;i++){cx.beginPath();cx.moveTo(i*4.5,-56);cx.quadraticCurveTo(i*5.2+sw,-40,i*5.6+sw*1.5,-24);cx.stroke()}
+ var gb=cx.createLinearGradient(0,-28,0,-23);gb.addColorStop(0,'#ffe08a');gb.addColorStop(1,'#b8861a');cx.strokeStyle=gb;cx.lineWidth=2.6;cx.beginPath();cx.moveTo(-15.6+sw*1.5,-26.2);cx.quadraticCurveTo(0,-22.7,15.6+sw*1.5,-26.2);cx.stroke();
+ cx.fillStyle='#d9a53c';cx.fillRect(-14,-59,28,2.2);cx.restore();
+ /* bare back */
+ cx.fillStyle=skin(-15,0,15,0);cx.beginPath();cx.moveTo(-13,-57);cx.quadraticCurveTo(-16,-72,-15,-82);cx.quadraticCurveTo(0,-88,15,-82);cx.quadraticCurveTo(16,-72,13,-57);cx.closePath();cx.fill();
+ cx.strokeStyle='rgba(60,30,15,.35)';cx.lineWidth=1.2;cx.beginPath();cx.moveTo(0,-82);cx.quadraticCurveTo(.6,-70,0,-58);cx.stroke();
+ /* black angavastram over the left shoulder, across the back */
+ cx.fillStyle='#15131b';cx.beginPath();cx.moveTo(-15,-84);cx.lineTo(-8,-86);cx.quadraticCurveTo(6,-70,14,-60);cx.lineTo(9,-57);cx.quadraticCurveTo(-2,-68,-15,-78);cx.closePath();cx.fill();
+ cx.strokeStyle='#d9a53c';cx.lineWidth=1.2;cx.beginPath();cx.moveTo(-8,-86);cx.quadraticCurveTo(6,-70,14,-60);cx.stroke();
+ /* arms: both up to steady the Irumudi, swinging a little */
+ cx.lineCap='round';cx.lineJoin='round';cx.strokeStyle=sk1;cx.lineWidth=5.6;
+ cx.beginPath();cx.moveTo(-13,-80);cx.quadraticCurveTo(-21,-92+sw,-15,-104);cx.stroke();
+ cx.beginPath();cx.moveTo(13,-80);cx.quadraticCurveTo(21,-92-sw,15,-104);cx.stroke();
+ cx.strokeStyle='rgba(255,220,160,.35)';cx.lineWidth=1.4;cx.beginPath();cx.moveTo(-14,-82);cx.quadraticCurveTo(-21,-92+sw,-16,-102);cx.stroke();
+ /* neck, head, hair (from behind), ears */
+ cx.fillStyle=sk2;cx.fillRect(-3.4,-90,6.8,7);
+ var hd=cx.createRadialGradient(-2,-99,1,0,-96,10);hd.addColorStop(0,'#2e231c');hd.addColorStop(1,'#0f0b08');cx.fillStyle=hd;cx.beginPath();cx.ellipse(0,-96.5,8.4,9.4,0,0,6.283);cx.fill();
+ cx.fillStyle=sk2;cx.beginPath();cx.ellipse(-8.4,-96,1.8,3,0,0,6.283);cx.fill();cx.beginPath();cx.ellipse(8.4,-96,1.8,3,0,0,6.283);cx.fill();
+ /* Irumudi on the head: two cloth lobes, gold border, knot */
+ cx.save();cx.translate(0,-107);cx.rotate(sw*.04);var ir=o.irumudi||'#b3122a';
+ function lobe(dx,c1,c2,r){var lg=cx.createRadialGradient(dx-4,-7,1,dx,-2,15);lg.addColorStop(0,c1);lg.addColorStop(1,c2);cx.fillStyle=lg;cx.beginPath();cx.ellipse(dx,-3,13.5,9.5,r,0,6.283);cx.fill()}
+ lobe(-11,'#e8475a',ir,-.15);lobe(11,'#3a3644','#121016',.15);
+ cx.strokeStyle='#f0c24a';cx.lineWidth=1.6;cx.beginPath();cx.ellipse(-11,-3,10,6.5,-.15,0.2,2.9);cx.stroke();cx.beginPath();cx.ellipse(11,-3,10,6.5,.15,0.2,2.9);cx.stroke();
+ var kn=cx.createLinearGradient(-4,0,4,0);kn.addColorStop(0,'#7a5a20');kn.addColorStop(.5,'#e8c66a');kn.addColorStop(1,'#7a5a20');cx.fillStyle=kn;cx.beginPath();cx.ellipse(0,-3,4.6,8,0,0,6.283);cx.fill();
+ cx.restore();cx.restore()};
 
 /* a small oil lamp (deepam) at x,y, size r, flickering by t */
 AY.deepam=function(cx,x,y,r,t,lit){
@@ -149,12 +157,16 @@ AY.cover=function(cx,src,x,y,w,h,fy){var im=AY.img(src);if(!im.complete||!im.nat
 /* ---------- the real Pathinettam Padi painting (img/ayyappa/steps_v.jpg): the 18 golden steps, the first `steps` glowing.
    Returns pos(i) -> {x,y,w} for step i (0 = bottom step, 18 = top platform) so the swami can stand on it. ---------- */
 AY.STEPS_IMG='img/ayyappa/steps_v.jpg';
+AY.STEPN=[1165,1120,1074,1033,995,961,930,902,876,853,832,813,796,780,767,754,743,732,722.5];
+/* where a swami's feet rest on step k (1..18), from stepsBg's pos() */
+AY.foot=function(pos,k){if(k<=0){var a=pos(0);return{x:a.x,y:a.y+6,w:a.w}}var a=pos(k),b=k<18?pos(k+1):{y:a.y-(pos(17).y-a.y)*.8};return{x:a.x,y:a.y-(a.y-b.y)*.35,w:a.w}};
+/* a swami part-way between steps (f = 3.4 means 40% of the way from step 3 to 4), with a little lift for the climb */
+AY.footAt=function(pos,f){f=Math.max(0,Math.min(18,f));var k=Math.floor(f),u=f-k,a=AY.foot(pos,k),b=AY.foot(pos,Math.min(18,k+1)),e=u*u*(3-2*u);return{x:a.x+(b.x-a.x)*e,y:a.y+(b.y-a.y)*e-Math.sin(u*Math.PI)*a.w*.06,w:a.w+(b.w-a.w)*e,climb:u}};
 AY.stepsBg=function(cx,W,H,steps,t,fy){var im=AY.img(AY.STEPS_IMG);fy=fy==null?.5:fy;
  var iw=900,ih=1587,s=Math.max(W/iw,H/ih),dw=iw*s,dh=ih*s,ox=(W-dw)/2,oy=(H-dh)*fy;
  if(im.complete&&im.naturalWidth)cx.drawImage(im,ox,oy,dw,dh);else{cx.fillStyle='#2a1748';cx.fillRect(0,0,W,H)}
- /* step geometry measured on the painting (fractions of the picture) */
- var yb=.681,yt=.428,xc=.493,hb=.181,ht=.09;
- function pos(i){var f=i/18;return{x:ox+dw*xc,y:oy+dh*(yb+(yt-yb)*f),w:dw*(hb+(ht-hb)*f)}}
+ /* step geometry measured on the painting: nosing line of each step (0 = foot of step 1), stair centre and half-width */
+ function pos(i){var f=AY.STEPN[Math.max(0,Math.min(18,i))],k=(1165-f)/(1165-722.5);return{x:ox+dw*(475/900),y:oy+dh*(f/1587),w:dw*((175+(80-175)*k)/900)}}
  for(var i=0;i<Math.min(18,steps);i++){var a=pos(i),b=pos(i+1);cx.save();cx.globalCompositeOperation='lighter';
   var g=cx.createLinearGradient(0,b.y,0,a.y);g.addColorStop(0,'rgba(255,200,80,.0)');g.addColorStop(1,'rgba(255,214,110,'+(.32+.12*Math.sin(t*4+i))+')');
   cx.fillStyle=g;cx.beginPath();cx.moveTo(a.x-a.w,a.y);cx.lineTo(a.x+a.w,a.y);cx.lineTo(b.x+b.w,b.y);cx.lineTo(b.x-b.w,b.y);cx.fill();cx.restore()}
