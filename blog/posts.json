@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "This Will Pass: Kabir's Cold Pool and Bhagavad Gita 2.14 for Children",
+   "url": "https://worldofwondersstudio.com/blog/this-will-pass-kabir-cold-pool-gita-2-14/",
+   "date": "2026-11-16",
+   "description": "A short story of a boy's first swimming lesson, what Bhagavad Gita 2.14 teaches about cold and heat, joy and pain that come and go, and one small step for children and families."
+  },
+  {
    "title": "The Story of Ayyappa for Children: Manikanta, the Tiger and the 18 Steps of Sabarimala",
    "url": "https://worldofwondersstudio.com/blog/ayyappa-story-for-children-sabarimala/",
    "date": "2026-11-15",
@@ -47,6 +53,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/this-will-pass-kabir-cold-pool-gita-2-14/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/ayyappa-story-for-children-sabarimala/index.html",
