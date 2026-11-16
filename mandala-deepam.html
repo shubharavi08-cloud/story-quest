@@ -16,6 +16,8 @@
 <link rel="stylesheet" href="family.css?v=20261105c">
 <style>
 :root{--display:"Baloo 2","Baloo Tamma 2","Baloo Thambi 2","Baloo Tammudu 2",system-ui,sans-serif}
+body{background:linear-gradient(rgba(18,10,40,.78),rgba(18,10,40,.92)),url(img/ayyappa/lamps_river.jpg) center/cover fixed}
+.how3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font-weight:700;font-size:14px;text-align:center}.how3 span{background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:12px;padding:6px 4px}.how3 b{display:block;font-size:20px}
 .md{max-width:560px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:12px}
 .day{text-align:center}
 .day b{display:block;font:800 clamp(26px,6vw,34px)/1.1 var(--display);color:#ffd35a}
@@ -38,9 +40,9 @@
 .row .solid{background:#3a1d0c;color:#f7e7c4;border-color:#3a1d0c}
 </style>
 <script src="dasara-kit.js?v=4"></script>
-<script src="ayy-kit.js?v=2"></script>
+<script src="ayy-kit.js?v=4"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Mandala Deepam","url":"https://worldofwondersstudio.com/mandala-deepam.html","genre":["Educational","Quiz"],"gamePlatform":"Web browser","inLanguage":["en","kn","ta","te"],"isAccessibleForFree":true,"audience":{"@type":"Audience","audienceType":"Children and families"},"isPartOf":{"@type":"CreativeWorkSeries","name":"Ayyappa season games"},"publisher":{"@id":"https://worldofwondersstudio.com/#org"}}</script>
-<script src="reg.js?v=2"></script>
+<script>window.WOW_REG_LATER=1</script><script src="reg.js?v=3"></script>
 <link rel="stylesheet" href="/cursor-wow.css?v=6"></head>
 <body>
 <a class="wow-top" href="index.html" aria-label="World of Wonders home"><img src="img/wow_banner.jpg?v=2" alt="World of Wonders · Music · Stories · Creation · Inspiration"></a>
@@ -52,6 +54,7 @@
 </header>
 <main class="wrap"><div class="md">
   <div class="day" id="day" aria-live="polite"></div>
+  <div class="how3" id="how3"></div>
   <div class="ring"><canvas id="rc" width="1000" height="1000" aria-label="A ring of 41 lamps around Swami Ayyappa, one lamp for each day of the Mandala season. Lit lamps are the days you have lit."></canvas></div>
   <div class="panel" id="panel"></div>
 </div></main>
@@ -67,6 +70,9 @@ const L={
  dayN:{en:'Day {n} of 41',kn:'41ರಲ್ಲಿ {n}ನೇ ದಿನ',ta:'41 நாட்களில் {n}ஆம் நாள்',te:'41లో {n}వ రోజు'},
  before:{en:'The Mandala season begins on 17 November',kn:'ಮಂಡಲ ಕಾಲ ನವೆಂಬರ್ 17ರಂದು ಶುರು',ta:'மண்டல காலம் நவம்பர் 17 அன்று தொடங்குகிறது',te:'మండల కాలం నవంబర్ 17న మొదలవుతుంది'},
  after:{en:'The 41 days are complete. Makaravilakku: 14 January',kn:'41 ದಿನ ಪೂರ್ಣ. ಮಕರವಿಳಕ್ಕು: ಜನವರಿ 14',ta:'41 நாட்கள் நிறைவு. மகரவிளக்கு: ஜனவரி 14',te:'41 రోజులు పూర్తి. మకరవిళక్కు: జనవరి 14'},
+ h1:{en:'Answer 3 small questions',kn:'3 ಪುಟ್ಟ ಪ್ರಶ್ನೆಗೆ ಉತ್ತರಿಸಿ',ta:'3 சிறு கேள்விகளுக்குப் பதில்',te:'3 చిన్న ప్రశ్నలకు జవాబు'},
+ h2:{en:'Press and hold to light your lamp',kn:'ಒತ್ತಿ ಹಿಡಿದು ದೀಪ ಹಚ್ಚಿ',ta:'அழுத்திப் பிடித்து விளக்கேற்று',te:'నొక్కి పట్టి దీపం వెలిగించు'},
+ h3:{en:'Come back tomorrow for the next',kn:'ಮುಂದಿನದಕ್ಕೆ ನಾಳೆ ಬನ್ನಿ',ta:'அடுத்ததற்கு நாளை வா',te:'తర్వాతి దానికి రేపు రండి'},
  lit:{en:'{n} of 41 lamps lit',kn:'41ರಲ್ಲಿ {n} ದೀಪ ಬೆಳಗಿದೆ',ta:'41இல் {n} விளக்குகள் ஏற்றப்பட்டன',te:'41లో {n} దీపాలు వెలిగాయి'},
  streak:{en:'🔥 {n}-day streak',kn:'🔥 ಸತತ {n} ದಿನ',ta:'🔥 தொடர்ந்து {n} நாள்',te:'🔥 వరుసగా {n} రోజులు'},
  today:{en:"Today's offering: 3 small questions",kn:'ಇಂದಿನ ಅರ್ಪಣೆ: 3 ಪುಟ್ಟ ಪ್ರಶ್ನೆಗಳು',ta:'இன்றைய காணிக்கை: 3 சிறு கேள்விகள்',te:'నేటి సమర్పణ: 3 చిన్న ప్రశ్నలు'},
@@ -138,7 +144,7 @@ let lighting=false,holdP=0;
 function loop(){t+=1/60;if(glowT>0)glowT=Math.max(0,glowT-.006);ring();requestAnimationFrame(loop)}
 /* ---------- the day's panel ---------- */
 let cur=null;
-function header(){const lit=S.lit.length;let top;
+function header(){$('#how3').innerHTML=[['1️⃣',L.h1],['2️⃣',L.h2],['3️⃣',L.h3]].map(([i,o])=>`<span><b>${i}</b>${E(T(o))}</span>`).join('');const lit=S.lit.length;let top;
  if(TODAY<1)top=`<b>${T(L.before)}</b>`;else if(TODAY>DAYS)top=`<b>${T(L.after)}</b>`;else top=`<b>${nm(L.dayN,TODAY)}</b>`;
  $('#day').innerHTML=top+`<span>${nm(L.lit,lit)}${streak()>1?' · '+nm(L.streak,streak()):''}</span>`}
 function openDay(){header();
@@ -153,7 +159,7 @@ function openDay(){header();
 function askQ(){const q=Q[cur.qs[cur.i]];const order=[0,1,2].sort((a,b)=>rnd(cur.d*7+cur.i*3+a)-rnd(cur.d*7+cur.i*3+b));
  const title=cur.kind==='today'?T(L.today):cur.kind==='practice'?T(L.practice):T(L.catchup);
  $('#panel').innerHTML=`<h3>${E(title)}</h3><div class="q"><small>${E(nm(L.qn,cur.i+1))}</small><h3>${E(T(q.q))}</h3><div class="opts">${order.map(k=>`<button data-k="${k}">${E(T(q.o[k]))}</button>`).join('')}</div><p class="fact" id="fb"></p></div>`;
- $('#panel').querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{DK.ac();const k=+b.dataset.k,all=$('#panel').querySelectorAll('.opts button');all.forEach(x=>{x.disabled=true;if(+x.dataset.k===0)x.classList.add('ok')});
+ $('#panel').querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{DK.ac();AY.mini({en:'UOGXzfLW8vc',kn:'UOGXzfLW8vc',ta:'rn5pubakWH8',te:'UOGXzfLW8vc'});const k=+b.dataset.k,all=$('#panel').querySelectorAll('.opts button');all.forEach(x=>{x.disabled=true;if(+x.dataset.k===0)x.classList.add('ok')});
   if(k===0){cur.right++;DK.chime(cur.i+2);$('#fb').textContent=T(L.right)}else{b.classList.add('no');DK.oops();$('#fb').textContent=T(L.tryAgain)}
   const nx=document.createElement('button');nx.className='hold';nx.style.marginTop='10px';nx.innerHTML=`<span>${E(T(L.next))}</span>`;nx.onclick=()=>{cur.i++;cur.i<3?askQ():holdPanel()};$('#panel').appendChild(nx)})}
 function holdPanel(){$('#panel').innerHTML=`<h3>${E(T(AY.ui.sharanam))}</h3><button class="hold" id="hold"><i></i><span>${E(T(L.hold))}</span></button>`;
@@ -163,7 +169,7 @@ function holdPanel(){$('#panel').innerHTML=`<h3>${E(T(AY.ui.sharanam))}</h3><but
  h.addEventListener('pointerdown',e=>{e.preventDefault();DK.ac();DK.startMusic();lighting=true;t0=performance.now();DK.tone(220,1.4,'sine',.04,2);tick()});
  ['pointerup','pointerleave','pointercancel'].forEach(ev=>h.addEventListener(ev,()=>{if(lighting&&holdP<1)stop(false)}));}
 function lightIt(){holdP=0;glowT=1;if(cur.d===0)S.practice=true;else if(!S.lit.includes(cur.d))S.lit.push(cur.d);save();AY.chant();DK.vib([30,40,30]);DK.done('mandala-deepam',Math.min(3,1+Math.floor(S.lit.length/14)));
- const litDay=cur.d;target=null;header();
+ const litDay=cur.d;target=null;header();AY.askJoin();
  if(cur.kind!=='today'&&cur.kind!=='practice'){setTimeout(openDay,1600)}
  donePanel(litDay)}
 function donePanel(litDay){const all=S.lit.length>=DAYS;const n=litDay||TODAY;

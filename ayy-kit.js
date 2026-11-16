@@ -22,7 +22,10 @@ AY.ui={
  copied:{en:'Link copied',kn:'ಲಿಂಕ್ ನಕಲಾಯಿತು',ta:'இணைப்பு நகலெடுக்கப்பட்டது',te:'లింక్ కాపీ అయింది'},
  sharanam:{en:'Swamiye Sharanam Ayyappa',kn:'ಸ್ವಾಮಿಯೇ ಶರಣಂ ಅಯ್ಯಪ್ಪ',ta:'சுவாமியே சரணம் ஐயப்பா',te:'స్వామియే శరణం అయ్యప్ప'},
  story:{en:'Story',kn:'ಕಥೆ',ta:'கதை',te:'కథ'},
- howT:{en:'How to play',kn:'ಆಡುವುದು ಹೇಗೆ',ta:'எப்படி விளையாடுவது',te:'ఎలా ఆడాలి'}
+ howT:{en:'How to play',kn:'ಆಡುವುದು ಹೇಗೆ',ta:'எப்படி விளையாடுவது',te:'ఎలా ఆడాలి'},
+ padi:{en:'🪜 Your next step: the 18 steps, 18 songs',kn:'🪜 ಮುಂದಿನ ಮೆಟ್ಟಿಲು: 18 ಮೆಟ್ಟಿಲು, 18 ಹಾಡು',ta:'🪜 அடுத்த படி: 18 படிகள், 18 பாடல்கள்',te:'🪜 తర్వాతి మెట్టు: 18 మెట్లు, 18 పాటలు'},
+ nowPlaying:{en:'Our Ayyappa song',kn:'ನಮ್ಮ ಅಯ್ಯಪ್ಪ ಹಾಡು',ta:'நம் ஐயப்பன் பாடல்',te:'మా అయ్యప్ప పాట'},
+ songNote:{en:'Our Ayyappa song plays in a small window while you play. Close it any time.',kn:'ನೀವು ಆಡುವಾಗ ನಮ್ಮ ಅಯ್ಯಪ್ಪ ಹಾಡು ಪುಟ್ಟ ಕಿಟಕಿಯಲ್ಲಿ ಬರುತ್ತದೆ. ಯಾವಾಗ ಬೇಕಾದರೂ ಮುಚ್ಚಬಹುದು.',ta:'நீங்கள் விளையாடும்போது நம் ஐயப்பன் பாடல் சிறிய சாளரத்தில் ஒலிக்கும். எப்போது வேண்டுமானாலும் மூடலாம்.',te:'మీరు ఆడుతున్నప్పుడు మా అయ్యప్ప పాట చిన్న కిటికీలో వస్తుంది. ఎప్పుడైనా మూసేయవచ్చు.'}
 };
 AY.t=function(o){return DK.t(o)};
 /* language pills: EN ಕ த తె (Hindi pages of other games keep their own pills) */
@@ -107,17 +110,69 @@ AY.sanni=function(cx,W,H,t,steps){var G={steps:steps};function rnd(n){var x=Math
   if(lit){cx.save();cx.shadowColor='#ffd35a';cx.shadowBlur=14;cx.fillStyle='rgba(255,230,140,.35)';cx.fillRect(W/2-wb,yb,wb*2,3);cx.restore()}
   if(i%3===0){AY.deepam(cx,W/2-wa-14,ya-2,7-f*3,t+i,true);AY.deepam(cx,W/2+wa+14,ya-2,7-f*3,t+i+9,true)}}
 };
+
+/* ---------- the song plays in a small window while you play (never blocks the game) ----------
+   AY.mini({kn:'id',ta:'id',en:'id'}, {muted:true}) : starts at the player's tap (so the browser allows sound).
+   While the song plays, the game's own background music stays off; close the window and it comes back. */
+AY.mini=function(ids,o){o=o||{};var id=ids[DK.lang()]||ids.en||ids[Object.keys(ids)[0]];if(!id)return;
+ var ex=document.getElementById('ayMini');if(ex){if(ex.dataset.id===id)return;ex.remove()}
+ if(!document.getElementById('ayMiniCss')){var st=document.createElement('style');st.id='ayMiniCss';st.textContent=
+  '#ayMini{position:fixed;right:10px;bottom:10px;z-index:45;width:min(220px,46vw);background:#120c30;border:2px solid #f6a723;border-radius:14px;overflow:hidden;box-shadow:0 14px 34px -10px #000;font:700 12px Mukta,system-ui,sans-serif;color:#fdf3dc}'+
+  '#ayMini .bar{display:flex;align-items:center;gap:6px;padding:3px 6px;background:#2a1f5c}#ayMini .bar span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'+
+  '#ayMini button{all:unset;cursor:pointer;padding:2px 6px;border-radius:8px;background:#ffffff14}#ayMini .v{aspect-ratio:16/9}#ayMini iframe{width:100%;height:100%;border:0;display:block}'+
+  '#ayMini.min .v{display:none}#ayMini.dock{position:relative;right:auto;bottom:auto;margin:12px auto 0;width:min(320px,80vw)}';document.head.appendChild(st)}
+ var d=document.createElement('div');d.id='ayMini';d.dataset.id=id;
+ d.innerHTML='<div class="bar"><span>♪ '+DK.esc(AY.t(AY.ui.nowPlaying))+'</span><button data-a="min" aria-label="Minimise">▾</button><button data-a="x" aria-label="Close the song">✕</button></div><div class="v"><iframe src="https://www.youtube.com/embed/'+id+'?autoplay=1&playsinline=1&rel=0&modestbranding=1'+(o.muted?'&mute=1':'')+'&loop=1&playlist='+id+'" title="Ayyappa song" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>';
+ /* phones: a small card under the game (never over it); bigger screens: a small corner window */
+ var small=innerWidth<760,wrap=document.querySelector('main.wrap');if(small&&wrap){d.classList.add('dock');wrap.parentNode.insertBefore(d,wrap.nextSibling)}else document.body.appendChild(d);try{if(window.WOWHit)WOWHit('mini-video-'+id)}catch(e){}
+ d.querySelector('[data-a=min]').onclick=function(){d.classList.toggle('min');this.textContent=d.classList.contains('min')?'▴':'▾'};
+ d.querySelector('[data-a=x]').onclick=function(){d.remove();AY.musicOn()}};
+var realStart=DK.startMusic;DK.startMusic=function(){if(!document.getElementById('ayMini')&&AY._music)realStart()};
+AY.musicOn=function(){AY._music=true;realStart()};
+/* ---------- how-to-play card: painting, a small moving demo, numbered steps, one big Play button ---------- */
+AY.how=function(c){
+ DK.card({art:c.art,label:c.label,title:c.title,paras:c.paras||[],how:c.steps.map(function(s,i){return [['1️⃣','2️⃣','3️⃣','4️⃣'][i],s]}),opts:c.opts,
+  buttons:[{label:c.go,on:function(v){if(c.video)AY.mini(c.video,{muted:c.muted});c.on&&c.on(v)}}],foot:c.video?AY.t(AY.ui.songNote):''});
+ if(!c.demo)return;var card=document.querySelector('.dk-card'),how=card&&card.querySelector('.how');if(!how)return;
+ var w=document.createElement('div');w.style.cssText='position:relative;border-radius:14px;overflow:hidden;margin:6px 0 10px;background:#1c1442;border:2px solid #e8d2a6';
+ var lab=document.createElement('b');lab.textContent=AY.t(AY.ui.howT);lab.style.cssText='position:absolute;left:8px;top:6px;z-index:2;background:#1c1442d9;color:#ffd35a;padding:2px 10px;border-radius:99px;font:800 12px Mukta,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase';
+ var cv=document.createElement('canvas');cv.width=640;cv.height=c.demoH||300;cv.style.cssText='display:block;width:100%';w.appendChild(lab);w.appendChild(cv);how.parentNode.insertBefore(w,how);
+ var x=cv.getContext('2d'),t0=performance.now();(function f(){if(!document.body.contains(cv))return;c.demo(x,cv.width,cv.height,(performance.now()-t0)/1000);requestAnimationFrame(f)})()};
+/* a pointing finger for the demos */
+AY.finger=function(cx,x,y,press){cx.save();cx.translate(x,y);cx.scale(press?.88:1,press?.88:1);cx.font='46px system-ui,"Apple Color Emoji","Segoe UI Emoji"';cx.textAlign='center';cx.textBaseline='middle';cx.fillText('👆',0,0);
+ if(press){cx.strokeStyle='rgba(255,211,90,.9)';cx.lineWidth=4;cx.beginPath();cx.arc(0,-30,22,0,6.283);cx.stroke()}cx.restore()};
+/* a painting drawn to cover a box (cached images) */
+var IMG={};AY.img=function(src){if(!IMG[src]){var i=new Image();i.src=src;IMG[src]=i}return IMG[src]};
+AY.cover=function(cx,src,x,y,w,h,fy){var im=AY.img(src);if(!im.complete||!im.naturalWidth)return false;var s=Math.max(w/im.naturalWidth,h/im.naturalHeight),sw=w/s,sh=h/s;
+ cx.drawImage(im,(im.naturalWidth-sw)/2,(im.naturalHeight-sh)*(fy==null?.5:fy),sw,sh,x,y,w,h);return true};
+
+/* ---------- the real Pathinettam Padi painting (img/ayyappa/steps_v.jpg): the 18 golden steps, the first `steps` glowing.
+   Returns pos(i) -> {x,y,w} for step i (0 = bottom step, 18 = top platform) so the swami can stand on it. ---------- */
+AY.STEPS_IMG='img/ayyappa/steps_v.jpg';
+AY.stepsBg=function(cx,W,H,steps,t,fy){var im=AY.img(AY.STEPS_IMG);fy=fy==null?.5:fy;
+ var iw=900,ih=1587,s=Math.max(W/iw,H/ih),dw=iw*s,dh=ih*s,ox=(W-dw)/2,oy=(H-dh)*fy;
+ if(im.complete&&im.naturalWidth)cx.drawImage(im,ox,oy,dw,dh);else{cx.fillStyle='#2a1748';cx.fillRect(0,0,W,H)}
+ /* step geometry measured on the painting (fractions of the picture) */
+ var yb=.681,yt=.428,xc=.493,hb=.181,ht=.09;
+ function pos(i){var f=i/18;return{x:ox+dw*xc,y:oy+dh*(yb+(yt-yb)*f),w:dw*(hb+(ht-hb)*f)}}
+ for(var i=0;i<Math.min(18,steps);i++){var a=pos(i),b=pos(i+1);cx.save();cx.globalCompositeOperation='lighter';
+  var g=cx.createLinearGradient(0,b.y,0,a.y);g.addColorStop(0,'rgba(255,200,80,.0)');g.addColorStop(1,'rgba(255,214,110,'+(.32+.12*Math.sin(t*4+i))+')');
+  cx.fillStyle=g;cx.beginPath();cx.moveTo(a.x-a.w,a.y);cx.lineTo(a.x+a.w,a.y);cx.lineTo(b.x+b.w,b.y);cx.lineTo(b.x-b.w,b.y);cx.fill();cx.restore()}
+ if(steps<18){var n=pos(steps),m=pos(steps+1);cx.strokeStyle='rgba(255,240,180,'+(.55+.4*Math.sin(t*6))+')';cx.lineWidth=3;cx.beginPath();cx.moveTo(n.x-n.w,n.y);cx.lineTo(n.x+n.w,n.y);cx.stroke()}
+ return pos};
 /* ---------- end card ---------- */
 AY.end=function(c){
  var i=-1;AY.GAMES.forEach(function(g,k){if(g.key===c.key)i=k});var nx=AY.GAMES[(i+1)%AY.GAMES.length];
- DK.done(c.key,c.stars);
+ DK.done(c.key,c.stars);AY.askJoin();
  var btn=[{label:AY.t(AY.ui.again),on:c.again}];
  if(nx&&nx.key!==c.key)btn.push({label:AY.t(AY.ui.next)+AY.t(nx.name),href:nx.href,cls:'alt'});
+ btn.push({label:AY.t(AY.ui.padi),href:'ayyappa.html#steps',cls:'ghost'});
  btn.push({label:AY.t(AY.ui.songs),href:'ayyappa.html#songs',cls:'ghost'});
  btn.push({label:AY.t(AY.ui.share),cls:'ghost',keep:true,on:function(){AY.share(c.shareText)}});
  DK.card({art:c.art||'img/ayyappa_hero.jpg',label:AY.t(AY.ui.sharanam),stars:c.stars,title:c.title,paras:c.paras||[],buttons:btn,
   foot:'<a href="https://www.youtube.com/@WorldofWondersstudio?sub_confirmation=1" target="_blank" rel="noopener" style="color:#b8643a;font-weight:700">'+AY.t(AY.ui.sub)+'</a>'});
 };
+AY.askJoin=function(){setTimeout(function(){try{window.WOWRegAsk&&WOWRegAsk()}catch(e){}},4000)};
 AY.share=function(text){var u=location.href.split('#')[0].split('?')[0],d={title:document.title,text:AY.t(text)||document.title,url:u};
  try{if(navigator.share){navigator.share(d).catch(function(){})}else if(navigator.clipboard){navigator.clipboard.writeText(d.text+' '+u);DK.beat(AY.t(AY.ui.copied))}else{window.open('https://wa.me/?text='+encodeURIComponent(d.text+' '+u),'_blank')}}catch(e){}};
 /* a sung-feeling chant cue: three notes Sa Re Ga, then the bell */

@@ -16,10 +16,10 @@
 <link rel="stylesheet" href="family.css?v=20261105c">
 <style>
 :root{--display:"Baloo 2","Baloo Tamma 2","Baloo Thambi 2","Baloo Tammudu 2",system-ui,sans-serif}
-.board{position:relative;max-width:560px;margin:0 auto;width:100%;background:radial-gradient(circle at 50% 0,#4a2a14 0,#2a1608 70%);border:3px solid #ffd35a33;border-radius:22px;padding:12px;display:grid;gap:10px;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
+.board{position:relative;max-width:560px;margin:0 auto;width:100%;background:linear-gradient(rgba(30,14,4,.62),rgba(20,8,2,.82)),url(img/ayyappa/irumudi_kit.jpg) center/cover;border:3px solid #ffd35a33;border-radius:22px;padding:12px;display:grid;gap:10px;touch-action:none;user-select:none;-webkit-user-select:none;overflow:hidden}
 .board::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,rgba(255,255,255,.025) 0 2px,transparent 2px 22px);pointer-events:none}
 .pouches{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.zone{position:relative;border-radius:20px;border:3px dashed rgba(255,211,90,.45);background:rgba(0,0,0,.18);min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:8px 6px;cursor:pointer;transition:transform .15s,border-color .15s,background .15s}
+.zone{position:relative;border-radius:20px;border:3px dashed rgba(255,211,90,.55);background:rgba(20,10,4,.55);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);min-height:170px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:8px 6px;cursor:pointer;transition:transform .15s,border-color .15s,background .15s}
 .zone.hot{border-color:#ffd35a;background:rgba(255,211,90,.16);transform:scale(1.03)}
 .zone.bad{animation:shake .35s}
 .zone canvas{width:96px;height:80px}
@@ -47,11 +47,10 @@
 .board.tying .knot{display:flex}
 .knot p{margin:0;font:800 20px var(--display);color:#ffe08a;text-align:center}
 </style>
-<script src="gate.js?v=5" data-key="irumudi" data-yt='{"en":"KplILYGBovg","kn":"KplILYGBovg","hi":"KplILYGBovg"}' data-back="ayyappa.html#games"></script>
 <script src="dasara-kit.js?v=4"></script>
-<script src="ayy-kit.js?v=2"></script>
+<script src="ayy-kit.js?v=4"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Pack the Irumudi","url":"https://worldofwondersstudio.com/irumudi.html","genre":["Educational","Puzzle"],"gamePlatform":"Web browser","inLanguage":["en","kn","ta","te"],"isAccessibleForFree":true,"audience":{"@type":"Audience","audienceType":"Children and families"},"isPartOf":{"@type":"CreativeWorkSeries","name":"Ayyappa season games"},"publisher":{"@id":"https://worldofwondersstudio.com/#org"}}</script>
-<script src="reg.js?v=2"></script>
+<script>window.WOW_REG_LATER=1</script><script src="reg.js?v=3"></script>
 <link rel="stylesheet" href="/cursor-wow.css?v=6"></head>
 <body>
 <a class="wow-top" href="index.html" aria-label="World of Wonders home"><img src="img/wow_banner.jpg?v=2" alt="World of Wonders · Music · Stories · Creation · Inspiration"></a>
@@ -209,12 +208,20 @@ kc.addEventListener('pointerdown',e=>{e.preventDefault();if(!G||G.over)return;
  if(G.tieN<3){G.tieN++;DK.bell(520+G.tieN*80,.12,1.6);DK.vib(20);$('#kmsg').textContent=G.tieN<3?`${T(L.tie)} (${G.tieN}/3)`:T(L.lift)}
  else if(G.tieN===3){G.tieN=4;AY.chant();$('#kmsg').textContent=T(AY.ui.sharanam);setTimeout(finish,2400)}});
 function finish(){G.over=true;const total=ROUNDS.flat().length,stars=G.miss<=2?3:G.miss<=6?2:1;
- AY.end({key:'irumudi',stars,title:T(L.endT),art:'img/ayyappa_lamps.jpg',paras:[`✅ ${T(L.right)}: <b>${G.score}/${total}</b>`,T(L.endP)],shareText:L.shareText,again:()=>{newGame();startRound(0)}})}
+ AY.end({key:'irumudi',stars,title:T(L.endT),art:'img/ayyappa/irumudi_kit.jpg',paras:[`✅ ${T(L.right)}: <b>${G.score}/${total}</b>`,T(L.endP)],shareText:L.shareText,again:()=>{newGame();intro()}})}
 /* ---------- chrome ---------- */
 function applyLang(){$('#t-eyebrow').textContent=T(L.eyebrow);$('#t-title').textContent=T(L.title);$('#back').textContent=T(AY.ui.back);$('#t-round').textContent=T(L.round);document.title=T(L.title)+' · World of Wonders';
  $('#zFront h3').textContent=T(L.front);$('#zFront small').textContent=T(L.frontS);$('#zBack h3').textContent=T(L.back);$('#zBack small').textContent=T(L.backS);$('#zHome h3').textContent=T(L.home);
  if(G&&G.cur){const it=ITEMS[G.cur],b=document.querySelector('#item b');if(b)b.textContent=T(it.n)}}
-function intro(){DK.card({art:'img/ayyappa_lamps.jpg',label:T(L.eyebrow),title:T(L.storyT),paras:T(L.story),how:T(L.how),buttons:[{label:T(L.go),on:()=>startRound(0)}]})}
+function demo(x,w,h,t){/* an item is dragged into the right pouch */
+ if(!AY.cover(x,'img/ayyappa/irumudi_kit.jpg',0,0,w,h,.5)){x.fillStyle='#3a1d0c';x.fillRect(0,0,w,h)}x.fillStyle='rgba(20,8,2,.55)';x.fillRect(0,0,w,h);
+ const p1=document.createElement('canvas');if(!demo.c){demo.c={f:document.createElement('canvas'),b:document.createElement('canvas')};for(const k of ['f','b']){demo.c[k].width=192;demo.c[k].height=160;drawPouch(demo.c[k],k==='f'?'front':'back',.6)}demo.i=new Image();demo.i.src=PIC.ghee;demo.j=new Image();demo.j.src=PIC.towel}
+ x.drawImage(demo.c.f,w*.08,h*.08,w*.32,h*.45);x.drawImage(demo.c.b,w*.6,h*.08,w*.32,h*.45);
+ x.font='800 20px "Baloo 2",sans-serif';x.textAlign='center';x.fillStyle='#ffe08a';x.fillText(T(L.front),w*.24,h*.62);x.fillText(T(L.back),w*.76,h*.62);
+ const c=t%5,first=c<2.5,p=Math.min(1,((c%2.5)/2.5)/.7),im=first?demo.i:demo.j,tx=first?w*.24:w*.76;
+ const sx=w*.5,sy=h*.8,x0=sx+(tx-sx)*p,y0=sy+(h*.3-sy)*p;if(p<1&&im.complete)x.drawImage(im,x0-40,y0-40,80,80);AY.finger(x,x0+18,y0+34,p>0&&p<1);
+ if(p>=1){x.font='900 34px sans-serif';x.fillStyle='#9dff9d';x.fillText('✓',tx,h*.28)}}
+function intro(){AY.how({art:'img/ayyappa/irumudi_kit.jpg',label:T(L.eyebrow),title:T(L.storyT),paras:T(L.story),steps:T(L.how).map(x=>x[1]),demo,demoH:280,go:T(L.go),video:{en:'KplILYGBovg',kn:'KplILYGBovg',ta:'rn5pubakWH8',te:'KplILYGBovg'},on:()=>startRound(0)})}
 DK.onLang(()=>{applyLang();if(DK.isOpen()&&G&&G.r===0&&!G.cur&&!G.over)intro()});
 $('#newgame').onclick=()=>{newGame();intro()};
 DK.music('irumudi',{sa:138.59,scale:[0,2,4,7,9,12,14,16],tempo:.7});

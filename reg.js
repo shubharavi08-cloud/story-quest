@@ -123,7 +123,9 @@
     var mo=new MutationObserver(function(){var g=document.querySelector('#wowGate .in'),go=document.getElementById('wowGateGo');if(g&&go&&!go.disabled){mo.disconnect();show(g)}});
     mo.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['disabled']});
     /* pages without a game: a small card after 15 s (game pages ask only on the watch screen, so play is never covered) */
-    if(!document.querySelector('script[src*="gate.js"][data-key]'))setTimeout(function(){mo.disconnect();show(null)},15000);
+    /* game pages that set window.WOW_REG_LATER ask only when a game is finished (WOWRegAsk), never during play */
+    if(window.WOW_REG_LATER){window.WOWRegAsk=function(){mo.disconnect();show(null)}}
+    else if(!document.querySelector('script[src*="gate.js"][data-key]'))setTimeout(function(){mo.disconnect();show(null)},15000);
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();
