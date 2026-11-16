@@ -4,7 +4,7 @@ The source starts with /*META {json} META*/ (key, title{en,kn,ta,te}, desc, og, 
 Usage: python3 _tools/ayy_build.py tiger-ride [more keys]   (or --all)"""
 import json,sys,os,re,html
 ROOT=os.path.dirname(os.path.dirname(os.path.abspath(__file__)));SRC=os.path.join(ROOT,'_tools','ayy_src')
-KIT='dasara-kit.js?v=4',"ayy-kit.js?v=7","ayy-game.js?v=1"
+KIT='dasara-kit.js?v=6',"ayy-kit.js?v=7","ayy-game.js?v=1"
 CSS='''
 :root{--display:"Baloo 2","Baloo Tamma 2","Baloo Thambi 2","Baloo Tammudu 2",system-ui,sans-serif}
 body{background:linear-gradient(rgba(18,10,40,.8),rgba(18,10,40,.94)),url(%(bg)s) center/cover fixed}
