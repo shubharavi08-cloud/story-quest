@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <title>Swami Ayyappa Song Collection | World of Wonders Studio</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Swami Ayyappa devotional songs in Kannada and Tamil, with lyrics videos, and a free interactive: climb the 18 sacred steps of Sabarimala. By World of Wonders Studio.">
+<meta name="description" content="Swami Ayyappa devotional songs in Kannada and Tamil, and four free Ayyappa season games: Sabarimala Yatra, Pack the Irumudi, Sharanam Steps and Mandala Deepam (41 lamps). By World of Wonders Studio.">
 <meta property="og:title" content="Swami Ayyappa Song Collection | World of Wonders Studio">
 <meta property="og:description" content="Four Ayyappa devotional songs and a free interactive: climb the 18 sacred steps of Sabarimala.">
 <meta property="og:image" content="https://worldofwondersstudio.com/img/ayyappa_hero.jpg">
@@ -35,6 +35,10 @@ h1{font-size:clamp(30px,6vw,52px)} h1 span{color:var(--flame)} h2{font-size:clam
 .song .playbtn{position:absolute;inset:0;margin:auto;width:56px;height:56px;border-radius:50%;background:rgba(246,167,35,.92);color:#2b1700;display:grid;place-items:center;font-size:22px}
 .song .video{aspect-ratio:16/9}.song iframe{width:100%;height:100%;border:0;display:block}
 .song .body{padding:10px 12px 12px}.song h3{font-size:16px;margin-top:4px}
+.games{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.gm{display:flex;flex-direction:column;background:rgba(255,255,255,.06);border:1px solid rgba(199,188,230,.18);border-radius:16px;overflow:hidden;text-decoration:none;color:var(--ink);transition:transform .15s}
+.gm:hover{transform:translateY(-3px)}.gm img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}.gm div{padding:10px 12px 14px;display:flex;flex-direction:column;gap:4px}
+.gm b{font-family:var(--display);font-size:19px}.gm span{color:var(--muted);font-size:15px}.gm i{font-style:normal;color:var(--flame);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase}
 /* 18 steps */
 .climb{background:linear-gradient(180deg,#2a1f5c,#1c1442);border:1px solid var(--line);border-radius:22px;padding:18px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
 @media(max-width:760px){.climb{grid-template-columns:1fr}}
@@ -72,7 +76,7 @@ footer nav a{color:var(--muted)}
   <div><span class="eyebrow">Sabarimala season · Devotional songs</span>
    <h1>Swami Ayyappa <span>Song Collection</span></h1>
    <p class="lede">Songs for the devotee's journey, in Kannada and Tamil, with lyric videos. Listen, light a deepam, and climb the eighteen sacred steps. Swamiye Sharanam Ayyappa 🙏</p>
-   <div class="row" style="margin-top:16px"><a class="btn" href="#songs">Listen now</a><a class="btn ghost" href="#steps">Climb the 18 steps</a></div></div>
+   <div class="row" style="margin-top:16px"><a class="btn" href="#songs">Listen now</a><a class="btn ghost" href="#games">🎮 Play the games</a></div></div>
   <img src="img/ayyappa_hero.jpg" alt="Lord Ayyappa seated in yogic pose, painting" width="1400" height="787">
  </section>
 
@@ -80,6 +84,15 @@ footer nav a{color:var(--muted)}
   <p class="muted" style="margin:0">More songs, in more languages, will join the collection through the season.</p>
   <div class="songs" id="songGrid"></div></section>
 
+
+ <section id="games" style="display:flex;flex-direction:column;gap:12px"><h2>Ayyappa season games</h2>
+  <p class="muted" style="margin:0">Free, in English, ಕನ್ನಡ, தமிழ் and తెలుగు. Watch one of our songs once to unlock a game, then play it as often as you like.</p>
+  <div class="games">
+   <a class="gm" href="sabari-yatra.html"><img src="img/games/sabari-yatra.webp" alt="Sabarimala Yatra game: our swami on the forest path" loading="lazy"><div><i>Runner</i><b>Sabarimala Yatra</b><span>Walk the old forest path from Erumeli to the 18 holy steps.</span></div></a>
+   <a class="gm" href="irumudi.html"><img src="img/games/irumudi.webp" alt="Pack the Irumudi game: the two pouches" loading="lazy"><div><i>Sorting</i><b>Pack the Irumudi</b><span>Which pouch for the ghee coconut? Pack it right and tie the knot.</span></div></a>
+   <a class="gm" href="sharanam-steps.html"><img src="img/games/sharanam-steps.webp" alt="Sharanam Steps rhythm game: the 18 golden steps" loading="lazy"><div><i>Rhythm</i><b>Sharanam Steps</b><span>Answer "Sharanam!" in time with the drum and climb.</span></div></a>
+   <a class="gm" href="mandala-deepam.html"><img src="img/games/mandala-deepam.webp" alt="Mandala Deepam: a ring of 41 lamps around Swami" loading="lazy"><div><i>Every day · 41 days</i><b>Mandala Deepam</b><span>Light one lamp a day for the 41-day Mandala, 17 Nov to 27 Dec.</span></div></a>
+  </div></section>
  <section id="steps" style="display:flex;flex-direction:column;gap:12px"><h2>Climb the 18 sacred steps</h2>
   <p class="muted" style="margin:0">Tap the glowing step to climb. Each step lets go of one burden, as in our song <i>Pathinettam Padi</i>. Traditional teaching reads the steps as five senses, eight passions, three qualities of nature, knowledge and ignorance.</p>
   <div class="climb">

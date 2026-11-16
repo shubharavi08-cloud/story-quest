@@ -6,7 +6,7 @@
    - Language: EN / हिं / ಕ, same storage key as the other World of Wonders games (sq_lang). */
 (function(){
 var DK={};
-var LANGS=['en','hi','kn'];
+var LANGS=['en','hi','kn','ta','te'];
 var lang='en';
 try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){}
 (function(){var q=new URLSearchParams(location.search).get('lang');if(LANGS.indexOf(q)>=0){lang=q;try{localStorage.setItem('sq_lang',q)}catch(e){}}})();

@@ -328,6 +328,7 @@ const DASARA_MORE = [
 ];
 const ytImg=id=>`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 const SECTIONS = [
+ {k:'ayyappa', name:'Ayyappa · Sabarimala season', group:'Festivals · Now', blurb:'Ayyappa songs in Kannada and Tamil, and 4 new games: walk the forest path, pack the Irumudi, climb the 18 steps, and light a Mandala lamp every day for 41 days.', img:'img/ayyappa_hero.jpg', open:true, href:'ayyappa.html#games', chip:'New · Play now', gcat:'ayyappa'},
  {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale. Watch them all and play them all to complete Diya's Journey!", img:'img/ayodhya.jpg', open:true, chip:'Watch & play', gcat:'deepavali'},
  {k:'dasara', name:'Dasara · Navratri', group:'Festivals', blurb:'Nine nights, nine forms of Maa Durga, and the victory of good over evil: 14 story and song videos in Hindi, Kannada and Telugu.', img:'img/dasara/navadurga.jpg', open:true, chip:'Watch & play'},
  {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/', gcat:'vedicmaths'},
@@ -399,7 +400,7 @@ function langPicker(vers,note=''){
     <div class="lp-row">${vers.map(([l,id],i)=>`<button type="button" class="lang lbtn${i?'':' on'}" data-id="${id}" data-l="${l}" aria-pressed="${!i}" style="--lc:${LCOL[l]||'#ffd35a'}"><b>${LGLYPH[l]||'🌐'}</b>${l}<i aria-hidden="true">✓</i></button>`).join('')}</div>${note}</div>`;
 }
 /* ===== game gallery: big gameplay pictures; full "how to play" + history live on each game page (game-info.js) ===== */
-const GAME_CATS=[['all','🌟 All series'],['deepavali','🪔 Deepavali'],['dasara','🔱 Dasara'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert'],['traditional','🐚 Traditional']];
+const GAME_CATS=[['all','🌟 All series'],['ayyappa','🙏 Ayyappa'],['deepavali','🪔 Deepavali'],['dasara','🔱 Dasara'],['vedicmaths','🧮 Vedic Maths'],['scamalert','🦉 Scam Alert'],['traditional','🐚 Traditional']];
 const gameList=()=>window.WOW_GAMES||[];
 const gSoon=()=>`<span class="gsoon" aria-label="Game yet to come"><span>YET TO<br>COME</span></span>`;
 const dsGameImg=e=>{const g=gameList().find(x=>x.href===e.play);return g?g.img:ytImg(e.yt[0][1])};
@@ -421,7 +422,10 @@ function gameCard(g,o={}){
 /* home "Explore every series": each series as one complete set (videos + games + lessons + books) */
 function seriesList(){
   const G=gameList(), yt=id=>`https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
+  let AYV=[];try{AYV=(SONGS.find(x=>x.k==='ayyappa')||{items:[]}).items.map(e=>({t:e.t,img:yt(e.yt),href:'ayyappa.html#songs'}))}catch(e){}
   return [
+   {cat:'ayyappa',icon:'🙏',name:'Ayyappa · Sabarimala season',line:'Ayyappa songs in Kannada and Tamil, and four new games: walk the forest path, pack the Irumudi, climb the 18 steps, light 41 Mandala lamps.',href:'ayyappa.html',
+    videos:AYV,extras:[['🪔','Mandala Deepam: one lamp a day for 41 days','mandala-deepam.html']]},
    {cat:'deepavali',icon:'🪔',name:"Deepavali · Diya's journey across India",line:"8 cartoon stories from 8 corners of India, a game for every story, and a grand finale.",href:'#deepavali',
     videos:DEEPAVALI.filter(e=>e.ready).map(e=>({t:'Ep '+e.n+' · '+e.title,img:e.img,href:'#dv'+e.n,play:e.play})),extras:[['🏆',"Complete Diya's Journey: 8 lamps to light"]]},
    {cat:'dasara',icon:'🔱',name:'Dasara · Navratri',line:'Nine nights, nine forms of Maa Durga: story and song videos, and a game for each day.',href:'#dasara',
@@ -677,7 +681,7 @@ const SONGS = [
   {yt:'-kvqQwSjuNk', t:'ನವರಾತ್ರಿಯ ದಿವ್ಯ ಕಥೆ · Navaratri musical story', lang:'ಕನ್ನಡ'},
   {yt:'B-DeYpuN3EI', t:'నవరాత్రి దివ్య కథ · Navaratri musical story', lang:'తెలుగు'},
   {yt:'0eJxLH5QNqk', t:'नवरात्रि सम्पूर्ण कथा · All 9 days with bhajans', lang:'हिंदी'}]},
- {k:'ayyappa', name:'Swami Ayyappa Song Collection', blurb:'Kannada and Tamil Ayyappa devotional songs for the Sabarimala season. <a href="ayyappa.html">Open the Ayyappa page: climb the 18 sacred steps and light a deepam →</a>', items:[
+ {k:'ayyappa', name:'Swami Ayyappa Song Collection', blurb:'Kannada and Tamil Ayyappa devotional songs for the Sabarimala season. <a href="ayyappa.html#games">Open the Ayyappa page: 4 new games, the 18 steps and a Mandala lamp a day →</a>', items:[
   {yt:'UOGXzfLW8vc', t:'Harihara Suthane · ಹರಿಹರ ಸುತನೇ', lang:'ಕನ್ನಡ · संस्कृत'},
   {yt:'hfIpmrnAiIk', t:'ಹುಲಿಯೇರಿ ಬಂದ ಮಣಿಕಂಠ · Huli Yeri Banda Manikanta', lang:'ಕನ್ನಡ'},
   {yt:'_Ig9Mpqf9hc', t:'ಹದಿನೆಂಟಾಂ ಪಡಿ · Pathinettam Padi', lang:'ಕನ್ನಡ'},
