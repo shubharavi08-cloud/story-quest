@@ -7,11 +7,26 @@
 var AY={};
 DK.LOCAL['ayy-hero']='img/ayyappa_hero.jpg';DK.LOCAL['ayy-steps']='img/ayyappa_steps.jpg';DK.LOCAL['ayy-lamps']='img/ayyappa_lamps.jpg';DK.FOCUS['ayy-hero']=[.5,.35,1.6];DK.FOCUS['ayy-steps']=[.5,.4,1.2];DK.FOCUS['ayy-lamps']=[.5,.5,1.2];
 AY.GAMES=[
- {key:'sabari-yatra',href:'sabari-yatra.html',name:{en:'Sabarimala Yatra',kn:'ಶಬರಿಮಲೆ ಯಾತ್ರೆ',ta:'சபரிமலை யாத்திரை',te:'శబరిమల యాత్ర'}},
- {key:'irumudi',href:'irumudi.html',name:{en:'Pack the Irumudi',kn:'ಇರುಮುಡಿ ಕಟ್ಟು',ta:'இருமுடி கட்டு',te:'ఇరుముడి కట్టు'}},
- {key:'sharanam-steps',href:'sharanam-steps.html',name:{en:'Sharanam Steps',kn:'ಶರಣಂ ಮೆಟ್ಟಿಲು',ta:'சரணம் படிகள்',te:'శరణం మెట్లు'}},
- {key:'mandala-deepam',href:'mandala-deepam.html',name:{en:'Mandala Deepam',kn:'ಮಂಡಲ ದೀಪ',ta:'மண்டல தீபம்',te:'మండల దీపం'}}
+ {key:"mandala-deepam",href:"mandala-deepam.html",name:{"en": "Mandala Deepam", "kn": "ಮಂಡಲ ದೀಪ", "ta": "மண்டல தீபம்", "te": "మండల దీపం"}},
+ {key:"tiger-ride",href:"tiger-ride.html",name:{"en": "Tiger Ride", "kn": "ಹುಲಿ ಸವಾರಿ", "ta": "புலிச் சவாரி", "te": "పులి స్వారీ"}},
+ {key:"sharanam-steps",href:"sharanam-steps.html",name:{"en": "Sharanam Steps", "kn": "ಶರಣಂ ಮೆಟ್ಟಿಲು", "ta": "சரணம் படிகள்", "te": "శరణం మెట్లు"}},
+ {key:"irumudi",href:"irumudi.html",name:{"en": "Pack the Irumudi", "kn": "ಇರುಮುಡಿ ಕಟ್ಟು", "ta": "இருமுடி கட்டு", "te": "ఇరుముడి కట్టు"}},
+ {key:"sabari-yatra",href:"sabari-yatra.html",name:{"en": "Sabarimala Yatra", "kn": "ಶಬರಿಮಲೆ ಯಾತ್ರೆ", "ta": "சபரிமலை யாத்திரை", "te": "శబరిమల యాత్ర"}},
+ {key:"carry-irumudi",href:"carry-irumudi.html",name:{"en": "Carry the Irumudi", "kn": "ಇರುಮುಡಿ ಹೊತ್ತು ನಡೆ", "ta": "இருமுடி சுமந்து நட", "te": "ఇరుముడి మోసి నడువు"}},
+ {key:"mountain-path",href:"mountain-path.html",name:{"en": "Mountain Path", "kn": "ಮಲೆಯ ದಾರಿ", "ta": "மலைப் பாதை", "te": "కొండ దారి"}},
+ {key:"pamba-lamps",href:"pamba-lamps.html",name:{"en": "Pamba Lamps", "kn": "ಪಂಪಾ ದೀಪ", "ta": "பம்பை விளக்கு", "te": "పంబ దీపాలు"}},
+ {key:"steps-puzzle",href:"steps-puzzle.html",name:{"en": "Steps Puzzle", "kn": "ಮೆಟ್ಟಿಲು ಒಗಟು", "ta": "படிப் புதிர்", "te": "మెట్ల పజిల్"}},
+ {key:"way-home",href:"way-home.html",name:{"en": "The Way Home", "kn": "ಮನೆಯ ದಾರಿ", "ta": "வீட்டுப் பாதை", "te": "ఇంటి దారి"}},
+ {key:"harihara-pairs",href:"harihara-pairs.html",name:{"en": "Harihara Pairs", "kn": "ಹರಿಹರ ಜೋಡಿ", "ta": "ஹரிஹர ஜோடி", "te": "హరిహర జంటలు"}},
+ {key:"deeparadhana",href:"deeparadhana.html",name:{"en": "Deeparadhana", "kn": "ದೀಪಾರಾಧನೆ", "ta": "தீபாராதனை", "te": "దీపారాధన"}},
+ {key:"lamp-of-dharma",href:"lamp-of-dharma.html",name:{"en": "Lamp of Dharma", "kn": "ಧರ್ಮದ ದೀಪ", "ta": "தர்ம தீபம்", "te": "ధర్మ దీపం"}},
+ {key:"sabarigiri-climb",href:"sabarigiri-climb.html",name:{"en": "Sabarigiri Climb", "kn": "ಶಬರಿಗಿರಿ ಏರು", "ta": "சபரிகிரி ஏற்றம்", "te": "శబరిగిరి ఎక్కుదల"}},
+ {key:"saranam-echo",href:"saranam-echo.html",name:{"en": "Saranam Echo", "kn": "ಶರಣಂ ಪ್ರತಿಧ್ವನಿ", "ta": "சரணம் எதிரொலி", "te": "శరణం ప్రతిధ్వని"}},
+ {key:"pandalam-palace",href:"pandalam-palace.html",name:{"en": "Pandalam Palace", "kn": "ಪಂದಳ ಅರಮನೆ", "ta": "பந்தள அரண்மனை", "te": "పందళ రాజభవనం"}},
+ {key:"sabarimala-jigsaw",href:"sabarimala-jigsaw.html",name:{"en": "Sabarimala Jigsaw", "kn": "ಶಬರಿಮಲೆ ಜಿಗ್ಸಾ", "ta": "சபரிமலை ஜிக்சா", "te": "శబరిమల జిగ్సా"}},
+ {key:"names-mala",href:"names-mala.html",name:{"en": "108 Names Mala", "kn": "108 ನಾಮ ಮಾಲೆ", "ta": "108 நாம மாலை", "te": "108 నామ మాల"}}
 ];
+AY.STORY={"mandala-deepam": "mandala", "tiger-ride": "manikanta", "sharanam-steps": "padi", "irumudi": "irumudi", "sabari-yatra": "route", "carry-irumudi": "route", "mountain-path": "route", "pamba-lamps": "pamba", "steps-puzzle": "padi", "way-home": "home", "harihara-pairs": "birth", "deeparadhana": "rituals", "lamp-of-dharma": "values", "sabarigiri-climb": "sabari", "saranam-echo": "sharanam", "pandalam-palace": "pandalam", "sabarimala-jigsaw": "temple", "names-mala": "names"};
 AY.ui={
  back:{en:'← Ayyappa',kn:'← ಅಯ್ಯಪ್ಪ',ta:'← ஐயப்பன்',te:'← అయ్యప్ప'},
  again:{en:'Play again',kn:'ಮತ್ತೆ ಆಡಿ',ta:'மீண்டும் விளையாடு',te:'మళ్ళీ ఆడండి'},
@@ -25,6 +40,7 @@ AY.ui={
  howT:{en:'How to play',kn:'ಆಡುವುದು ಹೇಗೆ',ta:'எப்படி விளையாடுவது',te:'ఎలా ఆడాలి'},
  padi:{en:'🪜 Your next step: the 18 steps, 18 songs',kn:'🪜 ಮುಂದಿನ ಮೆಟ್ಟಿಲು: 18 ಮೆಟ್ಟಿಲು, 18 ಹಾಡು',ta:'🪜 அடுத்த படி: 18 படிகள், 18 பாடல்கள்',te:'🪜 తర్వాతి మెట్టు: 18 మెట్లు, 18 పాటలు'},
  climbed:{en:'🪜 You climbed a step! Back to the 18 steps',kn:'🪜 ಒಂದು ಮೆಟ್ಟಿಲು ಹತ್ತಿದಿರಿ! 18 ಮೆಟ್ಟಿಲಿಗೆ ಹಿಂತಿರುಗಿ',ta:'🪜 ஒரு படி ஏறினீர்கள்! 18 படிகளுக்குத் திரும்புங்கள்',te:'🪜 ఒక మెట్టు ఎక్కారు! 18 మెట్లకు తిరిగి వెళ్ళండి'},
+ storyBtn:{en:'📖 The story behind this game',kn:'📖 ಈ ಆಟದ ಹಿಂದಿನ ಕಥೆ',ta:'📖 இந்த விளையாட்டின் பின்னணிக் கதை',te:'📖 ఈ ఆట వెనుక కథ'},
  nowPlaying:{en:'Our Ayyappa song',kn:'ನಮ್ಮ ಅಯ್ಯಪ್ಪ ಹಾಡು',ta:'நம் ஐயப்பன் பாடல்',te:'మా అయ్యప్ప పాట'},
  songNote:{en:'Our Ayyappa song plays in a small window while you play. Close it any time.',kn:'ನೀವು ಆಡುವಾಗ ನಮ್ಮ ಅಯ್ಯಪ್ಪ ಹಾಡು ಪುಟ್ಟ ಕಿಟಕಿಯಲ್ಲಿ ಬರುತ್ತದೆ. ಯಾವಾಗ ಬೇಕಾದರೂ ಮುಚ್ಚಬಹುದು.',ta:'நீங்கள் விளையாடும்போது நம் ஐயப்பன் பாடல் சிறிய சாளரத்தில் ஒலிக்கும். எப்போது வேண்டுமானாலும் மூடலாம்.',te:'మీరు ఆడుతున్నప్పుడు మా అయ్యప్ప పాట చిన్న కిటికీలో వస్తుంది. ఎప్పుడైనా మూసేయవచ్చు.'}
 };
@@ -72,7 +88,7 @@ AY.pilgrim=function(cx,x,y,h,o){
  var hd=cx.createRadialGradient(-2,-99,1,0,-96,10);hd.addColorStop(0,'#2e231c');hd.addColorStop(1,'#0f0b08');cx.fillStyle=hd;cx.beginPath();cx.ellipse(0,-96.5,8.4,9.4,0,0,6.283);cx.fill();
  cx.fillStyle=sk2;cx.beginPath();cx.ellipse(-8.4,-96,1.8,3,0,0,6.283);cx.fill();cx.beginPath();cx.ellipse(8.4,-96,1.8,3,0,0,6.283);cx.fill();
  /* Irumudi on the head: two cloth lobes, gold border, knot */
- cx.save();cx.translate(0,-107);cx.rotate(sw*.04);var ir=o.irumudi||'#b3122a';
+ cx.save();cx.translate((o.tilt||0)*10,-107);cx.rotate(sw*.04+(o.tilt||0));var ir=o.irumudi||'#b3122a';
  function lobe(dx,c1,c2,r){var lg=cx.createRadialGradient(dx-4,-7,1,dx,-2,15);lg.addColorStop(0,c1);lg.addColorStop(1,c2);cx.fillStyle=lg;cx.beginPath();cx.ellipse(dx,-3,13.5,9.5,r,0,6.283);cx.fill()}
  lobe(-11,'#e8475a',ir,-.15);lobe(11,'#3a3644','#121016',.15);
  cx.strokeStyle='#f0c24a';cx.lineWidth=1.6;cx.beginPath();cx.ellipse(-11,-3,10,6.5,-.15,0.2,2.9);cx.stroke();cx.beginPath();cx.ellipse(11,-3,10,6.5,.15,0.2,2.9);cx.stroke();
@@ -183,6 +199,7 @@ AY.end=function(c){
  var btn=[{label:AY.t(AY.ui.again),on:c.again}];
  if(nx&&nx.key!==c.key)btn.push({label:AY.t(AY.ui.next)+AY.t(nx.name),href:nx.href,cls:'alt'});
  if(padiBack)btn.unshift({label:AY.t(AY.ui.climbed),href:'ayyappa.html#steps'});else btn.push({label:AY.t(AY.ui.padi),href:'ayyappa.html#steps',cls:'ghost'});
+ if(AY.STORY&&AY.STORY[c.key])btn.push({label:AY.t(AY.ui.storyBtn),href:'ayyappa-stories.html#'+AY.STORY[c.key],cls:'ghost'});
  btn.push({label:AY.t(AY.ui.songs),href:'ayyappa.html#songs',cls:'ghost'});
  btn.push({label:AY.t(AY.ui.share),cls:'ghost',keep:true,on:function(){AY.share(c.shareText)}});
  DK.card({art:c.art||'img/ayyappa_hero.jpg',label:AY.t(AY.ui.sharanam),stars:c.stars,title:c.title,paras:c.paras||[],buttons:btn,

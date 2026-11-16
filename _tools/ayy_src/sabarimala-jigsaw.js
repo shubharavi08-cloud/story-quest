@@ -1,0 +1,66 @@
+/*META
+{"key":"sabarimala-jigsaw","title":{"en":"Sabarimala Jigsaw","kn":"ಶಬರಿಮಲೆ ಜಿಗ್ಸಾ","ta":"சபரிமலை ஜிக்சா","te":"శబరిమల జిగ్సా"},
+ "desc":"Sabarimala Jigsaw: a free Ayyappa season jigsaw puzzle by World of Wonders Studio. Drag real jigsaw pieces into place to rebuild paintings of Sabarimala, the 18 steps and the lamps of the season. English, Kannada, Tamil and Telugu.",
+ "og":"Piece together Sabarimala, one jigsaw piece at a time. Swamiye Sharanam!",
+ "genre":["Puzzle","Educational"],"bg":"img/ayyappa/temple_steps.jpg"}
+META*/
+const T=DK.t;
+const L={
+ title:{en:'Sabarimala Jigsaw',kn:'ಶಬರಿಮಲೆ ಜಿಗ್ಸಾ',ta:'சபரிமலை ஜிக்சா',te:'శబరిమల జిగ్సా'},
+ storyT:{en:'The temple on the hill',kn:'ಬೆಟ್ಟದ ಮೇಲಿನ ದೇವಸ್ಥಾನ',ta:'மலை மேல் கோயில்',te:'కొండ మీద ఆలయం'},
+ story:{en:['The Sabarimala temple opens for the <b>Mandala</b> season (about 41 days from mid-November) and for <b>Makaravilakku</b> in January, plus the first days of each Malayalam month.','Millions of pilgrims come each season. Put the pictures of the temple back together!'],
+  kn:['ಶಬರಿಮಲೆ ದೇವಸ್ಥಾನ <b>ಮಂಡಲ</b> ಕಾಲಕ್ಕೆ (ನವೆಂಬರ್ ಮಧ್ಯದಿಂದ ಸುಮಾರು 41 ದಿನ), ಜನವರಿಯ <b>ಮಕರವಿಳಕ್ಕು</b>ಗೆ, ಜೊತೆಗೆ ಪ್ರತಿ ಮಲಯಾಳ ತಿಂಗಳ ಮೊದಲ ದಿನಗಳಲ್ಲಿ ತೆರೆಯುತ್ತದೆ.','ಪ್ರತಿ ಸೀಸನ್‌ಗೆ ಲಕ್ಷಾಂತರ ಭಕ್ತರು ಬರುತ್ತಾರೆ. ದೇವಸ್ಥಾನದ ಚಿತ್ರಗಳನ್ನು ಮತ್ತೆ ಜೋಡಿಸಿ!'],
+  ta:['சபரிமலைக் கோயில் <b>மண்டல</b> காலத்துக்கு (நவம்பர் நடுவிலிருந்து சுமார் 41 நாள்), ஜனவரி <b>மகரவிளக்கு</b>க்கு, மேலும் ஒவ்வொரு மலையாள மாதத்தின் முதல் நாட்களில் திறக்கிறது.','ஒவ்வொரு சீசனிலும் லட்சக்கணக்கான பக்தர்கள் வருகிறார்கள். கோயிலின் படங்களை மீண்டும் சேருங்கள்!'],
+  te:['శబరిమల ఆలయం <b>మండల</b> కాలానికి (నవంబర్ మధ్య నుండి సుమారు 41 రోజులు), జనవరిలో <b>మకరవిళక్కు</b>కు, ఇంకా ప్రతి మలయాళ నెల మొదటి రోజుల్లో తెరుచుకుంటుంది.','ప్రతి సీజన్‌లో లక్షలాది భక్తులు వస్తారు. ఆలయ చిత్రాలను మళ్ళీ అమర్చండి!']},
+ how:{en:['Drag a piece from the tray at the bottom onto the board.','Drop it near its right place and it snaps in with a click.','Three pictures, each with more pieces. The faint picture on the board helps you.'],
+  kn:['ಕೆಳಗಿನ ತಟ್ಟೆಯಿಂದ ತುಂಡನ್ನು ಬೋರ್ಡ್‌ಗೆ ಎಳೆಯಿರಿ.','ಅದರ ಸರಿಯಾದ ಜಾಗದ ಹತ್ತಿರ ಬಿಟ್ಟರೆ ಕ್ಲಿಕ್ ಎಂದು ಕೂರುತ್ತದೆ.','ಮೂರು ಚಿತ್ರ, ಒಂದಕ್ಕಿಂತ ಒಂದು ಹೆಚ್ಚು ತುಂಡು. ಬೋರ್ಡ್ ಮೇಲಿನ ಮಸುಕು ಚಿತ್ರ ಸಹಾಯ ಮಾಡುತ್ತದೆ.'],
+  ta:['கீழே உள்ள தட்டிலிருந்து ஒரு துண்டைப் பலகைக்கு இழுங்கள்.','அதன் சரியான இடத்துக்கு அருகில் விட்டால் கிளிக் என்று பொருந்தும்.','மூன்று படங்கள், ஒவ்வொன்றிலும் அதிகத் துண்டுகள். பலகையில் உள்ள மங்கலான படம் உதவும்.'],
+  te:['కింది ట్రే నుండి ఒక ముక్కను బోర్డు మీదకు లాగండి.','దాని సరైన స్థానం దగ్గర వదిలితే క్లిక్ అని అమరుతుంది.','మూడు చిత్రాలు, ఒక్కొక్క దానిలో ఎక్కువ ముక్కలు. బోర్డు మీద మసక చిత్రం సహాయపడుతుంది.']},
+ pic:{en:'Picture',kn:'ಚಿತ್ರ',ta:'படம்',te:'చిత్రం'},pieces:{en:'Pieces',kn:'ತುಂಡು',ta:'துண்டுகள்',te:'ముక్కలు'},
+ done:{en:'Picture complete! Swamiye Sharanam',kn:'ಚಿತ್ರ ಪೂರ್ಣ! ಸ್ವಾಮಿಯೇ ಶರಣಂ',ta:'படம் முழுமை! சுவாமியே சரணம்',te:'చిత్రం పూర్తి! స్వామియే శరణం'},
+ endT:{en:'All three jigsaws done!',kn:'ಮೂರೂ ಜಿಗ್ಸಾ ಪೂರ್ಣ!',ta:'மூன்று ஜிக்சாக்களும் முடிந்தன!',te:'మూడు జిగ్సాలూ పూర్తి!'},
+ endP:{en:'When the temple closes for the season, the priest covers Swami in sacred ash (vibhuti) and places a rudraksha mala and a stick in his hands, as a yogi in meditation till the next opening.',kn:'ಸೀಸನ್ ಮುಗಿದು ದೇವಸ್ಥಾನ ಮುಚ್ಚುವಾಗ ಅರ್ಚಕರು ಸ್ವಾಮಿಯನ್ನು ವಿಭೂತಿಯಿಂದ ಮುಚ್ಚಿ, ಕೈಯಲ್ಲಿ ರುದ್ರಾಕ್ಷಿ ಮಾಲೆ, ದಂಡ ಇಡುತ್ತಾರೆ: ಮುಂದಿನ ತೆರೆಯುವವರೆಗೆ ಧ್ಯಾನದಲ್ಲಿರುವ ಯೋಗಿಯಂತೆ.',ta:'சீசன் முடிந்து நடை அடைக்கும்போது அர்ச்சகர் சுவாமியை விபூதியால் மூடி, கையில் ருத்ராட்ச மாலையும் தண்டமும் வைக்கிறார்: அடுத்த திறப்பு வரை தியானத்தில் இருக்கும் யோகியாக.',te:'సీజన్ ముగిసి ఆలయం మూసేటప్పుడు అర్చకుడు స్వామిని విభూతితో కప్పి, చేతిలో రుద్రాక్ష మాల, దండం ఉంచుతాడు: మళ్ళీ తెరిచే వరకు ధ్యానంలో ఉన్న యోగిలా.'},
+ shareText:{en:'I finished the Sabarimala jigsaws! Try them, Swamiye Sharanam:',kn:'ನಾನು ಶಬರಿಮಲೆ ಜಿಗ್ಸಾ ಮುಗಿಸಿದೆ! ನೀವೂ ಆಡಿ, ಸ್ವಾಮಿಯೇ ಶರಣಂ:',ta:'நான் சபரிமலை ஜிக்சாக்களை முடித்தேன்! நீங்களும் விளையாடுங்கள், சுவாமியே சரணம்:',te:'నేను శబరిమల జిగ్సాలు పూర్తి చేశాను! మీరూ ఆడండి, స్వామియే శరణం:'}
+};
+const W=480,H=760,BX=40,BY=80,BW=400,BH=400,TRAY=510;
+const PICS=[['img/ayyappa/steps_v.jpg',3,3,[.1,.3,.8,.5]],['img/ayyappa_hero.jpg',3,4,[.15,0,.7,1]],['img/ayyappa_lamps.jpg',4,4,[.2,0,.6,1]]];
+/* classic jigsaw edge: tab = 1 out, -1 in, 0 flat */
+function edge(cx,x0,y0,x1,y1,tab){if(!tab){cx.lineTo(x1,y1);return}const dx=x1-x0,dy=y1-y0,nx=-dy,ny=dx,P=(u,v)=>[x0+dx*u+nx*v*tab,y0+dy*u+ny*v*tab];
+ const pts=[[.35,0],[.37,.05],[.38,-.0],[.36,-.12],[.5,-.24],[.64,-.12],[.62,0],[.63,.05],[.65,0]];let p=P(.35,0);cx.lineTo(p[0],p[1]);
+ let a=P(.4,.03),b=P(.32,-.22),c=P(.5,-.24);cx.bezierCurveTo(a[0],a[1],b[0],b[1],c[0],c[1]);a=P(.68,-.22);b=P(.6,.03);c=P(.65,0);cx.bezierCurveTo(a[0],a[1],b[0],b[1],c[0],c[1]);cx.lineTo(x1,y1)}
+function piecePath(cx,x,y,w,h,tb){cx.beginPath();cx.moveTo(x,y);edge(cx,x,y,x+w,y,tb[0]);edge(cx,x+w,y,x+w,y+h,tb[1]);edge(cx,x+w,y+h,x,y+h,tb[2]);edge(cx,x,y+h,x,y,tb[3]);cx.closePath()}
+function setPic(S,i){const [src,c,r,crop]=PICS[i];S.pi=i;S.src=src;S.c=c;S.r=r;S.crop=crop;S.pw=BW/c;S.ph=BH/r;
+ const hz=[],vt=[];for(let y=0;y<r;y++){hz.push([]);for(let x=0;x<c-1;x++)hz[y].push(Math.random()<.5?1:-1)}for(let y=0;y<r-1;y++){vt.push([]);for(let x=0;x<c;x++)vt[y].push(Math.random()<.5?1:-1)}
+ S.pieces=[];for(let y=0;y<r;y++)for(let x=0;x<c;x++){const tb=[y>0?-vt[y-1][x]:0,x<c-1?hz[y][x]:0,y<r-1?vt[y][x]:0,x>0?-hz[y][x-1]:0];
+  S.pieces.push({gx:x,gy:y,tb,placed:false,x:0,y:0,s:.5,z:0})}
+ S.pieces.sort(()=>Math.random()-.5);layoutTray(S);S.solved=false;S.drag=null}
+function layoutTray(S){const left=S.pieces.filter(p=>!p.placed);const per=Math.ceil(left.length/2),sw=(W-40)/Math.max(1,per);left.forEach((p,i)=>{const row=i<per?0:1,col=row?i-per:i;p.tx=20+sw*(col+.5)-S.pw*.25;p.ty=TRAY+30+row*(S.ph*.5+40)+((col*13)%14);if(!p.drag){p.x=p.x||p.tx;p.y=p.y||p.ty}})}
+function drawPiece(cx,S,p,x,y,s,shadow){const im=AG.img(S.src);if(!im.complete||!im.naturalWidth)return;const [cx0,cy0,cw,chh]=S.crop,iw=im.naturalWidth*cw,ih=im.naturalHeight*chh,sc=Math.max(BW/iw,BH/ih),ox=im.naturalWidth*cx0-(BW/sc-iw)/2,oy=im.naturalHeight*cy0-(BH/sc-ih)/2;
+ cx.save();cx.translate(x,y);cx.scale(s,s);if(shadow){cx.shadowColor='rgba(0,0,0,.6)';cx.shadowBlur=18;cx.shadowOffsetY=8}
+ piecePath(cx,0,0,S.pw,S.ph,p.tb);cx.fillStyle='#000';cx.fill();cx.shadowColor='transparent';cx.save();cx.clip();
+ cx.drawImage(im,ox,oy,BW/sc,BH/sc,-p.gx*S.pw,-p.gy*S.ph,BW,BH);
+ const g=cx.createLinearGradient(0,0,S.pw,S.ph);g.addColorStop(0,'rgba(255,255,255,.22)');g.addColorStop(.5,'rgba(255,255,255,0)');g.addColorStop(1,'rgba(0,0,0,.22)');cx.fillStyle=g;cx.fillRect(-S.pw,-S.ph,S.pw*3,S.ph*3);cx.restore();
+ cx.strokeStyle=p.placed?'rgba(255,224,138,.25)':'rgba(255,240,200,.85)';cx.lineWidth=2/s;piecePath(cx,0,0,S.pw,S.ph,p.tb);cx.stroke();cx.restore()}
+function demo(x,w,h,t){x.fillStyle='#1c1442';x.fillRect(0,0,w,h);const S={src:'img/ayyappa/steps_v.jpg',crop:[.1,.3,.8,.5],pw:BW/3,ph:BH/3};const u=AG.ease((t%2.6)/1.4);
+ x.save();x.scale(.55,.55);x.strokeStyle='rgba(255,255,255,.2)';x.strokeRect(80,40,BW,BH*2/3);const p={gx:1,gy:0,tb:[0,1,-1,-1],placed:false};drawPiece(x,S,p,80+S.pw+(1-u)*300,40+(1-u)*200,1,true);x.restore();AY.finger(x,(80+S.pw*1.5+(1-u)*300)*.55,(40+S.ph*.6+(1-u)*200)*.55+20,u<1)}
+const api=AG.game({key:'sabarimala-jigsaw',art:'img/ayyappa/temple_steps.jpg',L,W,H,demo,demoH:240,video:{en:'UOGXzfLW8vc',kn:'UOGXzfLW8vc',ta:'UOGXzfLW8vc',te:'UOGXzfLW8vc'},music:{sa:146.83,scale:[0,2,4,7,9,12,14,16],tempo:.45},bokeh:false,
+ init(S,a){PICS.forEach(p=>AG.img(p[0]));S.z=1;setPic(S,0);hud(S)},
+ down(p,S,a){if(S.solved)return;let hit=null;S.pieces.filter(q=>!q.placed).sort((a,b)=>b.z-a.z).some(q=>{const w=S.pw*q.s,h=S.ph*q.s;if(p.x>q.x-6&&p.x<q.x+w+6&&p.y>q.y-6&&p.y<q.y+h+6){hit=q;return true}});
+  if(hit){S.drag=hit;hit.drag=true;hit.z=++S.z;hit.offx=(p.x-hit.x)/hit.s;hit.offy=(p.y-hit.y)/hit.s;DK.tone(380,.05,'triangle',.04)}},
+ move(p,S){const q=S.drag;if(!q)return;q.s+=(1-q.s)*.35;q.x=p.x-q.offx*q.s;q.y=p.y-q.offy*q.s},
+ up(p,S,a){const q=S.drag;if(!q)return;S.drag=null;q.drag=false;const tx=BX+q.gx*S.pw,ty=BY+q.gy*S.ph;
+  if(Math.hypot(q.x-tx,q.y-ty)<Math.min(S.pw,S.ph)*.4){q.placed=true;q.x=tx;q.y=ty;q.s=1;DK.tone(660,.08,'triangle',.08);a.burst(tx+S.pw/2,ty+S.ph/2,'#ffd35a',10,.5);
+   if(S.pieces.every(x=>x.placed)){S.solved=true;DK.chime(5);a.tip('🖼 '+T(L.done),'good');setTimeout(()=>{if(S.pi<2){setPic(S,S.pi+1);hud(S);DK.beat(`${T(L.pic)} ${S.pi+1} / 3`,'ayy-lamps',T(L.title))}else{DK.win();a.finish(3,[`🧩 ${9+12+16} ${T(L.pieces)}`])}},1800)}}
+  else{q.s=.5;layoutTray(S)}hud(S)},
+ update(dt,S){S.pieces.forEach(p=>{if(!p.placed&&!p.drag){p.x+=(p.tx-p.x)*Math.min(1,dt*8);p.y+=(p.ty-p.y)*Math.min(1,dt*8);p.s+=(.5-p.s)*Math.min(1,dt*8)}})},
+ draw(cx,t,S,a){const bg=cx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#1a1238');bg.addColorStop(1,'#2a1608');cx.fillStyle=bg;cx.fillRect(0,0,W,H);
+  /* wooden board with the faint picture */
+  AG.panel(cx,BX-10,BY-10,BW+20,BH+20,16,{fill:'#3a2414',stroke:'#a8743a',lw:3});const im=AG.img(S.src);
+  if(im.complete&&im.naturalWidth){const [cx0,cy0,cw,chh]=S.crop,iw=im.naturalWidth*cw,ih=im.naturalHeight*chh,sc=Math.max(BW/iw,BH/ih);cx.save();cx.globalAlpha=.22;cx.drawImage(im,im.naturalWidth*cx0-(BW/sc-iw)/2,im.naturalHeight*cy0-(BH/sc-ih)/2,BW/sc,BH/sc,BX,BY,BW,BH);cx.restore()}
+  cx.strokeStyle='rgba(255,255,255,.08)';cx.lineWidth=1;for(let x=1;x<S.c;x++){cx.beginPath();cx.moveTo(BX+x*S.pw,BY);cx.lineTo(BX+x*S.pw,BY+BH);cx.stroke()}for(let y=1;y<S.r;y++){cx.beginPath();cx.moveTo(BX,BY+y*S.ph);cx.lineTo(BX+BW,BY+y*S.ph);cx.stroke()}
+  S.pieces.filter(p=>p.placed).forEach(p=>drawPiece(cx,S,p,p.x,p.y,1,false));
+  if(S.solved){cx.save();cx.globalCompositeOperation='lighter';cx.fillStyle=`rgba(255,220,130,${.15+.1*Math.sin(t*4)})`;cx.fillRect(BX,BY,BW,BH);cx.restore()}
+  AG.panel(cx,10,TRAY,W-20,H-TRAY-10,20,{fill:'rgba(0,0,0,.3)',stroke:'rgba(255,211,90,.25)'});
+  S.pieces.filter(p=>!p.placed).sort((a,b)=>a.z-b.z).forEach(p=>drawPiece(cx,S,p,p.x,p.y,p.s,true));
+  AG.text(cx,`${T(L.pic)} ${S.pi+1} / 3`,W/2,52,24,'#ffe08a')}});
+function hud(S){api.hud([['🖼 '+T(L.pic),(S.pi+1)+'/3'],['🧩 '+T(L.pieces),S.pieces.filter(p=>p.placed).length+'/'+S.pieces.length]])}

@@ -287,7 +287,7 @@ footer{color:var(--muted);font-size:14px;text-align:center;display:flex;flex-dir
 <canvas id="fx" aria-hidden="true"></canvas>
 <div class="pal" id="pal" aria-live="polite"><img src="img/diya_wave.png" alt="Diya"><div class="bubble" id="bubble"></div></div>
 
-<script src="game-info.js?v=6"></script>
+<script src="game-info.js?v=7"></script>
 <script>
 /* ===== content ===== */
 const DEEPAVALI = [
@@ -328,7 +328,7 @@ const DASARA_MORE = [
 ];
 const ytImg=id=>`https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
 const SECTIONS = [
- {k:'ayyappa', name:'Ayyappa · Sabarimala season', group:'Festivals · Now', blurb:'Ayyappa songs in Kannada and Tamil, and 4 new games: walk the forest path, pack the Irumudi, climb the 18 steps, and light a Mandala lamp every day for 41 days.', img:'img/ayyappa_hero.jpg', open:true, href:'ayyappa.html#games', chip:'New · Play now', gcat:'ayyappa'},
+ {k:'ayyappa', name:'Ayyappa · Sabarimala season', group:'Festivals · Now', blurb:'Ayyappa songs, 18 games for the 18 holy steps (tiger ride, Irumudi, Pamba lamps, jigsaws, 108 names and more) and the stories of Ayyappa, the vrata and the pilgrimage.', img:'img/ayyappa_hero.jpg', open:true, href:'ayyappa.html#games', chip:'New · Play now', gcat:'ayyappa'},
  {k:'deepavali', name:'Deepavali', group:'Festivals', blurb:"Diya's journey across India: 8 stories, 8 games and a grand finale. Watch them all and play them all to complete Diya's Journey!", img:'img/ayodhya.jpg', open:true, chip:'Watch & play', gcat:'deepavali'},
  {k:'dasara', name:'Dasara · Navratri', group:'Festivals', blurb:'Nine nights, nine forms of Maa Durga, and the victory of good over evil: 14 story and song videos in Hindi, Kannada and Telugu.', img:'img/dasara/navadurga.jpg', open:true, chip:'Watch & play'},
  {k:'vedicmaths', name:'Vedic Maths', group:'Maths · Class 6–10', blurb:'Gurukul Games: 6 Vedic Maths tricks for lightning-fast mental maths with Ganak, Meera, Acharya ji and Chintu.', img:'img/vm_tile.jpg', open:true, href:'vedic-maths/', gcat:'vedicmaths'},
@@ -424,7 +424,7 @@ function seriesList(){
   const G=gameList(), yt=id=>`https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
   let AYV=[];try{AYV=(SONGS.find(x=>x.k==='ayyappa')||{items:[]}).items.map(e=>({t:e.t,img:yt(e.yt),href:'ayyappa.html#songs'}))}catch(e){}
   return [
-   {cat:'ayyappa',icon:'🙏',name:'Ayyappa · Sabarimala season',line:'Ayyappa songs in Kannada and Tamil, and four new games: walk the forest path, pack the Irumudi, climb the 18 steps, light 41 Mandala lamps.',href:'ayyappa.html',
+   {cat:'ayyappa',icon:'🙏',name:'Ayyappa · Sabarimala season',line:'Ayyappa songs, 18 games for the 18 holy steps, and the stories, rituals and pilgrimage of Sabarimala.',href:'ayyappa.html',
     videos:AYV,extras:[['🪔','Mandala Deepam: one lamp a day for 41 days','mandala-deepam.html']]},
    {cat:'deepavali',icon:'🪔',name:"Deepavali · Diya's journey across India",line:"8 cartoon stories from 8 corners of India, a game for every story, and a grand finale.",href:'#deepavali',
     videos:DEEPAVALI.filter(e=>e.ready).map(e=>({t:'Ep '+e.n+' · '+e.title,img:e.img,href:'#dv'+e.n,play:e.play})),extras:[['🏆',"Complete Diya's Journey: 8 lamps to light"]]},
