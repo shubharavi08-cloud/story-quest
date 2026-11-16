@@ -24,6 +24,7 @@ AY.ui={
  story:{en:'Story',kn:'ಕಥೆ',ta:'கதை',te:'కథ'},
  howT:{en:'How to play',kn:'ಆಡುವುದು ಹೇಗೆ',ta:'எப்படி விளையாடுவது',te:'ఎలా ఆడాలి'},
  padi:{en:'🪜 Your next step: the 18 steps, 18 songs',kn:'🪜 ಮುಂದಿನ ಮೆಟ್ಟಿಲು: 18 ಮೆಟ್ಟಿಲು, 18 ಹಾಡು',ta:'🪜 அடுத்த படி: 18 படிகள், 18 பாடல்கள்',te:'🪜 తర్వాతి మెట్టు: 18 మెట్లు, 18 పాటలు'},
+ climbed:{en:'🪜 You climbed a step! Back to the 18 steps',kn:'🪜 ಒಂದು ಮೆಟ್ಟಿಲು ಹತ್ತಿದಿರಿ! 18 ಮೆಟ್ಟಿಲಿಗೆ ಹಿಂತಿರುಗಿ',ta:'🪜 ஒரு படி ஏறினீர்கள்! 18 படிகளுக்குத் திரும்புங்கள்',te:'🪜 ఒక మెట్టు ఎక్కారు! 18 మెట్లకు తిరిగి వెళ్ళండి'},
  nowPlaying:{en:'Our Ayyappa song',kn:'ನಮ್ಮ ಅಯ್ಯಪ್ಪ ಹಾಡು',ta:'நம் ஐயப்பன் பாடல்',te:'మా అయ్యప్ప పాట'},
  songNote:{en:'Our Ayyappa song plays in a small window while you play. Close it any time.',kn:'ನೀವು ಆಡುವಾಗ ನಮ್ಮ ಅಯ್ಯಪ್ಪ ಹಾಡು ಪುಟ್ಟ ಕಿಟಕಿಯಲ್ಲಿ ಬರುತ್ತದೆ. ಯಾವಾಗ ಬೇಕಾದರೂ ಮುಚ್ಚಬಹುದು.',ta:'நீங்கள் விளையாடும்போது நம் ஐயப்பன் பாடல் சிறிய சாளரத்தில் ஒலிக்கும். எப்போது வேண்டுமானாலும் மூடலாம்.',te:'మీరు ఆడుతున్నప్పుడు మా అయ్యప్ప పాట చిన్న కిటికీలో వస్తుంది. ఎప్పుడైనా మూసేయవచ్చు.'}
 };
@@ -176,9 +177,12 @@ AY.stepsBg=function(cx,W,H,steps,t,fy){var im=AY.img(AY.STEPS_IMG);fy=fy==null?.
 AY.end=function(c){
  var i=-1;AY.GAMES.forEach(function(g,k){if(g.key===c.key)i=k});var nx=AY.GAMES[(i+1)%AY.GAMES.length];
  DK.done(c.key,c.stars);AY.askJoin();
+ /* opened from a step of the Padi Yatra (?padi=N): finishing the game climbs that one step */
+ try{var pq=new URLSearchParams(location.search).get('padi');if(pq!=null&&/^\d+$/.test(pq)){var st=JSON.parse(localStorage.getItem('ayy-steps')||'{}');if(!st[pq]){st[pq]='game';localStorage.setItem('ayy-steps',JSON.stringify(st))}}}catch(e){}
+ var padiBack=(function(){try{return new URLSearchParams(location.search).get('padi')!=null}catch(e){return false}})();
  var btn=[{label:AY.t(AY.ui.again),on:c.again}];
  if(nx&&nx.key!==c.key)btn.push({label:AY.t(AY.ui.next)+AY.t(nx.name),href:nx.href,cls:'alt'});
- btn.push({label:AY.t(AY.ui.padi),href:'ayyappa.html#steps',cls:'ghost'});
+ if(padiBack)btn.unshift({label:AY.t(AY.ui.climbed),href:'ayyappa.html#steps'});else btn.push({label:AY.t(AY.ui.padi),href:'ayyappa.html#steps',cls:'ghost'});
  btn.push({label:AY.t(AY.ui.songs),href:'ayyappa.html#songs',cls:'ghost'});
  btn.push({label:AY.t(AY.ui.share),cls:'ghost',keep:true,on:function(){AY.share(c.shareText)}});
  DK.card({art:c.art||'img/ayyappa_hero.jpg',label:AY.t(AY.ui.sharanam),stars:c.stars,title:c.title,paras:c.paras||[],buttons:btn,

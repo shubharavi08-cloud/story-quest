@@ -106,7 +106,7 @@ footer nav a{color:var(--muted)}
    <a class="gm" href="mandala-deepam.html"><img src="img/games/mandala-deepam.webp" alt="Mandala Deepam: a ring of 41 lamps around Swami" loading="lazy"><div><i>Every day · 41 days</i><b>Mandala Deepam</b><span>Light one lamp a day for the 41-day Mandala, 17 Nov to 27 Dec.</span></div></a>
   </div></section>
  <section id="steps" style="display:flex;flex-direction:column;gap:12px"><h2>Pathinettam Padi Yatra: 18 steps, 18 songs, 18 games</h2>
-  <ol class="howto"><li><b>Tap a step</b> on the picture. Our swami waits at the foot of the steps.</li><li>Press <b>▶ Play the song and climb</b>. While it plays, <b>tap the bell</b> with the beat and say <i>Swamiye Sharanam</i>.</li><li>Listen to the end: the step <b>lights up</b> and the swami <b>climbs one step</b>. Play the step's game for a ⭐. New songs and games join every week.</li></ol>
+  <ol class="howto"><li>Our swami waits at the foot of the steps. <b>Tap the glowing step</b> he is to climb next.</li><li>Do <b>one</b> thing for that step: <b>▶ listen to its song</b> to the end (tap the bell 🔔 with the beat while it plays), <b>or 🎮 play its game</b>.</li><li>The step <b>lights up</b> and the swami <b>climbs one step</b>. One song or one game for each step, in order. New songs and games join every week.</li></ol>
   <div class="climb" id="climbBox">
    <div class="padi" id="padi"><canvas id="pc" width="450" height="794" aria-label="The 18 steps: tap a step"></canvas></div>
    <div class="panel"><div class="leave" id="leave" aria-live="polite"></div>
@@ -128,7 +128,7 @@ footer nav a{color:var(--muted)}
   <p>© 2026 World of Wonders Studio · Music · Stories · Creation · Inspiration</p></footer>
 </div>
 <div class="toast" id="toast"></div>
-<script src="dasara-kit.js?v=4"></script><script src="ayy-kit.js?v=5"></script><script src="https://www.youtube.com/iframe_api" async></script>
+<script src="dasara-kit.js?v=4"></script><script src="ayy-kit.js?v=6"></script><script src="https://www.youtube.com/iframe_api" async></script>
 <script>document.documentElement.lang='en';
 const SONGS=[
  {yt:'UOGXzfLW8vc',n:1,t:'Harihara Suthane · ಹರಿಹರ ಸುತನೇ',l:'ಕನ್ನಡ · संस्कृत'},
@@ -165,8 +165,9 @@ const padi=document.getElementById('padi'),pc=document.getElementById('pc'),px=p
 let sel=-1,ac,vis=null,petals=[],chants=0,bellT=-9,playing=-1,ytp=null,ytReady=false,poll=null,lastLit=-1;
 const IMGS=new Image();IMGS.src='img/ayyappa/steps_v.jpg';
 window.onYouTubeIframeAPIReady=()=>{ytReady=true};
-function heardMap(){try{return JSON.parse(localStorage.getItem('ayy-heard')||'{}')}catch(e){return{}}}
-function prDone(){let pr={},h=heardMap();try{pr=JSON.parse(localStorage.getItem('storyquest')||'{}')}catch(e){}return PADI.map((p,i)=>!!(h[i]||(p.key&&pr['ds-'+p.key])))}
+/* one step per song heard or game finished FROM that step, always in order */
+function heardMap(){try{return JSON.parse(localStorage.getItem('ayy-steps')||'{}')}catch(e){return{}}}
+function prDone(){const h=heardMap();return PADI.map((p,i)=>!!h[i])}
 function gameDone(i){try{const pr=JSON.parse(localStorage.getItem('storyquest')||'{}');return !!(PADI[i].key&&pr['ds-'+PADI[i].key])}catch(e){return false}}
 function climbed(){const d=prDone();let k=0;while(k<18&&d[k])k++;return k}
 function tone(f,d,v,type){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator(),g=ac.createGain();o.type=type||'sine';o.frequency.value=f;g.gain.setValueAtTime(.0001,ac.currentTime);g.gain.exponentialRampToValueAtTime(v||.16,ac.currentTime+.015);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+d);o.connect(g).connect(ac.destination);o.start();o.stop(ac.currentTime+d+.05)}catch(e){}}
@@ -199,14 +200,21 @@ function draw(t){px.clearRect(0,0,PW,PH);if(IMGS.complete&&IMGS.naturalWidth)px.
 function drawPadi(){const d=prDone(),n=d.filter(Boolean).length;
  document.getElementById('slist').innerHTML=PADI.map((p,i)=>`<button data-i="${i}" class="${d[i]?'done':''} ${i===sel?'sel':''} ${p.yt||p.href?'has':''}"><b>${i+1}</b>${p.song}${d[i]?' ✓':''}</button>`).join('');
  prog.style.width=(n/18*100)+'%';document.getElementById('progT').textContent=`${n} of 18 steps lit · the swami stands on step ${climbed()}`}
-function pick(i){if(playing>=0&&playing!==i)stopSong();sel=i;chime(i);const p=PADI[i],d=prDone(),g=gameDone(i);
- leave.innerHTML=`<b>Step ${i+1}${d[i]?' ✓':''}</b><span class="muted">Song: <b style="color:var(--ink)">${p.song}</b> (${p.lang})${p.yt?'':' · coming soon'}<br>Game: <b style="color:var(--ink)">${p.game}</b>${p.href?(g?' · played ⭐':''):' · coming soon'}</span>`;
- document.getElementById('stepBtns').innerHTML=(p.yt?`<button class="btn" id="lis">▶ Play the song and climb</button>`:'')+(p.href?`<a class="btn ghost" href="${p.href}">🎮 Play ${p.game}</a>`:'');
- const l=document.getElementById('lis');if(l)l.onclick=()=>playSong(i);
+function pick(i){if(playing>=0&&playing!==i)stopSong();sel=i;chime(i);const p=PADI[i],d=prDone(),c=climbed(),g=gameDone(i);
+ const how=d[i]?` · climbed with its ${heardMap()[i]==='game'?'game':'song'} ✓`:'';
+ leave.innerHTML=`<b>Step ${i+1}${d[i]?' ✓':''}</b><span class="muted">Song: <b style="color:var(--ink)">${p.song}</b> (${p.lang})${p.yt?'':' · coming soon'}<br>Game: <b style="color:var(--ink)">${p.game}</b>${p.href?(g?' · played ⭐':''):' · coming soon'}${how}</span>`;
+ let btns='';
+ if(i===c){btns=(p.yt?`<button class="btn" id="lis">▶ Listen to the song and climb</button>`:'')+(p.href?`<a class="btn${p.yt?' ghost':''}" href="${p.href}?padi=${i}">🎮 Play ${p.game} and climb</a>`:'');
+  if(!btns)btns=`<span class="muted">This step's song and game are coming soon. The swami waits here till they arrive.</span>`;
+  else btns+=`<span class="muted" style="flex-basis:100%">Do <b>one</b> of them to climb this one step.</span>`}
+ else if(i>c)btns=`<span class="muted">Climb in order: one step at a time.</span><button class="btn" id="goC">Go to step ${c+1}</button>`;
+ else btns=(p.yt?`<button class="btn ghost" id="lis">▶ Listen again</button>`:'')+(p.href?`<a class="btn ghost" href="${p.href}">🎮 Play ${p.game} again</a>`:'');
+ document.getElementById('stepBtns').innerHTML=btns;
+ const l=document.getElementById('lis');if(l)l.onclick=()=>playSong(i);const gc=document.getElementById('goC');if(gc)gc.onclick=()=>pick(c);
  document.getElementById('player').innerHTML='';document.getElementById('chant').hidden=true;drawPadi()}
-function markHeard(i){const h=heardMap();if(h[i])return;h[i]=1;try{localStorage.setItem('ayy-heard',JSON.stringify(h))}catch(e){}
+function markHeard(i){if(i!==climbed())return;const h=heardMap();if(h[i])return;h[i]='song';try{localStorage.setItem('ayy-steps',JSON.stringify(h))}catch(e){}
  petalsOn(i,60);[0,1,2].forEach(k=>setTimeout(()=>tone([587,659,784][k],.5,.12,'triangle'),k*160));drawPadi();
- const c=climbed();toast(c>i?`Step ${i+1} is lit. The swami climbs! Swamiye Sharanam 🙏`:`Step ${i+1} is lit 🙏`)}
+ toast(`Step ${i+1} is lit. The swami climbs one step! Swamiye Sharanam 🙏`)}
 function playSong(i){const p=PADI[i];if(!p.yt)return;playing=i;chants=0;bellT=-9;const box=document.getElementById('player');
  const ch=document.getElementById('chant');ch.hidden=false;ch.innerHTML='<p style="margin:0"><b>While the song plays</b>, tap the bell 🔔 on the picture (or the button) with the beat and say <i>Swamiye Sharanam</i>. Listen to the end and the swami climbs a step.</p><div class="sbar"><i id="sp"></i></div><button class="btn" id="bellBtn">🔔 Sharanam</button>';
  document.getElementById('bellBtn').onclick=ring;
@@ -218,9 +226,9 @@ function playSong(i){const p=PADI[i];if(!p.yt)return;playing=i;chants=0;bellT=-9
   document.getElementById('heardB').onclick=()=>finishSong(i)}
  try{if(window.WOWHit)WOWHit('padi-song-'+(i+1))}catch(e){}
  setTimeout(()=>document.getElementById('climbBox').scrollIntoView({behavior:'smooth',block:'start'}),100)}
-function finishSong(i){if(playing!==i)return;clearInterval(poll);markHeard(i);playing=-1;
- const ch=document.getElementById('chant');ch.innerHTML=`<p style="margin:0"><b>🙏 Step ${i+1} lit${chants?` · you said Sharanam ${chants} times`:''}</b>`+(PADI[i].href&&!gameDone(i)?` Now play <a href="${PADI[i].href}" style="color:var(--flame)">${PADI[i].game}</a> for a ⭐ on this step.`:'')+'</p>';
- const nx=PADI.findIndex((p,k)=>k>i&&!prDone()[k]&&p.yt);if(nx>=0)setTimeout(()=>{sel=nx;drawPadi();leave.insertAdjacentHTML('beforeend',`<div style="margin-top:8px"><button class="btn" id="goNext">Next: step ${nx+1} · ${PADI[nx].song} ▶</button></div>`);document.getElementById('goNext').onclick=()=>{pick(nx);playSong(nx)}},1200)}
+function finishSong(i){if(playing!==i)return;clearInterval(poll);const was=climbed();markHeard(i);playing=-1;const up=climbed()>was;
+ const ch=document.getElementById('chant');ch.innerHTML=`<p style="margin:0"><b>🙏 ${up?`Step ${i+1} lit. The swami climbed one step`:'Swamiye Sharanam'}${chants?` · you said Sharanam ${chants} times`:''}</b></p>`;
+ const nx=climbed();if(up&&nx<18)setTimeout(()=>{sel=nx;drawPadi();leave.insertAdjacentHTML('beforeend',`<div style="margin-top:8px"><button class="btn" id="goNext">Next: step ${nx+1} ▶</button></div>`);document.getElementById('goNext').onclick=()=>pick(nx)},1200)}
 function stopSong(){clearInterval(poll);playing=-1;try{ytp&&ytp.destroy&&ytp.destroy()}catch(e){}ytp=null;document.getElementById('player').innerHTML='';document.getElementById('chant').hidden=true}
 function ring(){bellT=performance.now()/1000;chants++;bell();petalsOn(Math.min(17,sel<0?climbed():sel),5);try{navigator.vibrate&&navigator.vibrate(12)}catch(e){}}
 pc.addEventListener('pointerdown',e=>{const r=pc.getBoundingClientRect(),x=(e.clientX-r.left)*PW/r.width,y=(e.clientY-r.top)*PH/r.height;
