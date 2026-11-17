@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "What Is the Irumudi? Ayyappa's Sacred Two-Part Bundle Explained for Children",
+   "url": "https://worldofwondersstudio.com/blog/what-is-irumudi-ayyappa-for-children/",
+   "date": "2026-11-17",
+   "description": "Why Sabarimala pilgrims carry an irumudi on their heads: the two parts, the ghee-filled coconut, the Kettu Nira ceremony and the lesson inside, explained simply for children and families."
+  },
+  {
    "title": "This Will Pass: Kabir's Cold Pool and Bhagavad Gita 2.14 for Children",
    "url": "https://worldofwondersstudio.com/blog/this-will-pass-kabir-cold-pool-gita-2-14/",
    "date": "2026-11-16",
@@ -53,6 +59,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/what-is-irumudi-ayyappa-for-children/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/this-will-pass-kabir-cold-pool-gita-2-14/index.html",
