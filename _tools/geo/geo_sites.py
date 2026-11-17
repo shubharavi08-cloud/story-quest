@@ -83,6 +83,7 @@ QUAD_LLMS = """# QUAD Academy
 ## Links
 - [Board Boost page](https://quadacademy.org/board-boost/): batches, timetable, fees, FAQ
 - [₹49 Masterclass page](https://quadacademy.org/masterclass/): dates, what you get, how to book
+- [90-Day Board Countdown](https://quadacademy.org/countdown/): free, one board-pattern CBSE Class 10 Maths or Science question a day from 20 Nov 2026, with the answer, steps and video solution the next day
 - [Reserve a seat on WhatsApp](https://wa.me/918088443156): +91 80884 43156
 - [QUAD Academy on YouTube](https://www.youtube.com/channel/UCHbt889LZLim6aD4bz8XrLA): chapter-wise important questions and past-paper walkthroughs, Class 10 Maths and Science
 - [QUAD WhatsApp channel](https://whatsapp.com/channel/0029Vb9DNhtADTOEAMwyH723)
@@ -124,6 +125,10 @@ SITES["quad"] = {
                      "educationalLevel": "Class 10", "publisher": {"@id": Q + "#org"}}]},
         {"path": "masterclass/index.html", "priority": 0.9, "faq_from_details": True,
          "jsonld": [q_master("Maths", "2026-11-22", SHWETHA), q_master("Science", "2026-11-29")]},
+        {"path": "countdown/index.html", "priority": 0.8,
+         "jsonld": [{"@type": "WebPage", "name": "90-Day Board Countdown: CBSE Class 10 Maths & Science",
+                     "url": Q + "countdown/", "isAccessibleForFree": True, "inLanguage": "en-IN",
+                     "educationalLevel": "Class 10", "publisher": {"@id": Q + "#org"}}]},
     ],
 }
 
