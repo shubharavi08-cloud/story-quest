@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Swamiye Saranam Ayyappa Meaning for Children: Why Every Sabarimala Pilgrim Is Called 'Swami'",
+   "url": "https://worldofwondersstudio.com/blog/swamiye-saranam-ayyappa-meaning-for-children/",
+   "date": "2026-11-18",
+   "description": "What 'Swamiye Saranam Ayyappa' means, word by word, why pilgrims chant it as a call and answer, why they call each other Swami, and the 'Tattvamasi' lesson at Sabarimala, explained simply for children and families."
+  },
+  {
    "title": "What Is the Irumudi? Ayyappa's Sacred Two-Part Bundle Explained for Children",
    "url": "https://worldofwondersstudio.com/blog/what-is-irumudi-ayyappa-for-children/",
    "date": "2026-11-17",
@@ -59,6 +65,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/swamiye-saranam-ayyappa-meaning-for-children/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/what-is-irumudi-ayyappa-for-children/index.html",
