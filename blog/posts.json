@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Be the Example: Riya's Shoes and Bhagavad Gita 3.21 for Children",
+   "url": "https://worldofwondersstudio.com/blog/be-the-example-riya-shoes-gita-3-21/",
+   "date": "2026-11-19",
+   "description": "Children copy what we do, not what we say. A short story about a big sister and a row of shoes, what Bhagavad Gita 3.21 teaches about setting an example, and one quiet habit to try today."
+  },
+  {
    "title": "Swamiye Saranam Ayyappa Meaning for Children: Why Every Sabarimala Pilgrim Is Called 'Swami'",
    "url": "https://worldofwondersstudio.com/blog/swamiye-saranam-ayyappa-meaning-for-children/",
    "date": "2026-11-18",
@@ -65,6 +71,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/be-the-example-riya-shoes-gita-3-21/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/swamiye-saranam-ayyappa-meaning-for-children/index.html",
