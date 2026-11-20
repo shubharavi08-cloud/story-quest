@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "What Is Mala Dharana? The 41-Day Ayyappa Mandala Vratham Explained for Children",
+   "url": "https://worldofwondersstudio.com/blog/mala-dharana-mandala-vratham-for-children/",
+   "date": "2026-11-20",
+   "description": "Why Ayyappa devotees wear a mala for 41 days, what the Mandala vratham asks of them, who a Kanni Swami is, and simple ways children can join the season at home, explained for families."
+  },
+  {
    "title": "Be the Example: Riya's Shoes and Bhagavad Gita 3.21 for Children",
    "url": "https://worldofwondersstudio.com/blog/be-the-example-riya-shoes-gita-3-21/",
    "date": "2026-11-19",
@@ -71,6 +77,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/mala-dharana-mandala-vratham-for-children/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/be-the-example-riya-shoes-gita-3-21/index.html",
