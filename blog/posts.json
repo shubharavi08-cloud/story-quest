@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Petta Thullal at Erumeli: Why Ayyappa Pilgrims Dance With Colours, Explained for Children",
+   "url": "https://worldofwondersstudio.com/blog/petta-thullal-erumeli-for-children/",
+   "date": "2026-11-21",
+   "description": "What the Petta Thullal dance at Erumeli is, how it remembers Manikanta's victory over Mahishi, why pilgrims visit Vavar's shrine on the way, and what children can learn from it, explained for families."
+  },
+  {
    "title": "What Is Mala Dharana? The 41-Day Ayyappa Mandala Vratham Explained for Children",
    "url": "https://worldofwondersstudio.com/blog/mala-dharana-mandala-vratham-for-children/",
    "date": "2026-11-20",
@@ -77,6 +83,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/petta-thullal-erumeli-for-children/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/mala-dharana-mandala-vratham-for-children/index.html",
