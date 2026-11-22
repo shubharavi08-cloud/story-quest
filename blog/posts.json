@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Who Is Malikappurathamma? The Story of the Devi Who Waits at Sabarimala, Explained for Children",
+   "url": "https://worldofwondersstudio.com/blog/malikappurathamma-story-for-children/",
+   "date": "2026-11-22",
+   "description": "The story of Malikappurathamma for children: the maiden of light who rose after Mahishi fell, Manikanta's promise, why first-time pilgrims leave arrows at Sharamkuthi, and what the Devi who waits teaches us about patient love."
+  },
+  {
    "title": "Petta Thullal at Erumeli: Why Ayyappa Pilgrims Dance With Colours, Explained for Children",
    "url": "https://worldofwondersstudio.com/blog/petta-thullal-erumeli-for-children/",
    "date": "2026-11-21",
@@ -83,6 +89,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/malikappurathamma-story-for-children/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/petta-thullal-erumeli-for-children/index.html",
