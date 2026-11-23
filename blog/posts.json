@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Who Is Vavar Swami? How Ayyappa's Enemy Became His Best Friend, Explained for Children",
+   "url": "https://worldofwondersstudio.com/blog/vavar-swami-story-for-children/",
+   "date": "2026-11-23",
+   "description": "The story of Vavar Swami for children: the warrior from across the sea who fought Manikanta and became his lifelong friend, the Vavar mosque at Erumeli, Vavar Nada at Sabarimala, and a lesson in friendship."
+  },
+  {
    "title": "Who Is Malikappurathamma? The Story of the Devi Who Waits at Sabarimala, Explained for Children",
    "url": "https://worldofwondersstudio.com/blog/malikappurathamma-story-for-children/",
    "date": "2026-11-22",
@@ -89,6 +95,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/vavar-swami-story-for-children/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/malikappurathamma-story-for-children/index.html",
