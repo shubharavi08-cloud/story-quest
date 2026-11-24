@@ -451,7 +451,7 @@ const t=(k,...a)=>{const v=W[L][k];return typeof v==='function'?v(...a):v};
 /* ---------- DATA ---------- */
 const KN_NAMES={Shobha:'ಶೋಭಾ',Gowri:'ಗೌರಿ',Chaitra:'ಚೈತ್ರಾ',Vanitha:'ವನಿತಾ',Gayatri:'ಗಾಯತ್ರಿ','Shashi Kala':'ಶಶಿಕಲಾ',Yamuna:'ಯಮುನಾ',Suguna:'ಸುಗುಣಾ',Shubha:'ಶುಭಾ'};
 const nm=n=>L==='kn'?(KN_NAMES[n]||n):n;
-const CAL0=[[2026,9,'Shobha'],[2026,10,'Gowri',1],[2026,11,'Chaitra',1],[2027,0,'Vanitha'],[2027,1,'Gayatri'],[2027,2,'Shashi Kala'],[2027,3,'Yamuna'],[2027,4,'Suguna'],[2027,5,'Shubha']];
+const CAL0=[[2026,9,'Shobha'],[2026,10,'Gowri'],[2026,11,'Chaitra'],[2027,0,'Vanitha'],[2027,1,'Gayatri'],[2027,2,'Shashi Kala'],[2027,3,'Yamuna'],[2027,4,'Suguna'],[2027,5,'Shubha']];
 const GAMES=[
 {id:'housie',t:'none',en:['Housie Housie','This app','The main game. The host calls, everyone marks. Prizes for Early five, three lines, four corners and Full house.'],kn:['ಹೌಸಿ ಹೌಸಿ','ಈ ಆಪ್','ಮುಖ್ಯ ಆಟ. ಪಾರ್ಟಿ ಕೊಡುವವರು ಸಂಖ್ಯೆ ಕೂಗುತ್ತಾರೆ, ಎಲ್ಲರೂ ಗುರುತಿಸುತ್ತಾರೆ. ಮೊದಲ ಐದು, ಮೂರು ಸಾಲು, ನಾಲ್ಕು ಮೂಲೆ, ಫುಲ್ ಹೌಸ್‌ಗೆ ಬಹುಮಾನ.']},
 {id:'bindi',t:'props',en:['Bindi on the mirror','Bindis, a mirror, a scarf','Blindfolded, stick a bindi in the middle of your forehead on your mirror reflection. Closest to the centre wins.'],kn:['ಕನ್ನಡಿಯಲ್ಲಿ ಬಿಂದಿ','ಬಿಂದಿ, ಕನ್ನಡಿ, ಕಣ್ಣಿಗೆ ಕಟ್ಟಲು ದುಪಟ್ಟಾ','ಕಣ್ಣು ಕಟ್ಟಿಕೊಂಡು, ಕನ್ನಡಿಯಲ್ಲಿ ಕಾಣುವ ನಿಮ್ಮ ಹಣೆಯ ನಡುವೆ ಬಿಂದಿ ಅಂಟಿಸಿ. ಸರಿಯಾಗಿ ನಡುವೆ ಇಟ್ಟವರು ಗೆಲ್ಲುತ್ತಾರೆ.']},
@@ -529,7 +529,7 @@ let cal=store.get('cal2',null)||CAL0.map(c=>({y:c[0],m:c[1],host:c[2],sw:!!c[3],
 const today=new Date();
 const nextIdx=()=>{const k=today.getFullYear()*12+today.getMonth()+(today.getDate()>20?1:0);const i=cal.findIndex(c=>c.y*12+c.m>=k);return i<0?cal.length-1:i};
 const monthName=c=>t('months')[c.m]+' '+c.y;
-const noteOf=c=>c.from?t('changedFrom',nm(c.from)):c.sw?t('swapped'):'';
+const noteOf=c=>'';
 function drawCal(){
   const n=nextIdx();
   $('#cal').innerHTML=cal.map((c,i)=>`<button class="mo ${i<n?'past':''} ${i===n?'next':''}" data-i="${i}" type="button"><span class="m">${esc(monthName(c))}</span><b>${esc(nm(c.host))}</b>${noteOf(c)?`<span class="tag">${esc(noteOf(c))}</span>`:''}${i===n?`<span class="tag" style="color:var(--rani)">${esc(t('nextTag'))}</span>`:''}</button>`).join('');
