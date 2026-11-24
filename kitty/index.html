@@ -25,6 +25,7 @@
 --f:"Baloo Tamma 2","Noto Sans Kannada",system-ui,sans-serif}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 var(--f);overflow-x:clip;padding-bottom:calc(78px + env(safe-area-inset-bottom))}
 h1,h2,h3{font-family:var(--f);font-weight:800;line-height:1.15;text-wrap:balance;margin:0 0 .4em}
 h1{font-size:clamp(30px,6vw,46px)}h2{font-size:clamp(25px,4.5vw,34px)}h3{font-size:21px}
@@ -32,7 +33,7 @@ p{margin:0 0 .8em}.muted{color:var(--soft)}.small{font-size:16px}
 header.top{background:var(--rani);color:#fff;padding:calc(22px + env(safe-area-inset-top)) max(5vw,16px) 24px;position:relative;overflow:hidden}
 header.top svg.garland{position:absolute;left:0;right:0;top:env(safe-area-inset-top);width:100%;height:30px}
 header.top .sub{color:#ffd9e6;margin:0}
-header.top h1{margin-top:14px;color:#fff}
+header.top h1{margin-top:14px;color:#fff;padding-right:96px}
 .lang{position:absolute;right:max(5vw,16px);top:calc(40px + env(safe-area-inset-top));background:#ffffff26;border:1.5px solid #ffffff80;color:#fff;min-height:40px;padding:4px 14px}
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -4px 18px #0000001a}
 nav.tabs a{display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 2px 7px;text-decoration:none;color:var(--soft);font-weight:600;font-size:13.5px;line-height:1.2;text-align:center}
@@ -144,6 +145,15 @@ ol.steps{margin:0;padding-left:1.3em}ol.steps li{margin:4px 0}
 .idea h3{color:var(--rani)}:root[data-theme=dark] .idea h3{color:#ff8fb7}
 .dlg{position:fixed;inset:0;background:#0008;display:none;place-items:center;z-index:90;padding:16px}.dlg.on{display:grid}
 .dlg .card{max-width:420px;width:100%;margin:0}
+.guide{position:fixed;inset:0;z-index:85;background:#2b0d18f5;color:#fff;display:flex;flex-direction:column;justify-content:center;padding:24px max(6vw,20px)}
+.guide ol{font-size:19px;line-height:1.5;padding-left:1.3em;margin:0 0 14px}.guide li{margin:10px 0}
+.guide h3{color:#fff;font-size:26px}.guide .note{color:#ffd9e6;font-size:16px}
+.guide .arrow{position:fixed;width:64px;height:64px;color:var(--gold);animation:bob 1s ease-in-out infinite alternate}
+.guide .arrow.down{bottom:calc(12px + env(safe-area-inset-bottom));left:calc(50% - 32px)}
+.guide .arrow.up{top:calc(8px + env(safe-area-inset-top));right:14px;transform:rotate(180deg)}
+@keyframes bob{to{translate:0 10px}}
+.guide .arrow.up{animation-name:bobup}@keyframes bobup{to{translate:0 -10px}}
+@media(prefers-reduced-motion:reduce){.guide .arrow{animation:none}}
 .toast{position:fixed;left:50%;bottom:100px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:999px;font-weight:700;opacity:0;transition:opacity .25s;z-index:95;pointer-events:none;max-width:90vw;text-align:center}
 .toast.on{opacity:1}
 </style>
@@ -186,9 +196,8 @@ ol.steps{margin:0;padding-left:1.3em}ol.steps li{margin:4px 0}
   </div>
   <div class="card" id="installCard">
     <h3 data-t="instTitle"></h3>
-    <div class="row" style="margin-bottom:8px"><button class="teal" id="installBtn" type="button" hidden data-t="instBtn"></button></div>
-    <p class="small" data-t="instAndroid"></p>
-    <p class="small" style="margin:0" data-t="instIphone"></p>
+    <div class="row" style="margin-bottom:8px"><button class="teal" id="installBtn" type="button" data-t="instBtn"></button></div>
+    <p class="small" style="margin:0" id="instShort"></p>
   </div>
   <h2 data-t="calTitle"></h2>
   <p class="muted small" data-t="calHint"></p>
@@ -326,6 +335,7 @@ ol.steps{margin:0;padding-left:1.3em}ol.steps li{margin:4px 0}
 
 <div class="fs" id="fs" hidden><div class="fs-in"><div class="fs-bar"><b id="fsTitle"></b><button id="fsClose" type="button" data-t="close"></button></div><div class="fs-body" id="fsBody"></div></div></div>
 <div class="dlg" id="dlg" role="dialog" aria-modal="true"><div class="card"><h3 id="dlgT"></h3><div id="dlgB"></div><div class="row" style="margin-top:14px;justify-content:flex-end"><button class="ghost" id="dlgNo" type="button"></button><button id="dlgYes" type="button"></button></div></div></div>
+<div class="guide" id="guide" hidden role="dialog" aria-modal="true"><h3 data-t="gTitle"></h3><ol id="gSteps"></ol><p class="note" id="gNote"></p><div class="row"><button class="gold" id="gClose" type="button" data-t="gOk"></button></div><svg class="arrow" id="gArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v17M5 13l7 7 7-7"/></svg></div>
 <div class="toast" id="toast"></div>
 
 <script>
@@ -346,7 +356,12 @@ how1:'ಮನೆಯೊಡತಿ "ಆಹ್ವಾನ"ದಲ್ಲಿ ವಿವರ 
 how2:'ಪಾರ್ಟಿಯಲ್ಲಿ ಮನೆಯೊಡತಿ "ಹೌಸಿ → ನಾನು ಸಂಖ್ಯೆ ಕೂಗುವೆ" ಒತ್ತಿ ಸಂಖ್ಯೆ ಕೂಗುತ್ತಾರೆ.',
 how3:'ಉಳಿದವರು "ಹೌಸಿ → ನಾನು ಆಡುವೆ" ಒತ್ತಿ, ಪಾರ್ಟಿ ಕೋಡ್ ಮತ್ತು ತಮ್ಮ ಹೆಸರು ಹಾಕಿದರೆ ಅವರದೇ ಟಿಕೆಟ್ ಸಿಗುತ್ತದೆ.',
 how4:'ಸಂಖ್ಯೆ ಕೂಗಿದಾಗ ಟಿಕೆಟ್‌ನಲ್ಲಿ ಅದನ್ನು ಒತ್ತಿ — ಗುಲಾಬಿ ಬಣ್ಣಕ್ಕೆ ತಿರುಗುತ್ತದೆ.',
-instTitle:'ಫೋನಿನಲ್ಲಿ ಆಪ್ ಆಗಿ ಇಟ್ಟುಕೊಳ್ಳಿ',instBtn:'ಆಪ್ ಹಾಕಿಕೊಳ್ಳಿ',
+instTitle:'ಫೋನಿನಲ್ಲಿ ಆಪ್ ಆಗಿ ಇಟ್ಟುಕೊಳ್ಳಿ',instBtn:'ಆಪ್ ಹಾಕಿಕೊಳ್ಳಿ',instShort:'ಮೇಲಿನ ಬಟನ್ ಒತ್ತಿ — ನಿಮ್ಮ ಫೋನಿಗೆ ತಕ್ಕ ಸುಲಭ ಹಂತಗಳು ಕಾಣುತ್ತವೆ.',
+gTitle:'ಆಪ್ ಹಾಕಿಕೊಳ್ಳುವುದು ಹೀಗೆ',gOk:'ಸರಿ, ಅರ್ಥವಾಯಿತು',
+gIos:['ಪರದೆಯ ಕೆಳಗೆ, ಹಳದಿ ಬಾಣ ತೋರಿಸುವ ಹಂಚಿಕೆ ಗುರುತು ಒತ್ತಿ (ಚೌಕದಿಂದ ಮೇಲಕ್ಕೆ ಬಾಣ).','ಬರುವ ಪಟ್ಟಿಯನ್ನು ಬೆರಳಿನಿಂದ ಮೇಲಕ್ಕೆ ಸರಿಸಿ, "Add to Home Screen" ಒತ್ತಿ.','ಮೇಲೆ ಬಲಗಡೆ "Add" ಒತ್ತಿ. ಆಪ್ ನಿಮ್ಮ ಫೋನಿನ ಪರದೆಯ ಮೇಲೆ ಬರುತ್ತದೆ.'],
+gIosChrome:['ಮೇಲೆ ಬಲಗಡೆ, ಹಳದಿ ಬಾಣ ತೋರಿಸುವ ಹಂಚಿಕೆ ಗುರುತು ಒತ್ತಿ.','ಪಟ್ಟಿಯಲ್ಲಿ "Add to Home Screen" ಒತ್ತಿ.','"Add" ಒತ್ತಿ. ಆಪ್ ನಿಮ್ಮ ಫೋನಿನ ಪರದೆಯ ಮೇಲೆ ಬರುತ್ತದೆ.'],
+gAndroid:['ಮೇಲೆ ಬಲಗಡೆ, ಹಳದಿ ಬಾಣ ತೋರಿಸುವ ಮೂರು ಚುಕ್ಕೆ ⋮ ಒತ್ತಿ.','"Install app" ಅಥವಾ "Add to Home screen" ಒತ್ತಿ.','"Install" ಒತ್ತಿ. ಆಪ್ ನಿಮ್ಮ ಫೋನಿನ ಪರದೆಯ ಮೇಲೆ ಬರುತ್ತದೆ.'],
+gNote:'ವಾಟ್ಸ್‌ಆಪ್ ಒಳಗೇ ಲಿಂಕ್ ತೆರೆದಿದ್ದರೆ ಇದು ಕಾಣುವುದಿಲ್ಲ — ಮೊದಲು ಮೇಲಿನ "Open in Safari" / "Open in Chrome" ಒತ್ತಿ.',
 instAndroid:'ಆಂಡ್ರಾಯ್ಡ್ ಫೋನ್: Chrome‌ನಲ್ಲಿ ಮೇಲೆ ಬಲಗಡೆಯ ಮೂರು ಚುಕ್ಕೆ ⋮ ಒತ್ತಿ → "Install app" ಅಥವಾ "Add to Home screen" ಒತ್ತಿ.',
 instIphone:'ಐಫೋನ್: Safari‌ನಲ್ಲಿ ಕೆಳಗಿನ ಹಂಚಿಕೆ ಗುರುತು (ಮೇಲೆ ಬಾಣ ಇರುವ ಚೌಕ) ಒತ್ತಿ → "Add to Home Screen" ಒತ್ತಿ.',
 calTitle:'ಯಾರ ಮನೆಯಲ್ಲಿ ಯಾವಾಗ — 2026–27',calHint:'ಸರದಿ ಬದಲಾದರೆ ಆ ತಿಂಗಳನ್ನು ಒತ್ತಿ ಹೆಸರು ಬದಲಿಸಿ.',
@@ -386,7 +401,12 @@ tHome:'Home',tInvite:'Invite',tHousie:'Housie',tGames:'Games',tFood:'Menu',tIdea
 nextParty:'Next party',hostedBy:h=>'Hosted by '+h,makeInvite:'Make the invite',startHousie:'Start housie',
 howTitle:'How everyone uses this',how1:'The host fills in "Invite" and sends it on WhatsApp.',how2:'At the party the host taps "Housie → I\'m calling numbers".',
 how3:'Everyone else taps "Housie → I\'m playing", types the party code and her name, and gets her own card.',how4:'Tap a number on your card when it is called — it turns pink.',
-instTitle:'Keep it on your phone like an app',instBtn:'Install the app',
+instTitle:'Keep it on your phone like an app',instBtn:'Install the app',instShort:'Tap the button — you will see easy steps for your phone.',
+gTitle:'How to add the app',gOk:'OK, got it',
+gIos:['At the bottom of the screen, tap the Share sign the yellow arrow points to (a square with an arrow going up).','Slide the list up with your finger and tap "Add to Home Screen".','Tap "Add" at the top right. The app appears on your phone screen.'],
+gIosChrome:['At the top right, tap the Share sign the yellow arrow points to.','Tap "Add to Home Screen" in the list.','Tap "Add". The app appears on your phone screen.'],
+gAndroid:['At the top right, tap the three dots ⋮ the yellow arrow points to.','Tap "Install app" or "Add to Home screen".','Tap "Install". The app appears on your phone screen.'],
+gNote:'If you opened the link inside WhatsApp you won\'t see this — first tap "Open in Safari" / "Open in Chrome".',
 instAndroid:'Android: in Chrome tap the three dots ⋮ at the top right → "Install app" or "Add to Home screen".',
 instIphone:'iPhone: in Safari tap the Share sign (square with an arrow) → "Add to Home Screen".',
 calTitle:'Hosting calendar 2026–27',calHint:'If turns are swapped, tap the month and change the name.',
@@ -688,13 +708,17 @@ $('#ideaList').addEventListener('click',e=>{const b=e.target.closest('button[dat
 
 /* ---------- INSTALL ---------- */
 let deferred=null;
-addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e;$('#installBtn').hidden=false});
-$('#installBtn').onclick=async()=>{if(!deferred)return;deferred.prompt();try{await deferred.userChoice}catch(e){}deferred=null;$('#installBtn').hidden=true};
+const UA=navigator.userAgent||'';const isIOS=/iPhone|iPad|iPod/.test(UA)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);const iosOther=isIOS&&/CriOS|FxiOS|EdgiOS/.test(UA);
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferred=e});
+const showGuide=()=>{const k=isIOS?(iosOther?'gIosChrome':'gIos'):'gAndroid';$('#gSteps').innerHTML=t(k).map(x=>`<li>${esc(x)}</li>`).join('');$('#gNote').textContent=t('gNote');
+  const a=$('#gArrow');a.classList.toggle('down',isIOS&&!iosOther);a.classList.toggle('up',!(isIOS&&!iosOther));$('#guide').hidden=false};
+$('#installBtn').onclick=async()=>{if(deferred){deferred.prompt();try{await deferred.userChoice}catch(e){}deferred=null;return}showGuide()};
+$('#gClose').onclick=()=>{$('#guide').hidden=true};
 try{if(matchMedia('(display-mode: standalone)').matches||navigator.standalone)$('#installCard').hidden=true}catch(e){}
 try{if(APP_URL&&'serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{})}catch(e){}
 
 /* ---------- LANGUAGE + START ---------- */
-function drawAll(){applyWords();drawCal();if(!$('#iHost').value)$('#iHost').value=nm(cal[nextIdx()].host);drawInv();drawHost();drawPlayer();drawGames();drawFood();drawIdeas();if(fsKind)drawFS()}
+function drawAll(){applyWords();$('#instShort').textContent=t('instShort');if(!$('#guide').hidden)showGuide();drawCal();if(!$('#iHost').value)$('#iHost').value=nm(cal[nextIdx()].host);drawInv();drawHost();drawPlayer();drawGames();drawFood();drawIdeas();if(fsKind)drawFS()}
 $('#langBtn').onclick=()=>{L=L==='kn'?'en':'kn';store.set('lang',L);drawAll()};
 drawAll();setMode(store.get('mode','host')==='host');route();
 }
