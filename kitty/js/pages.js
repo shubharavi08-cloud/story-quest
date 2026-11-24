@@ -10,7 +10,7 @@ KP.nm = nm;
 const D = KP.D = {
   cal() { return store.get('cal2', null) || C.CAL0.map(c => ({ y: c[0], m: c[1], host: c[2] })) },
   setCal(v) { store.set('cal2', v) },
-  invs() { return store.get('invs', []) },
+  invs() { return store.get(KP.canEdit && !KP.canEdit() ? 'invs_pub' : 'invs', []) },
   setInvs(v) { store.set('invs', v) },
   members() { return store.get('members', []) },
   setMembers(v) { store.set('members', v) },
@@ -135,7 +135,7 @@ KP.renderHome = el => {
   } else if (np) {
     next = ornate(`<div class="o-pre">${esc(t('nextParty'))}</div><svg class="flour" viewBox="0 0 90 10"><use href="#i-flour"/></svg><div class="o-title">${esc(monthLabel(np.turn.y, np.turn.m))}</div><div class="o-sub">${esc(t('hostedBy', np.host))}</div>
       <div class="lotus-div"><svg viewBox="0 0 64 40"><use href="#i-lotus"/></svg></div><p style="color:var(--gold-soft);margin:0 0 14px">${esc(t('noDateYet'))}</p>
-      <div class="btns"><a class="btn" href="#invite">${ic('mail')}${esc(t('makeInvite'))}${ic('right', 'chev')}</a><a class="btn ghost" href="#game-housie">${ic('ticket')}${esc(t('startHousie'))}</a></div>`);
+      <div class="btns"><a class="btn adm" href="#invite">${ic('mail')}${esc(t('makeInvite'))}${ic('right', 'chev')}</a><a class="btn ghost" href="#game-housie">${ic('ticket')}${esc(t('startHousie'))}</a></div>`);
   }
   const quick = [['invite', 'mail', 'qInvite'], ['game-housie', 'ticket', 'qHousie'], ['game-wheel', 'wheel', 'qWheel'], ['game-draw', 'gift', 'qDraw'], ['act-calendar', 'cal', 'qCal'], ['food', 'food', 'qMenu'], ['act-members', 'users', 'qMembers'], ['act-gallery', 'photo', 'qPhotos']];
   el.innerHTML = `
@@ -155,8 +155,8 @@ KP.renderHome = el => {
   <div class="ptitle" style="margin-top:18px"><h2>${esc(t('quickTitle'))}</h2><div class="lotus-div"><svg viewBox="0 0 64 40"><use href="#i-lotus"/></svg></div></div>
   <div class="quick">${quick.map(([r, i, k]) => `<a class="tile" href="#${r}"><span class="ic">${ic(i)}</span><b>${esc(t(k))}</b></a>`).join('')}</div>
   <div class="cols even" style="margin-top:16px">
-    <div class="card"><div class="card-title"><span class="ic">${ic('bell')}</span><h3>${esc(t('annTitle'))}</h3><button class="btn sm" id="annAdd" type="button">${ic('plus')}${esc(t('add'))}</button></div>
-      ${ann.length ? `<div class="list">${ann.map(a => `<div class="li"><div class="grow"><div style="white-space:pre-line">${esc(a.text)}</div><span class="small muted">${esc(fmtDate(new Date(a.at), { day: 'numeric', month: 'short' }))}</span></div><a class="btn ghost sm icon" href="${esc(waLink(a.text))}" target="_blank" rel="noopener" aria-label="${esc(t('sendWa'))}">${ic('wa')}</a><button class="btn danger sm icon" data-del-ann="${a.id}" type="button" aria-label="${esc(t('delete'))}">${ic('trash')}</button></div>`).join('')}</div>` : empty('bell', t('noAnn'))}
+    <div class="card"><div class="card-title"><span class="ic">${ic('bell')}</span><h3>${esc(t('annTitle'))}</h3><button class="btn sm adm" id="annAdd" type="button">${ic('plus')}${esc(t('add'))}</button></div>
+      ${ann.length ? `<div class="list">${ann.map(a => `<div class="li"><div class="grow"><div style="white-space:pre-line">${esc(a.text)}</div><span class="small muted">${esc(fmtDate(new Date(a.at), { day: 'numeric', month: 'short' }))}</span></div><a class="btn ghost sm icon" href="${esc(waLink(a.text))}" target="_blank" rel="noopener" aria-label="${esc(t('sendWa'))}">${ic('wa')}</a><button class="btn danger sm icon adm" data-del-ann="${a.id}" type="button" aria-label="${esc(t('delete'))}">${ic('trash')}</button></div>`).join('')}</div>` : empty('bell', t('noAnn'))}
     </div>
     <div class="card"><div class="card-title"><span class="ic">${ic('photo')}</span><h3>${esc(t('latestPhotos'))}</h3><a class="btn ghost sm" href="#act-gallery">${esc(t('seeAll'))}</a></div><div id="homeThumbs">${empty('photo', t('noPhotos'))}</div></div>
   </div>
@@ -172,10 +172,10 @@ KP.renderHome = el => {
     tick(); homeTimer = setInterval(tick, 1000);
   }
   // thumbs
-  KP.idb.all().then(ps => { const box = $('#homeThumbs'); if (!box || !ps.length) return; const last = ps.sort((a, b) => b.at - a.at).slice(0, 4); box.innerHTML = `<a class="thumbs" href="#act-gallery">${last.map(p => `<img src="${URL.createObjectURL(p.blob)}" alt="${esc(p.caption || '')}" loading="lazy">`).join('')}</a>` }).catch(() => {});
+  KP.photos.all().then(ps => { const box = $('#homeThumbs'); if (!box || !ps.length) return; const last = ps.sort((a, b) => b.at - a.at).slice(0, 4); box.innerHTML = `<a class="thumbs" href="#act-gallery">${last.map(p => `<img src="${esc(p.src)}" alt="${esc(p.caption || '')}" loading="lazy">`).join('')}</a>` }).catch(() => {});
   el.onclick = e => {
     const b = e.target.closest('button'); if (!b) return;
-    if (b.id === 'setName') { const s = dlg.open(`<h3>${esc(t('yourName'))}</h3><input id="nmIn" value="${esc(myName)}" maxlength="40"><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn ghost" data-close type="button">${esc(t('cancel'))}</button><button class="btn wine" id="nmOk" type="button">${esc(t('save'))}</button></div>`); $('#nmOk', s).onclick = () => { store.set('myName', $('#nmIn').value.trim()); dlg.close(); KP.renderHome(el) } }
+    if (b.id === 'setName') { const s = dlg.open(`<h3>${esc(t('yourName'))}</h3><input id="nmIn" value="${esc(myName)}" maxlength="40"><p class="small muted">${esc(t('changeNameNote'))}</p><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn ghost" data-close type="button">${esc(t('cancel'))}</button><button class="btn wine" id="nmOk" type="button">${esc(t('save'))}</button></div>`); $('#nmOk', s).onclick = () => { const v = $('#nmIn').value.trim(); if (!v) return; KP.setMyName ? KP.setMyName(v) : store.set('myName', v); dlg.close(); KP.renderHome(el) } }
     if (b.id === 'annAdd') { const s = dlg.open(`<h3>${esc(t('annNew'))}</h3><textarea id="annIn" data-tp="annPh" maxlength="600" placeholder="${esc(t('annPh'))}"></textarea><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn ghost" data-close type="button">${esc(t('cancel'))}</button><button class="btn wine" id="annOk" type="button">${esc(t('save'))}</button></div>`); $('#annOk', s).onclick = () => { const v = $('#annIn').value.trim(); if (!v) { toast(t('typeSomething')); return } const a = store.get('ann', []); a.unshift({ id: uid(), text: v, at: Date.now() }); store.set('ann', a.slice(0, 20)); log('ಹೊಸ ಸೂಚನೆ ಸೇರಿಸಲಾಗಿದೆ', 'Added an announcement'); dlg.close(); KP.renderHome(el) } }
     if (b.dataset.delAnn) ask(t('delAnnQ'), t('cantUndo'), () => { store.set('ann', store.get('ann', []).filter(a => a.id !== b.dataset.delAnn)); KP.renderHome(el) }, t('delete'));
     if (b.id === 'installBtn') KP.install();
@@ -197,6 +197,7 @@ KP.personRow = personRow;
 /* ================= INVITATIONS ================= */
 let invTab = 'edit';
 KP.renderInvite = el => {
+  if (!KP.canEdit()) { renderInviteView(el); return }
   let d = store.get('invDraft', null) || blankInv();
   if (!d.secrets) d.secrets = { place: false, act: false, menu: false, games: false };
   const save = () => store.set('invDraft', d);
@@ -278,6 +279,19 @@ KP.renderInvite = el => {
     if (b.dataset.del) { ask(t('delInvQ'), t('cantUndo'), () => { D.setInvs(D.invs().filter(v => v.id !== b.dataset.del)); KP.renderInvite(el) }, t('delete')); return }
   };
 };
+
+/* ================= invitations for the ladies (view only) ================= */
+function renderInviteView(el) {
+  const all = D.invs().filter(x => x.data && x.data.date).map(x => Object.assign({}, x, { at: new Date(x.data.date + 'T' + (x.data.time || '16:00')).getTime() }));
+  const now = Date.now() - 6 * 3600e3;
+  const up = all.filter(x => x.at >= now).sort((a, b) => a.at - b.at), past = all.filter(x => x.at < now).sort((a, b) => b.at - a.at).slice(0, 8);
+  const gcal = d => { const st = d.date.replace(/-/g, '') + 'T' + (d.time || '16:00').replace(':', '') + '00'; return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(d.title || t('cKitty')) + '&dates=' + st + '/' + st + '&location=' + encodeURIComponent(d.secrets && d.secrets.place ? '' : [d.venueName, d.address].filter(Boolean).join(', ')) + '&ctz=Asia/Kolkata' };
+  el.innerHTML = ptitle(t('invTitle')) + (up.length ? up.map((x, i) => `<div style="max-width:480px;margin:0 auto 22px"><p class="center" style="margin:0 0 8px"><span class="badge gold">${esc(t('invUpcoming'))}</span></p><div class="inv-wrap" data-ix="${i}">${KP.invHTML(x.data)}</div>
+    <div style="display:grid;gap:10px;margin-top:14px"><button class="btn big" type="button" data-pic="${i}">${ic('photo')}${esc(t('sharePic'))}</button><a class="btn ghost" target="_blank" rel="noopener" href="${esc(gcal(x.data))}">${ic('cal')}${esc(t('addToCal'))}</a></div></div>`).join('') : `<div class="card" style="max-width:480px;margin:0 auto">${empty('mail', t('invNoneYet'))}</div>`)
+    + (past.length ? `<div class="card" style="max-width:480px;margin:18px auto 0"><h3>${esc(t('invPast'))}</h3><div class="list">${past.map(x => `<div class="li"><span class="ic">${ic('mail')}</span><div class="grow"><b>${esc(x.data.title || t('cKitty'))}</b><span class="small muted">${esc(fmtDate(x.data.date) + ' · ' + t('hostedBy', x.data.host || '—'))}</span></div></div>`).join('')}</div></div>` : '')
+    + `<p class="small muted center" style="margin-top:14px">${ic('lock', '')} ${esc(t('viewerNote'))}</p>`;
+  el.onclick = async e => { const b = e.target.closest('[data-pic]'); if (!b) return; const x = up[+b.dataset.pic]; b.disabled = true; const old = b.innerHTML; b.textContent = t('making'); try { const blob = await invImage($(`[data-ix="${b.dataset.pic}"] .inv`, el)); const r = await shareFile(blob, 'kitty-invite.png', KP.invText(x.data)); if (r === 'downloaded') toast(t('picSaved')); if (r === 'fail') toast(t('picFail')) } catch (err) { toast(t('picFail')) } b.disabled = false; b.innerHTML = old };
+}
 
 /* ================= shared invitation page (?inv=) ================= */
 KP.renderSharedInvite = d => {
