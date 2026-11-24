@@ -1,6 +1,7 @@
 # Every crawler, including AI assistants, may read this site.
 User-agent: *
 Allow: /
+Disallow: /kitty/
 
 User-agent: GPTBot
 Allow: /
