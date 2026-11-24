@@ -34,7 +34,9 @@ p{margin:0 0 .8em}.muted{color:var(--soft)}.small{font-size:16px}
 header.top{background:var(--rani);color:#fff;padding:calc(22px + env(safe-area-inset-top)) max(5vw,16px) 24px;position:relative;overflow:hidden}
 header.top svg.garland{position:absolute;left:0;right:0;top:env(safe-area-inset-top);width:100%;height:30px}
 header.top .sub{color:#ffd9e6;margin:0}
-header.top h1{margin-top:14px;color:#fff;padding-right:96px}
+header.top h1{margin:0;color:#fff}
+header.top .brand{display:flex;align-items:center;gap:12px;margin-top:14px;padding-right:96px}
+header.top .logo{width:clamp(64px,16vw,84px);height:auto;flex:none;border-radius:50%;box-shadow:0 0 0 3px #f2a516,0 6px 16px #0004}
 .lang{position:absolute;right:max(5vw,16px);top:calc(40px + env(safe-area-inset-top));background:#ffffff26;border:1.5px solid #ffffff80;color:#fff;min-height:40px;padding:4px 14px}
 nav.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));background:var(--card);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom);box-shadow:0 -4px 18px #0000001a}
 nav.tabs a{display:flex;flex-direction:column;align-items:center;gap:1px;padding:8px 2px 7px;text-decoration:none;color:var(--soft);font-weight:600;font-size:13.5px;line-height:1.2;text-align:center}
@@ -167,7 +169,7 @@ ol.steps{margin:0;padding-left:1.3em}ol.steps li{margin:4px 0}
     <g fill="#fff"><circle cx="50" cy="15" r="3"/><circle cx="150" cy="15" r="3"/><circle cx="250" cy="15" r="3"/><circle cx="350" cy="15" r="3"/></g>
   </svg>
   <button class="lang" id="langBtn" type="button">English</button>
-  <h1 data-t="title"></h1>
+  <div class="brand"><img class="logo" src="logo.png" alt="" width="80" height="80"><h1 data-t="title"></h1></div>
   <p class="sub" data-t="sub"></p>
 </header>
 
