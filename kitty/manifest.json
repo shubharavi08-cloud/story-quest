@@ -1,2 +1,2 @@
-{"name":"ಕಿಟ್ಟಿ ಪಾರ್ಟಿ — ನಮ್ಮ ಗೆಳತಿಯರ ಬಳಗ","short_name":"ಕಿಟ್ಟಿ ಪಾರ್ಟಿ","start_url":"./","scope":"./","display":"standalone","orientation":"any","background_color":"#fff7f2","theme_color":"#b0124f","lang":"kn",
+{"name":"ಕಿಟ್ಟಿ ಪಾರ್ಟಿ — ನಮ್ಮ ಗೆಳತಿಯರ ಬಳಗ","short_name":"ಕಿಟ್ಟಿ ಪಾರ್ಟಿ","start_url":"./","scope":"./","display":"standalone","orientation":"any","background_color":"#FFF7ED","theme_color":"#520B2B","lang":"kn",
 "icons":[{"src":"icon-192.png","sizes":"192x192","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png"},{"src":"icon-512.png","sizes":"512x512","type":"image/png","purpose":"maskable"}]}
