@@ -152,14 +152,20 @@ function Wheel(el) {
   let rot = 0, spinning = false;
   const cols = ['#650B32', '#D6AD62', '#087F73', '#B21F58', '#520B2B', '#E9CF9E', '#0E5A52', '#F3DCE5'];
   const items = () => S.items.split('\n').map(x => x.trim()).filter(Boolean).slice(0, 16);
-  el.innerHTML = howTo('wheelHow') + `<div class="cols"><div class="card"><div class="wheel-wrap"><div class="wheel-pin"></div><canvas id="wc" width="840" height="840" aria-label="${esc(t('wheel'))}"></canvas></div><div class="row" style="justify-content:center;margin-top:14px"><button class="btn wine" id="spin" type="button">${ic('wheel')}${esc(t('spin'))}</button></div><div class="drawbox" id="wOut" style="font-size:clamp(22px,5vw,32px);color:var(--wine)"></div></div>
+  el.innerHTML = howTo('wheelHow') + `<div class="cols"><div class="card"><div class="wheel-wrap"><div class="wheel-pin"></div><canvas id="wc" width="840" height="840" aria-label="${esc(t('wheel'))}"></canvas></div><div class="row" style="justify-content:center;margin-top:14px"><button class="btn wine" id="spin" type="button">${ic('wheel')}${esc(t('spin'))}</button></div><div class="drawbox" id="wOut" style="font-size:clamp(28px,7.5vw,42px);color:var(--wine);font-weight:800"></div></div>
     <div class="card"><label class="lab" for="wItems">${esc(t('wheelItems'))}</label><textarea id="wItems" style="min-height:220px">${esc(S.items)}</textarea><div class="row" style="margin-top:8px"><button class="btn ghost sm" id="wMem" type="button">${ic('users')}${esc(t('loadMembers'))}</button><button class="btn ghost sm" id="wDef" type="button">${ic('refresh')}${esc(t('wheelDefault'))}</button></div></div></div>`;
   const cv = $('#wc', el), x = cv.getContext('2d');
   const paint = () => {
     const L = items(); const n = Math.max(L.length, 1), R = 410, cx = 420, cy = 420; x.clearRect(0, 0, 840, 840);
     x.save(); x.translate(cx, cy); x.rotate(rot);
     for (let i = 0; i < n; i++) { const a0 = i * 2 * Math.PI / n - Math.PI / 2, a1 = a0 + 2 * Math.PI / n; x.beginPath(); x.moveTo(0, 0); x.arc(0, 0, R, a0, a1); x.closePath(); x.fillStyle = cols[i % cols.length]; x.fill(); x.strokeStyle = '#FFF7ED'; x.lineWidth = 3; x.stroke();
-      x.save(); const mid = a0 + Math.PI / n; x.rotate(mid); const flip = Math.cos(mid + rot) < 0; if (flip) x.rotate(Math.PI); x.textAlign = flip ? 'left' : 'right'; x.textBaseline = 'middle'; const light = ['#D6AD62', '#E9CF9E', '#F3DCE5'].includes(cols[i % cols.length]); x.fillStyle = light ? '#520B2B' : '#fff'; x.font = `600 ${n > 10 ? 24 : 30}px "Noto Sans Kannada",Inter,sans-serif`; let s = L[i] || ''; while (x.measureText(s).width > R - 90 && s.length > 3) s = s.slice(0, -2) + '…'; x.fillText(s, flip ? -(R - 26) : R - 26, 0); x.restore() }
+      x.save(); const mid = a0 + Math.PI / n; x.rotate(mid); const flip = Math.cos(mid + rot) < 0; const light = ['#D6AD62', '#E9CF9E', '#F3DCE5'].includes(cols[i % cols.length]); x.fillStyle = light ? '#520B2B' : '#fff'; x.textAlign = 'center'; x.textBaseline = 'middle';
+      const fs = n <= 6 ? 46 : n <= 8 ? 42 : n <= 12 ? 34 : 28; x.font = `700 ${fs}px "Noto Sans Kannada",Inter,sans-serif`;
+      const maxW = R - 120; const words = String(L[i] || '').split(/\s+/); let lines = [words.join(' ')];
+      if (x.measureText(lines[0]).width > maxW && words.length > 1) { let best = 1, bw = 1e9; for (let k = 1; k < words.length; k++) { const w = Math.max(x.measureText(words.slice(0, k).join(' ')).width, x.measureText(words.slice(k).join(' ')).width); if (w < bw) { bw = w; best = k } } lines = [words.slice(0, best).join(' '), words.slice(best).join(' ')] }
+      lines = lines.map(l => { while (x.measureText(l).width > maxW && l.length > 3) l = l.slice(0, -2) + '…'; return l });
+      const cxT = R * 0.56 + 20; x.translate(cxT, 0); if (flip) x.rotate(Math.PI);
+      const lh = fs * 1.15; lines.forEach((l, k) => x.fillText(l, 0, (k - (lines.length - 1) / 2) * lh)); x.restore() }
     x.restore(); x.beginPath(); x.arc(cx, cy, R, 0, 7); x.lineWidth = 10; x.strokeStyle = '#D6AD62'; x.stroke(); x.beginPath(); x.arc(cx, cy, 46, 0, 7); x.fillStyle = '#520B2B'; x.fill(); x.lineWidth = 5; x.stroke();
   };
   paint();
