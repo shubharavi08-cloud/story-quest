@@ -84,7 +84,7 @@ ol.steps{margin:0;padding-left:1.3em}ol.steps li{margin:4px 0}
 .invite h2{color:#fff;font-size:clamp(30px,6vw,40px);margin:.1em 0}
 .invite .who{font-weight:800;font-size:26px}
 .invite .when{font-weight:800;font-size:22px;color:var(--gold);margin:.3em 0}
-.invite .blk{background:#ffffff1a;border-radius:12px;padding:8px 12px;margin:10px 0 0;text-align:left;white-space:pre-line;font-size:16px}
+.invite .blk{overflow-wrap:anywhere;background:#ffffff1a;border-radius:12px;padding:8px 12px;margin:10px 0 0;text-align:left;white-space:pre-line;font-size:16px}
 .invite .blk b{color:var(--gold)}
 .invite .blk.sec{background:#00000026;font-style:italic}
 /* housie */
@@ -215,6 +215,8 @@ ol.steps{margin:0;padding-left:1.3em}ol.steps li{margin:4px 0}
       <label for="iHost" data-t="fHost"></label><input id="iHost">
       <label for="iDate" data-t="fDate"></label><input id="iDate" type="date">
       <label for="iTime" data-t="fTime"></label><input id="iTime" type="time" value="16:00">
+      <label data-t="fWhere"></label><div class="chips" id="vType"><button type="button" class="chip" data-v="home" data-t="vHome"></button><button type="button" class="chip" data-v="other" data-t="vOther"></button></div>
+      <div id="venueWrap"><label for="iVenue" data-t="fVenue"></label><input id="iVenue" data-tp="phVenue"></div>
       <label for="iPlace"><span data-t="fPlace"></span><button type="button" class="secret" data-s="place"></button></label><textarea id="iPlace" data-tp="phPlace"></textarea>
       <label for="iTheme"><span data-t="fTheme"></span><span class="opt" data-t="opt"></span><button type="button" class="secret" data-s="theme"></button></label>
       <input id="iTheme" list="themeList" data-tp="phTheme"><datalist id="themeList"></datalist>
@@ -353,10 +355,10 @@ let L=store.get('lang','kn');
 const W={
 kn:{title:'ನಮ್ಮ ಗೆಳತಿಯರ ಬಳಗ',sub:'ಕಿಟ್ಟಿ ಪಾರ್ಟಿ · ಹೌಸಿ · ಒಂದು ನಿಮಿಷದ ಆಟಗಳು · ರುಚಿಯಾದ ಊಟ',
 tHome:'ಮುಖಪುಟ',tInvite:'ಆಹ್ವಾನ',tHousie:'ಹೌಸಿ',tGames:'ಆಟಗಳು',tFood:'ಊಟ',tIdeas:'ಸಲಹೆ',
-nextParty:'ಮುಂದಿನ ಪಾರ್ಟಿ',hostedBy:h=>h+' ಅವರ ಮನೆಯಲ್ಲಿ',makeInvite:'ಆಹ್ವಾನ ತಯಾರಿಸಿ',startHousie:'ಹೌಸಿ ಶುರು ಮಾಡಿ',
+nextParty:'ಮುಂದಿನ ಪಾರ್ಟಿ',hostedBy:h=>h+' ಅವರ ಸರದಿ',atHome:h=>h+' ಅವರ ಮನೆಯಲ್ಲಿ',hostedAt:h=>h+' ಅವರ ಆತಿಥ್ಯದಲ್ಲಿ',fWhere:'ಪಾರ್ಟಿ ಎಲ್ಲಿ',vHome:'ಮನೆಯಲ್ಲಿ',vOther:'ಬೇರೆ ಜಾಗದಲ್ಲಿ',fVenue:'ಜಾಗದ ಹೆಸರು',phVenue:'ಉದಾ: ಹೋಟೆಲ್, ಕೆಫೆ, ಉದ್ಯಾನ, ತೋಟದ ಮನೆ',waInvite:h=>h+' ಅವರು ಕಿಟ್ಟಿ ಪಾರ್ಟಿಗೆ ಕರೆಯುತ್ತಿದ್ದಾರೆ!',makeInvite:'ಆಹ್ವಾನ ತಯಾರಿಸಿ',startHousie:'ಹೌಸಿ ಶುರು ಮಾಡಿ',
 howTitle:'ಇದನ್ನು ಹೇಗೆ ಬಳಸುವುದು',
-how1:'ಮನೆಯೊಡತಿ "ಆಹ್ವಾನ"ದಲ್ಲಿ ವಿವರ ತುಂಬಿ ವಾಟ್ಸ್‌ಆಪ್‌ನಲ್ಲಿ ಕಳುಹಿಸುತ್ತಾರೆ.',
-how2:'ಪಾರ್ಟಿಯಲ್ಲಿ ಮನೆಯೊಡತಿ "ಹೌಸಿ → ನಾನು ಸಂಖ್ಯೆ ಕೂಗುವೆ" ಒತ್ತಿ ಸಂಖ್ಯೆ ಕೂಗುತ್ತಾರೆ.',
+how1:'ಪಾರ್ಟಿ ಕೊಡುವವರು "ಆಹ್ವಾನ"ದಲ್ಲಿ ವಿವರ ತುಂಬಿ ವಾಟ್ಸ್‌ಆಪ್‌ನಲ್ಲಿ ಕಳುಹಿಸುತ್ತಾರೆ.',
+how2:'ಪಾರ್ಟಿಯ ದಿನ ಅವರು "ಹೌಸಿ → ನಾನು ಸಂಖ್ಯೆ ಕೂಗುವೆ" ಒತ್ತಿ ಸಂಖ್ಯೆ ಕೂಗುತ್ತಾರೆ.',
 how3:'ಉಳಿದವರು "ಹೌಸಿ → ನಾನು ಆಡುವೆ" ಒತ್ತಿ, ಪಾರ್ಟಿ ಕೋಡ್ ಮತ್ತು ತಮ್ಮ ಹೆಸರು ಹಾಕಿದರೆ ಅವರದೇ ಟಿಕೆಟ್ ಸಿಗುತ್ತದೆ.',
 how4:'ಸಂಖ್ಯೆ ಕೂಗಿದಾಗ ಟಿಕೆಟ್‌ನಲ್ಲಿ ಅದನ್ನು ಒತ್ತಿ — ಗುಲಾಬಿ ಬಣ್ಣಕ್ಕೆ ತಿರುಗುತ್ತದೆ.',
 instTitle:'ಫೋನಿನಲ್ಲಿ ಆಪ್ ಆಗಿ ಇಟ್ಟುಕೊಳ್ಳಿ',instBtn:'ಆಪ್ ಹಾಕಿಕೊಳ್ಳಿ',instShort:'ಮೇಲಿನ ಬಟನ್ ಒತ್ತಿ — ನಿಮ್ಮ ಫೋನಿಗೆ ತಕ್ಕ ಸುಲಭ ಹಂತಗಳು ಕಾಣುತ್ತವೆ.',
@@ -367,16 +369,16 @@ gAndroid:['ಮೇಲೆ ಬಲಗಡೆ, ಹಳದಿ ಬಾಣ ತೋರಿಸ�
 gNote:'ವಾಟ್ಸ್‌ಆಪ್ ಒಳಗೇ ಲಿಂಕ್ ತೆರೆದಿದ್ದರೆ ಇದು ಕಾಣುವುದಿಲ್ಲ — ಮೊದಲು ಮೇಲಿನ "Open in Safari" / "Open in Chrome" ಒತ್ತಿ.',
 instAndroid:'ಆಂಡ್ರಾಯ್ಡ್ ಫೋನ್: Chrome‌ನಲ್ಲಿ ಮೇಲೆ ಬಲಗಡೆಯ ಮೂರು ಚುಕ್ಕೆ ⋮ ಒತ್ತಿ → "Install app" ಅಥವಾ "Add to Home screen" ಒತ್ತಿ.',
 instIphone:'ಐಫೋನ್: Safari‌ನಲ್ಲಿ ಕೆಳಗಿನ ಹಂಚಿಕೆ ಗುರುತು (ಮೇಲೆ ಬಾಣ ಇರುವ ಚೌಕ) ಒತ್ತಿ → "Add to Home Screen" ಒತ್ತಿ.',
-calTitle:'ಯಾರ ಮನೆಯಲ್ಲಿ ಯಾವಾಗ — 2026–27',calHint:'ಸರದಿ ಬದಲಾದರೆ ಆ ತಿಂಗಳನ್ನು ಒತ್ತಿ ಹೆಸರು ಬದಲಿಸಿ.',
-swapped:'ಸರದಿ ಬದಲಾಗಿದೆ',nextTag:'ಮುಂದಿನದು',changedFrom:h=>h+' ಬದಲಿಗೆ',hostFor:m=>m+' — ಯಾರ ಮನೆಯಲ್ಲಿ?',hostName:'ಹೆಸರು',
+calTitle:'ಯಾರ ಸರದಿ ಯಾವಾಗ — 2026–27',calHint:'ಸರದಿ ಬದಲಾದರೆ ಆ ತಿಂಗಳನ್ನು ಒತ್ತಿ ಹೆಸರು ಬದಲಿಸಿ.',
+swapped:'ಸರದಿ ಬದಲಾಗಿದೆ',nextTag:'ಮುಂದಿನದು',changedFrom:h=>h+' ಬದಲಿಗೆ',hostFor:m=>m+' — ಯಾರ ಸರದಿ?',hostName:'ಹೆಸರು',
 invTitle:'ಆಹ್ವಾನ ತಯಾರಿಸಿ',invSub:'ಮುಖ್ಯ ವಿವರ ತುಂಬಿ. ಊಟ, ಆಟ, ವಿಶೇಷ — ಬೇಕಿದ್ದರೆ ಮಾತ್ರ. "ಗುಟ್ಟು" ಒತ್ತಿದರೆ ಆ ವಿಷಯ ಆಹ್ವಾನದಲ್ಲಿ ಕಾಣುವುದಿಲ್ಲ.',
-fHost:'ಯಾರ ಮನೆಯಲ್ಲಿ',fDate:'ದಿನಾಂಕ',fTime:'ಸಮಯ',fPlace:'ವಿಳಾಸ',fTheme:'ಪಾರ್ಟಿಯ ವಿಶೇಷ / ಉಡುಗೆ',fMenu:'ಊಟದ ಪಟ್ಟಿ',fGames:'ಆಟಗಳು',fKitty:'ಕಿಟ್ಟಿ ಹಣ',fNote:'ಇನ್ನೇನಾದರೂ',
+fHost:'ಪಾರ್ಟಿ ಕೊಡುವವರು',fDate:'ದಿನಾಂಕ',fTime:'ಸಮಯ',fPlace:'ವಿಳಾಸ / ಗೂಗಲ್ ಮ್ಯಾಪ್ ಲಿಂಕ್',fTheme:'ಪಾರ್ಟಿಯ ವಿಶೇಷ / ಉಡುಗೆ',fMenu:'ಊಟದ ಪಟ್ಟಿ',fGames:'ಆಟಗಳು',fKitty:'ಕಿಟ್ಟಿ ಹಣ',fNote:'ಇನ್ನೇನಾದರೂ',
 fPrivate:'ನನಗೆ ಮಾತ್ರ — ಗುಟ್ಟಿನ ಟಿಪ್ಪಣಿ (ಆಹ್ವಾನದಲ್ಲಿ ಬರುವುದಿಲ್ಲ)',opt:'ಬೇಕಿದ್ದರೆ',optTap:'ಬೇಕಿದ್ದರೆ — ಒತ್ತಿ ಸೇರಿಸಿ',
-phPlace:'ಮನೆ ಸಂಖ್ಯೆ, ರಸ್ತೆ, ಗುರುತು, ಗೂಗಲ್ ಮ್ಯಾಪ್ ಲಿಂಕ್',phTheme:'ಉದಾ: ಗುಲಾಬಿ ಸೀರೆ ದಿನ',phMenu:'ಖಾಲಿ ಬಿಟ್ಟರೆ ಅಚ್ಚರಿ',phKitty:'ಉದಾ: ₹1000',phNote:'ವಾಹನ ನಿಲುಗಡೆ, ಉಡುಗೊರೆ, ಉತ್ತರ ಕೊಡುವ ದಿನ…',phPrivate:'ಖರೀದಿ ಪಟ್ಟಿ, ಬಹುಮಾನದ ಯೋಚನೆ, ಮಾಡಬೇಕಾದ ಕೆಲಸ…',
+phPlace:'ಮನೆ/ಕಟ್ಟಡದ ಸಂಖ್ಯೆ, ರಸ್ತೆ, ಗುರುತು, ಅಥವಾ ಮ್ಯಾಪ್ ಲಿಂಕ್',phTheme:'ಉದಾ: ಗುಲಾಬಿ ಸೀರೆ ದಿನ',phMenu:'ಖಾಲಿ ಬಿಟ್ಟರೆ ಅಚ್ಚರಿ',phKitty:'ಉದಾ: ₹1000',phNote:'ವಾಹನ ನಿಲುಗಡೆ, ಉಡುಗೊರೆ, ಉತ್ತರ ಕೊಡುವ ದಿನ…',phPrivate:'ಖರೀದಿ ಪಟ್ಟಿ, ಬಹುಮಾನದ ಯೋಚನೆ, ಮಾಡಬೇಕಾದ ಕೆಲಸ…',
 secret:'ಗುಟ್ಟು',secretOn:'ಗುಟ್ಟಾಗಿದೆ',secretTxt:'ಗುಟ್ಟು! ಪಾರ್ಟಿಯಲ್ಲೇ ತಿಳಿಯುತ್ತದೆ',secretPlace:'ಸ್ಥಳ ಅದೇ ದಿನ ತಿಳಿಸುತ್ತೇವೆ',
 privacyNote:'ನೀವು ತುಂಬಿದ್ದು ನಿಮ್ಮ ಫೋನಿನಲ್ಲಿ ಮಾತ್ರ ಇರುತ್ತದೆ. ನೀವು ಕಳುಹಿಸುವವರೆಗೆ ಯಾರಿಗೂ ಕಾಣುವುದಿಲ್ಲ. ಗುಟ್ಟು ಬಿಚ್ಚಿಡಬೇಕಾದಾಗ "ಗುಟ್ಟಾಗಿದೆ" ಒತ್ತಿ ಮತ್ತೆ ಕಳುಹಿಸಿ.',
 suggestMenu:'ಸಸ್ಯಾಹಾರಿ ಊಟ ಸೂಚಿಸಿ',sendWa:'ವಾಟ್ಸ್‌ಆಪ್‌ನಲ್ಲಿ ಕಳುಹಿಸಿ',copyText:'ಪಠ್ಯ ನಕಲಿಸಿ',shotNote:'ಕಾರ್ಡನ್ನು ಚಿತ್ರವಾಗಿ ಕಳುಹಿಸಲು ಅದರ ಸ್ಕ್ರೀನ್‌ಶಾಟ್ ತೆಗೆಯಿರಿ.',
-cInvites:'ಗೆಳತಿಯರ ಬಳಗದ',cKitty:'ಕಿಟ್ಟಿ ಪಾರ್ಟಿ',cAt:'ಆತ್ಮೀಯ ಆಹ್ವಾನ —',cHostDef:'ಮನೆಯೊಡತಿ',pickDate:'ದಿನಾಂಕ ಆರಿಸಿ',
+cInvites:'ಗೆಳತಿಯರ ಬಳಗದ',cKitty:'ಕಿಟ್ಟಿ ಪಾರ್ಟಿ',cAt:'ಆತ್ಮೀಯ ಆಹ್ವಾನ —',cHostDef:'ಪಾರ್ಟಿ ಕೊಡುವವರು',pickDate:'ದಿನಾಂಕ ಆರಿಸಿ',
 bWhere:'ಎಲ್ಲಿ',bTheme:'ವಿಶೇಷ',bMenu:'ಊಟ',bGames:'ಆಟಗಳು',bKitty:'ಕಿಟ್ಟಿ',bNote:'ಸೂಚನೆ',
 waHead:'ಕಿಟ್ಟಿ ಪಾರ್ಟಿ ಆಹ್ವಾನ',waCome:h=>h+' ಅವರ ಮನೆಗೆ ಬನ್ನಿ!',waApp:'ಹೌಸಿ ಟಿಕೆಟ್ ನಮ್ಮ ಆಪ್‌ನಲ್ಲಿ — ಫೋನ್ ತನ್ನಿ!',copied:'ಆಹ್ವಾನ ನಕಲಾಯಿತು',copyFail:'ಇಲ್ಲಿ ನಕಲಿಸಲು ಆಗುತ್ತಿಲ್ಲ — ವಾಟ್ಸ್‌ಆಪ್ ಬಟನ್ ಬಳಸಿ',
 housieTitle:'ಹೌಸಿ ಹೌಸಿ',modeHost:'ನಾನು ಸಂಖ್ಯೆ ಕೂಗುವೆ',modePlay:'ನಾನು ಆಡುವೆ',codeTell:'ಪಾರ್ಟಿ ಕೋಡ್ — ಎಲ್ಲರಿಗೂ ಹೇಳಿ',code:'ಕೋಡ್',game:'ಆಟ',
@@ -387,7 +389,7 @@ checkHint:'ಆಕೆ ಹಾಕಿದ ಹೆಸರನ್ನೇ ಇಲ್ಲಿ �
 newGame:'ಹೊಸ ಆಟ (ಬೋರ್ಡ್ ಖಾಲಿ ಮಾಡಿ)',clearQ:'ಬೋರ್ಡ್ ಖಾಲಿ ಮಾಡಬೇಕೇ?',clearB:'ಈ ಆಟದಲ್ಲಿ ಕೂಗಿದ ಎಲ್ಲಾ ಸಂಖ್ಯೆಗಳು ಮತ್ತು ಗೆದ್ದವರ ಹೆಸರು ಅಳಿಸಿಹೋಗುತ್ತವೆ.',
 removeQ:n=>n+' ತೆಗೆಯಬೇಕೇ?',removeB:'ಈ ಸಂಖ್ಯೆಯನ್ನು ಈಗಾಗಲೇ ಕೂಗಲಾಗಿದೆ. ಬೋರ್ಡ್‌ನಿಂದ ತೆಗೆಯಬೇಕೇ?',
 gameQ:g=>'ಆಟ '+g+' ಶುರು ಮಾಡಬೇಕೇ?',gameB:g=>'ಬೋರ್ಡ್ ಖಾಲಿಯಾಗುತ್ತದೆ. ಎಲ್ಲರೂ ತಮ್ಮ ಫೋನಿನಲ್ಲಿ ಆಟ '+g+' ಆರಿಸಿದರೆ ಹೊಸ ಟಿಕೆಟ್ ಸಿಗುತ್ತದೆ.',
-yes:'ಸರಿ',no:'ಬೇಡ',getCard:'ನಿಮ್ಮ ಟಿಕೆಟ್ ಪಡೆಯಿರಿ',pCode:'ಪಾರ್ಟಿ ಕೋಡ್ (ಮನೆಯೊಡತಿ ಹೇಳುತ್ತಾರೆ)',pName:'ನಿಮ್ಮ ಹೆಸರು',showCard:'ನನ್ನ ಟಿಕೆಟ್ ತೋರಿಸಿ',
+yes:'ಸರಿ',no:'ಬೇಡ',getCard:'ನಿಮ್ಮ ಟಿಕೆಟ್ ಪಡೆಯಿರಿ',pCode:'ಪಾರ್ಟಿ ಕೋಡ್ (ಪಾರ್ಟಿ ಕೊಡುವವರು ಹೇಳುತ್ತಾರೆ)',pName:'ನಿಮ್ಮ ಹೆಸರು',showCard:'ನನ್ನ ಟಿಕೆಟ್ ತೋರಿಸಿ',
 oneCard:'ಇಡೀ ಪಾರ್ಟಿಗೆ ಒಂದೇ ಟಿಕೆಟ್. ಅದೇ ಕೋಡ್ ಮತ್ತು ಹೆಸರು ಹಾಕಿದರೆ ಅದೇ ಟಿಕೆಟ್ ಮತ್ತೆ ಬರುತ್ತದೆ.',needBoth:'ಪಾರ್ಟಿ ಕೋಡ್ ಮತ್ತು ನಿಮ್ಮ ಹೆಸರು ಹಾಕಿ',
 clearMarks:'ಗುರುತು ಅಳಿಸಿ',change:'ಬದಲಿಸಿ',openBig:'ದೊಡ್ಡದಾಗಿ ನೋಡಿ',
 playHint:'ಟಿಕೆಟ್ ಒತ್ತಿದರೆ ಅದು ಇಡೀ ಪರದೆಯಲ್ಲಿ ಅಡ್ಡವಾಗಿ ದೊಡ್ಡದಾಗಿ ಕಾಣುತ್ತದೆ. ಸಂಖ್ಯೆ ಕೂಗಿದಾಗ ಅದನ್ನು ಒತ್ತಿ; ಮತ್ತೆ ಒತ್ತಿದರೆ ಗುರುತು ಹೋಗುತ್ತದೆ. ಗೆದ್ದರೆ ಜೋರಾಗಿ ಹೇಳಿ!',
@@ -401,7 +403,7 @@ months:['ಜನವರಿ','ಫೆಬ್ರವರಿ','ಮಾರ್ಚ್','ಏ�
 prizes:['ಮೊದಲ ಐದು','ಮೇಲಿನ ಸಾಲು','ನಡುವಿನ ಸಾಲು','ಕೆಳಗಿನ ಸಾಲು','ನಾಲ್ಕು ಮೂಲೆ','ಫುಲ್ ಹೌಸ್']},
 en:{title:'Our Ladies Circle',sub:'Kitty party · housie · one-minute games · good food',
 tHome:'Home',tInvite:'Invite',tHousie:'Housie',tGames:'Games',tFood:'Menu',tIdeas:'Ideas',
-nextParty:'Next party',hostedBy:h=>'Hosted by '+h,makeInvite:'Make the invite',startHousie:'Start housie',
+nextParty:'Next party',hostedBy:h=>'Hosted by '+h,atHome:h=>'at '+h+"'s home",hostedAt:h=>'hosted by '+h,fWhere:'Where is the party',vHome:'At home',vOther:'Somewhere else',fVenue:'Place name',phVenue:'e.g. a restaurant, café, park, farmhouse',waInvite:h=>h+' invites you to the kitty party!',makeInvite:'Make the invite',startHousie:'Start housie',
 howTitle:'How everyone uses this',how1:'The host fills in "Invite" and sends it on WhatsApp.',how2:'At the party the host taps "Housie → I\'m calling numbers".',
 how3:'Everyone else taps "Housie → I\'m playing", types the party code and her name, and gets her own card.',how4:'Tap a number on your card when it is called — it turns pink.',
 instTitle:'Keep it on your phone like an app',instBtn:'Install the app',instShort:'Tap the button — you will see easy steps for your phone.',
@@ -415,15 +417,15 @@ instIphone:'iPhone: in Safari tap the Share sign (square with an arrow) → "Add
 calTitle:'Hosting calendar 2026–27',calHint:'If turns are swapped, tap the month and change the name.',
 swapped:'Swapped turn',nextTag:'Next',changedFrom:h=>'Instead of '+h,hostFor:m=>'Host for '+m,hostName:'Name',
 invTitle:'Make the invite',invSub:'Fill in the basics. Menu, games and theme only if you want. Tap "Secret" and that part stays hidden in the invite.',
-fHost:'Host',fDate:'Date',fTime:'Time',fPlace:'Address',fTheme:'Theme / dress code',fMenu:'Menu',fGames:'Games',fKitty:'Kitty amount',fNote:'Anything else',
+fHost:'Host',fDate:'Date',fTime:'Time',fPlace:'Address / map link',fTheme:'Theme / dress code',fMenu:'Menu',fGames:'Games',fKitty:'Kitty amount',fNote:'Anything else',
 fPrivate:'Only for me — secret notes (never in the invite)',opt:'optional',optTap:'optional — tap to add',
 phPlace:'Flat, street, landmark, Google Maps link',phTheme:'e.g. Pink saree day',phMenu:'Leave empty to keep it a surprise',phKitty:'e.g. ₹1000',phNote:'Parking, bring a gift, reply by…',phPrivate:'Shopping list, prize ideas, to-dos…',
 secret:'Secret',secretOn:'Kept secret',secretTxt:'A secret! You\'ll see at the party',secretPlace:'Venue shared on the day',
 privacyNote:'What you type stays only on your phone. Nobody sees it until you send it. To reveal a secret later, tap "Kept secret" and send again.',
 suggestMenu:'Suggest a veg menu',sendWa:'Send on WhatsApp',copyText:'Copy text',shotNote:'To send the card as a picture, take a screenshot of it.',
-cInvites:'Our Ladies Circle',cKitty:'Kitty Party',cAt:'warmly invites you — at',cHostDef:'Your host',pickDate:'Pick a date',
+cInvites:'Our Ladies Circle',cKitty:'Kitty Party',cAt:'warmly invites you —',cHostDef:'Your host',pickDate:'Pick a date',
 bWhere:'Where',bTheme:'Theme',bMenu:'Menu',bGames:'Games',bKitty:'Kitty',bNote:'Note',
-waHead:'Kitty Party Invite',waCome:h=>'Come over to '+h+'\'s!',waApp:'Housie cards on our app — bring your phone!',copied:'Invite copied',copyFail:'Copy not allowed here — use the WhatsApp button',
+waHead:'Kitty Party Invite',waCome:h=>'Come over to '+h+'\'s home!',waApp:'Housie cards on our app — bring your phone!',copied:'Invite copied',copyFail:'Copy not allowed here — use the WhatsApp button',
 housieTitle:'Housie Housie',modeHost:'I\'m calling numbers',modePlay:'I\'m playing',codeTell:'Party code — tell everyone',code:'Code',game:'Game',
 callNext:'Call next',undo:'Undo',voiceOn:'Voice on',voiceOff:'Voice off',bigScreen:'Big screen',begin:'Tap "Call next" to begin',
 count:n=>n+' of 90 called',boardHint:'To pick a number yourself, tap it on the board. Called numbers turn pink, the latest one gold.',
@@ -451,18 +453,18 @@ const KN_NAMES={Shobha:'ಶೋಭಾ',Gowri:'ಗೌರಿ',Chaitra:'ಚೈತ್
 const nm=n=>L==='kn'?(KN_NAMES[n]||n):n;
 const CAL0=[[2026,9,'Shobha'],[2026,10,'Gowri',1],[2026,11,'Chaitra',1],[2027,0,'Vanitha'],[2027,1,'Gayatri'],[2027,2,'Shashi Kala'],[2027,3,'Yamuna'],[2027,4,'Suguna'],[2027,5,'Shubha']];
 const GAMES=[
-{id:'housie',t:'none',en:['Housie Housie','This app','The main game. The host calls, everyone marks. Prizes for Early five, three lines, four corners and Full house.'],kn:['ಹೌಸಿ ಹೌಸಿ','ಈ ಆಪ್','ಮುಖ್ಯ ಆಟ. ಮನೆಯೊಡತಿ ಸಂಖ್ಯೆ ಕೂಗುತ್ತಾರೆ, ಎಲ್ಲರೂ ಗುರುತಿಸುತ್ತಾರೆ. ಮೊದಲ ಐದು, ಮೂರು ಸಾಲು, ನಾಲ್ಕು ಮೂಲೆ, ಫುಲ್ ಹೌಸ್‌ಗೆ ಬಹುಮಾನ.']},
+{id:'housie',t:'none',en:['Housie Housie','This app','The main game. The host calls, everyone marks. Prizes for Early five, three lines, four corners and Full house.'],kn:['ಹೌಸಿ ಹೌಸಿ','ಈ ಆಪ್','ಮುಖ್ಯ ಆಟ. ಪಾರ್ಟಿ ಕೊಡುವವರು ಸಂಖ್ಯೆ ಕೂಗುತ್ತಾರೆ, ಎಲ್ಲರೂ ಗುರುತಿಸುತ್ತಾರೆ. ಮೊದಲ ಐದು, ಮೂರು ಸಾಲು, ನಾಲ್ಕು ಮೂಲೆ, ಫುಲ್ ಹೌಸ್‌ಗೆ ಬಹುಮಾನ.']},
 {id:'bindi',t:'props',en:['Bindi on the mirror','Bindis, a mirror, a scarf','Blindfolded, stick a bindi in the middle of your forehead on your mirror reflection. Closest to the centre wins.'],kn:['ಕನ್ನಡಿಯಲ್ಲಿ ಬಿಂದಿ','ಬಿಂದಿ, ಕನ್ನಡಿ, ಕಣ್ಣಿಗೆ ಕಟ್ಟಲು ದುಪಟ್ಟಾ','ಕಣ್ಣು ಕಟ್ಟಿಕೊಂಡು, ಕನ್ನಡಿಯಲ್ಲಿ ಕಾಣುವ ನಿಮ್ಮ ಹಣೆಯ ನಡುವೆ ಬಿಂದಿ ಅಂಟಿಸಿ. ಸರಿಯಾಗಿ ನಡುವೆ ಇಟ್ಟವರು ಗೆಲ್ಲುತ್ತಾರೆ.']},
 {id:'pleat',t:'props',en:['Saree pleat race','A saree or dupatta','Make as many neat pleats as you can in one minute. Most even pleats wins.'],kn:['ಸೀರೆ ನೆರಿಗೆ ಸ್ಪರ್ಧೆ','ಒಂದು ಸೀರೆ ಅಥವಾ ದುಪಟ್ಟಾ','ಒಂದು ನಿಮಿಷದಲ್ಲಿ ಎಷ್ಟು ಅಚ್ಚುಕಟ್ಟಾದ ನೆರಿಗೆ ಮಾಡಬಲ್ಲಿರಿ? ಸಮನಾದ ನೆರಿಗೆ ಹೆಚ್ಚು ಮಾಡಿದವರು ಗೆಲ್ಲುತ್ತಾರೆ.']},
 {id:'rajma',t:'props',en:['Bean transfer','Rajma or peanuts, 2 bowls, a spoon','Move beans one by one with a spoon held in your mouth. Most beans in a minute wins.'],kn:['ಕಾಳು ಸಾಗಿಸಿ','ರಾಜ್ಮಾ ಅಥವಾ ಕಡಲೆಬೀಜ, ಎರಡು ಬಟ್ಟಲು, ಒಂದು ಚಮಚ','ಬಾಯಲ್ಲಿ ಚಮಚ ಹಿಡಿದು ಒಂದೊಂದೇ ಕಾಳನ್ನು ಇನ್ನೊಂದು ಬಟ್ಟಲಿಗೆ ಹಾಕಿ. ಹೆಚ್ಚು ಕಾಳು ಸಾಗಿಸಿದವರು ಗೆಲ್ಲುತ್ತಾರೆ.']},
 {id:'cups',t:'props',en:['Cup tower','20–30 paper cups','Build the tallest cup tower in a minute. It must stand for 3 seconds.'],kn:['ಲೋಟದ ಗೋಪುರ','20–30 ಕಾಗದದ ಲೋಟ','ಒಂದು ನಿಮಿಷದಲ್ಲಿ ಎತ್ತರದ ಲೋಟದ ಗೋಪುರ ಕಟ್ಟಿ. ಅದು ಮೂರು ಸೆಕೆಂಡು ನಿಲ್ಲಬೇಕು.']},
 {id:'hum',t:'none',en:['Hum the song','Nothing','One lady hums a film song, the others guess. Most correct guesses in a minute wins.'],kn:['ಹಾಡು ಗುನುಗಿ','ಏನೂ ಬೇಡ','ಒಬ್ಬರು ಸಿನಿಮಾ ಹಾಡನ್ನು ಗುನುಗುತ್ತಾರೆ, ಉಳಿದವರು ಊಹಿಸುತ್ತಾರೆ. ಹೆಚ್ಚು ಸರಿ ಉತ್ತರ ಕೊಟ್ಟವರು ಗೆಲ್ಲುತ್ತಾರೆ.']},
-{id:'name10',t:'none',en:['Name 10','Nothing','The host gives a topic — sweets, rivers, heroines, vegetables. Name as many as you can in a minute without repeating.'],kn:['ಹತ್ತು ಹೆಸರು ಹೇಳಿ','ಏನೂ ಬೇಡ','ಮನೆಯೊಡತಿ ಒಂದು ವಿಷಯ ಕೊಡುತ್ತಾರೆ — ಸಿಹಿ ತಿಂಡಿ, ನದಿಗಳು, ನಾಯಕಿಯರು, ತರಕಾರಿ. ಒಂದು ನಿಮಿಷದಲ್ಲಿ, ಮತ್ತೆ ಹೇಳದೆ, ಎಷ್ಟು ಸಾಧ್ಯವೋ ಅಷ್ಟು ಹೆಸರು ಹೇಳಿ.']},
+{id:'name10',t:'none',en:['Name 10','Nothing','The host gives a topic — sweets, rivers, heroines, vegetables. Name as many as you can in a minute without repeating.'],kn:['ಹತ್ತು ಹೆಸರು ಹೇಳಿ','ಏನೂ ಬೇಡ','ಪಾರ್ಟಿ ಕೊಡುವವರು ಒಂದು ವಿಷಯ ಕೊಡುತ್ತಾರೆ — ಸಿಹಿ ತಿಂಡಿ, ನದಿಗಳು, ನಾಯಕಿಯರು, ತರಕಾರಿ. ಒಂದು ನಿಮಿಷದಲ್ಲಿ, ಮತ್ತೆ ಹೇಳದೆ, ಎಷ್ಟು ಸಾಧ್ಯವೋ ಅಷ್ಟು ಹೆಸರು ಹೇಳಿ.']},
 {id:'balloon',t:'props',en:['Balloon between knees','Balloons, 2 chairs','Walk to the chair and back with a balloon between your knees. Drop it and you start again.'],kn:['ಮೊಣಕಾಲಿನ ನಡುವೆ ಬಲೂನ್','ಬಲೂನ್, ಎರಡು ಕುರ್ಚಿ','ಮೊಣಕಾಲಿನ ನಡುವೆ ಬಲೂನ್ ಇಟ್ಟು ಕುರ್ಚಿವರೆಗೆ ಹೋಗಿ ಬನ್ನಿ. ಬಿದ್ದರೆ ಮತ್ತೆ ಮೊದಲಿನಿಂದ.']},
 {id:'bangle',t:'props',en:['Bangle toss','Bangles, a bottle','Throw bangles over a standing bottle from a distance. Most rings in a minute wins.'],kn:['ಬಳೆ ಎಸೆತ','ಬಳೆಗಳು, ಒಂದು ಬಾಟಲಿ','ದೂರದಿಂದ ನಿಂತಿರುವ ಬಾಟಲಿಗೆ ಬಳೆ ಎಸೆಯಿರಿ. ಹೆಚ್ಚು ಬಳೆ ಸಿಕ್ಕಿಸಿದವರು ಗೆಲ್ಲುತ್ತಾರೆ.']},
-{id:'draw',t:'props',en:['Draw blindfolded','Paper, pen, a scarf','Draw the host\'s face (or a peacock) with eyes closed. Everyone votes for the funniest.'],kn:['ಕಣ್ಣು ಮುಚ್ಚಿ ಚಿತ್ರ','ಕಾಗದ, ಪೆನ್, ದುಪಟ್ಟಾ','ಕಣ್ಣು ಮುಚ್ಚಿ ಮನೆಯೊಡತಿಯ ಮುಖ (ಅಥವಾ ನವಿಲು) ಬಿಡಿಸಿ. ಹೆಚ್ಚು ನಗಿಸಿದ ಚಿತ್ರಕ್ಕೆ ಎಲ್ಲರ ಮತ.']},
+{id:'draw',t:'props',en:['Draw blindfolded','Paper, pen, a scarf','Draw the host\'s face (or a peacock) with eyes closed. Everyone votes for the funniest.'],kn:['ಕಣ್ಣು ಮುಚ್ಚಿ ಚಿತ್ರ','ಕಾಗದ, ಪೆನ್, ದುಪಟ್ಟಾ','ಕಣ್ಣು ಮುಚ್ಚಿ ಪಾರ್ಟಿ ಕೊಡುವವರ ಮುಖ (ಅಥವಾ ನವಿಲು) ಬಿಡಿಸಿ. ಹೆಚ್ಚು ನಗಿಸಿದ ಚಿತ್ರಕ್ಕೆ ಎಲ್ಲರ ಮತ.']},
 {id:'lemon',t:'props',en:['Lemon and spoon','Spoons, lemons','Walk a set path with a lemon on a spoon held in your mouth. Fastest without dropping wins.'],kn:['ನಿಂಬೆ-ಚಮಚ ಓಟ','ಚಮಚ, ನಿಂಬೆಹಣ್ಣು','ಬಾಯಲ್ಲಿ ಚಮಚ, ಅದರ ಮೇಲೆ ನಿಂಬೆಹಣ್ಣು ಇಟ್ಟು ನಡೆಯಿರಿ. ಬೀಳಿಸದೆ ಬೇಗ ಮುಗಿಸಿದವರು ಗೆಲ್ಲುತ್ತಾರೆ.']},
-{id:'who',t:'none',en:['Who said it?','Paper slips','Everyone writes a funny thing her husband or child says. The host reads, others guess who wrote it.'],kn:['ಯಾರು ಹೇಳಿದ್ದು?','ಚೀಟಿಗಳು','ಮನೆಯಲ್ಲಿ ಗಂಡ ಅಥವಾ ಮಕ್ಕಳು ಹೇಳುವ ತಮಾಷೆಯ ಮಾತನ್ನು ಎಲ್ಲರೂ ಬರೆಯಿರಿ. ಮನೆಯೊಡತಿ ಓದುತ್ತಾರೆ, ಉಳಿದವರು ಯಾರದು ಎಂದು ಊಹಿಸುತ್ತಾರೆ.']},
+{id:'who',t:'none',en:['Who said it?','Paper slips','Everyone writes a funny thing her husband or child says. The host reads, others guess who wrote it.'],kn:['ಯಾರು ಹೇಳಿದ್ದು?','ಚೀಟಿಗಳು','ಮನೆಯಲ್ಲಿ ಗಂಡ ಅಥವಾ ಮಕ್ಕಳು ಹೇಳುವ ತಮಾಷೆಯ ಮಾತನ್ನು ಎಲ್ಲರೂ ಬರೆಯಿರಿ. ಪಾರ್ಟಿ ಕೊಡುವವರು ಓದುತ್ತಾರೆ, ಉಳಿದವರು ಯಾರದು ಎಂದು ಊಹಿಸುತ್ತಾರೆ.']},
 {id:'quiz',t:'none',en:['Kitchen quiz','Nothing','Quick questions: a spice in garam masala, a sweet made with jaggery, a dal without tadka. Most right answers in a minute wins.'],kn:['ಅಡುಗೆಮನೆ ರಸಪ್ರಶ್ನೆ','ಏನೂ ಬೇಡ','ಬೇಗ ಬೇಗ ಪ್ರಶ್ನೆಗಳು: ಗರಂ ಮಸಾಲೆಯಲ್ಲಿರುವ ಒಂದು ಮಸಾಲೆ, ಬೆಲ್ಲದ ಒಂದು ಸಿಹಿ, ಒಗ್ಗರಣೆ ಇಲ್ಲದ ಒಂದು ಸಾರು. ಹೆಚ್ಚು ಸರಿ ಉತ್ತರಕ್ಕೆ ಬಹುಮಾನ.']},
 {id:'paper',t:'props',en:['Paper dance','Newspaper, music','Pairs dance on a sheet of newspaper. Each round it is folded in half. The last pair standing wins.'],kn:['ಪತ್ರಿಕೆ ಮೇಲೆ ಕುಣಿತ','ದಿನಪತ್ರಿಕೆ, ಹಾಡು','ಜೋಡಿಗಳು ಪತ್ರಿಕೆಯ ಮೇಲೆ ಕುಣಿಯುತ್ತಾರೆ. ಪ್ರತಿ ಸುತ್ತಿನಲ್ಲಿ ಪತ್ರಿಕೆಯನ್ನು ಅರ್ಧ ಮಡಚಲಾಗುತ್ತದೆ. ಕೊನೆಯವರೆಗೆ ನಿಂತ ಜೋಡಿ ಗೆಲ್ಲುತ್ತದೆ.']},
 {id:'biscuit',t:'props',en:['Biscuit face','Marie biscuits','Put a biscuit on your forehead and move it to your mouth using only your face. No hands!'],kn:['ಹಣೆಯಿಂದ ಬಾಯಿಗೆ ಬಿಸ್ಕತ್','ಮಾರಿ ಬಿಸ್ಕತ್','ಹಣೆಯ ಮೇಲೆ ಬಿಸ್ಕತ್ ಇಟ್ಟು, ಕೈ ಮುಟ್ಟದೆ ಮುಖ ಆಡಿಸಿ ಅದನ್ನು ಬಾಯಿಗೆ ತನ್ನಿ.']},
@@ -485,19 +487,19 @@ const PRESETS=[
 {en:['Light and healthy','Drink: Kokum sherbet\nStarter: Sprouts chaat\nMain: Millet pulao + cucumber raita\nSide: Kosambari\nSweet: Dates and dry fruit plate'],kn:['ಹಗುರ, ಆರೋಗ್ಯಕರ ಊಟ','ಪಾನೀಯ: ಪುನರ್ಪುಳಿ ಶರಬತ್ತು\nತಿಂಡಿ: ಮೊಳಕೆ ಕಾಳು ಚಾಟ್\nಊಟ: ಸಿರಿಧಾನ್ಯ ಪುಲಾವ್ + ಸೌತೆಕಾಯಿ ರಾಯತ\nಜೊತೆಗೆ: ಕೋಸಂಬರಿ\nಸಿಹಿ: ಖರ್ಜೂರ-ಒಣಹಣ್ಣು ತಟ್ಟೆ']},
 {en:['No-stress host','Drink: Rose milk\nNo-cook: Khakhra, fruit chaat, cucumber sandwiches\nMain: Curd rice cups\nSweet: Ice cream'],kn:['ಕಡಿಮೆ ಕೆಲಸದ ಊಟ','ಪಾನೀಯ: ರೋಸ್ ಮಿಲ್ಕ್\nಅಡುಗೆ ಬೇಡದ್ದು: ಖಾಕ್ರಾ, ಹಣ್ಣಿನ ಚಾಟ್, ಸೌತೆಕಾಯಿ ಸ್ಯಾಂಡ್‌ವಿಚ್\nಊಟ: ಮೊಸರನ್ನದ ಬಟ್ಟಲು\nಸಿಹಿ: ಐಸ್‌ಕ್ರೀಮ್']}];
 const IDEAS=[
-{en:['Colour of the month','Everyone wears one colour the host picks. The best-dressed gets a small prize.'],kn:['ತಿಂಗಳ ಬಣ್ಣ','ಮನೆಯೊಡತಿ ಆರಿಸಿದ ಒಂದೇ ಬಣ್ಣದ ಉಡುಗೆಯಲ್ಲಿ ಎಲ್ಲರೂ ಬನ್ನಿ. ಚೆನ್ನಾಗಿ ಸಿಂಗರಿಸಿಕೊಂಡವರಿಗೆ ಪುಟ್ಟ ಬಹುಮಾನ.']},
+{en:['Colour of the month','Everyone wears one colour the host picks. The best-dressed gets a small prize.'],kn:['ತಿಂಗಳ ಬಣ್ಣ','ಪಾರ್ಟಿ ಕೊಡುವವರು ಆರಿಸಿದ ಒಂದೇ ಬಣ್ಣದ ಉಡುಗೆಯಲ್ಲಿ ಎಲ್ಲರೂ ಬನ್ನಿ. ಚೆನ್ನಾಗಿ ಸಿಂಗರಿಸಿಕೊಂಡವರಿಗೆ ಪುಟ್ಟ ಬಹುಮಾನ.']},
 {en:['Old film heroine day','Dress like your favourite heroine from the 70s–90s and say one of her famous lines.'],kn:['ಹಳೆಯ ಸಿನಿಮಾ ನಾಯಕಿ','70–90ರ ದಶಕದ ನಿಮ್ಮ ಮೆಚ್ಚಿನ ನಾಯಕಿಯಂತೆ ಸಿಂಗರಿಸಿಕೊಂಡು ಬಂದು ಅವರ ಒಂದು ಪ್ರಸಿದ್ಧ ಮಾತು ಹೇಳಿ.']},
 {en:['Cooking contest','Each lady brings one dish in a covered box. Everyone tastes and votes.'],kn:['ಅಡುಗೆ ಸ್ಪರ್ಧೆ','ಪ್ರತಿಯೊಬ್ಬರೂ ಒಂದು ತಿನಿಸನ್ನು ಮುಚ್ಚಿದ ಡಬ್ಬಿಯಲ್ಲಿ ತರುತ್ತಾರೆ. ಎಲ್ಲರೂ ರುಚಿ ನೋಡಿ ಮತ ಹಾಕುತ್ತಾರೆ.']},
 {en:['Saree swap','Bring a saree or dupatta you no longer wear. Draw lots and take one home.'],kn:['ಸೀರೆ ಬದಲಾವಣೆ','ನೀವು ಈಗ ಉಡದ ಸೀರೆ ಅಥವಾ ದುಪಟ್ಟಾ ತನ್ನಿ. ಚೀಟಿ ಎತ್ತಿ ಒಂದನ್ನು ಮನೆಗೆ ಕೊಂಡೊಯ್ಯಿರಿ.']},
 {en:['Plant and seed swap','Bring a cutting, a sapling or seeds from your balcony garden to swap.'],kn:['ಗಿಡ-ಬೀಜ ಬದಲಾವಣೆ','ನಿಮ್ಮ ಮನೆಯ ಕೈತೋಟದ ಸಸಿ, ಕೊಂಬೆ ಅಥವಾ ಬೀಜ ತಂದು ಬದಲಾಯಿಸಿಕೊಳ್ಳಿ.']},
-{en:['Family recipe cards','Each lady brings one family recipe on a card. The host makes a little booklet later.'],kn:['ಮನೆಯ ಅಡುಗೆ ಚೀಟಿ','ಪ್ರತಿಯೊಬ್ಬರೂ ಮನೆಯ ಒಂದು ವಿಶೇಷ ಅಡುಗೆಯ ವಿಧಾನ ಬರೆದು ತನ್ನಿ. ನಂತರ ಮನೆಯೊಡತಿ ಪುಟ್ಟ ಪುಸ್ತಕ ಮಾಡುತ್ತಾರೆ.']},
+{en:['Family recipe cards','Each lady brings one family recipe on a card. The host makes a little booklet later.'],kn:['ಮನೆಯ ಅಡುಗೆ ಚೀಟಿ','ಪ್ರತಿಯೊಬ್ಬರೂ ಮನೆಯ ಒಂದು ವಿಶೇಷ ಅಡುಗೆಯ ವಿಧಾನ ಬರೆದು ತನ್ನಿ. ನಂತರ ಪಾರ್ಟಿ ಕೊಡುವವರು ಪುಟ್ಟ ಪುಸ್ತಕ ಮಾಡುತ್ತಾರೆ.']},
 {en:['Five-minute talent','One lady each month shows a skill — a song, mehendi, a quick craft, a yoga stretch.'],kn:['ಐದು ನಿಮಿಷದ ಪ್ರತಿಭೆ','ಪ್ರತಿ ತಿಂಗಳು ಒಬ್ಬರು ತಮ್ಮ ಕಲೆ ತೋರಿಸಲಿ — ಹಾಡು, ಮೆಹೆಂದಿ, ಕರಕುಶಲ, ಯೋಗ.']},
 {en:['Secret sister','Draw names; bring a small gift (under ₹200) for your secret sister next month.'],kn:['ಗುಟ್ಟಿನ ಸಖಿ','ಚೀಟಿಯಲ್ಲಿ ಹೆಸರು ಎತ್ತಿ; ಮುಂದಿನ ತಿಂಗಳು ನಿಮ್ಮ ಗುಟ್ಟಿನ ಸಖಿಗೆ ₹200 ಒಳಗಿನ ಪುಟ್ಟ ಉಡುಗೊರೆ ತನ್ನಿ.']},
 {en:['Morning wellness kitty','Meet at 7 am in a park: 20 minutes of yoga, then breakfast together.'],kn:['ಬೆಳಗಿನ ಆರೋಗ್ಯ ಕಿಟ್ಟಿ','ಬೆಳಿಗ್ಗೆ 7ಕ್ಕೆ ಉದ್ಯಾನದಲ್ಲಿ ಸೇರಿ: 20 ನಿಮಿಷ ಯೋಗ, ನಂತರ ಒಟ್ಟಿಗೆ ತಿಂಡಿ.']},
 {en:['Antakshari','Two teams, songs on the phone. The losing team serves the dessert.'],kn:['ಅಂತ್ಯಾಕ್ಷರಿ','ಎರಡು ತಂಡ, ಫೋನಿನಲ್ಲಿ ಹಾಡು. ಸೋತ ತಂಡ ಸಿಹಿ ಬಡಿಸುತ್ತದೆ.']},
 {en:['Old photos','Everyone brings a wedding or school photo. Guess who is who.'],kn:['ಹಳೆಯ ಫೋಟೋ','ಎಲ್ಲರೂ ಮದುವೆಯ ಅಥವಾ ಶಾಲೆಯ ಫೋಟೋ ತನ್ನಿ. ಯಾರು ಯಾರು ಎಂದು ಊಹಿಸಿ.']},
 {en:['Give-back kitty','Everyone puts ₹100 in a jar for a cause the group picks — a school, a cow shelter, a neighbour.'],kn:['ಸಹಾಯದ ಕಿಟ್ಟಿ','ಎಲ್ಲರೂ ₹100 ಡಬ್ಬಿಗೆ ಹಾಕಿ, ಬಳಗ ಆರಿಸಿದ ಒಳ್ಳೆಯ ಕೆಲಸಕ್ಕೆ ಕೊಡಿ — ಶಾಲೆ, ಗೋಶಾಲೆ, ನೆರೆಹೊರೆಯವರು.']},
-{en:['Mystery venue','The host keeps the place secret — a café, a terrace, a farmhouse — and shares the location on the day.'],kn:['ಗುಟ್ಟಿನ ಜಾಗ','ಪಾರ್ಟಿ ಎಲ್ಲಿ ಎಂದು ಮನೆಯೊಡತಿ ಗುಟ್ಟಾಗಿಡುತ್ತಾರೆ — ಕೆಫೆ, ತಾರಸಿ, ತೋಟದ ಮನೆ — ಅದೇ ದಿನ ಸ್ಥಳ ಕಳುಹಿಸುತ್ತಾರೆ.']},
+{en:['Mystery venue','The host keeps the place secret — a café, a terrace, a farmhouse — and shares the location on the day.'],kn:['ಗುಟ್ಟಿನ ಜಾಗ','ಪಾರ್ಟಿ ಎಲ್ಲಿ ಎಂದು ಪಾರ್ಟಿ ಕೊಡುವವರು ಗುಟ್ಟಾಗಿಡುತ್ತಾರೆ — ಕೆಫೆ, ತಾರಸಿ, ತೋಟದ ಮನೆ — ಅದೇ ದಿನ ಸ್ಥಳ ಕಳುಹಿಸುತ್ತಾರೆ.']},
 {en:['Festival special','Match the month: Deepavali lamps, Sankranti ellu-bella, Ugadi bevu-bella, Holi colours.'],kn:['ಹಬ್ಬದ ವಿಶೇಷ','ತಿಂಗಳಿಗೆ ತಕ್ಕಂತೆ: ದೀಪಾವಳಿ ದೀಪ, ಸಂಕ್ರಾಂತಿ ಎಳ್ಳು-ಬೆಲ್ಲ, ಯುಗಾದಿ ಬೇವು-ಬೆಲ್ಲ, ಹೋಳಿ ಬಣ್ಣ.']}];
 const CALLS_EN={1:"Kelly's eye",2:'One little duck',3:'Cup of tea',4:'Knock at the door',5:'Man alive',6:'Half a dozen',7:'Lucky seven',8:'One fat lady',9:"Doctor's time",10:"Uncle's den",11:'Legs eleven',12:'One dozen',13:'Unlucky for some',16:'Sweet sixteen',18:'Voting age',21:'Key of the door',22:'Two little ducks',25:'Silver jubilee',26:'Republic Day',45:'Halfway there',50:'Half a century',66:'Clickety click',75:'Diamond jubilee',77:'Two little crutches',88:'Two fat ladies',89:'Nearly there',90:'Top of the house'};
 const CALLS_KN={7:'ಅದೃಷ್ಟದ ಏಳು',11:'ಎರಡು ಕೋಲು',15:'ಸ್ವಾತಂತ್ರ್ಯ ದಿನ',22:'ಎರಡು ಬಾತುಕೋಳಿ',25:'ಬೆಳ್ಳಿ ಹಬ್ಬ',26:'ಗಣರಾಜ್ಯೋತ್ಸವ',33:'ಎಲ್ಲಾ ಮೂರು',44:'ಎಲ್ಲಾ ನಾಲ್ಕು',50:'ಅರ್ಧ ಶತಕ',55:'ಎಲ್ಲಾ ಐದು',66:'ಎಲ್ಲಾ ಆರು',75:'ವಜ್ರ ಮಹೋತ್ಸವ',77:'ಎಲ್ಲಾ ಏಳು',88:'ಎಲ್ಲಾ ಎಂಟು',90:'ಕೊನೆಯ ಸಂಖ್ಯೆ'};
@@ -537,10 +539,11 @@ $('#cal').addEventListener('click',e=>{const b=e.target.closest('.mo');if(!b)ret
   ask(t('hostFor',monthName(c)),`<label for="dlgIn">${esc(t('hostName'))}</label><input id="dlgIn">`,()=>{const v=$('#dlgIn').value.trim();if(v&&v!==nm(c.host)){c.from=c.host;c.host=v;store.set('cal2',cal);drawCal()}},true);$('#dlgIn').value=nm(c.host)});
 
 /* ---------- INVITE ---------- */
-const invFields=['iHost','iDate','iTime','iPlace','iTheme','iMenu','iKitty','iNote','iPrivate'];
+const invFields=['iHost','iDate','iTime','iVenue','iPlace','iTheme','iMenu','iKitty','iNote','iPrivate'];
 const saved=store.get('inv',{});invFields.forEach(f=>{if(saved[f])$('#'+f).value=saved[f]});
 let invGames=new Set(store.get('invGames2',['housie']));
 let secrets=store.get('secrets',{});
+let vType=store.get('vtype','home');
 const lockSvg='<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
 const fmtDate=v=>{if(!v)return'';try{return new Date(v+'T00:00').toLocaleDateString(L==='kn'?'kn-IN':'en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}catch(e){return v}};
 const fmtTime=v=>{if(!v)return'';const[h,m]=v.split(':').map(Number);const hm=((h%12)||12)+':'+String(m).padStart(2,'0');return L==='kn'?(h<12?'ಬೆಳಿಗ್ಗೆ ':h<16?'ಮಧ್ಯಾಹ್ನ ':h<19?'ಸಂಜೆ ':'ರಾತ್ರಿ ')+hm:hm+(h<12?' am':' pm')};
@@ -548,23 +551,25 @@ const APP_URL=(/^https?:/.test(location.protocol)&&!/claude|anthropic/.test(loca
 const gv=id=>$('#'+id).value.trim();
 const gamesList=()=>GAMES.filter(g=>invGames.has(g.id)).map(gName);
 const parts=()=>{const p=[];const add=(k,txt,sec,secTxt)=>{if(sec)p.push([k,secTxt||t('secretTxt'),1]);else if(txt)p.push([k,txt,0])};
-  add('bWhere',gv('iPlace'),secrets.place&&true,t('secretPlace'));add('bTheme',gv('iTheme'),secrets.theme&&gv('iTheme'));add('bMenu',gv('iMenu'),secrets.menu&&gv('iMenu'));
+  add('bWhere',[vType==='other'?gv('iVenue'):'',gv('iPlace')].filter(Boolean).join('\n'),secrets.place&&true,t('secretPlace'));add('bTheme',gv('iTheme'),secrets.theme&&gv('iTheme'));add('bMenu',gv('iMenu'),secrets.menu&&gv('iMenu'));
   add('bGames',gamesList().join(', '),secrets.games&&invGames.size);add('bKitty',gv('iKitty'));add('bNote',gv('iNote'));return p};
-const invText=()=>{const h=gv('iHost')||t('cHostDef');const o=['🌸 '+t('waHead')+' 🌸','',t('waCome',h)];
+const invText=()=>{const h=gv('iHost')||t('cHostDef');const o=['🌸 '+t('waHead')+' 🌸','',vType==='home'?t('waCome',h):t('waInvite',h)];
   if(gv('iDate'))o.push('📅 '+fmtDate(gv('iDate'))+(gv('iTime')?' · '+fmtTime(gv('iTime')):''));
   const ic={bWhere:'📍',bTheme:'✨',bMenu:'🍽',bGames:'🎲',bKitty:'💰',bNote:'📝'};
   parts().forEach(([k,v])=>o.push('',ic[k]+' '+t(k)+': '+v));
   o.push('','🎉 '+t('waApp'));if(APP_URL)o.push(APP_URL);return o.join('\n')};
 function drawInv(){
-  const o={};invFields.forEach(f=>o[f]=$('#'+f).value);store.set('inv',o);store.set('invGames2',[...invGames]);store.set('secrets',secrets);
+  const o={};invFields.forEach(f=>o[f]=$('#'+f).value);store.set('inv',o);store.set('invGames2',[...invGames]);store.set('secrets',secrets);store.set('vtype',vType);
+  $$('#vType .chip').forEach(c=>c.classList.toggle('on',c.dataset.v===vType));$('#venueWrap').hidden=vType!=='other';
   $('#iGames').innerHTML=GAMES.map(g=>`<button type="button" class="chip ${invGames.has(g.id)?'on':''}" data-g="${g.id}">${esc(gName(g))}</button>`).join('');
   $$('.secret').forEach(b=>{const on=!!secrets[b.dataset.s];b.classList.toggle('on',on);b.innerHTML=lockSvg+esc(on?t('secretOn'):t('secret'));b.setAttribute('aria-pressed',on)});
-  let h=`<div class="k">${esc(t('cInvites'))}</div><h2>${esc(t('cKitty'))}</h2><div class="k">${esc(t('cAt'))}</div><div class="who">${esc(L==='kn'?t('hostedBy',gv('iHost')||t('cHostDef')):(gv('iHost')||t('cHostDef'))+"'s")}</div>`;
+  let h=`<div class="k">${esc(t('cInvites'))}</div><h2>${esc(t('cKitty'))}</h2><div class="k">${esc(t('cAt'))}</div><div class="who">${esc(vType==='home'?t('atHome',gv('iHost')||t('cHostDef')):t('hostedAt',gv('iHost')||t('cHostDef')))}</div>${vType==='other'&&gv('iVenue')&&!secrets.place?`<div class="k" style="font-size:19px;color:#fff">${esc(gv('iVenue'))}</div>`:''}`;
   h+=`<div class="when">${esc(fmtDate(gv('iDate'))||t('pickDate'))}${gv('iTime')?' · '+esc(fmtTime(gv('iTime'))):''}</div>`;
   h+=parts().map(([k,v,s])=>`<div class="blk ${s?'sec':''}"><b>${esc(t(k))}</b>\n${esc(v)}</div>`).join('');
   $('#invCard').innerHTML=h;$('#waBtn').href='https://wa.me/?text='+encodeURIComponent(invText());
 }
 $('#invForm').addEventListener('input',drawInv);$('#invForm').addEventListener('submit',e=>e.preventDefault());
+$('#vType').addEventListener('click',e=>{const c=e.target.closest('.chip');if(c){vType=c.dataset.v;drawInv()}});
 $('#iGames').addEventListener('click',e=>{const c=e.target.closest('.chip');if(!c)return;const n=c.dataset.g;invGames.has(n)?invGames.delete(n):invGames.add(n);drawInv()});
 $('#invForm').addEventListener('click',e=>{const b=e.target.closest('.secret');if(!b)return;e.preventDefault();secrets[b.dataset.s]=!secrets[b.dataset.s];drawInv()});
 const mixMenu=()=>[0,1,2,3,5].map((ci,k)=>t('mixLabels')[k]+': '+pick(MENU[ci].i[L])).join('\n');
