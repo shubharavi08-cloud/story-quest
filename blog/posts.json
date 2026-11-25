@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Why Did Manikanta Bring Tiger's Milk? The Ayyappa Tiger Story, Explained for Children",
+   "url": "https://worldofwondersstudio.com/blog/tiger-milk-story-manikanta-for-children/",
+   "date": "2026-11-24",
+   "description": "The tiger's milk story of Ayyappa for children: Manikanta's guru dakshina, the queen's fear and pretend headache, the 12-year-old's walk into the forest, the tigers that bowed, the ride home to Pandalam and what it teaches about courage and forgiveness."
+  },
+  {
    "title": "Who Is Vavar Swami? How Ayyappa's Enemy Became His Best Friend, Explained for Children",
    "url": "https://worldofwondersstudio.com/blog/vavar-swami-story-for-children/",
    "date": "2026-11-23",
@@ -95,6 +101,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/tiger-milk-story-manikanta-for-children/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/vavar-swami-story-for-children/index.html",
