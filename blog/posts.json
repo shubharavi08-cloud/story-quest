@@ -1,6 +1,18 @@
 {
  "posts": [
   {
+   "title": "Who Is Kadutha Swami? The Warrior Who Guards Sabarimala's 18 Holy Steps, Explained for Children",
+   "url": "https://worldofwondersstudio.com/blog/kadutha-swami-guardian-18-steps-for-children/",
+   "date": "2026-11-26",
+   "description": "The story of Kadutha Swami for children: the brave warrior who fought beside Manikanta, why his shrine stands at the foot of the 18 holy steps at Sabarimala with Karuppa Swami on the other side, what the 18 steps mean, and a lesson in loyalty."
+  },
+  {
+   "title": "Just Right: Aarav's Seven Laddoos and Bhagavad Gita 6.17 on Balance, for Children",
+   "url": "https://worldofwondersstudio.com/blog/just-right-aarav-laddoos-gita-6-17/",
+   "date": "2026-11-25",
+   "description": "Not too much, not too little. A short story about Aarav, seven laddoos and Grandpa's circle, what Bhagavad Gita 6.17 teaches about balance in eating, play, work and sleep, and one small step for families to try today."
+  },
+  {
    "title": "Why Did Manikanta Bring Tiger's Milk? The Ayyappa Tiger Story, Explained for Children",
    "url": "https://worldofwondersstudio.com/blog/tiger-milk-story-manikanta-for-children/",
    "date": "2026-11-24",
@@ -101,6 +113,14 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/kadutha-swami-guardian-18-steps-for-children/index.html",
+   "priority": 0.6
+  },
+  {
+   "path": "blog/just-right-aarav-laddoos-gita-6-17/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/tiger-milk-story-manikanta-for-children/index.html",
