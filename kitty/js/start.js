@@ -65,6 +65,7 @@ const q = new URLSearchParams(location.search);
 if (q.get('inv')) { const d = b64d(q.get('inv')); applyWords(); if (d) { KP.renderSharedInvite(d); return } }
 drawAll();
 KP.cloudStart && KP.cloudStart();
+setTimeout(() => KP.buildFestCache && KP.buildFestCache(), 4000);
 if (q.get('members')) { const L = b64d(q.get('members')); if (L && KP.canEdit()) KP.importMembers(L); try { history.replaceState(null, '', location.pathname + location.hash) } catch (e) {} }
 try { if (KP.APP_URL && 'serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {}) } catch (e) {}
 })();

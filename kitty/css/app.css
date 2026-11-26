@@ -585,3 +585,31 @@ body.joining{overflow:hidden}
 .li > svg[class=""]{width:20px;height:20px;color:var(--gold-deep)}
 .li .grow > span{display:block}
 .join-logo{display:block;margin:0 auto}
+
+/* ===== panchanga ===== */
+.cal-grid button{aspect-ratio:auto;min-height:62px}
+.cal-grid .pt{display:block;width:100%;padding:0 1px;font:600 9.5px/1.2 var(--f-body);letter-spacing:-.2px;color:var(--gold-deep);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:clip;min-height:12px}
+.cal-grid button{overflow:hidden}
+.cal-grid button.kp .pt{color:#6B4A7A}
+.cal-grid button.sel .pt{color:#FBEFD9}
+.cal-grid button.pfull{background:#FFF8E6}
+.cal-grid button.pnew{background:#F3EDF5}
+.cal-grid button.pfest:not(.sel){border-color:var(--gold)}
+.cal-grid button.sel.pfull,.cal-grid button.sel.pnew{background:var(--burgundy)}
+.d-pf{background:var(--gold-deep,#B8862F)}
+.legend .d-pf{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}
+.pcard .phead{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.pcard .moon{width:46px;height:46px;flex:none}
+.pcard .pfest{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.pcard .pchips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.pcard .pchips span{font-size:12.5px;font-weight:600;color:var(--burgundy);background:var(--gold-soft);border-radius:999px;padding:3px 10px}
+.pcard .pgrid{display:grid;gap:0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.pcard .pgrid.two{grid-template-columns:1fr 1fr}
+.pcard .prow{display:flex;flex-direction:column;gap:2px;padding:9px 12px;border-bottom:1px solid var(--line);background:#fff}
+.pcard .pgrid.two .prow:nth-child(odd){border-right:1px solid var(--line)}
+.pcard .prow>span:first-child{font-size:12px;font-weight:700;color:var(--muted)}
+.pcard .prow>span:last-child{font-size:15px;line-height:1.4;color:var(--ink)}
+.pcard .prow b{color:var(--wine)}
+.pcard .prow.bad>span:last-child{color:#A3262A;font-weight:600}
+.pcard .prow.good>span:last-child{color:#1E6B4E;font-weight:600}
+.pcard .psub{margin:14px 0 6px;font-size:14px;color:var(--burgundy)}

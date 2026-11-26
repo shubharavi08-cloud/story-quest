@@ -19,6 +19,8 @@ function allEvents() {
   D.invs().forEach(x => { const d = x.data; if (d.date) ev.push({ id: 'inv-' + x.id, kind: 'party', date: d.date, title: d.title || t('cKitty'), host: d.host, time: d.time, venue: d.secrets && d.secrets.place ? '' : [d.venueType === 'other' ? d.venueName : t('atHome', d.host || ''), d.address].filter(Boolean).join(' · ') }) });
   const y0 = today().getFullYear();
   C.FESTIVALS.forEach(f => ev.push({ id: 'fest-' + f.id, kind: 'fest', date: f.d, title: tx(f), note: tx(f.idea) }));
+  const own = Object.values(PMAP);
+  [y0, y0 + 1].forEach(Y => { const c = store.get('pfest_' + Y, null); if (c) Object.keys(c).forEach(k => c[k].forEach(f => { if (!own.includes(f.id)) ev.push({ id: 'pf-' + f.id + '-' + k, kind: 'fest', date: k, title: KP.L === 'kn' ? f.kn : f.en, note: '' }) })) });
   D.members().forEach(m => [['bday', 'bdayOf'], ['anniv', 'annivOf']].forEach(([k, lab]) => { if (!m[k]) return; [y0, y0 + 1].forEach(y => ev.push({ id: k + '-' + m.id + '-' + y, kind: 'bday', date: y + '-' + m[k].slice(5), title: m.name + ' — ' + t(lab), member: m, wishKey: k })) }));
   return ev.sort((a, b) => a.date < b.date ? -1 : 1);
 }
@@ -27,7 +29,7 @@ function renderCalendar(el) {
   let cm = store.get('calMonth', null); const now = today();
   if (!cm) cm = { y: now.getFullYear(), m: now.getMonth() };
   let sel = store.get('calSel', iso(now));
-  const draw = () => {
+  let draw = () => {
     const ev = allEvents(); const byDay = {}; ev.forEach(e => (byDay[e.date] = byDay[e.date] || []).push(e));
     const first = new Date(cm.y, cm.m, 1); const startDow = (first.getDay() + 6) % 7; const days = new Date(cm.y, cm.m + 1, 0).getDate();
     const cells = []; for (let i = 0; i < 42; i++) { const d = new Date(cm.y, cm.m, 1 - startDow + i); cells.push(d); if (i >= 34 && d.getMonth() !== cm.m && i % 7 === 0) break }
@@ -39,17 +41,21 @@ function renderCalendar(el) {
     el.innerHTML = `<div class="cols">
       <div class="card"><div class="cal-head"><button class="btn ghost icon" data-mv="-1" type="button" aria-label="${esc(t('prevMonth'))}">${ic('left')}</button><h3>${esc(KP.monthLabel(cm.y, cm.m))}</h3><button class="btn ghost icon" data-mv="1" type="button" aria-label="${esc(t('nextMonth'))}">${ic('right')}</button></div>
         ${turn ? `<p class="small" style="text-align:center;margin:-2px 0 10px"><span class="badge rose">${esc(t('turnOf', nm(turn.host)))}</span></p>` : ''}
-        <div class="cal-grid">${dows.map(d => `<div class="dow">${d}</div>`).join('')}${cells.map(d => { const k = iso(d); const es = byDay[k] || []; const kinds = [...new Set(es.map(e => e.kind))]; return `<button type="button" data-day="${k}" class="${d.getMonth() !== cm.m ? 'out' : ''} ${k === iso(now) ? 'today' : ''} ${k === sel ? 'sel' : ''}" aria-label="${esc(fmtDate(d))}${es.length ? ' — ' + es.length : ''}">${d.getDate()}<span class="dots">${kinds.map(x => `<i class="d-${x}"></i>`).join('')}</span></button>` }).join('')}</div>
-        <div class="legend"><span><i class="d-party"></i>${esc(t('lgParty'))}</span><span><i class="d-fest"></i>${esc(t('lgFest'))}</span><span><i class="d-bday"></i>${esc(t('lgBday'))}</span></div>
+        <div class="cal-grid">${dows.map(d => `<div class="dow">${d}</div>`).join('')}${cells.map(d => { const k = iso(d); const es = byDay[k] || []; const kinds = [...new Set(es.map(e => e.kind))]; return `<button type="button" data-day="${k}" class="${d.getMonth() !== cm.m ? 'out' : ''} ${k === iso(now) ? 'today' : ''} ${k === sel ? 'sel' : ''}" aria-label="${esc(fmtDate(d))}${es.length ? ' — ' + es.length : ''}">${d.getDate()}<span class="pt" data-pt="${k}"></span><span class="dots">${kinds.map(x => `<i class="d-${x}"></i>`).join('')}</span></button>` }).join('')}</div>
+        <div class="legend"><span><i class="d-party"></i>${esc(t('lgParty'))}</span><span><i class="d-fest"></i>${esc(t('lgFest'))}</span><span><i class="d-bday"></i>${esc(t('lgBday'))}</span><span><i class="d-pf"></i>${esc(t('lgPanch'))}</span></div>
         <div class="row" style="margin-top:12px"><button class="btn ghost sm" id="today" type="button">${esc(t('todayBtn'))}</button><button class="btn ghost sm" id="turns" type="button">${ic('users')}${esc(t('turnsList'))}</button><a class="btn sm adm" href="#invite">${ic('plus')}${esc(t('newEvent'))}</a></div>
       </div>
       <div class="stack">
+        <div class="card pcard" id="pCard"><p class="muted small" style="margin:0">${esc(t('pWait'))}</p></div>
         <div class="card"><h3>${esc(fmtDate(sel))}</h3>${selEv.length ? `<div class="list">${selEv.map(evRow).join('')}</div>` : `<p class="muted small" style="margin:0">${esc(t('noEventsDay'))}</p>`}</div>
         <div class="card"><h3>${esc(t('upcoming'))}</h3>${up.length ? `<div class="list">${up.map(evRow).join('')}</div>` : empty('cal', t('noUpcoming'))}</div>
         <div class="card"><h3>${esc(t('pastParties'))}</h3>${pastParties.length ? `<div class="list">${pastParties.map(evRow).join('')}</div>` : `<p class="muted small" style="margin:0">${esc(t('noPast'))}</p>`}</div>
       </div></div>`;
   };
   const evRow = e => { const d = parseISO(e.date); return `<button type="button" class="ev ${e.kind}" data-ev="${esc(e.id)}"><span class="dt"><b>${d.getDate()}</b><span>${esc(d.toLocaleDateString(KP.L === 'kn' ? 'kn-IN' : 'en-IN', { month: 'short' }))}</span></span><span style="flex:1"><b style="display:block;color:var(--wine)">${esc(e.title)}</b><span class="small muted">${esc(e.kind === 'party' ? [e.time ? fmtTime(e.time) : '', e.host ? t('hostedBy', e.host) : ''].filter(Boolean).join(' · ') : e.kind === 'fest' ? t('lgFest') : t('lgBday'))}</span></span>${ic('right')}</button>` };
+  const draw0 = draw; let tok = 0;
+  const drawAll = () => { draw0(); const my = ++tok; fillPanchanga(el, cm, sel, () => my === tok) };
+  draw = drawAll;
   draw();
   el.onclick = e => {
     const b = e.target.closest('button'); if (!b) return;
@@ -59,6 +65,89 @@ function renderCalendar(el) {
     if (b.id === 'turns') { turnsDialog(draw); return }
     if (b.dataset.ev) { const ev = allEvents().find(x => x.id === b.dataset.ev); if (ev) eventDialog(ev, draw) }
   };
+}
+/* ---------- panchanga (Bengaluru) ---------- */
+let PJ = null;
+const ensureP = () => PJ ? Promise.resolve(PJ) : KP.loadScript('js/astronomy.min.js').then(() => KP.loadScript('js/panchanga.js')).then(() => (PJ = window.Panchanga));
+const pN = () => PJ.N[KP.L === 'kn' ? 'kn' : 'en'];
+const tithiName = i => { const n = pN().tithi; return i === 14 ? n[14] : i === 29 ? n[15] : n[i % 15] };
+const karanaName = k => { const n = pN().karana; return k === 0 ? n[0] : k >= 57 ? n[k - 49] : n[1 + (k - 1) % 7] };
+const pTime = (d, p) => { if (!d) return '—'; const x = new Date(d.getTime() + 19800e3); const hm = String(x.getUTCHours()).padStart(2, '0') + ':' + String(x.getUTCMinutes()).padStart(2, '0'); const sameDay = x.getUTCDate() === p.d; return (sameDay ? '' : t('pNextPre')) + fmtTime(hm) + (sameDay || !t('pNextDay') ? '' : ' ' + t('pNextDay')) };
+const pSpan = (a, p) => pTime(a.from, p) + ' – ' + pTime(a.to, p);
+const moonSvg = ph => { const r = 18, c = Math.cos(ph * Math.PI / 180), right = ph < 180, rx = (Math.abs(c) * r).toFixed(2), s1 = right ? 1 : 0, s2 = c > 0 ? (right ? 0 : 1) : (right ? 1 : 0); return `<svg viewBox="-20 -20 40 40" class="moon" aria-hidden="true"><circle r="18" fill="#3a2440" stroke="#d6ad62" stroke-width="1"/><path d="M0 -18 A18 18 0 0 ${s1} 0 18 A${rx} 18 0 0 ${s2} 0 -18Z" fill="#F7E7B4"/></svg>` };
+const limbLine = (list, nameOf, p) => list.map((x, k) => (k ? t('pThen', '') : '') + `<b>${esc(nameOf(x.i))}</b>` + (x.ends && x.ends < p.nextRise ? ' ' + esc(t('pTill', pTime(x.ends, p))) : x.ends ? ' ' + esc(t('pTill', pTime(x.ends, p))) : '')).join('<br>');
+function pDetail(p, fests, mk) {
+  const N = pN(), L = KP.L === 'kn';
+  const masa = (p.adhika ? N.adhika + ' ' : '') + N.masa[p.masa] + ' ' + N.masaWord;
+  const chips = [N.sam[p.sam] + ' ' + N.samWord, N.shaka + ' ' + p.shaka, N.ayana[p.ayana], N.ritu[p.ritu] + ' ' + N.rituWord, masa, N.paksha[p.paksha]];
+  const row = (lab, val, cls) => `<div class="prow ${cls || ''}"><span>${esc(lab)}</span><span>${val}</span></div>`;
+  const ids = fests.map(f => f.id), cover = { ekadashi: ['ashadhi', 'vaikuntha'], purnima: ['gurupurnima', 'upakarma', 'kartikapurnima', 'holi', 'datta'], amavasya: ['mahalaya', 'deepavali'] };
+  const fl = [...fests.map(f => f[L ? 'kn' : 'en']), ...mk.filter(m => !(cover[m] || []).some(x => ids.includes(x))).map(m => t('mk_' + m))];
+  if (p.sankranti) fl.push(t('pSankranti', N.rashi[p.sankranti.sign]) + ' · ' + pTime(p.sankranti.at, p));
+  return `<div class="phead">${moonSvg(p.phase)}<div><h3 style="margin:0">${esc(t('pTitle'))} · ${esc(fmtDate(new Date(p.y, p.m, p.d)))}</h3><span class="small muted">${esc(t('pFor'))}</span></div></div>
+    ${fl.length ? `<div class="pfest">${fl.map(x => `<span class="badge gold">${esc(x)}</span>`).join('')}</div>` : ''}
+    <div class="pchips">${chips.map(x => `<span>${esc(x)}</span>`).join('')}</div>
+    <div class="pgrid">
+      ${row(t('pTithi'), limbLine(p.tithis, tithiName, p))}
+      ${row(t('pNak'), limbLine(p.naks, i => N.nak[i], p))}
+      ${row(t('pYoga'), limbLine(p.yogas, i => N.yoga[i], p))}
+      ${row(t('pKarana'), limbLine(p.kar, karanaName, p))}
+      ${row(t('pMoonSign'), esc(N.rashi[p.moonSign]))}
+      ${row(t('pSunSign'), esc(N.rashi[p.sunSign]))}
+    </div>
+    <h4 class="psub">${esc(t('pSunMoon'))}</h4>
+    <div class="pgrid two">${row(t('pRise'), esc(pTime(p.rise, p)))}${row(t('pSet'), esc(pTime(p.set, p)))}${row(t('pMoonrise'), esc(pTime(p.moonrise, p)))}${row(t('pMoonset'), esc(pTime(p.moonset, p)))}</div>
+    <h4 class="psub">${esc(t('pAvoid'))}</h4>
+    <div class="pgrid two">${row(t('pRahu'), esc(pSpan(p.rahu, p)), 'bad')}${row(t('pYama'), esc(pSpan(p.yama, p)), 'bad')}${row(t('pGulika'), esc(pSpan(p.gulika, p)), 'bad')}</div>
+    <h4 class="psub">${esc(t('pGood'))}</h4>
+    <div class="pgrid two">${row(t('pAbhijit'), esc(pSpan(p.abhijit, p)), 'good')}</div>
+    <p class="small muted" style="margin:12px 0 0">${esc(t('pNote'))}</p>`;
+}
+/* festival dates for this year and next, worked out once and kept on the phone */
+const PMAP = { sankranti: 'sankranti', ugadi: 'ugadi', dasara: 'vijayadashami', deepavali: 'deepavali' };
+function applyFestCache() {
+  const y = today().getFullYear(), now = iso(today());
+  C.FESTIVALS.forEach(f => {
+    if (PMAP[f.id]) { for (const Y of [y, y + 1]) { const c = store.get('pfest_' + Y, null); if (!c) continue; const hit = Object.keys(c).sort().find(k => k >= now && c[k].some(x => x.id === PMAP[f.id])); if (hit) { f.d = hit; break } } }
+    else { const md = f.d.slice(5); f.d = ((y + '-' + md) >= now ? y : y + 1) + '-' + md }
+  });
+}
+applyFestCache();
+let building = false;
+KP.buildFestCache = async () => {
+  if (building) return; building = true;
+  try {
+    const y = today().getFullYear(); let changed = false;
+    for (const Y of [y, y + 1]) {
+      if (store.get('pfest_' + Y, null)) continue;
+      const P = await ensureP(); const out = {};
+      for (let i = 0; i < 366; i++) {
+        const dt = new Date(Date.UTC(Y, 0, 1 + i)); if (dt.getUTCFullYear() !== Y) break;
+        const f = P.festivalsOn(Y, dt.getUTCMonth(), dt.getUTCDate()); if (f.length) out[dt.toISOString().slice(0, 10)] = f.map(x => ({ id: x.id, kn: x.kn, en: x.en }));
+        if (i % 6 === 5) await new Promise(r => setTimeout(r, 0));
+      }
+      store.set('pfest_' + Y, out); changed = true;
+    }
+    if (changed) { applyFestCache(); const top = (location.hash.slice(1) || 'home').split('-')[0]; if (['home', 'act'].includes(top) && !document.querySelector('#dlg.on')) KP.route && KP.route(true) }
+  } catch (e) {} finally { building = false }
+};
+async function fillPanchanga(el, cm, sel, alive) {
+  let P; try { P = await ensureP() } catch (e) { const c = $('#pCard', el); if (c) c.innerHTML = `<p class="small muted" style="margin:0">${esc(t('pFail'))}</p>`; return }
+  const one = k => { const [y, m, d] = k.split('-').map(Number); const p = P.day(y, m - 1, d); return { p, f: P.festivalsOn(y, m - 1, d), mk: P.marks(p) } };
+  const sp = one(sel); if (!alive()) return;
+  const c = $('#pCard', el); if (c) c.innerHTML = pDetail(sp.p, sp.f, sp.mk);
+  const cells = $$('[data-pt]', el).sort((a, b) => (a.closest('.out') ? 1 : 0) - (b.closest('.out') ? 1 : 0));
+  for (let n = 0; n < cells.length; n++) {
+    if (!alive()) return;
+    const sp2 = cells[n]; const r = one(sp2.dataset.pt); const ti = r.p.tithis[0].i;
+    const sh = t('pShort'), nm = sh[ti === 14 ? 14 : ti === 29 ? 15 : ti % 15];
+    sp2.textContent = nm; sp2.title = pN().paksha[r.p.paksha] + ', ' + tithiName(ti);
+    sp2.style.fontSize = ''; let fz = 9.5; while (sp2.scrollWidth > sp2.clientWidth + 0.5 && fz > 7) { fz -= 0.5; sp2.style.fontSize = fz + 'px' }
+    const btn = sp2.closest('button'); btn.classList.toggle('kp', r.p.paksha === 1);
+    if (ti === 14 || ti === 29) btn.classList.add(ti === 14 ? 'pfull' : 'pnew');
+    if (r.f.length) { btn.classList.add('pfest'); const dots = btn.querySelector('.dots'); if (dots && !dots.querySelector('.d-pf')) dots.insertAdjacentHTML('beforeend', '<i class="d-pf"></i>'); btn.setAttribute('aria-label', btn.getAttribute('aria-label') + ' — ' + r.f.map(f => f[KP.L === 'kn' ? 'kn' : 'en']).join(', ')) }
+    if (n % 3 === 2) await new Promise(res => setTimeout(res, 0));
+  }
 }
 function turnsDialog(after) {
   const cal = D.cal(); const cur = KP.currentTurnIdx();
@@ -80,6 +169,7 @@ function eventDialog(e, after) {
   if (e.venue) body += `<p class="small" style="margin:2px 0">${ic('home', '')} ${esc(e.venue)}</p>`;
   if (e.note) body += `<p class="small">${esc(e.note)}</p>`;
   body += `<div class="row" style="margin:12px 0"><a class="btn ghost sm" target="_blank" rel="noopener" href="${esc(gcal)}">${ic('cal')}${esc(t('addToCal'))}</a><button class="btn ghost sm" id="ics" type="button">${ic('down')}${esc(t('icsBtn'))}</button>`;
+  if (e.kind === 'fest' && e.id.startsWith('pf-')) body += `<a class="btn sm" target="_blank" rel="noopener" href="${esc(waLink(KP.L === 'kn' ? e.title + ' ಹಬ್ಬದ ಹಾರ್ದಿಕ ಶುಭಾಶಯಗಳು! 🙏' : 'Warm wishes on ' + e.title + '! 🙏'))}">${ic('wa')}${esc(t('sendWish'))}</a>`;
   if (e.kind === 'fest') { const f = C.FESTIVALS.find(x => 'fest-' + x.id === e.id); if (f) body += `<a class="btn sm" target="_blank" rel="noopener" href="${esc(waLink(tx(f.wish)))}">${ic('wa')}${esc(t('sendWish'))}</a>` }
   if (e.kind === 'bday' && e.member) { const msg = tx(C.WISHES[e.wishKey === 'bday' ? 'bday' : 'anniv']).replace('{n}', e.member.name); body += `<a class="btn sm" target="_blank" rel="noopener" href="${esc(waLink(msg, e.member.phone))}">${ic('wa')}${esc(t('wish'))}</a>` }
   body += `</div>`;
