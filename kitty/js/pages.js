@@ -146,6 +146,7 @@ KP.renderHome = el => {
       ${next}
     </div>
     <div class="stack">
+      <div class="card pcard hp-card" id="homeP"><p class="small muted" style="margin:0">${esc(t('pWait'))}</p></div>
       <div class="card">${mandC()}<div class="card-title"><span class="ic">${ic('cake')}</span><h3>${esc(t('soonTitle'))}</h3><a class="btn ghost sm" href="#act-celebrations">${esc(t('seeAll'))}</a></div>
         ${soon.length ? `<div class="list">${soon.slice(0, 4).map(p => personRow(p)).join('')}</div>` : empty('cake', members.length ? t('noSoon') : t('noMembersYet'))}
       </div>
@@ -154,6 +155,7 @@ KP.renderHome = el => {
   </div>
   <div class="ptitle" style="margin-top:18px"><h2>${esc(t('quickTitle'))}</h2><div class="lotus-div"><svg viewBox="0 0 64 40"><use href="#i-lotus"/></svg></div></div>
   <div class="quick">${quick.map(([r, i, k]) => `<a class="tile" href="#${r}"><span class="ic">${ic(i)}</span><b>${esc(t(k))}</b></a>`).join('')}</div>
+  ${KP.maneTiles ? `<div class="ptitle" style="margin-top:18px"><h2>${esc(t('maneTitle'))}</h2><div class="lotus-div"><svg viewBox="0 0 64 40"><use href="#i-lotus"/></svg></div></div>${KP.maneTiles()}` : ''}
   <div class="cols even" style="margin-top:16px">
     <div class="card"><div class="card-title"><span class="ic">${ic('bell')}</span><h3>${esc(t('annTitle'))}</h3><button class="btn sm adm" id="annAdd" type="button">${ic('plus')}${esc(t('add'))}</button></div>
       ${ann.length ? `<div class="list">${ann.map(a => `<div class="li"><div class="grow"><div style="white-space:pre-line">${esc(a.text)}</div><span class="small muted">${esc(fmtDate(new Date(a.at), { day: 'numeric', month: 'short' }))}</span></div><a class="btn ghost sm icon" href="${esc(waLink(a.text))}" target="_blank" rel="noopener" aria-label="${esc(t('sendWa'))}">${ic('wa')}</a><button class="btn danger sm icon adm" data-del-ann="${a.id}" type="button" aria-label="${esc(t('delete'))}">${ic('trash')}</button></div>`).join('')}</div>` : empty('bell', t('noAnn'))}
@@ -172,6 +174,7 @@ KP.renderHome = el => {
     tick(); homeTimer = setInterval(tick, 1000);
   }
   // thumbs
+  { const hp = $('#homeP', el); if (hp && KP.homePanch) { setTimeout(() => KP.homePanch(hp), 60); hp.addEventListener('click', e => { if (e.target.closest('#hpGo')) { const n = today(); store.set('calMonth', { y: n.getFullYear(), m: n.getMonth() }); store.set('calSel', KP.iso(n)) } }) } }
   KP.photos.all().then(ps => { const box = $('#homeThumbs'); if (!box || !ps.length) return; const last = ps.sort((a, b) => b.at - a.at).slice(0, 4); box.innerHTML = `<a class="thumbs" href="#act-gallery">${last.map(p => `<img src="${esc(p.src)}" alt="${esc(p.caption || '')}" loading="lazy">`).join('')}</a>` }).catch(() => {});
   el.onclick = e => {
     const b = e.target.closest('button'); if (!b) return;

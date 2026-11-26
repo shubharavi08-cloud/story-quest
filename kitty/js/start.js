@@ -12,7 +12,8 @@ const route = keep => {
   let top = h, sub = '';
   if (h.startsWith('game-')) { top = 'games'; sub = h.slice(5) }
   else if (h.startsWith('act-')) { top = 'act'; sub = h.slice(4) }
-  if (!['home', 'invite', 'games', 'act', 'food', 'ideas', 'chat', 'people'].includes(top)) top = 'home';
+  else if (h.startsWith('mane-')) { top = 'mane'; sub = h.slice(5) }
+  if (!['home', 'invite', 'games', 'act', 'food', 'ideas', 'chat', 'people', 'mane'].includes(top)) top = 'home';
   if (top === 'people' && !KP.isAdmin()) top = 'home';
   const navKey = h === 'game-housie' ? 'game-housie' : top;
   $$('.view').forEach(v => v.classList.toggle('on', v.id === 'v-' + top));
@@ -20,7 +21,7 @@ const route = keep => {
   if (keep !== true) $('#drawer').hidden = true; drawBell(); KP.chatBadge && KP.chatBadge();
   const el = $('#v-' + top);
   try {
-    ({ home: KP.renderHome, invite: KP.renderInvite, games: KP.renderGames, act: KP.renderAct, food: KP.renderFood, ideas: KP.renderIdeas, chat: KP.renderChat, people: KP.renderPeople })[top](el, sub);
+    ({ home: KP.renderHome, invite: KP.renderInvite, games: KP.renderGames, act: KP.renderAct, food: KP.renderFood, ideas: KP.renderIdeas, chat: KP.renderChat, people: KP.renderPeople, mane: KP.renderMane })[top](el, sub);
   } catch (e) { console.error(e); el.innerHTML = `<div class="empty">${esc(t('somethingWrong'))}</div>` }
   if (keep === true) return;
   KP.dlg && $('#dlg').classList.contains('on') && KP.dlg.close();
@@ -31,7 +32,7 @@ KP.route = route;
 const drawAll = () => { applyWords(); drawNav(); route() };
 KP.drawAll = drawAll;
 /* side menu */
-const DRAWER = [['menuTitle', [['home', 'home', 'tHome'], ['invite', 'mail', 'tInvite'], ['game-housie', 'ticket', 'tHousie'], ['games', 'games', 'tGames'], ['chat', 'chat', 'tChat'], ['food', 'cup', 'tFood'], ['ideas', 'idea', 'tIdeas']]], ['menuMore', [['act-calendar', 'cal', 'aCal'], ['act-members', 'users', 'aMembers'], ['act-gallery', 'photo', 'aGallery'], ['act-celebrations', 'cake', 'aCeleb']]]];
+const DRAWER = [['menuTitle', [['home', 'home', 'tHome'], ['invite', 'mail', 'tInvite'], ['game-housie', 'ticket', 'tHousie'], ['games', 'games', 'tGames'], ['chat', 'chat', 'tChat'], ['food', 'cup', 'tFood'], ['ideas', 'idea', 'tIdeas']]], ['menuMore', [['act-calendar', 'cal', 'aCal'], ['act-members', 'users', 'aMembers'], ['act-gallery', 'photo', 'aGallery'], ['act-celebrations', 'cake', 'aCeleb']]], ['menuMane', [['mane-acct', 'coin', 'mAcct'], ['mane-fund', 'users', 'mFund'], ['mane-bills', 'bolt', 'mBills'], ['mane-fest', 'diya', 'mFest'], ['mane-safe', 'lock', 'mSafe'], ['mane-study', 'brain', 'mStudy']]]];
 const openDrawer = () => {
   const cur = location.hash.slice(1) || 'home';
   $('#drawerBody').innerHTML = DRAWER.map(([h, L]) => `<div class="dsec">${esc(t(h))}</div>` + L.map(([r, i, k]) => `<a class="dlink ${cur === r ? 'on' : ''}" href="#${r}">${ic(i)}${esc(t(k))}</a>`).join('')).join('') + `<div class="dsec">${esc(t('menuApp'))}</div><button class="dlink" type="button" id="dLang">${ic('lang')}${esc(t('langSwitch'))}</button>` + (KP.isStandalone() ? '' : `<button class="dlink" type="button" id="dInst">${ic('install')}${esc(t('instBtn'))}</button>`)

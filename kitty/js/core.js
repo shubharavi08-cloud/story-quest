@@ -72,7 +72,7 @@ const loadScript = src => new Promise((res, rej) => { if ($(`script[src="${src}"
 /* ---------- UI bits ---------- */
 const toast = m => { const e = $('#toast'); e.textContent = m; e.classList.add('on'); clearTimeout(toast.h); toast.h = setTimeout(() => e.classList.remove('on'), 2200) };
 const dlg = {
-  open(html, onClose) { const d = $('#dlg'); $('#dlgSheet').innerHTML = html; d.classList.add('on'); this.onClose = onClose; const f = $('#dlgSheet').querySelector('input,select,textarea,button'); if (f) setTimeout(() => { try { f.focus({ preventScroll: true }) } catch (e) {} }, 50); return $('#dlgSheet') },
+  open(html, onClose) { const d = $('#dlg'); $('#dlgSheet').innerHTML = html; d.classList.add('on'); this.onClose = onClose; const f = $('#dlgSheet').querySelector('input,select,textarea,button'); if (f) setTimeout(() => { try { if (!$('#dlgSheet').contains(document.activeElement)) f.focus({ preventScroll: true }) } catch (e) {} }, 50); return $('#dlgSheet') },
   close() { $('#dlg').classList.remove('on'); $('#dlgSheet').innerHTML = ''; if (this.onClose) { const f = this.onClose; this.onClose = null; f() } }
 };
 document.addEventListener('click', e => { if (e.target.id === 'dlg') dlg.close(); if (e.target.closest('[data-close]')) dlg.close() });

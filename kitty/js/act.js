@@ -149,6 +149,26 @@ async function fillPanchanga(el, cm, sel, alive) {
     if (n % 3 === 2) await new Promise(res => setTimeout(res, 0));
   }
 }
+/* today's panchanga card on the home page (kept for the day so it shows at once) */
+KP.homePanch = async box => {
+  const n = today(), key = iso(n) + '_' + KP.L;
+  const paint = h => { if (box.isConnected) box.innerHTML = h };
+  const c = store.get('hpCache', null); if (c && c.k === key) { paint(c.h); return }
+  let P; try { P = await ensureP() } catch (e) { paint(`<p class="small muted" style="margin:0">${esc(t('pFail'))}</p>`); return }
+  const p = P.day(n.getFullYear(), n.getMonth(), n.getDate()), f = P.festivalsOn(n.getFullYear(), n.getMonth(), n.getDate()), mk = P.marks(p), N = pN();
+  const first = (list, nameOf) => { const x = list[0]; return `<b>${esc(nameOf(x.i))}</b>` + (x.ends ? ` <span class="small muted">${esc(t('pTill', pTime(x.ends, p)))}</span>` : '') };
+  const tags = [...f.map(x => x[KP.L === 'kn' ? 'kn' : 'en']), ...mk.filter(m => !(m === 'ekadashi' && f.some(x => ['ashadhi', 'vaikuntha'].includes(x.id)))).map(m => t('mk_' + m))];
+  const h = `<div class="card-title">${moonSvg(p.phase)}<h3>${esc(t('hpTitle'))}</h3><a class="btn ghost sm" href="#act-calendar" id="hpGo">${esc(t('hpFull'))}</a></div>
+    <p class="small muted" style="margin:-4px 0 8px">${esc(N.sam[p.sam] + ' ' + N.samWord + ' · ' + (p.adhika ? N.adhika + ' ' : '') + N.masa[p.masa] + ' ' + N.masaWord + ' · ' + N.paksha[p.paksha])}</p>
+    ${tags.length ? `<div class="pfest" style="margin-bottom:8px">${tags.map(x => `<span class="badge gold">${esc(x)}</span>`).join('')}</div>` : ''}
+    <div class="pgrid two">
+      <div class="prow"><span>${esc(t('hpTithi'))}</span><span>${first(p.tithis, tithiName)}</span></div>
+      <div class="prow"><span>${esc(t('hpNak'))}</span><span>${first(p.naks, i => N.nak[i])}</span></div>
+      <div class="prow bad"><span>${esc(t('hpRahu'))}</span><span>${esc(pSpan(p.rahu, p))}</span></div>
+      <div class="prow"><span>${esc(t('hpSun'))}</span><span>${esc(pTime(p.rise, p) + ' – ' + pTime(p.set, p))}</span></div>
+    </div>`;
+  store.set('hpCache', { k: key, h }); paint(h);
+};
 function turnsDialog(after) {
   const cal = D.cal(); const cur = KP.currentTurnIdx();
   if (!KP.canEdit()) { dlg.open(`<h3>${esc(t('turnsList'))}</h3><div class="list">${cal.map((c, i) => `<div class="li"><div class="grow"><span class="small muted">${esc(KP.monthLabel(c.y, c.m))}</span><b>${esc(nm(c.host))}</b></div>${i === cur ? `<span class="badge gold">${esc(t('nextTag'))}</span>` : ''}</div>`).join('')}</div><div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn wine" data-close type="button">${esc(t('close'))}</button></div>`); return }

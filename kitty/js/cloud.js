@@ -6,7 +6,7 @@ const KP = window.KP;
 const { $, $$, esc, ic, store, t, toast, dlg, ask, uid } = KP;
 const SB_URL = 'https://ugqorbrtltzhqkesidls.supabase.co';
 const SB_KEY = 'sb_publishable__a6A1fXedPo8eK-c3kqchw__YPbbCp7'; // public key, safe in the browser (server rules do the locking)
-const SHARED = ['cal2', 'members', 'albums', 'att', 'ann', 'potluck', 'log', 'invs_pub', 'photos'];
+const SHARED = ['cal2', 'members', 'albums', 'att', 'ann', 'potluck', 'log', 'invs_pub', 'photos', 'fund'];
 const PRIV = ['invs'];
 const isSyncKey = k => SHARED.includes(k) || PRIV.includes(k);
 
