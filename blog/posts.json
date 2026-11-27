@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Why Is Friday Lakshmi's Day? A Kannada Mahalakshmi Song and 8 Kinds of Wealth, Explained for Children",
+   "url": "https://worldofwondersstudio.com/blog/friday-lakshmi-song-for-children/",
+   "date": "2026-11-27",
+   "description": "Our Friday Kannada song Manege Baa Mahalakshmi, why many Indian homes pray to Goddess Lakshmi on Fridays, the eight kinds of wealth of the Ashtalakshmi, a short Sanskrit prayer with its meaning, and five Friday habits families can start today."
+  },
+  {
    "title": "Who Is Kadutha Swami? The Warrior Who Guards Sabarimala's 18 Holy Steps, Explained for Children",
    "url": "https://worldofwondersstudio.com/blog/kadutha-swami-guardian-18-steps-for-children/",
    "date": "2026-11-26",
@@ -113,6 +119,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/friday-lakshmi-song-for-children/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/kadutha-swami-guardian-18-steps-for-children/index.html",
