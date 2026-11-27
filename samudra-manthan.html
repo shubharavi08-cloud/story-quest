@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Samudra Manthan · World of Wonders</title>
+<meta name="description" content="Samudra Manthan: a free Deepavali game from Diya ki Bharat Yatra, Episode 2, by World of Wonders Studio. Watch the story, then play. English, Hindi and Kannada.">
+<link rel="icon" href="img/wow_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
+<style>
+/* One big touch stage: drag the serpent-rope to churn, tap what rises from the ocean. */
+:root{
+  --night:#1c1442; --night-2:#2a1f5c; --ink:#fdf3dc; --muted:#c7bce6; --line:rgba(253,243,220,.16);
+  --marigold:#f6a723; --flame:#ffd35a; --cloth:#f7e7c4;
+  --display:"Baloo 2","Baloo Tamma 2","Trebuchet MS",system-ui,sans-serif; --body:"Mukta","Hind","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100vh;
+  padding:max(10px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 24px max(12px,env(safe-area-inset-left,0px))}
+button{font-family:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+.top{max-width:1100px;margin:0 auto 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top a.back{color:var(--muted);text-decoration:none;font-weight:600}
+.top h1{font-family:var(--display);font-size:clamp(22px,4vw,32px);margin:0;line-height:1;flex:1;min-width:170px}
+.top h1 small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-family:var(--body);font-weight:700;margin-bottom:4px}
+.pill{background:var(--night-2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px}
+.pill[aria-pressed="true"]{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.langs{display:flex;gap:4px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.stage{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -25px #000;border:3px solid #ffffff22;background:#0f2550}
+canvas#sea{display:block;width:100%;height:auto;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+canvas#sea:active{cursor:grabbing}
+.pulls{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pull{font:800 clamp(18px,3vw,24px) var(--display);border:0;border-radius:18px;padding:14px 10px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;color:#2a1240;transition:transform .08s,box-shadow .2s,opacity .2s;touch-action:manipulation;user-select:none;-webkit-user-select:none;opacity:.55}
+.pull span{font-size:1.3em}
+.pull.asura{background:linear-gradient(180deg,#c9a7ff,#8f63e6)} .pull.deva{background:linear-gradient(180deg,#ffe28a,#f6b23a)}
+.pull.next{opacity:1;box-shadow:0 0 0 4px #fff8,0 0 30px #ffd35a;animation:nudge 1s ease-in-out infinite}
+.pull:active{transform:scale(.95)}
+@keyframes nudge{50%{transform:scale(1.04)}}
+.shelf{display:flex;gap:6px;flex-wrap:wrap;align-items:center;justify-content:center}
+.gem{display:flex;align-items:center;gap:6px;background:var(--night-2);border:1px solid var(--line);border-radius:999px;padding:4px 10px 4px 6px;font-weight:600;font-size:14px;opacity:.35;transition:all .3s}
+.gem.on{opacity:1;border-color:var(--flame);box-shadow:0 0 14px #ffb84a66}
+.gem i{font-style:normal;font-size:18px}
+.ov{position:fixed;inset:0;background:#0d0826d9;backdrop-filter:blur(3px);display:grid;place-items:center;z-index:50;padding:16px}
+.card{width:min(480px,100%);background:var(--cloth);color:#3a1d0c;border-radius:22px;padding:20px;box-shadow:0 30px 80px #000a;border:5px solid var(--marigold);animation:pop .35s cubic-bezier(.2,1.6,.4,1);max-height:94vh;overflow:auto}
+.card h3{font-family:var(--display);font-size:28px;line-height:1.05;margin:4px 0 8px}
+.card p{margin:0 0 10px}
+.card img.hero{width:100%;border-radius:14px;display:block;margin-bottom:10px}
+.how{display:grid;gap:8px;margin:6px 0 14px}
+.how div{display:flex;gap:10px;align-items:center;background:#fffaf0;border:2px solid #e8d2a6;border-radius:14px;padding:8px 12px;font-weight:600}
+.how b{font-size:28px;line-height:1;min-width:34px;text-align:center}
+.go{font:800 20px var(--display);background:#3a1d0c;color:var(--cloth);border:0;border-radius:14px;padding:13px 18px;cursor:pointer;width:100%;text-align:center;text-decoration:none;display:block}
+.go.alt{background:#b8643a;margin-top:8px}
+.small{font-size:13px;color:#7a5a3a}
+.stars{font-size:34px;letter-spacing:4px;text-align:center;margin:4px 0 8px}
+.by{text-align:center;color:var(--muted);font-size:13px;margin:14px 0 0}.by a{color:var(--flame)}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<link rel="stylesheet" href="family.css?v=20261105c">
+<script src="gate.js?v=5" data-key="samudra-manthan" data-yt='{"en": "ofU33IYt4dE", "hi": "-x8G377Xxmg", "kn": "Quo3RghcGSc"}' data-back="index.html#dv2"></script>
+<!-- geo:start (generated by geo_build.py; edit geo_sites.py, not here) -->
+<link rel="canonical" href="https://worldofwondersstudio.com/samudra-manthan.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Samudra Manthan","url":"https://worldofwondersstudio.com/samudra-manthan.html","genre":"Educational","gamePlatform":"Web browser","inLanguage":["en","hi","kn"],"isAccessibleForFree":true,"audience":{"@type":"Audience","audienceType":"Children and families"},"isPartOf":{"@type":"CreativeWorkSeries","name":"Diya ki Bharat Yatra"},"publisher":{"@id":"https://worldofwondersstudio.com/#org"}}</script>
+<!-- geo:end -->
+<script src="reg.js?v=2"></script>
+<link rel="stylesheet" href="/cursor-wow.css?v=6"></head>
+<body>
+<a class="wow-top" href="index.html" aria-label="World of Wonders home"><img src="img/wow_banner.jpg?v=2" alt="World of Wonders · Music · Stories · Creation · Inspiration"></a>
+<header class="top">
+  <a class="back" href="index.html#dv2" id="back">← World of Wonders</a>
+  <h1><small id="t-eyebrow">Deepavali · Episode 2 game</small><span id="t-title">Samudra Manthan</span></h1>
+  <div class="langs" role="group" aria-label="Language">
+    <button class="pill" data-lang="en" aria-pressed="true">EN</button>
+    <button class="pill" data-lang="hi" aria-pressed="false">हिं</button>
+    <button class="pill" data-lang="kn" aria-pressed="false">ಕ</button>
+  </div>
+  <button class="pill" id="sound" aria-pressed="true" aria-label="Sound">🔊</button>
+  <button class="pill" id="newgame" aria-label="New game">↻</button>
+</header>
+<main class="wrap">
+  <div class="stage"><canvas id="sea" aria-label="Churn the ocean of milk: drag the serpent rope left and right, tap what rises from the water"></canvas></div>
+  <div class="pulls"><button class="pull asura" id="pl"><span>◀</span><b id="t-pl">Asuras pull</b></button><button class="pull deva" id="pr"><b id="t-pr">Devas pull</b><span>▶</span></button></div>
+  <div class="shelf" id="shelf"></div>
+</main>
+<p class="by">A game by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> Studio</p>
+<div id="overlay"></div>
+<script>
+const L={
+ en:{eyebrow:'Deepavali · Episode 2 game',title:'Samudra Manthan',back:'← World of Wonders',
+  howT:'Churn the ocean of milk!',pl:'Asuras pull',pr:'Devas pull',how:[['↔️','Tap ◀ and ▶ in turn (or drag the snake) to spin the mountain.'],['🐢','If the mountain sinks, tap the turtle!'],['☠️','Poison rises: tap every drop. Shiva will drink it.'],['🫧','Tap the treasure bubbles to collect them.']],
+  together:'Play alone, or together: one churns, the others tap!',start:'Start churning 🌊',
+  churn:'Tap ◀ then ▶, again and again, to churn!',other:'Now pull the other way!',sink:'Oh no, the mountain is sinking! Tap the turtle!',kurma:'Vishnu became Kurma, the turtle, and held the mountain up!',
+  poison:'Halahala poison! Tap every drop for Shiva!',shiva:'Shiva drank the poison. His throat turned blue: Neelkantha!',catchT:'Tap the bubbles to catch the treasures!',
+  missing:n=>`Catch ${n} more treasure${n>1?'s':''}!`,amrit:'Tap the golden pot of amrit!',
+  winT:'Lord Dhanvantari rises!',winP:'Holding the golden pot of amrit, the god of Ayurveda rises from the ocean. That is why, on Dhanteras, we pray for good health. The greatest wealth is good health.',
+  time:t=>`Your time: ${t}`,best:t=>`Best: ${t}`,again:'Churn again',story:'Back to the story',
+  T:{kamadhenu:['Kamadhenu','The wish-giving cow.'],horse:['Uchchaihshravas','The flying white horse.'],airavata:['Airavata','The white elephant of Indra.'],kalpa:['Kalpavriksha','The wish-fulfilling tree.'],moon:['Chandra','The moon rose from the ocean too.'],lakshmi:['Goddess Lakshmi','She rose on a lotus and chose Vishnu.']}},
+ hi:{eyebrow:'दीपावली · एपिसोड 2 का खेल',title:'समुद्र मंथन',back:'← वर्ल्ड ऑफ़ वंडर्स',
+  howT:'क्षीर सागर का मंथन करो!',pl:'असुर खींचें',pr:'देव खींचें',how:[['↔️','◀ और ▶ बारी-बारी से दबाओ (या साँप को खींचो), पर्वत घूमेगा।'],['🐢','पर्वत डूबने लगे तो कछुए को टैप करो!'],['☠️','विष उठे तो हर बूँद टैप करो। शिव उसे पी लेंगे।'],['🫧','रत्नों के बुलबुले टैप करके इकट्ठा करो।']],
+  together:'अकेले खेलो या साथ में: एक मंथन करे, बाकी टैप करें!',start:'मंथन शुरू करें 🌊',
+  churn:'◀ फिर ▶ बार-बार दबाकर मंथन करो!',other:'अब दूसरी तरफ़ खींचो!',sink:'अरे! पर्वत डूब रहा है! कछुए को टैप करो!',kurma:'विष्णु कूर्म (कछुआ) बने और पर्वत को अपनी पीठ पर उठा लिया!',
+  poison:'हलाहल विष! शिव के लिए हर बूँद टैप करो!',shiva:'शिव ने विष पी लिया। उनका गला नीला हो गया: नीलकंठ!',catchT:'रत्न पकड़ने के लिए बुलबुले टैप करो!',
+  missing:n=>`${n} रत्न और पकड़ो!`,amrit:'अमृत के सुनहरे कलश को टैप करो!',
+  winT:'भगवान धन्वंतरि प्रकट हुए!',winP:'अमृत का सुनहरा कलश लिए, आयुर्वेद के देवता सागर से प्रकट हुए। इसीलिए धनतेरस पर हम अच्छे स्वास्थ्य की प्रार्थना करते हैं। सबसे बड़ा धन अच्छा स्वास्थ्य है।',
+  time:t=>`आपका समय: ${t}`,best:t=>`सबसे अच्छा: ${t}`,again:'फिर से मंथन',story:'कहानी पर वापस',
+  T:{kamadhenu:['कामधेनु','इच्छा पूरी करने वाली गाय।'],horse:['उच्चैःश्रवा','उड़ने वाला सफ़ेद घोड़ा।'],airavata:['ऐरावत','इंद्र का सफ़ेद हाथी।'],kalpa:['कल्पवृक्ष','इच्छा पूरी करने वाला वृक्ष।'],moon:['चंद्रमा','चंद्रमा भी सागर से निकले।'],lakshmi:['देवी लक्ष्मी','कमल पर प्रकट हुईं और विष्णु को चुना।']}},
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 2 ಆಟ',title:'ಸಮುದ್ರ ಮಂಥನ',back:'← ವರ್ಲ್ಡ್ ಆಫ್ ವಂಡರ್ಸ್',
+  howT:'ಕ್ಷೀರಸಾಗರವನ್ನು ಮಥಿಸಿ!',pl:'ಅಸುರರು ಎಳೆಯಿರಿ',pr:'ದೇವತೆಗಳು ಎಳೆಯಿರಿ',how:[['↔️','◀ ಮತ್ತು ▶ ಅನ್ನು ಸರದಿಯಾಗಿ ಒತ್ತಿ (ಅಥವಾ ಹಾವನ್ನು ಎಳೆಯಿರಿ), ಪರ್ವತ ತಿರುಗುತ್ತದೆ.'],['🐢','ಪರ್ವತ ಮುಳುಗಿದರೆ ಆಮೆಯನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ!'],['☠️','ವಿಷ ಏರಿದರೆ ಪ್ರತಿ ಹನಿಯನ್ನೂ ಟ್ಯಾಪ್ ಮಾಡಿ. ಶಿವ ಅದನ್ನು ಕುಡಿಯುತ್ತಾನೆ.'],['🫧','ರತ್ನಗಳ ಗುಳ್ಳೆಗಳನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ ಸಂಗ್ರಹಿಸಿ.']],
+  together:'ಒಬ್ಬರೇ ಆಡಿ, ಅಥವಾ ಜೊತೆಯಾಗಿ: ಒಬ್ಬರು ಮಥಿಸಿ, ಉಳಿದವರು ಟ್ಯಾಪ್ ಮಾಡಿ!',start:'ಮಂಥನ ಶುರು 🌊',
+  churn:'◀ ನಂತರ ▶ ಮತ್ತೆ ಮತ್ತೆ ಒತ್ತಿ ಮಥಿಸಿ!',other:'ಈಗ ಇನ್ನೊಂದು ಕಡೆ ಎಳೆಯಿರಿ!',sink:'ಅಯ್ಯೋ! ಪರ್ವತ ಮುಳುಗುತ್ತಿದೆ! ಆಮೆಯನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ!',kurma:'ವಿಷ್ಣು ಕೂರ್ಮ (ಆಮೆ) ಆಗಿ ಪರ್ವತವನ್ನು ಬೆನ್ನ ಮೇಲೆ ಎತ್ತಿದನು!',
+  poison:'ಹಾಲಾಹಲ ವಿಷ! ಶಿವನಿಗಾಗಿ ಪ್ರತಿ ಹನಿ ಟ್ಯಾಪ್ ಮಾಡಿ!',shiva:'ಶಿವ ವಿಷ ಕುಡಿದನು. ಅವನ ಕಂಠ ನೀಲಿಯಾಯಿತು: ನೀಲಕಂಠ!',catchT:'ರತ್ನಗಳನ್ನು ಹಿಡಿಯಲು ಗುಳ್ಳೆಗಳನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ!',
+  missing:n=>`ಇನ್ನೂ ${n} ರತ್ನ ಹಿಡಿಯಿರಿ!`,amrit:'ಅಮೃತದ ಚಿನ್ನದ ಕಲಶವನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ!',
+  winT:'ಧನ್ವಂತರಿ ಪ್ರತ್ಯಕ್ಷರಾದರು!',winP:'ಅಮೃತದ ಚಿನ್ನದ ಕಲಶ ಹಿಡಿದು, ಆಯುರ್ವೇದದ ದೇವರು ಸಮುದ್ರದಿಂದ ಮೇಲೆದ್ದರು. ಅದಕ್ಕೇ ಧನತ್ರಯೋದಶಿಯಂದು ನಾವು ಆರೋಗ್ಯಕ್ಕಾಗಿ ಪ್ರಾರ್ಥಿಸುತ್ತೇವೆ. ಆರೋಗ್ಯವೇ ದೊಡ್ಡ ಸಂಪತ್ತು.',
+  time:t=>`ನಿಮ್ಮ ಸಮಯ: ${t}`,best:t=>`ಅತ್ಯುತ್ತಮ: ${t}`,again:'ಮತ್ತೆ ಮಥಿಸಿ',story:'ಕಥೆಗೆ ಹಿಂತಿರುಗಿ',
+  T:{kamadhenu:['ಕಾಮಧೇನು','ಬಯಕೆ ಈಡೇರಿಸುವ ಹಸು.'],horse:['ಉಚ್ಚೈಃಶ್ರವಸ್','ಹಾರುವ ಬಿಳಿ ಕುದುರೆ.'],airavata:['ಐರಾವತ','ಇಂದ್ರನ ಬಿಳಿ ಆನೆ.'],kalpa:['ಕಲ್ಪವೃಕ್ಷ','ಬಯಕೆ ಈಡೇರಿಸುವ ಮರ.'],moon:['ಚಂದ್ರ','ಚಂದ್ರನೂ ಸಮುದ್ರದಿಂದ ಬಂದನು.'],lakshmi:['ಲಕ್ಷ್ಮೀ ದೇವಿ','ಕಮಲದ ಮೇಲೆ ಮೇಲೆದ್ದು ವಿಷ್ಣುವನ್ನು ಆರಿಸಿದಳು.']}}
+};
+const TREASURES=[['kamadhenu','🐄'],['horse','🐎'],['airavata','🐘'],['kalpa','🌳'],['moon','🌙'],['lakshmi','🪷']];
+let lang='en'; try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){} {const q=new URLSearchParams(location.search).get('lang'); if(['en','hi','kn'].includes(q)){lang=q; try{localStorage.setItem('sq_lang',q)}catch(e){}}}
+const t=k=>L[lang][k]; const $=s=>document.querySelector(s);
+const IMG=n=>{const i=new Image(); i.src=n; return i};
+const SHIVA=IMG('img/ep2_shiva.jpg'), DHAN=IMG('img/ep2_dhanvantari.jpg');
+
+/* ---------- sound ---------- */
+let AC=null, soundOn=true;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){} } if(AC&&AC.state==='suspended')AC.resume(); return AC }
+function tone(f,d=.15,type='sine',v=.15,slide=0){ if(!soundOn||!ac())return; const o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime; o.type=type;o.frequency.setValueAtTime(f,n); if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(40,f*slide),n+d); g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d); o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+d+.02)}
+function swoosh(v=.06){ if(!soundOn||!ac())return; const n=AC.currentTime,len=.25,b=AC.createBuffer(1,AC.sampleRate*len,AC.sampleRate),d=b.getChannelData(0); for(let i=0;i<d.length;i++)d[i]=(Math.random()*2-1)*(1-i/d.length); const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain(); f.type='bandpass';f.frequency.setValueAtTime(500,n);f.frequency.linearRampToValueAtTime(1400,n+len); g.gain.value=v; s.buffer=b;s.connect(f);f.connect(g);g.connect(AC.destination);s.start(n)}
+const SFX={pop:()=>{tone(880,.08,'triangle',.12,1.6);tone(1320,.12,'sine',.08)},gong:()=>{tone(110,1.2,'sine',.22);tone(220,1,'sine',.08)},chime:()=>[0,.12,.24].forEach((d,i)=>setTimeout(()=>tone([784,988,1175][i],.5,'sine',.1),d*1000)),
+ sink:()=>tone(300,.7,'sawtooth',.06,.4),drink:()=>tone(520,.12,'sine',.1,.5),win:()=>[523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>tone(f,.4,'triangle',.12),i*110))};
+
+/* ---------- canvas & layout ---------- */
+const cv=$('#sea'), cx=cv.getContext('2d'); let W=1280,H=720,DPR=1,portrait=false;
+function layout(){ const w=cv.parentElement.clientWidth; portrait=w<640; W=portrait?720:1280; H=portrait?620:720;
+  DPR=Math.min(2,window.devicePixelRatio||1)*w/W; cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); cv.style.aspectRatio=W+'/'+H; cx.setTransform(DPR,0,0,DPR,0,0) }
+addEventListener('resize',layout);
+
+/* ---------- game state ---------- */
+let G=null, best=0; try{best=+localStorage.getItem('sm_best')||0}catch(e){}
+const LIM=.6;            // one pull turns the mountain this far; then the other team pulls back
+function newGame(){ G={on:false,t0:0,el:0,ang:0,vel:0,prog:0,phase:'churn',sinkY:0,kurmaY:1,bubbles:[],drops:[],fly:[],found:[],poisonLeft:0,shiva:0,toast:null,toastT:0,hint:0,dir:0,lastDir:0,dhan:0,potT:0,done:false,parts:[]}; renderShelf(); }
+function seaY(){ return IY(545) }
+function mtn(){ return {x:IX(705), y:seaY(), w:IS()*370, h:IS()*520} }
+/* ---------- the 3D stage: clean sea + mountain plate, the two crowds as cut-outs, Vasuki's rope drawn with real scales ---------- */
+const PLATE=IMG('img/ep2_plate.jpg'), ASU=IMG('img/ep2_asuras.png'), DEV=IMG('img/ep2_devas.png'), SCALES=IMG('img/ep2_scales.jpg'), KURMA=IMG('img/ep2_kurma.jpg'), TREAS=IMG('img/ep2_treasures.jpg'), LAKSHMI=IMG('img/ep2_lakshmi.jpg');
+const IW=1256, IH=768;
+function IS(){ return portrait? W/IW : Math.max(W/IW,H/IH) }
+function OX(){ return (W-IW*IS())/2 } function OY(){ return portrait? 0 : (H-IH*IS())/2 }
+function IX(x){ return OX()+x*IS() } function IY(y){ return OY()+y*IS() }
+const MPOLY=[[640,22],[745,18],[805,95],[850,230],[882,400],[905,560],[505,560],[527,400],[552,250],[585,120]];
+function drawStage(el){ const s=IS(), ox=OX(), oy=OY()+G.sinkY*s*40, sh=G.ang/LIM;   // sh: -1 Asuras pulled, +1 Devas pulled
+  if(portrait){ const g=cx.createLinearGradient(0,IH*s,0,H); g.addColorStop(0,'#16314a'); g.addColorStop(1,'#0b1424'); cx.fillStyle=g; cx.fillRect(0,0,W,H) }
+  if(!PLATE.complete||!PLATE.naturalWidth){ cx.fillStyle='#16314a'; cx.fillRect(0,0,W,H); return }
+  cx.save(); if(G.sinkY>0){ cx.translate(W/2,H/2); cx.rotate(Math.sin(el*9)*.006*G.sinkY); cx.translate(-W/2,-H/2) }
+  cx.drawImage(PLATE,ox,OY(),IW*s,IH*s);
+  // Vasuki's coil slides around the mountain: re-draw the front of the coil, each column sampled from further round the ring, faded in at the sides
+  const cX=700, cY=368, rx=168, ry=53, hw=26, rot=G.ang*.6;
+  if(CC.width!==cv.width||CC.height!==cv.height){ CC.width=cv.width; CC.height=cv.height } ccx.setTransform(DPR,0,0,DPR,0,0); ccx.globalCompositeOperation='source-over'; ccx.clearRect(0,0,W,H);
+  ccx.save(); ccx.beginPath(); ccx.ellipse(ox+cX*s,oy+cY*s,(rx+hw)*s,(ry+hw)*s,0,0,6.283); ccx.ellipse(ox+cX*s,oy+(cY-6)*s,(rx-hw)*s,(ry-hw)*s,0,0,6.283); ccx.clip('evenodd');
+  for(let x=cX-rx;x<cX+rx;x+=2){ const u=Math.max(-.999,Math.min(.999,(x-cX)/rx)), th=Math.asin(u);
+    let t2=th+rot; if(t2>Math.PI/2)t2=Math.PI-t2; if(t2<-Math.PI/2)t2=-Math.PI-t2; const sx=cX+Math.sin(t2)*rx, dy=(Math.cos(t2)-Math.cos(th))*ry;
+    ccx.drawImage(PLATE,sx,cY-20+dy,2,ry+hw+40,ox+x*s,oy+(cY-20)*s,2*s+1,(ry+hw+40)*s) }
+  ccx.restore(); ccx.globalCompositeOperation='destination-in'; const fg=ccx.createLinearGradient(ox+(cX-rx)*s,0,ox+(cX+rx)*s,0);
+  fg.addColorStop(0,'rgba(0,0,0,0)'); fg.addColorStop(.22,'#000'); fg.addColorStop(.78,'#000'); fg.addColorStop(1,'rgba(0,0,0,0)'); ccx.fillStyle=fg; ccx.fillRect(0,oy+(cY-6)*s,W,(ry+hw+30)*s);
+  ccx.globalCompositeOperation='source-over'; cx.drawImage(CC,0,0,W,H);
+  // the crowds slide with the rope; the team that pulls leans back
+  const dx=sh*34, pullA=Math.max(0,Math.min(1,-G.vel*12)), pullD=Math.max(0,Math.min(1,G.vel*12));
+  // rope pieces from the coil to each crowd (drawn first, the crowds hold them)
+  tube([[850,370],[895,392],[915+dx,410]],s,ox,oy,-G.ang*90);
+  tube([[556,392],[505,416],[448+dx,436]],s,ox,oy, G.ang*90);
+  sprite(ASU, 0+dx, 211, -.04*pullA+Math.sin(el*2.2)*.004, 260, 586, s, ox, oy);
+  sprite(DEV, 885+dx, 338, .04*pullD+Math.sin(el*2.2+1)*.004, 1080, 572, s, ox, oy);
+  // churning water: spinning foam rings and spray at the mountain's foot
+  const sp=.25+Math.min(1,Math.abs(G.vel)*14); cx.lineWidth=3*s;
+  for(let k=0;k<4;k++){ cx.strokeStyle=`rgba(235,250,255,${.22*sp})`; cx.beginPath(); cx.ellipse(ox+705*s,oy+(548+k*16)*s,(230+k*70)*s,(18+k*7)*s,0,el*(.6+k*.2)*(G.dir||1)+k,el*(.6+k*.2)*(G.dir||1)+k+2.4); cx.stroke() }
+  cx.restore() }
+function sprite(img,x,y,ang,px,py,s,ox,oy){ if(!img.complete||!img.naturalWidth)return; cx.save(); cx.translate(ox+px*s+(x-(img===ASU?0:885))*s,oy+py*s); cx.rotate(ang); cx.translate(-(ox+px*s),-(oy+py*s)); cx.drawImage(img,ox+(img===ASU?0:885)*s,oy+y*s,img.naturalWidth*s,img.naturalHeight*s); cx.restore() }
+const TC=document.createElement('canvas'), tcx=TC.getContext('2d'), CC=document.createElement('canvas'), ccx=CC.getContext('2d');
+function tube(P,s,ox,oy,off){ if(!SCALES.complete||!SCALES.naturalWidth)return; const [a,b,c]=P, N=28, tw=SCALES.naturalWidth, th=SCALES.naturalHeight, w=36;
+  if(TC.width!==cv.width||TC.height!==cv.height){ TC.width=cv.width; TC.height=cv.height }
+  tcx.setTransform(DPR,0,0,DPR,0,0); tcx.globalCompositeOperation='source-over'; tcx.clearRect(0,0,W,H);
+  const pt=t=>[ (1-t)*(1-t)*a[0]+2*(1-t)*t*b[0]+t*t*c[0], (1-t)*(1-t)*a[1]+2*(1-t)*t*b[1]+t*t*c[1] ];
+  let along=0; for(let i=0;i<N;i++){ const p0=pt(i/N), p1=pt((i+1)/N), L=Math.hypot(p1[0]-p0[0],p1[1]-p0[1]); if(L<.1)continue; const ang=Math.atan2(p1[1]-p0[1],p1[0]-p0[0]);
+    const sx=(((along+off)%tw)+tw)%tw, sw=Math.max(1,Math.min(L+1,tw-sx)); tcx.save(); tcx.translate(ox+p0[0]*s,oy+p0[1]*s); tcx.rotate(ang); tcx.drawImage(SCALES,sx,0,sw,th,-.5,-w/2*s,(L+1.5)*s,w*s); tcx.restore(); along+=L }
+  // round the ends and shade the tube like the coil
+  tcx.globalCompositeOperation='destination-in'; tcx.strokeStyle='#000'; tcx.lineCap='round'; tcx.lineWidth=w*s; const e=Math.min(.45,(w/2)/Math.max(1,along));
+  tcx.beginPath(); for(let i=0;i<=20;i++){ const q=pt(e+(1-2*e)*i/20); i?tcx.lineTo(ox+q[0]*s,oy+q[1]*s):tcx.moveTo(ox+q[0]*s,oy+q[1]*s) } tcx.stroke();
+  tcx.globalCompositeOperation='source-atop'; tcx.strokeStyle='rgba(20,10,40,.28)'; tcx.lineWidth=w*s; tcx.stroke(); tcx.strokeStyle='rgba(255,240,210,.22)'; tcx.lineWidth=w*s*.35; tcx.stroke();
+  // fade the end that meets the coil so the rope seems to come out of it
+  tcx.globalCompositeOperation='destination-out'; const fr=tcx.createRadialGradient(ox+a[0]*s,oy+a[1]*s,0,ox+a[0]*s,oy+a[1]*s,34*s); fr.addColorStop(0,'rgba(0,0,0,1)'); fr.addColorStop(.45,'rgba(0,0,0,.85)'); fr.addColorStop(1,'rgba(0,0,0,0)');
+  tcx.fillStyle=fr; tcx.fillRect(ox+(a[0]-40)*s,oy+(a[1]-40)*s,80*s,80*s); tcx.globalCompositeOperation='source-over';
+  cx.drawImage(TC,0,0,W,H) }
+
+function toast(msg,sec=2.6){ G.toast=msg; G.toastT=sec }
+
+/* ---------- input ---------- */
+let drag=null;
+function pos(e){ const r=cv.getBoundingClientRect(); return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H] }
+cv.addEventListener('pointerdown',e=>{ ac(); if(!G||!G.on)return; const [x,y]=pos(e); if(tapAt(x,y))return; drag={x,id:e.pointerId}; cv.setPointerCapture(e.pointerId) });
+cv.addEventListener('pointermove',e=>{ if(!drag||drag.id!==e.pointerId)return; const [x]=pos(e); turn((x-drag.x)/W*3); drag.x=x });
+['pointerup','pointercancel'].forEach(k=>cv.addEventListener(k,e=>{ if(drag&&drag.id===e.pointerId)drag=null }));
+addEventListener('keydown',e=>{ if(!G||!G.on)return; if(e.repeat)return; if(['ArrowLeft','a','A'].includes(e.key)){turn(-LIM*1.02);e.preventDefault()} if(['ArrowRight','l','L','d','D'].includes(e.key)){turn(LIM*1.02);e.preventDefault()}
+  if(e.key===' '){ const b=[...G.bubbles,...G.drops].sort((a,b)=>a.y-b.y)[0]; if(b)hit(b); else if(G.phase==='sink')callKurma(); else if(G.phase==='pot')drinkAmrit(); e.preventDefault() } });
+function turn(d){ if(G.phase==='sink'||G.phase==='pot'||G.done)return;
+  const na=Math.max(-LIM,Math.min(LIM,G.ang+d)); const real=na-G.ang; G.ang=na; G.vel=real;
+  if(Math.abs(real)>.001){ const dir=Math.sign(real); if(dir!==G.dir){ G.dir=dir; if(Math.abs(real)>.02)swoosh(.05) }
+    if(G.phase==='churn'){ G.prog=Math.min(100,G.prog+Math.abs(real)*2.8); G.hint=0 } }
+  else if(Math.abs(d)>.05) G.hint=1.5;   // pushing against the end: show "other way"
+}
+function tapAt(x,y){
+  if(G.phase==='sink'){ const tx=W/2, ty=Math.min(H-150,seaY()+H*.13); if(Math.hypot(x-tx,y-ty)<110){ callKurma(); return true } }
+  if(G.phase==='pot'){ if(Math.hypot(x-W/2,y-H*.42)<130){ drinkAmrit(); return true } }
+  const all=[...G.drops,...G.bubbles]; for(const b of all){ if(Math.hypot(x-b.x,y-b.y)<b.r+26){ hit(b); return true } }
+  return false
+}
+function hit(b){
+  if(b.kind==='drop'){ G.drops=G.drops.filter(d=>d!==b); G.fly.push({x:b.x,y:b.y,tx:portrait?90:110,ty:portrait?110:120,k:0,emo:'☠️',c:'#7b3cff'}); SFX.drink(); burst(b.x,b.y,'#a070ff');
+    G.poisonLeft--; G.shiva=1-G.poisonLeft/10; if(G.poisonLeft<=0){ G.phase='churn'; G.card={img:SHIVA,t:3.4}; SFX.gong(); toast(t('shiva'),3.4) } }
+  else { G.bubbles=G.bubbles.filter(d=>d!==b); const k=b.key; if(!G.found.includes(k)){ G.found.push(k); G.card={img:k==='lakshmi'?LAKSHMI:TREAS,t:2.8}; const [nm,desc]=L[lang].T[k]; toast(`${b.emo}  ${nm}: ${desc}`,2.8) } SFX.pop(); burst(b.x,b.y,'#ffd35a'); renderShelf() }
+}
+function callKurma(){ G.card={img:KURMA,t:3.2}; G.phase='lift'; SFX.chime(); toast(t('kurma'),3.2) }
+function drinkAmrit(){ G.phase='won'; G.done=true; SFX.win(); for(let i=0;i<5;i++)setTimeout(()=>burst(W/2+(Math.random()-.5)*300,H*.4+(Math.random()-.5)*200,['#ffd35a','#fff','#7fd8ff'][i%3]),i*120); setTimeout(win,900) }
+function burst(x,y,c){ for(let i=0;i<22;i++){ const a=Math.random()*6.283,s=2+Math.random()*5; G.parts.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,l:1,c}) } }
+
+/* ---------- events driven by progress ---------- */
+function events(dt){
+  if(G.phase==='churn'){
+    if(G.prog>=16&&!G.sunk){ G.sunk=1; G.phase='sink'; SFX.sink(); toast(t('sink'),99) }
+    else if(G.prog>=34&&!G.poisoned){ G.poisoned=1; G.phase='poison'; G.poisonLeft=10; SFX.gong(); toast(t('poison'),99);
+      for(let i=0;i<10;i++) G.drops.push({kind:'drop',x:W*(.18+Math.random()*.64),y:seaY()+40+Math.random()*120,r:portrait?30:26,vy:-(18+Math.random()*16),ph:Math.random()*6,delay:i*.35}) }
+    else if(G.prog>=46){ // treasures: one bubble every ~8% of progress, missed ones come back
+      const due=Math.min(6,Math.floor((G.prog-46)/8)+1), shown=G.found.length+G.bubbles.length;
+      if(shown<due && G.bubbles.length<2){ const left=TREASURES.filter(([k])=>!G.found.includes(k)&&!G.bubbles.some(b=>b.key===k)); if(left.length){ const [k,e]=left[0]; G.bubbles.push({kind:'gem',key:k,emo:e,x:W*(.2+Math.random()*.6),y:seaY()+60,r:portrait?52:46,vy:-(portrait?32:28),ph:Math.random()*6}); if(G.found.length===0&&!G.saidCatch){G.saidCatch=1;toast(t('catchT'),3)} } }
+      if(G.prog>=100){ if(G.found.length>=6){ G.phase='pot'; SFX.gong(); toast(t('amrit'),99) } else if(!G.bubbles.length){ G.bubbles.length=0; const left=TREASURES.filter(([k])=>!G.found.includes(k)); const [k,e]=left[0]; G.bubbles.push({kind:'gem',key:k,emo:e,x:W*(.25+Math.random()*.5),y:seaY()+60,r:portrait?52:46,vy:-30,ph:0}); toast(t('missing')(left.length),2.4) } }
+    }
+  }
+  if(G.phase==='lift'){ G.sinkY=Math.max(0,G.sinkY-dt*.8); G.kurmaY=Math.max(0,G.kurmaY-dt*1.4); if(G.sinkY<=0&&G.kurmaY<=0)G.phase='churn' }
+  if(G.phase==='sink'){ G.sinkY=Math.min(1,G.sinkY+dt*.5) }
+  if(G.phase==='pot'){ G.dhan=Math.min(1,G.dhan+dt*.5) }
+}
+
+/* ---------- drawing ---------- */
+function rr(x,y,w,h,r){ cx.beginPath(); cx.roundRect?cx.roundRect(x,y,w,h,r):cx.rect(x,y,w,h) }
+function draw(now){
+  const sy=seaY(), el=G.el;
+  const m=mtn(); drawStage(el);
+  // Shiva medallion during / after the poison
+  if(G.poisoned){ const r=portrait?62:70, x=portrait?90:110, y=portrait?110:120; cx.save(); cx.beginPath(); cx.arc(x,y,r,0,6.283); cx.closePath(); cx.fillStyle='#24346a'; cx.fill(); cx.clip();
+    if(SHIVA.complete&&SHIVA.naturalWidth){ const sw=SHIVA.naturalWidth; cx.drawImage(SHIVA,sw*.40,sw*.10,sw*.22,sw*.22,x-r,y-r,2*r,2*r) } cx.restore();
+    cx.lineWidth=6; cx.strokeStyle=`rgb(${255-200*G.shiva|0},${180-30*G.shiva|0},255)`; cx.beginPath(); cx.arc(x,y,r,0,6.283); cx.stroke();
+    cx.lineWidth=8; cx.strokeStyle='#6fb6ff'; cx.beginPath(); cx.arc(x,y,r+10,-Math.PI/2,-Math.PI/2+6.283*G.shiva); cx.stroke() }
+  // poison drops, treasure bubbles, flying things
+  for(const d of G.drops){ if(d.delay>0)continue; cx.save(); cx.translate(d.x,d.y); const s=1+.08*Math.sin(el*5+d.ph);
+    g=cx.createRadialGradient(-6,-8,4,0,0,d.r*1.4); g.addColorStop(0,'#c49bff'); g.addColorStop(.6,'#5a1aa8'); g.addColorStop(1,'#2a0a50'); cx.fillStyle=g;
+    cx.beginPath(); cx.moveTo(0,-d.r*1.5*s); cx.bezierCurveTo(d.r*1.1,-d.r*.3,d.r*.9,d.r,0,d.r); cx.bezierCurveTo(-d.r*.9,d.r,-d.r*1.1,-d.r*.3,0,-d.r*1.5*s); cx.fill();
+    cx.font=`${d.r}px serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText('☠️',0,2); cx.restore() }
+  for(const b of G.bubbles){ cx.save(); cx.translate(b.x+Math.sin(el*1.5+b.ph)*12,b.y); g=cx.createRadialGradient(-b.r*.3,-b.r*.4,4,0,0,b.r); g.addColorStop(0,'rgba(255,255,255,.95)'); g.addColorStop(.5,'rgba(255,236,170,.55)'); g.addColorStop(1,'rgba(255,190,60,.35)');
+    cx.fillStyle=g; cx.beginPath(); cx.arc(0,0,b.r,0,6.283); cx.fill(); cx.strokeStyle='rgba(255,215,90,.95)'; cx.lineWidth=4; cx.stroke();
+    cx.font=`${b.r*1.05}px serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(b.emo,0,4); cx.restore() }
+  for(const f of G.fly){ const p=f.k, x=f.x+(f.tx-f.x)*p, y=f.y+(f.ty-f.y)*p-Math.sin(p*3.14)*80; cx.font='34px serif'; cx.textAlign='center'; cx.globalAlpha=1-p*.6; cx.fillText(f.emo,x,y); cx.globalAlpha=1 }
+  // Dhanvantari and the pot of amrit
+  if(G.phase==='pot'||G.phase==='won'){ const a=G.dhan, r=(portrait?190:170)*a+20, x=W/2, y=H*.42+(1-a)*120;
+    g=cx.createRadialGradient(x,y,10,x,y,r*1.8); g.addColorStop(0,'rgba(255,240,180,.9)'); g.addColorStop(1,'rgba(255,200,80,0)'); cx.fillStyle=g; cx.fillRect(0,0,W,H);
+    if(DHAN.complete&&DHAN.naturalWidth){ cx.save(); cx.beginPath(); cx.arc(x,y,r,0,6.283); cx.clip(); const dw=DHAN.naturalWidth,dh=DHAN.naturalHeight; cx.drawImage(DHAN,dw*.32,dh*.02,dw*.36,dh*.62,x-r,y-r*1.1,2*r,2*r*1.1); cx.restore() }
+    cx.lineWidth=7; cx.strokeStyle='#ffd35a'; cx.beginPath(); cx.arc(x,y,r,0,6.283); cx.stroke();
+    if(G.phase==='pot'){ const pulse=1+.08*Math.sin(el*6); cx.font=`${64*pulse}px serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText('🏺',x+r*.75,y+r*.55); hand(x+r*.75+30,y+r*.55+30) } }
+  // turtle button while sinking
+  if(G.phase==='sink'){ const x=W/2, y=Math.min(H-150,sy+H*.13), pulse=1+.1*Math.sin(el*7); cx.fillStyle='rgba(30,120,90,.9)'; cx.beginPath(); cx.arc(x,y,70*pulse,0,6.283); cx.fill(); cx.lineWidth=6; cx.strokeStyle='#ffd35a'; cx.stroke();
+    cx.font='70px serif'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText('🐢',x,y+4); hand(x+50,y+50) }
+  // a picture from the episode for each big moment
+  if(G.card&&G.card.t>0){ const c=G.card, a=Math.min(1,c.t*2,(3.4-c.t)*4+.2), iw=portrait?W*.62:W*.34, ih=iw*.555, x=(W-iw)/2, y=portrait?H*.06:H*.08;
+    cx.save(); cx.globalAlpha=Math.max(0,Math.min(1,a)); cx.shadowColor='#000'; cx.shadowBlur=30; rr(x,y,iw,ih,18); cx.fillStyle='#000'; cx.fill(); cx.shadowBlur=0; rr(x,y,iw,ih,18); cx.clip();
+    if(c.img.complete&&c.img.naturalWidth) cx.drawImage(c.img,x,y,iw,ih); cx.restore(); cx.save(); cx.globalAlpha=Math.max(0,Math.min(1,a)); rr(x,y,iw,ih,18); cx.lineWidth=5; cx.strokeStyle='#ffd35a'; cx.stroke(); cx.restore() }
+  // particles
+  for(const p of G.parts){ cx.globalAlpha=Math.max(0,p.l); cx.fillStyle=p.c; cx.beginPath(); cx.arc(p.x,p.y,4,0,6.283); cx.fill() } cx.globalAlpha=1;
+  // HUD: churn meter + timer
+  const mw=portrait?W-200:W*.42, mx=(W-mw)/2, my=portrait?24:22; rr(mx,my,mw,26,13); cx.fillStyle='rgba(0,0,0,.45)'; cx.fill();
+  g=cx.createLinearGradient(mx,0,mx+mw,0); g.addColorStop(0,'#9b7bff'); g.addColorStop(.5,'#ffffff'); g.addColorStop(1,'#ffcf5a'); rr(mx+3,my+3,(mw-6)*G.prog/100,20,10); cx.fillStyle=g; cx.fill();
+  cx.font='700 24px Mukta, sans-serif'; cx.fillStyle='#fff'; cx.textAlign='right'; cx.textBaseline='middle'; cx.fillText(fmt(G.el*1000),W-20,my+13); cx.textAlign='left'; cx.fillText('🌊 '+Math.floor(G.prog)+'%',20,my+13);
+  // instruction / toast banner
+  let msg=G.toast; if(!msg&&G.on&&!G.done) msg = G.hint>0 ? t('other') : (G.phase==='churn'&&G.prog<12 ? t('churn') : '');
+  if(msg){ cx.font=`800 ${portrait?30:30}px "Baloo 2","Baloo Tamma 2",sans-serif`; const lines=wrap(msg,W*.86); const lh=36, bh=lines.length*lh+22, by=portrait?H-bh-20:H-bh-18;
+    rr(W*.05,by,W*.9,bh,20); cx.fillStyle='rgba(28,20,66,.88)'; cx.fill(); cx.strokeStyle='#f6a723'; cx.lineWidth=3; cx.stroke();
+    cx.fillStyle='#ffe9a8'; cx.textAlign='center'; cx.textBaseline='top'; lines.forEach((l,i)=>cx.fillText(l,W/2,by+11+i*lh)) }
+  
+}
+function wrap(s,max){ const w=s.split(' '),out=[]; let cur=''; for(const x of w){ const n=cur?cur+' '+x:x; if(cx.measureText(n).width>max&&cur){out.push(cur);cur=x}else cur=n } if(cur)out.push(cur); return out }
+function hand(x,y){ cx.font='54px serif'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText('👆',x,y) }
+function drawMountain(m){ const {x,y,w,h}=m, top=y-h;
+  cx.save(); cx.beginPath(); cx.moveTo(x-w/2,y+30); cx.bezierCurveTo(x-w*.5,y-h*.45,x-w*.24,top+30,x-10,top+6); cx.lineTo(x+10,top+6); cx.bezierCurveTo(x+w*.24,top+30,x+w*.5,y-h*.45,x+w/2,y+30); cx.closePath();
+  let g=cx.createLinearGradient(x-w/2,0,x+w/2,0); g.addColorStop(0,'#5b4636'); g.addColorStop(.45,'#9a7b5c'); g.addColorStop(1,'#4a3628'); cx.fillStyle=g; cx.fill(); cx.clip();
+  // rock bands and trees slide around as the mountain turns
+  for(let k=-8;k<=8;k++){ const ph=k*.45+G.ang*2.2, c=Math.cos(ph); if(c<0)continue; const rx=x+Math.sin(ph)*w*.48;
+    cx.strokeStyle=`rgba(40,28,20,${.15+.35*c})`; cx.lineWidth=5; cx.beginPath(); cx.moveTo(rx*.9+x*.1,top+10); cx.lineTo(rx+(rx-x)*.3,y+30); cx.stroke();
+    for(const yy of [.25,.5,.72]){ const ty=top+h*yy+Math.sin(k*7)*16; cx.fillStyle=`rgba(${70+30*c|0},${120+50*c|0},${60},1)`; cx.beginPath(); cx.arc(rx+(rx-x)*yy*.3,ty,7+6*c,0,6.283); cx.fill() } }
+  g=cx.createLinearGradient(x-w/2,0,x+w/2,0); g.addColorStop(0,'rgba(0,0,0,.35)'); g.addColorStop(.4,'rgba(0,0,0,0)'); g.addColorStop(1,'rgba(0,0,0,.4)'); cx.fillStyle=g; cx.fillRect(x-w/2,top,w,h+40);
+  cx.restore();
+  cx.fillStyle='#e8c070'; cx.fillRect(x-14,top-20,28,26); cx.beginPath(); cx.moveTo(x-18,top-20); cx.lineTo(x,top-46); cx.lineTo(x+18,top-20); cx.fill(); cx.fillStyle='#e0405a'; cx.fillRect(x-1,top-60,3,16); cx.beginPath(); cx.moveTo(x+2,top-60); cx.lineTo(x+16,top-55); cx.lineTo(x+2,top-50); cx.fill() }
+function ropeGeom(m){ const sy=seaY(), sh=G.ang/LIM*26;   // the whole rope slides toward the team that is pulling
+  const ry=m.y-m.h*.44, rw=m.w*.40;
+  return {sh, ry, rw, hx:(portrait?66:92)+sh, hy:sy-(portrait?110:80), tx:W-(portrait?40:56)+sh, ty:sy-(portrait?110:80), cl:m.x-rw, cr:m.x+rw}
+}
+function qpt(x0,y0,x1,y1,sag,t){ const mx=(x0+x1)/2, my=Math.max(y0,y1)+sag; return [ (1-t)*(1-t)*x0+2*(1-t)*t*mx+t*t*x1, (1-t)*(1-t)*y0+2*(1-t)*t*my+t*t*y1 ] }
+function body(path,w,off){ // a thick snake body with belly and moving scale pattern
+  cx.lineCap='round'; cx.lineJoin='round';
+  cx.strokeStyle='#14462a'; cx.lineWidth=w+6; path(); cx.stroke();
+  const g=cx.createLinearGradient(0,0,0,H); g.addColorStop(0,'#3fa860'); g.addColorStop(1,'#2a7a45'); cx.strokeStyle=g; cx.lineWidth=w; path(); cx.stroke();
+  cx.strokeStyle='#bfe8a0'; cx.lineWidth=w*.28; path(); cx.stroke();
+  cx.strokeStyle='#ffd35a'; cx.lineWidth=w*.5; cx.setLineDash([5,17]); cx.lineDashOffset=off; path(); cx.stroke(); cx.setLineDash([]) }
+function drawSnake(R){ const W2=portrait?24:28, off=-G.ang*140, sag=portrait?30:40;
+  // left: from the coil out to the hooded head held by the Asuras
+  body(()=>{cx.beginPath(); cx.moveTo(R.cl,R.ry); const [qx,qy]=[(R.cl+R.hx)/2,Math.max(R.ry,R.hy)+sag]; cx.quadraticCurveTo(qx,qy,R.hx+18,R.hy+14)}, W2, off);
+  // right: from the coil to the tapering tail held by the Devas
+  const wig=Math.sin(G.el*5)*10;
+  body(()=>{cx.beginPath(); cx.moveTo(R.cr,R.ry); const [qx,qy]=[(R.cr+R.tx)/2,Math.max(R.ry,R.ty)+sag]; cx.quadraticCurveTo(qx,qy,R.tx-30,R.ty)}, W2, -off);
+  // tail tip: tapering, curling up and wiggling
+  cx.save(); cx.translate(R.tx-30,R.ty); cx.fillStyle='#2f8a4f'; cx.strokeStyle='#14462a'; cx.lineWidth=3;
+  cx.beginPath(); cx.moveTo(0,-W2/2); cx.quadraticCurveTo(30,-W2/2,38,-24+wig); cx.quadraticCurveTo(44,-44+wig,30,-50+wig); cx.quadraticCurveTo(40,-30+wig,22,W2*.1); cx.quadraticCurveTo(14,W2/2,0,W2/2); cx.closePath(); cx.fill(); cx.stroke(); cx.restore();
+  // hooded head (Vasuki) at the Asura end
+  const nod=Math.sin(G.el*3)*4, s=portrait?1:1.15; cx.save(); cx.translate(R.hx,R.hy+nod); cx.scale(s,s);
+  // raised neck, open cobra hood seen from the side, head in profile looking out to the left
+  cx.fillStyle='#2f8a4f'; cx.strokeStyle='#14462a'; cx.lineWidth=4;
+  cx.beginPath(); cx.moveTo(-14,30); cx.bezierCurveTo(-40,0,-40,-70,-6,-92); cx.bezierCurveTo(22,-70,26,-10,14,30); cx.closePath(); cx.fill(); cx.stroke();
+  cx.fillStyle='#bfe8a0'; cx.beginPath(); cx.moveTo(-6,24); cx.bezierCurveTo(-22,0,-22,-56,-4,-76); cx.bezierCurveTo(10,-56,10,-6,4,24); cx.closePath(); cx.fill();
+  cx.strokeStyle='#2a7a45'; cx.lineWidth=2; for(let y=-60;y<20;y+=12){ cx.beginPath(); cx.moveTo(-12,y); cx.lineTo(4,y+4); cx.stroke() }
+  cx.fillStyle='#ffd35a'; cx.beginPath(); cx.arc(-22,-40,5,0,6.283); cx.arc(12,-40,5,0,6.283); cx.fill();
+  cx.fillStyle='#3fa860'; cx.strokeStyle='#14462a'; cx.lineWidth=3; cx.beginPath(); cx.ellipse(-30,-94,30,15,-.12,0,6.283); cx.fill(); cx.stroke();
+  cx.fillStyle='#fff'; cx.beginPath(); cx.arc(-36,-99,6,0,6.283); cx.fill(); cx.fillStyle='#111'; cx.beginPath(); cx.ellipse(-37,-99,2,5,0,0,6.283); cx.fill();
+  cx.fillStyle='#14462a'; cx.beginPath(); cx.arc(-54,-96,1.8,0,6.283); cx.fill();
+  cx.strokeStyle='#14462a'; cx.lineWidth=2; cx.beginPath(); cx.moveTo(-58,-88); cx.quadraticCurveTo(-36,-84,-12,-90); cx.stroke();
+  if(Math.sin(G.el*4)>.2){ cx.strokeStyle='#e0405a'; cx.lineWidth=2.5; cx.beginPath(); cx.moveTo(-58,-89); cx.lineTo(-74,-87); cx.lineTo(-80,-92); cx.moveTo(-74,-87); cx.lineTo(-80,-82); cx.stroke() }
+  cx.fillStyle='#ffd35a'; cx.beginPath(); cx.moveTo(-24,-108); cx.lineTo(-18,-122); cx.lineTo(-12,-108); cx.fill();
+  cx.restore() }
+function drawCoil(m,R,part){ const rw=R.rw, ry=R.ry, h=portrait?18:20;
+  for(let k=0;k<2;k++){ const y=ry+k*(portrait?30:34)-12;
+    const a0=part==='back'?Math.PI:0, a1=part==='back'?2*Math.PI:Math.PI;
+    body(()=>{cx.beginPath(); cx.ellipse(m.x,y,rw+k*6,h,0,a0,a1)}, portrait?20:24, (part==='back'?1:-1)*G.ang*140);
+  } }
+function drawLedges(){ const sy=seaY(), cw=portrait?230:330;
+  for(const side of [0,1]){ const x0=side?W-cw-20:-20, x1=side?W+20:cw+20; const g=cx.createLinearGradient(0,sy-30,0,sy+40); g.addColorStop(0,'#5a4a6e'); g.addColorStop(1,'#2a2040');
+    cx.fillStyle=g; cx.beginPath(); cx.moveTo(x0,sy+40); cx.lineTo(x0,sy-6); for(let x=x0;x<=x1;x+=30) cx.lineTo(x,sy-14+Math.sin(x*.07)*8); cx.lineTo(x1,sy+40); cx.closePath(); cx.fill() } }
+function person(x,base,team,lean,hand,i){ const h=portrait?118:140, d=team==='deva'?-1:1;   // devas face left, asuras face right
+  const skin=team==='deva'?['#7fb2ff','#ffcf9e','#ffd9b0'][i%3]:['#7d5bb8','#c2563f','#3f8f6a'][i%3];
+  const cloth=team==='deva'?'#ffcf3a':'#3a2a5c', sash=team==='deva'?'#e0405a':'#c9a7ff';
+  cx.save(); cx.translate(x,base); cx.rotate(lean);
+  // legs and dhoti
+  cx.strokeStyle=skin; cx.lineWidth=11; cx.lineCap='round'; cx.beginPath(); cx.moveTo(-10,-h*.32); cx.lineTo(-18+d*-6,0); cx.moveTo(10,-h*.32); cx.lineTo(16+d*6,0); cx.stroke();
+  cx.fillStyle=cloth; cx.beginPath(); cx.moveTo(-22,-h*.55); cx.lineTo(22,-h*.55); cx.lineTo(28,-h*.22); cx.lineTo(-28,-h*.22); cx.closePath(); cx.fill();
+  // torso
+  cx.fillStyle=skin; cx.beginPath(); cx.ellipse(0,-h*.68,21,h*.17,0,0,6.283); cx.fill();
+  cx.strokeStyle=sash; cx.lineWidth=6; cx.beginPath(); cx.moveTo(-16,-h*.8); cx.lineTo(16,-h*.56); cx.stroke();
+  cx.restore();
+  // arms reach to the rope (world coordinates so the hands sit on the snake)
+  const sx=x+Math.sin(lean)*h*.78, sy=base-Math.cos(lean)*h*.78;
+  cx.strokeStyle=skin; cx.lineWidth=10; cx.beginPath(); cx.moveTo(sx,sy); cx.lineTo(hand[0]-d*8,hand[1]); cx.moveTo(sx,sy); cx.lineTo(hand[0]+d*10,hand[1]+4); cx.stroke();
+  cx.fillStyle=skin; cx.beginPath(); cx.arc(hand[0]-d*8,hand[1],7,0,6.283); cx.arc(hand[0]+d*10,hand[1]+4,7,0,6.283); cx.fill();
+  // head
+  const hx=x+Math.sin(lean)*h*.98, hy=base-Math.cos(lean)*h*.98;
+  cx.fillStyle=skin; cx.beginPath(); cx.arc(hx,hy,19,0,6.283); cx.fill();
+  cx.fillStyle='#1b1030'; cx.beginPath(); cx.arc(hx-d*7,hy-3,2.6,0,6.283); cx.fill();
+  if(team==='deva'){ cx.fillStyle='#ffd35a'; cx.beginPath(); cx.moveTo(hx-16,hy-12); cx.lineTo(hx-12,hy-36); cx.lineTo(hx-4,hy-24); cx.lineTo(hx,hy-42); cx.lineTo(hx+4,hy-24); cx.lineTo(hx+12,hy-36); cx.lineTo(hx+16,hy-12); cx.closePath(); cx.fill();
+    cx.fillStyle='#e0405a'; cx.beginPath(); cx.arc(hx,hy-20,3.5,0,6.283); cx.fill(); cx.strokeStyle='#c24'; cx.lineWidth=2; cx.beginPath(); cx.moveTo(hx-d*3,hy-10); cx.lineTo(hx-d*3,hy-4); cx.stroke() }
+  else { cx.fillStyle='#1b1030'; cx.beginPath(); cx.arc(hx,hy-6,19,Math.PI,0); cx.fill();
+    cx.fillStyle='#f3e6c8'; for(const sgn of [-1,1]){ cx.beginPath(); cx.moveTo(hx+sgn*10,hy-18); cx.quadraticCurveTo(hx+sgn*22,hy-30,hx+sgn*20,hy-44); cx.quadraticCurveTo(hx+sgn*14,hy-30,hx+sgn*4,hy-20); cx.fill() }
+    cx.strokeStyle='#1b1030'; cx.lineWidth=4; cx.beginPath(); cx.moveTo(hx-12+d*4,hy+7); cx.quadraticCurveTo(hx+d*4,hy+2,hx+12+d*4,hy+7); cx.stroke() }
+}
+function drawTeams(R){ const sy=seaY(), sag=portrait?30:40, n=3, base=sy-6;
+  const pullA=Math.max(0,Math.min(1,-G.vel*14)), pullD=Math.max(0,Math.min(1,G.vel*14));
+  for(let i=0;i<n;i++){ // Asuras near the head, on the left
+    const x=(portrait?110:150)+i*(portrait?50:68)+R.sh, t=(x-(R.hx+18))/(R.cl-(R.hx+18));
+    const pt=qpt(R.hx+18,R.hy+14,R.cl,R.ry,sag,Math.max(0,Math.min(1,t))).map((v,j)=>j?v:x+14);
+    person(x,base,'asura',-.12-.28*pullA+Math.sin(G.el*2+i)*.02,pt,i) }
+  for(let i=0;i<n;i++){ // Devas near the tail, on the right
+    const x=W-(portrait?96:130)-i*(portrait?52:70)+R.sh, t=(x-R.cr)/((R.tx-30)-R.cr);
+    const pt=qpt(R.cr,R.ry,R.tx-30,R.ty,sag,Math.max(0,Math.min(1,t))).map((v,j)=>j?v:x-14);
+    person(x,base,'deva',.12+.28*pullD+Math.sin(G.el*2+i)*.02,pt,i) }
+}
+function drawKurma(m){ if(!G.sunk)return; const k=G.kurmaY; if(k>=1&&G.phase!=='lift')return; const x=m.x, y=m.y+38+k*140; cx.save(); cx.globalAlpha=1-k*.7;
+  cx.fillStyle='#2f7d5b'; cx.beginPath(); cx.ellipse(x,y,m.w*.75,40,0,Math.PI,0); cx.fill(); cx.strokeStyle='#1d5a40'; cx.lineWidth=4; for(let i=-3;i<=3;i++){ cx.beginPath(); cx.moveTo(x+i*30,y); cx.lineTo(x+i*24,y-34); cx.stroke() }
+  cx.fillStyle='#4aa37a'; cx.beginPath(); cx.ellipse(x+m.w*.82,y-8,28,20,0,0,6.283); cx.fill(); cx.fillStyle='#111'; cx.beginPath(); cx.arc(x+m.w*.86,y-14,4,0,6.283); cx.fill(); cx.restore() }
+
+/* ---------- loop ---------- */
+let last=0;
+function loop(now){ const dt=Math.min(.05,(now-last)/1000||0); last=now;
+  if(G){ if(G.card)G.card.t-=dt; if(G.on&&!G.done)G.el+=dt; G.vel*=.85; if(G.hint>0)G.hint-=dt; if(G.toastT>0){G.toastT-=dt; if(G.toastT<=0)G.toast=null}
+    if(G.on){ events(dt);
+      for(const d of G.drops){ if(d.delay>0){d.delay-=dt;continue} d.y+=d.vy*dt; d.x+=Math.sin(G.el*2+d.ph)*.6; if(d.y<H*.08){ d.y=seaY()+60; d.x=W*(.18+Math.random()*.64) } }
+      for(const b of G.bubbles){ b.y+=b.vy*dt; if(b.y<H*.1){ G.bubbles=G.bubbles.filter(x=>x!==b) } }
+      for(const f of G.fly)f.k+=dt*1.6; G.fly=G.fly.filter(f=>f.k<1);
+      for(const p of G.parts){p.x+=p.vx;p.y+=p.vy;p.vy+=.25;p.l-=dt*1.4} G.parts=G.parts.filter(p=>p.l>0) }
+    if(G.phase==='poison'&&G.toast===null)toast(t('poison'),99);
+    if(G.phase!=='sink'&&G.toast===t('sink'))G.toast=null;
+    if(G.phase!=='pot'&&G.toast===t('amrit'))G.toast=null;
+    if(G.phase!=='poison'&&G.toast===t('poison'))G.toast=null;
+    draw(now) }
+  requestAnimationFrame(loop) }
+
+/* ---------- screens ---------- */
+const fmt=ms=>{const s=Math.round(ms/1000);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')};
+function renderShelf(){ $('#shelf').innerHTML=TREASURES.map(([k,e])=>`<span class="gem ${G&&G.found.includes(k)?'on':''}"><i>${e}</i>${L[lang].T[k][0]}</span>`).join('') }
+function start(){ newGame(); $('#overlay').innerHTML=`<div class="ov"><div class="card"><h3>${t('howT')}</h3><div class="how">${t('how').map(([i,s])=>`<div><b>${i}</b><span>${s}</span></div>`).join('')}</div><p class="small">${t('together')}</p><button class="go" id="go">${t('start')}</button></div></div>`;
+  $('#go').onclick=()=>{ ac(); $('#overlay').innerHTML=''; G.on=true; G.el=0 } }
+function win(){ const ms=G.el*1000; if(!best||ms<best){best=ms; try{localStorage.setItem('sm_best',String(ms))}catch(e){}}
+  try{const pr=JSON.parse(localStorage.getItem('storyquest')||'{}'); pr.dv2=1; localStorage.setItem('storyquest',JSON.stringify(pr))}catch(e){}
+  const stars=ms<100000?3:ms<160000?2:1;
+  $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep2_dhanvantari.jpg" alt=""><h3>${t('winT')}</h3><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${t('winP')}</p><p class="small">${t('time')(fmt(ms))} · ${t('best')(fmt(best))}</p><button class="go" id="again">${t('again')}</button><a class="go alt" href="index.html#dv2">${t('story')}</a></div></div>`;
+  $('#again').onclick=start }
+function applyLang(){ document.documentElement.lang=lang; $('#t-pl').textContent=t('pl'); $('#t-pr').textContent=t('pr'); $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back');
+  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang)); renderShelf() }
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||!G.on||G.done)start(); else if(G.toast)G.toast=null });
+$('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
+$('#newgame').onclick=start;
+function pull(dir){ ac(); if(!G||!G.on)return; turn(dir*LIM*1.02) }
+['pointerdown'].forEach(ev=>{ $('#pl').addEventListener(ev,e=>{e.preventDefault();pull(-1)}); $('#pr').addEventListener(ev,e=>{e.preventDefault();pull(1)}) });
+setInterval(()=>{ if(!G)return; const atL=G.ang<=-LIM+.01, atR=G.ang>=LIM-.01; const can=G.on&&!G.done&&G.phase!=='sink'&&G.phase!=='pot';
+  $('#pl').classList.toggle('next',can&&!atL&&(atR||G.ang>=0)); $('#pr').classList.toggle('next',can&&!atR&&(atL||G.ang<0)) },120);
+layout(); applyLang(); start(); requestAnimationFrame(loop);
+</script>
+<script src="next.js?v=20261107"></script>
+<footer class="wow-foot"><div class="wf-in">
+<a class="wf-brand" href="index.html"><img src="img/wow_logo.png" alt=""><span><b>World of Wonders Studio</b><small>Music · Stories · Creation · Inspiration</small></span></a>
+<nav class="wf-links"><a href="index.html">Home</a> · <a href="index.html#deepavali">Deepavali</a> · <a href="vedic-maths/">Vedic Maths</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
+<div class="wf-sis">Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></div>
+<div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
+</div></footer>
+<script src="join.js?v=6" defer></script>
+<script src="game-info.js?v=7" data-game="samudra-manthan" defer></script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+/* World of Wonders · Dasara game pages (shared look) */
+:root{
+  --night:#1c1442;--night-2:#2a1f5c;--ink:#fdf3dc;--muted:#c7bce6;--line:rgba(253,243,220,.16);
+  --marigold:#f6a723;--flame:#ffd35a;--cloth:#f7e7c4;--kumkum:#c2185b;
+  --display:"Baloo 2","Baloo Tamma 2","Trebuchet MS",system-ui,sans-serif;--body:"Mukta","Hind","Noto Sans Kannada","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:radial-gradient(circle at 50% -10%,#3b1f63 0,var(--night) 55%) fixed;color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100vh;
+  padding:0 max(12px,env(safe-area-inset-right,0px)) 24px max(12px,env(safe-area-inset-left,0px))}
+body>.wow-top{margin:0 calc(-1*max(12px,env(safe-area-inset-right,0px))) 10px calc(-1*max(12px,env(safe-area-inset-left,0px)))}
+button{font-family:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+.top{max-width:1100px;margin:0 auto 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top a.back{color:var(--muted);text-decoration:none;font-weight:600}
+.top h1{font-family:var(--display);font-size:clamp(22px,4vw,32px);margin:0;line-height:1;flex:1;min-width:170px}
+.top h1 small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-family:var(--body);font-weight:700;margin-bottom:4px}
+.pill{background:var(--night-2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px;min-height:36px}
+.pill[aria-pressed="true"]{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.langs{display:flex;gap:4px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.stage{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -25px #000;border:3px solid #ffd35a33;background:#141a33}
+canvas.st{display:block;width:100%;touch-action:none;user-select:none;-webkit-user-select:none}
+.hud{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.hud span{display:inline-flex;align-items:center;gap:6px;background:var(--night-2);border:2px solid var(--line);border-radius:999px;padding:5px 13px;font-weight:700}
+.hud b{font-family:var(--display);font-size:20px;color:var(--flame)}
+.by{text-align:center;color:var(--muted);font-size:13px;margin:14px 0 0}.by a{color:var(--flame)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}

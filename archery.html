@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Satyabhama's Arrow · World of Wonders</title>
+<meta name="description" content="Satyabhama&#x27;s Arrow: a free Deepavali game from Diya ki Bharat Yatra, Episode 4, by World of Wonders Studio. Watch the story, then play. English, Hindi and Kannada.">
+<link rel="icon" href="img/wow_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Mukta:wght@400;600;700&family=Baloo+Tamma+2:wght@600;800&family=Hind:wght@400;600&display=swap">
+<style>
+/* Satyabhama's Arrow: break the mountain, fire and water walls of Pragjyotishpur, then face Narakasura. */
+:root{
+  --night:#1c1442; --night-2:#2a1f5c; --ink:#fdf3dc; --muted:#c7bce6; --line:rgba(253,243,220,.16);
+  --marigold:#f6a723; --flame:#ffd35a; --cloth:#f7e7c4;
+  --display:"Baloo 2","Baloo Tamma 2","Trebuchet MS",system-ui,sans-serif; --body:"Mukta","Hind","Segoe UI",system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--night);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.45;min-height:100vh;
+  padding:max(10px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 24px max(12px,env(safe-area-inset-left,0px))}
+button{font-family:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--flame);outline-offset:2px}
+.top{max-width:1100px;margin:0 auto 10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.top a.back{color:var(--muted);text-decoration:none;font-weight:600}
+.top h1{font-family:var(--display);font-size:clamp(22px,4vw,32px);margin:0;line-height:1;flex:1;min-width:170px}
+.top h1 small{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--marigold);font-family:var(--body);font-weight:700;margin-bottom:4px}
+.pill{background:var(--night-2);border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:14px}
+.pill[aria-pressed="true"]{background:var(--marigold);color:var(--night);border-color:var(--marigold)}
+.langs{display:flex;gap:4px}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.stage{position:relative;border-radius:22px;overflow:hidden;box-shadow:0 30px 60px -25px #000;border:3px solid #ffffff22;background:#141a33}
+canvas#st{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.score{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.pl{display:flex;align-items:center;gap:8px;background:var(--night-2);border:2px solid var(--line);border-radius:999px;padding:6px 14px;font-weight:700}
+.pl.on{border-color:var(--flame);box-shadow:0 0 18px #ffb84a55}
+.pl b{font-family:var(--display);font-size:22px;color:var(--flame)}
+.ov{position:fixed;inset:0;background:#0d0826d9;backdrop-filter:blur(3px);display:grid;place-items:center;z-index:50;padding:16px}
+.card{width:min(500px,100%);background:var(--cloth);color:#3a1d0c;border-radius:22px;padding:20px;box-shadow:0 30px 80px #000a;border:5px solid var(--marigold);animation:pop .35s cubic-bezier(.2,1.6,.4,1);max-height:94vh;overflow:auto}
+.card h3{font-family:var(--display);font-size:28px;line-height:1.05;margin:4px 0 8px}
+.card p{margin:0 0 10px}
+.card img.hero{width:100%;border-radius:14px;display:block;margin-bottom:10px}
+.how{display:grid;gap:8px;margin:6px 0 12px}
+.how div{display:flex;gap:10px;align-items:center;background:#fffaf0;border:2px solid #e8d2a6;border-radius:14px;padding:8px 12px;font-weight:600}
+.how b{font-size:26px;line-height:1;min-width:34px;text-align:center}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0 0 10px}
+.mode{border:3px solid #e8d2a6;background:#fffaf0;border-radius:14px;padding:10px;cursor:pointer;font:700 16px var(--body);color:#3a1d0c;text-align:center}
+.mode[aria-pressed="true"]{border-color:#b8643a;background:#ffe6b8}
+.go{font:800 20px var(--display);background:#3a1d0c;color:var(--cloth);border:0;border-radius:14px;padding:13px 18px;cursor:pointer;width:100%;text-align:center;text-decoration:none;display:block}
+.go.alt{background:#b8643a;margin-top:8px}
+.small{font-size:13px;color:#7a5a3a}
+.stars{font-size:34px;letter-spacing:4px;text-align:center;margin:4px 0 8px}
+.by{text-align:center;color:var(--muted);font-size:13px;margin:14px 0 0}.by a{color:var(--flame)}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<link rel="stylesheet" href="family.css?v=20261105c">
+<script src="gate.js?v=5" data-key="archery" data-yt='{"en": "8jRw7hiDk3s", "hi": "GzY9fko-vSg", "kn": "6F6vA_jPhOY"}' data-back="index.html#dv4"></script>
+<!-- geo:start (generated by geo_build.py; edit geo_sites.py, not here) -->
+<link rel="canonical" href="https://worldofwondersstudio.com/archery.html">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Satyabhama's Arrow","url":"https://worldofwondersstudio.com/archery.html","genre":"Educational","gamePlatform":"Web browser","inLanguage":["en","hi","kn"],"isAccessibleForFree":true,"audience":{"@type":"Audience","audienceType":"Children and families"},"isPartOf":{"@type":"CreativeWorkSeries","name":"Diya ki Bharat Yatra"},"publisher":{"@id":"https://worldofwondersstudio.com/#org"}}</script>
+<!-- geo:end -->
+<script src="reg.js?v=2"></script>
+<link rel="stylesheet" href="/cursor-wow.css?v=6"></head>
+<body>
+<a class="wow-top" href="index.html" aria-label="World of Wonders home"><img src="img/wow_banner.jpg?v=2" alt="World of Wonders · Music · Stories · Creation · Inspiration"></a>
+<header class="top">
+  <a class="back" href="index.html#dv4" id="back">← World of Wonders</a>
+  <h1><small id="t-eyebrow">Deepavali · Episode 4 game</small><span id="t-title">Satyabhama's Arrow</span></h1>
+  <div class="langs" role="group" aria-label="Language">
+    <button class="pill" data-lang="en" aria-pressed="true">EN</button>
+    <button class="pill" data-lang="hi" aria-pressed="false">हिं</button>
+    <button class="pill" data-lang="kn" aria-pressed="false">ಕ</button>
+  </div>
+  <button class="pill" id="sound" aria-pressed="true" aria-label="Sound">🔊</button>
+  <button class="pill" id="newgame" aria-label="New game">↻</button>
+</header>
+<main class="wrap">
+  <div class="stage"><canvas id="st" aria-label="The fort of Pragjyotishpur ringed by fire. Pull back to draw Satyabhama's bow, aim, and let go to shoot the floating walls, then Narakasura."></canvas></div>
+  <div class="score" id="score"></div>
+</main>
+<p class="by">A game by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> Studio</p>
+<div id="overlay"></div>
+<script>
+const L={
+ en:{eyebrow:'Deepavali · Episode 4 game',title:"Satyabhama's Arrow",back:'← World of Wonders',
+  howT:"Ride Garuda into Pragjyotishpur!",
+  how:[['🏹','Pull back anywhere to draw the bow. The dotted line shows where the arrow starts to fly. Let go to shoot!'],['🪨','Break the walls: mountain rocks, fire and water. Hit the centre for a BULLSEYE ×2.'],['💨','Watch the wind arrow: it pushes your arrows.'],['👑','Last of all, face Narakasura. He fights back with fireballs: shoot them down! Five hits win the battle.']],
+  solo:'One player',duo:'Two players',start:"Draw the bow!",
+  p:n=>`Player ${n}`,you:'You',stage:(r,n)=>`Stage ${r} of ${n}`,turn:n=>`Player ${n}'s turn`,
+  aim:'Pull back and let go!',arrows:n=>`${n} arrow${n===1?'':'s'} left`,
+  S:['Mountain walls','Walls of fire','Walls of water','Narakasura!'],
+  bull:'BULLSEYE! ×2',hit:'Hit!',combo:n=>`${n} in a row!`,clear:'Wall broken!',holds:'The wall holds… next stage!',miss:'Missed!',
+  boss:'Narakasura is here! Hit him 5 times!',blocked:'Blocked!',hurt:'Ouch! Narakasura hit back!',retry:'Narakasura is too strong! Try again',lamps:'Light the lamps!',bossHit:'Direct hit!',win:'VICTORY!',escaped:'He escaped this time…',wind:'Wind',
+  winT:'The queen who won!',winP:"Satyabhama stood up when even the gods could not. Pride is strong, but goodness and courage are stronger. Happy Naraka Chaturdashi!",
+  total:'Total score',again:'Play again',story:'Back to the story'},
+ hi:{eyebrow:'दीपावली · एपिसोड 4 का खेल',title:'सत्यभामा का बाण',back:'← वर्ल्ड ऑफ़ वंडर्स',
+  howT:'गरुड़ पर बैठकर प्राग्ज्योतिषपुर चलो!',
+  how:[['🏹','कहीं भी पीछे खींचकर धनुष ताने। बिंदु वाली रेखा बताती है कि बाण कहाँ उड़ेगा। छोड़ो और चलाओ!'],['🪨','दीवारें तोड़ो: पहाड़ की चट्टानें, आग और पानी। बीच में लगे तो बुल्सआई ×2।'],['💨','हवा का तीर देखो: वह बाण को धकेलती है।'],['👑','आखिर में नरकासुर का सामना करो। वह आग के गोले फेंकता है: उन्हें बाण से गिराओ! पाँच वार और जीत तुम्हारी!']],
+  solo:'एक खिलाड़ी',duo:'दो खिलाड़ी',start:'धनुष तानो!',
+  p:n=>`खिलाड़ी ${n}`,you:'आप',stage:(r,n)=>`चरण ${r} / ${n}`,turn:n=>`खिलाड़ी ${n} की बारी`,
+  aim:'पीछे खींचो और छोड़ो!',arrows:n=>`${n} बाण बाकी`,
+  S:['पहाड़ की दीवारें','आग की दीवारें','पानी की दीवारें','नरकासुर!'],
+  bull:'बुल्सआई! ×2',hit:'निशाना!',combo:n=>`लगातार ${n}!`,clear:'दीवार टूटी!',holds:'दीवार बची… अगला चरण!',miss:'चूक गए!',
+  boss:'नरकासुर आ गया! उसे 5 बार मारो!',blocked:'रोक दिया!',hurt:'नरकासुर ने पलटवार किया!',retry:'नरकासुर बहुत ताकतवर है! फिर कोशिश करो',lamps:'दीप जलाओ!',bossHit:'सीधा वार!',win:'विजय!',escaped:'इस बार वह बच निकला…',wind:'हवा',
+  winT:'जीतने वाली रानी!',winP:'जब देवता भी हार गए, तब सत्यभामा आगे आईं। घमंड ताकतवर है, पर अच्छाई और साहस उससे भी ताकतवर हैं। नरक चतुर्दशी की शुभकामनाएँ!',
+  total:'कुल अंक',again:'फिर से खेलें',story:'कहानी पर वापस'},
+ kn:{eyebrow:'ದೀಪಾವಳಿ · ಸಂಚಿಕೆ 4 ಆಟ',title:'ಸತ್ಯಭಾಮೆಯ ಬಾಣ',back:'← ವರ್ಲ್ಡ್ ಆಫ್ ವಂಡರ್ಸ್',
+  howT:'ಗರುಡನ ಮೇಲೆ ಪ್ರಾಗ್ಜ್ಯೋತಿಷಪುರಕ್ಕೆ ಹೊರಡಿ!',
+  how:[['🏹','ಎಲ್ಲಿಯಾದರೂ ಹಿಂದಕ್ಕೆ ಎಳೆದು ಬಿಲ್ಲು ಬಿಗಿಯಿರಿ. ಚುಕ್ಕೆ ಗೆರೆ ಬಾಣ ಎಲ್ಲಿ ಹಾರುತ್ತದೆ ಎಂದು ತೋರಿಸುತ್ತದೆ. ಬಿಡಿ, ಬಾಣ ಹಾರಿಸಿ!'],['🪨','ಗೋಡೆಗಳನ್ನು ಒಡೆಯಿರಿ: ಬೆಟ್ಟದ ಬಂಡೆ, ಬೆಂಕಿ ಮತ್ತು ನೀರು. ಮಧ್ಯಕ್ಕೆ ತಾಗಿದರೆ ಬುಲ್ಸ್‌ಐ ×2.'],['💨','ಗಾಳಿಯ ಬಾಣ ಗಮನಿಸಿ: ಅದು ಬಾಣವನ್ನು ತಳ್ಳುತ್ತದೆ.'],['👑','ಕೊನೆಗೆ ನರಕಾಸುರನನ್ನು ಎದುರಿಸಿ. ಅವನು ಬೆಂಕಿಯ ಉಂಡೆ ಎಸೆಯುತ್ತಾನೆ: ಬಾಣದಿಂದ ಹೊಡೆದುರುಳಿಸಿ! ಐದು ಏಟು, ಗೆಲುವು ನಿಮ್ಮದು!']],
+  solo:'ಒಬ್ಬ ಆಟಗಾರ',duo:'ಇಬ್ಬರು ಆಟಗಾರರು',start:'ಬಿಲ್ಲು ಬಿಗಿಯಿರಿ!',
+  p:n=>`ಆಟಗಾರ ${n}`,you:'ನೀವು',stage:(r,n)=>`ಹಂತ ${r} / ${n}`,turn:n=>`ಆಟಗಾರ ${n} ಸರದಿ`,
+  aim:'ಹಿಂದಕ್ಕೆ ಎಳೆದು ಬಿಡಿ!',arrows:n=>`${n} ಬಾಣ ಉಳಿದಿದೆ`,
+  S:['ಬೆಟ್ಟದ ಗೋಡೆಗಳು','ಬೆಂಕಿಯ ಗೋಡೆಗಳು','ನೀರಿನ ಗೋಡೆಗಳು','ನರಕಾಸುರ!'],
+  bull:'ಬುಲ್ಸ್‌ಐ! ×2',hit:'ತಾಗಿತು!',combo:n=>`ಸತತ ${n}!`,clear:'ಗೋಡೆ ಒಡೆಯಿತು!',holds:'ಗೋಡೆ ಉಳಿಯಿತು… ಮುಂದಿನ ಹಂತ!',miss:'ತಪ್ಪಿತು!',
+  boss:'ನರಕಾಸುರ ಬಂದ! ಅವನಿಗೆ 5 ಬಾರಿ ಹೊಡೆಯಿರಿ!',blocked:'ತಡೆದಿರಿ!',hurt:'ನರಕಾಸುರ ತಿರುಗಿ ಹೊಡೆದ!',retry:'ನರಕಾಸುರ ತುಂಬಾ ಬಲಶಾಲಿ! ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ',lamps:'ದೀಪ ಹಚ್ಚಿ!',bossHit:'ನೇರ ಏಟು!',win:'ವಿಜಯ!',escaped:'ಈ ಬಾರಿ ಅವನು ತಪ್ಪಿಸಿಕೊಂಡ…',wind:'ಗಾಳಿ',
+  winT:'ಗೆದ್ದ ರಾಣಿ!',winP:'ದೇವತೆಗಳೂ ಸೋತಾಗ ಸತ್ಯಭಾಮೆ ಮುಂದೆ ಬಂದಳು. ಅಹಂಕಾರ ಬಲಶಾಲಿ, ಆದರೆ ಒಳ್ಳೆಯತನ ಮತ್ತು ಧೈರ್ಯ ಅದಕ್ಕಿಂತ ಬಲಶಾಲಿ. ನರಕ ಚತುರ್ದಶಿಯ ಶುಭಾಶಯಗಳು!',
+  total:'ಒಟ್ಟು ಅಂಕ',again:'ಮತ್ತೆ ಆಡಿ',story:'ಕಥೆಗೆ ಹಿಂತಿರುಗಿ'}
+};
+let lang='en'; try{lang=localStorage.getItem('sq_lang')||'en'}catch(e){} {const q=new URLSearchParams(location.search).get('lang'); if(['en','hi','kn'].includes(q)){lang=q; try{localStorage.setItem('sq_lang',q)}catch(e){}}}
+const t=k=>L[lang][k]; const $=s=>document.querySelector(s);
+const IMG=n=>{const i=new Image(); i.src=n; return i}; const BGS=['img/ep4_bg1.jpg','img/ep4_fort.jpg','img/ep4_bg3.jpg','img/ep4_bg4.jpg'].map(IMG), SATYA=IMG('img/ep4_satya_aim.png'), WALK=IMG('img/ep4_satya_walk.png'), NARAKA=IMG('img/ep4_naraka.png');
+/* ---------- sound ---------- */
+let AC=null, soundOn=true;
+function ac(){ if(!AC){ try{AC=new (window.AudioContext||window.webkitAudioContext)()}catch(e){} } if(AC&&AC.state==='suspended')AC.resume(); return AC }
+function tone(f,d=.15,type='sine',v=.15,slide=0){ if(!soundOn||!ac())return; const o=AC.createOscillator(),g=AC.createGain(),n=AC.currentTime; o.type=type;o.frequency.setValueAtTime(f,n); if(slide)o.frequency.exponentialRampToValueAtTime(Math.max(40,f*slide),n+d); g.gain.setValueAtTime(v,n);g.gain.exponentialRampToValueAtTime(.001,n+d); o.connect(g);g.connect(AC.destination);o.start(n);o.stop(n+d+.02)}
+function noise(d=.2,v=.2,f=900){ if(!soundOn||!ac())return; const n=AC.currentTime,b=AC.createBuffer(1,AC.sampleRate*d,AC.sampleRate),x=b.getChannelData(0); for(let i=0;i<x.length;i++)x[i]=(Math.random()*2-1)*Math.pow(1-i/x.length,2); const s=AC.createBufferSource(),fl=AC.createBiquadFilter(),g=AC.createGain(); fl.type='lowpass';fl.frequency.value=f; g.gain.value=v; s.buffer=b;s.connect(fl);fl.connect(g);g.connect(AC.destination);s.start(n)}
+function cheer(){ if(!soundOn||!ac())return; for(let k=0;k<3;k++) setTimeout(()=>noise(.6,.12,1400+k*500),k*90); }
+function vib(ms){ try{ navigator.vibrate&&navigator.vibrate(ms) }catch(e){} }
+const SFX={charge:p=>tone(180+p*520,.05,'triangle',.03),twang:p=>{tone(140+p*90,.22,'sawtooth',.09,.6);noise(.18,.12,3000)},whoosh:()=>noise(.35,.07,2600),
+ crack:()=>{noise(.35,.45,900);tone(110,.25,'square',.08,.5)},fizz:()=>{noise(.5,.3,4000);tone(700,.3,'sine',.05,.4)},splash:()=>{noise(.6,.35,1600);tone(300,.3,'sine',.06,.5)},
+ bull:()=>[523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>tone(f,.22,'square',.06),i*55)),miss:()=>tone(220,.2,'sine',.05,.7),
+ roar:()=>{noise(.9,.35,400);tone(80,.8,'sawtooth',.12,.6)},boss:()=>{noise(.5,.5,600);tone(90,.5,'square',.12,.4)},
+ win:()=>[392,523,659,784,1047,1319].forEach((f,i)=>setTimeout(()=>tone(f,.4,'triangle',.14),i*120)),tick:()=>tone(1200,.04,'square',.03),door:()=>{noise(.7,.25,250);tone(70,.6,'sine',.12,.7)},step:()=>noise(.06,.05,500),
+ fire:()=>{noise(.5,.25,1200);tone(160,.4,'sawtooth',.06,.5)},ouch:()=>{tone(300,.3,'square',.08,.4);noise(.3,.3,700)},block:()=>{tone(900,.15,'triangle',.08,1.5);noise(.2,.2,3000)},
+ beam:()=>{for(let k=0;k<6;k++)setTimeout(()=>tone(523*Math.pow(1.122,k),.6,'sine',.06),k*90)},shatter:()=>{noise(1.2,.5,2500);tone(60,1,'sawtooth',.15,.4)},lamp:k=>tone(660+k*70,.25,'triangle',.07)};
+
+/* ---------- layout: the 3D fort, cover-fitted ---------- */
+const cv=$('#st'), cx=cv.getContext('2d'); let W=1280,H=720,DPR=1,portrait=false;
+const IW=1256, IH=698;
+function layout(){ const w=cv.parentElement.clientWidth; portrait=w<640; W=portrait?720:1280; H=portrait?860:720;
+  DPR=Math.min(2,window.devicePixelRatio||1)*w/W; cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR); cv.style.aspectRatio=W+'/'+H; cx.setTransform(DPR,0,0,DPR,0,0) }
+addEventListener('resize',layout);
+function S(){ return portrait? H/IH : Math.max(W/IW,H/IH) } function OX(){ return portrait? (W-IW*S())/2+IW*S()*.12 : (W-IW*S())/2 } function OY(){ return (H-IH*S())/2 }
+const P=(x,y)=>[OX()+x*S(), OY()+y*S()], Q=(X,Y)=>[(X-OX())/S(), (Y-OY())/S()];
+// Satyabhama: full-body pose that leans from her feet as she aims (screen coords)
+const SPR={w:476,h:560,fx:190,fy:556,tx:474,ty:172,base:Math.atan2(172-215,474-150)};
+function archer(){ const h=(portrait?.40:.52)*H, w=h*SPR.w/SPR.h; const sc=h/SPR.h; const x=(portrait?-w*.08:W*.02)+(G&&G.walkX||0), y=H-h-(portrait?6:10);
+  const ang=(G&&G.aimRot)||0, pX=x+SPR.fx*sc, pY=y+SPR.fy*sc, dx=(SPR.tx-SPR.fx)*sc, dy=(SPR.ty-SPR.fy)*sc;
+  return {x,y,w,h,sc,pX,pY,ang, cxm:x+w*.45, cym:y+h*.45, bx:pX+dx*Math.cos(ang)-dy*Math.sin(ang), by:pY+dx*Math.sin(ang)+dy*Math.cos(ang)} }
+function aimTarget(){ if(!G.drag) return G.aimRot||0; const v=launch(G.drag); const a=Math.atan2(v.vy,v.vx)-SPR.base; return Math.max(-.2,Math.min(.2,a)) }
+const STAGES=4, GRAV=520;
+/* ---------- state ---------- */
+let G=null, mode='solo';
+function newGame(){ G={players:mode==='duo'?2:1, scores:[0,0], stage:1, cur:0, phase:'aim', arrows:0, tg:[], arrow:null, drag:null, msg:null, msgT:0, parts:[], pops:[], el:0, over:false, stop:0, shake:0, flash:0, big:null, streak:0, wind:0, boss:null, slow:0, fb:[], hearts:3, hurt:0, walkX:0, tr:null, lampsLit:0}; setupStage(); G.phase='walk'; G.tr={k:.9,adv:null}; renderScore() }
+function say(m,s=2){ G.msg=m; G.msgT=s }
+function setupStage(){ const k=G.stage-1; G.tg=[]; G.arrow=null; G.streak=0; G.phase='aim'; G.boss=null; G.fb=[]; G.hearts=3;
+  G.wind=(k===0?0:(Math.random()<.5?-1:1)*(40+Math.random()*60*k));
+  if(k<3){ G.arrows=8; const n=5; for(let i=0;i<n;i++){ G.tg.push({kind:k, fx:(i+.5)/n+(Math.random()-.5)*.08, y:150+((i*37)%3)*95+Math.random()*30, r:54-k*3, ph:Math.random()*6.28, sp:.6+k*.5+Math.random()*.4, amp:k===0?10:(k===1?90:70), alive:true, hitk:0}) } }
+  else { G.arrows=14; G.boss={x:930, y:390, hp:5, max:5, ph:0, hitk:0, dead:0, enter:0, atk:2.8, wind:0, kb:0} ; SFX.roar(); G.shake=.6 }
+  say(G.boss?t('boss'):t('stage')(G.stage,STAGES)+' · '+t('S')[k],2.6) }
+function playX(f){ return portrait? 400+f*360 : 520+f*620 }
+function tgPos(o){ o.x=playX(o.fx); const amp=portrait?o.amp*.5:o.amp; if(o.kind===0) return [o.x, o.y+Math.sin(G.el*o.sp*2+o.ph)*o.amp]; if(o.kind===1) return [o.x+Math.sin(G.el*o.sp+o.ph)*amp, o.y]; return [o.x+Math.sin(G.el*o.sp+o.ph)*amp, o.y+Math.cos(G.el*o.sp*1.3+o.ph)*o.amp*.5] }
+function bossPos(){ const b=G.boss; return portrait? [640+Math.sin(G.el*.8)*45, 420+Math.sin(G.el*1.7)*50] : [b.x+Math.sin(G.el*.8)*120, b.y+Math.sin(G.el*1.7)*50] }
+/* ---------- input ---------- */
+function pos(e){ const r=cv.getBoundingClientRect(); return [(e.clientX-r.left)/r.width*W,(e.clientY-r.top)/r.height*H] }
+cv.addEventListener('pointerdown',e=>{ ac(); if(!G||G.over||G.phase!=='aim'||G.arrow||G.arrows<=0||(G.boss&&G.boss.dead))return; const [X,Y]=pos(e); G.drag={x0:X,y0:Y,x:X,y:Y,id:e.pointerId}; cv.setPointerCapture(e.pointerId) });
+cv.addEventListener('pointermove',e=>{ if(!G||!G.drag||G.drag.id!==e.pointerId)return; const [X,Y]=pos(e); G.drag.x=X; G.drag.y=Y });
+['pointerup','pointercancel'].forEach(k=>cv.addEventListener(k,e=>{ if(!G||!G.drag||G.drag.id!==e.pointerId)return; const d=G.drag; G.drag=null; const v=launch(d); if(v.pw>.12) shoot(v) }));
+function launch(d){ const dx=d.x0-d.x, dy=d.y0-d.y, len=Math.hypot(dx,dy), pw=Math.min(1,len/(portrait?150:190)); const a=Math.atan2(dy,dx); const sp=(560+1050*pw)*(W/1280);
+  return {pw, vx:Math.cos(a)*sp, vy:Math.sin(a)*sp} }
+addEventListener('keydown',e=>{ if(!G||G.over||G.phase!=='aim'||G.arrow)return; if(e.key===' '||e.key==='Enter'){ shoot({pw:.8,vx:1000*W/1280,vy:-420}); e.preventDefault() } });
+function shoot(v){ const A=archer(); G.arrows--; G.arrow={x:A.bx,y:A.by,vx:v.vx,vy:v.vy,trail:[],life:0,pw:v.pw}; SFX.twang(v.pw); SFX.whoosh(); vib(20) }
+/* ---------- hits ---------- */
+function hitTarget(o,X,Y,bull){ o.alive=false; G.streak++; let pts=10+(G.streak-1)*5; if(bull)pts*=2; G.scores[G.cur]+=pts; renderScore();
+  const col=['#d9c7a8','#ffb347','#7fd8ff'][o.kind]; burst(X,Y,col,34); burst(X,Y,'#fff6c0',12); popup(X,Y-30,'+'+pts,bull?'#ffe066':'#ffffff');
+  [SFX.crack,SFX.fizz,SFX.splash][o.kind](); vib(bull?[30,20,60]:35); G.stop=.06; G.shake=bull?.45:.25;
+  if(bull){ SFX.bull(); G.big={txt:t('bull'),k:0}; G.flash=.5 } else if(G.streak>=3) G.big={txt:t('combo')(G.streak),k:0};
+  if(G.tg.every(q=>!q.alive)){ const bonus=G.arrows*5; G.scores[G.cur]+=bonus; renderScore(); setTimeout(()=>{ if(!G)return; G.big={txt:t('clear'),k:0}; popup(W/2,H*.45,'+'+bonus,'#9dffb0'); SFX.win(); for(let k=0;k<6;k++)setTimeout(()=>G&&fireworks(W*(.4+Math.random()*.5),H*(.15+Math.random()*.3)),k*130) },250); endStage(2.2) } }
+function hitBoss(X,Y,bull){ const b=G.boss; const dmg=bull?2:1; b.hp=Math.max(0,b.hp-dmg); b.hitk=1; b.kb=1; G.streak++; let pts=30+(bull?30:0); G.scores[G.cur]+=pts; renderScore(); popup(X,Y-40,'+'+pts,'#ffe066');
+  burst(X,Y,'#ffd35a',40); burst(X,Y,'#ff6b3d',20); SFX.boss(); vib([40,30,80]); G.stop=.12; G.shake=.7; G.flash=.6; b.atk=Math.max(b.atk,1.2);
+  if(b.hp<=0){ b.dead=.01; G.fb=[]; G.slow=.5; const bonus=50+G.arrows*10+G.hearts*30; G.scores[G.cur]+=bonus; renderScore(); SFX.beam(); vib([60,40,60,40,200]);
+    setTimeout(()=>{ if(!G)return; SFX.shatter(); G.flash=1; G.shake=1 },1300);
+    setTimeout(()=>{ if(!G)return; G.big={txt:t('win'),k:0}; SFX.win(); cheer(); popup(W/2,H*.48,'+'+bonus,'#9dffb0'); for(let k=0;k<14;k++)setTimeout(()=>G&&fireworks(W*(.15+Math.random()*.7),H*(.1+Math.random()*.35)),k*120) },1800);
+    setTimeout(()=>{ if(!G)return; say(t('lamps'),2.5); for(let k=0;k<9;k++) setTimeout(()=>{ if(G){ G.lampsLit=k+1; SFX.lamp(k) } },k*220) },2900);
+    endStage(6.2) }
+  else G.big={txt:t('bossHit'),k:0} }
+function bossHand(){ const [bx,by]=bossPos(), [X,Y]=P(bx,by), h=(portrait?300:340)*S()/1.1; return [X-h*.42, Y-h*.3] }
+function throwFire(){ const A=archer(); const [hx,hy]=bossHand(); const T=1.5+Math.random()*.4, g=300*(W/1280); const tx=A.cxm+(Math.random()-.5)*30, ty=A.cym+(Math.random()-.5)*60;
+  G.fb.push({x:hx,y:hy,vx:(tx-hx)/T,vy:(ty-hy)/T-.5*g*T,g,r:22,life:0}); SFX.fire() }
+function hurtArcher(f){ G.hearts--; G.hurt=1; G.shake=.8; G.flash=.3; burst(f.x,f.y,'#ff7a2e',36); burst(f.x,f.y,'#ffd35a',16); SFX.ouch(); vib([80,40,80]); say(t('hurt'),1.4);
+  if(G.hearts<=0){ G.phase='wait'; G.fb=[]; say(t('retry'),2.4); setTimeout(()=>{ if(!G||G.over)return; setupStage(); renderScore() },2400) } }
+function endStage(delay){ G.phase='wait'; setTimeout(()=>{ if(!G||G.over)return;
+  G.phase='walk'; G.tr={k:0, adv:()=>{ if(G.players===2&&G.cur===0){ G.cur=1 } else { G.cur=0; G.stage++ }
+    if(G.stage>STAGES){ finish(); return false } setupStage(); G.phase='walk'; renderScore(); if(G.players===2) say(t('turn')(G.cur+1)+' · '+t('S')[G.stage-1],2.4); return true }} }, delay*1000) }
+function popup(X,Y,txt,c){ G.pops.push({x:X,y:Y,txt,c,k:0}) }
+function burst(X,Y,c,n=22){ for(let i=0;i<n;i++){ const a=Math.random()*6.283,s=2+Math.random()*7; G.parts.push({x:X,y:Y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-2,l:1,c,r:3+Math.random()*4}) } }
+function fireworks(X,Y){ const c=['#ffd35a','#ff6bd6','#7fe3ff','#9dffb0','#fff'][Math.random()*5|0]; for(let i=0;i<40;i++){ const a=i/40*6.283, sp=3+Math.random()*3; G.parts.push({x:X,y:Y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:1.2,c,r:2.5}) } tone(900+Math.random()*600,.08,'sine',.04) }
+/* ---------- update ---------- */
+function update(dt){ if(!G)return; if(G.stop>0){ G.stop-=dt; return } if(G.slow>0){ G.slow-=dt; dt*=.35 } G.el+=dt;
+  if(G.flash>0)G.flash=Math.max(0,G.flash-dt*3); if(G.shake>0)G.shake=Math.max(0,G.shake-dt*2); if(G.big){ G.big.k+=dt; if(G.big.k>1.6)G.big=null } if(G.msgT>0){G.msgT-=dt; if(G.msgT<=0)G.msg=null}
+  { const tg=aimTarget(); G.aimRot=(G.aimRot||0)+(tg-(G.aimRot||0))*Math.min(1,dt*14) }
+  if(G.hurt>0) G.hurt=Math.max(0,G.hurt-dt*2.5);
+  if(G.tr){ const tr=G.tr, k0=tr.k; tr.k+=dt; const k=tr.k;
+    if(k<.9) G.walkX=k/.9*W*.3; else if(k<1.5) G.walkX=-W*.4; else if(k<2.5) G.walkX=-W*.4*(1-(k-1.5)/1); else G.walkX=0;
+    if(k0<.05&&k>=.05) SFX.door(); if(k0<1.5&&k>=1.5) SFX.door();
+    if(Math.floor(k0*3.2)!==Math.floor(k*3.2)&&(k<.9||(k>1.5&&k<2.5))) SFX.step();
+    if(k0<.9&&k>=.9&&tr.adv){ if(tr.adv()===false){ G.tr=null; return } }
+    if(k>=2.5){ G.tr=null; G.walkX=0; G.phase='aim' } }
+  if(G.boss&&G.boss.hp>0&&G.phase==='aim'){ const b=G.boss; b.atk-=dt; const rage=b.hp<=2;
+    if(b.atk<=.6&&b.wind===0){ b.wind=.01; SFX.roar() }
+    if(b.wind>0){ b.wind+=dt; if(b.atk<=0){ throwFire(); if(rage) setTimeout(()=>G&&G.boss&&G.boss.hp>0&&G.phase==='aim'&&throwFire(),350); b.wind=0; b.atk=(rage?2.0:2.9)+Math.random()*1.2 } } }
+  for(const f of G.fb){ f.life+=dt; f.vy+=f.g*dt; f.x+=f.vx*dt; f.y+=f.vy*dt; if(Math.random()<.6) G.parts.push({x:f.x,y:f.y,vx:(Math.random()-.5)*1.5,vy:-Math.random()*1.5,l:.6,c:Math.random()<.5?'#ff7a2e':'#ffd35a',r:3+Math.random()*4});
+    const A=archer(); if(Math.abs(f.x-A.cxm)<A.w*.28&&Math.abs(f.y-A.cym)<A.h*.38){ f.dead=1; hurtArcher(f) } else if(f.y>H+40||f.x<-60) f.dead=1 }
+  G.fb=G.fb.filter(f=>!f.dead);
+  if(G.drag){ const pw=launch(G.drag).pw; if(Math.abs(pw-(G.lastPw||0))>.06){ G.lastPw=pw; SFX.charge(pw) } }
+  if(G.boss){ const b=G.boss; b.enter=Math.min(1,b.enter+dt*.8); if(b.hitk>0)b.hitk=Math.max(0,b.hitk-dt*2.5); if(b.kb>0)b.kb=Math.max(0,b.kb-dt*2); if(b.dead>0)b.dead+=dt }
+  for(const o of G.tg) if(o.hitk>0) o.hitk-=dt;
+  const a=G.arrow; if(a){ a.life+=dt; a.vy+=GRAV*dt*(W/1280); a.vx+=G.wind*dt*(W/1280); a.x+=a.vx*dt; a.y+=a.vy*dt; a.trail.push([a.x,a.y]); if(a.trail.length>14)a.trail.shift();
+    const sc=S();
+    for(const f of G.fb){ if(Math.hypot(a.x-f.x,a.y-f.y)<f.r+26){ f.dead=1; G.arrow=null; burst(f.x,f.y,'#ffd35a',26); burst(f.x,f.y,'#fff6c0',10); popup(f.x,f.y-30,'+15 '+t('blocked'),'#9dffb0'); G.scores[G.cur]+=15; renderScore(); SFX.block(); vib(25); break } }
+    if(!G.arrow) return;
+    for(const o of G.tg){ if(!o.alive)continue; const [ix,iy]=tgPos(o), [X,Y]=P(ix,iy), r=o.r*sc*(portrait?1.25:1); const dd=Math.hypot(a.x-X,a.y-Y); if(dd<r){ hitTarget(o,X,Y,dd<r*.35); G.arrow=null; break } }
+    if(G.arrow&&G.boss&&G.boss.hp>0&&!G.boss.dead){ const [bx,by]=bossPos(), [X,Y]=P(bx,by), r=95*sc; const dd=Math.hypot(a.x-X,a.y-(Y-30*sc)); if(dd<r){ hitBoss(a.x,a.y,dd<r*.3); G.arrow=null } }
+    if(G.arrow&&(a.x>W+60||a.y>H+60||a.x<-80||a.life>4)){ G.arrow=null; G.streak=0; SFX.miss(); say(t('miss')+' · '+t('arrows')(G.arrows),1.2) }
+    if(!G.arrow&&G.phase==='aim'&&G.arrows<=0&&!(G.tg.length&&G.tg.every(q=>!q.alive))&&!(G.boss&&G.boss.hp<=0)){ say(G.boss?t('escaped'):t('holds'),2); endStage(2) } }
+  for(const p of G.parts){p.x+=p.vx;p.y+=p.vy;p.vy+=.18; p.l-=dt*1.3} G.parts=G.parts.filter(p=>p.l>0)
+  for(const p of G.pops) p.k+=dt; G.pops=G.pops.filter(p=>p.k<1.2) }
+/* ---------- draw ---------- */
+function rr(x,y,w,h,r){ cx.beginPath(); cx.roundRect?cx.roundRect(x,y,w,h,r):cx.rect(x,y,w,h) }
+function drawTarget(o){ const [ix,iy]=tgPos(o), [X,Y]=P(ix,iy), r=o.r*S()*(portrait?1.25:1), el=G.el;
+  cx.save(); cx.translate(X,Y);
+  const glow=cx.createRadialGradient(0,0,r*.2,0,0,r*1.6); const gc=['rgba(255,220,170,','rgba(255,140,40,','rgba(100,200,255,'][o.kind]; glow.addColorStop(0,gc+'.45)'); glow.addColorStop(1,gc+'0)'); cx.fillStyle=glow; cx.beginPath(); cx.arc(0,0,r*1.6,0,6.283); cx.fill();
+  if(o.kind===0){ cx.rotate(Math.sin(el+o.ph)*.15); const g=cx.createRadialGradient(-r*.3,-r*.35,r*.1,0,0,r); g.addColorStop(0,'#c8b9a0'); g.addColorStop(.7,'#7d6a55'); g.addColorStop(1,'#4a3a2c'); cx.fillStyle=g; cx.beginPath();
+    for(let k=0;k<9;k++){ const a=k/9*6.283, rad=r*(.82+.18*Math.sin(k*2.7+o.ph)); cx[k?'lineTo':'moveTo'](Math.cos(a)*rad,Math.sin(a)*rad) } cx.closePath(); cx.fill(); cx.strokeStyle='rgba(30,20,10,.6)'; cx.lineWidth=3; cx.beginPath(); cx.moveTo(-r*.4,-r*.2); cx.lineTo(0,r*.1); cx.lineTo(r*.3,-r*.3); cx.stroke() }
+  else if(o.kind===1){ for(let k=0;k<3;k++){ const s=1-k*.25, f=Math.sin(el*9+k+o.ph)*.08; const g=cx.createRadialGradient(0,r*.2,0,0,0,r*s); g.addColorStop(0,'#fff6b0'); g.addColorStop(.4,'#ffb030'); g.addColorStop(1,'rgba(220,50,10,0)'); cx.fillStyle=g; cx.beginPath(); cx.moveTo(0,-r*s*(1.25+f)); cx.bezierCurveTo(r*s*.9,-r*s*.3,r*s*.8,r*s*.8,0,r*s*.85); cx.bezierCurveTo(-r*s*.8,r*s*.8,-r*s*.9,-r*s*.3,0,-r*s*(1.25+f)); cx.fill() } }
+  else { const g=cx.createRadialGradient(-r*.35,-r*.4,r*.05,0,0,r); g.addColorStop(0,'rgba(255,255,255,.95)'); g.addColorStop(.35,'rgba(120,210,255,.75)'); g.addColorStop(1,'rgba(30,90,200,.85)'); cx.fillStyle=g; cx.beginPath(); cx.ellipse(0,0,r*(1+Math.sin(el*4+o.ph)*.05),r*(1-Math.sin(el*4+o.ph)*.05),0,0,6.283); cx.fill(); cx.strokeStyle='rgba(255,255,255,.7)'; cx.lineWidth=3; cx.beginPath(); cx.arc(0,0,r*.7,3.6,4.6); cx.stroke() }
+  // bullseye ring
+  cx.strokeStyle='rgba(255,240,200,.8)'; cx.lineWidth=2.5; cx.setLineDash([4,5]); cx.beginPath(); cx.arc(0,0,r*.35,0,6.283); cx.stroke(); cx.setLineDash([]); cx.restore() }
+function drawBoss(){ const b=G.boss; if(!NARAKA.complete)return; let [bx,by]=bossPos(); let [X,Y]=P(bx,by); const h=(portrait?300:340)*S()/1.1, w=h*NARAKA.width/NARAKA.height;
+  const rise=1-Math.pow(1-b.enter,3); let a=1, dy=(1-rise)*200, sc=1; X+=b.kb*40; const d=b.dead;
+  // golden beam from the sky (Bhudevi's light) during the defeat
+  if(d>0&&d<2.2){ const bw=(d<.6?d/.6:1)*h*.9, al=d<1.6?Math.min(1,d*2):Math.max(0,1-(d-1.6)/.6); const g=cx.createLinearGradient(X-bw,0,X+bw,0); g.addColorStop(0,'rgba(255,230,140,0)'); g.addColorStop(.5,`rgba(255,250,220,${.85*al})`); g.addColorStop(1,'rgba(255,230,140,0)'); cx.fillStyle=g; cx.fillRect(X-bw,0,bw*2,Y+h*.5) }
+  if(d>=1.3){ // shattered: shockwave ring + rising embers
+    const q=d-1.3; if(q<1.2){ cx.strokeStyle=`rgba(255,240,180,${1-q/1.2})`; cx.lineWidth=12*(1-q/1.2)+2; cx.beginPath(); cx.arc(X,Y-h*.1,q*700,0,6.283); cx.stroke() }
+    if(!b.shattered){ b.shattered=1; for(let i=0;i<160;i++){ const ang=Math.random()*6.283, sp=2+Math.random()*9; G.parts.push({x:X+(Math.random()-.5)*w*.7,y:Y-h*.5+Math.random()*h,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp-4,l:1.6,c:['#ffd35a','#fff6c0','#ff9a3d','#a0f'][Math.random()*4|0],r:2+Math.random()*5}) } }
+    return }
+  cx.save(); cx.translate(X,Y+dy);
+  if(d>0){ const q=d/1.3; cx.translate(Math.sin(G.el*80)*8*q,0); cx.filter=`brightness(${1+q*3}) saturate(${1-q*.8})`; sc=1+q*.08 }
+  else if(b.hitk>0){ cx.translate(Math.sin(G.el*90)*10*b.hitk,0); cx.filter=`brightness(${1+b.hitk*1.5})` }
+  const rage=b.hp<=2&&!d; const gl=cx.createRadialGradient(0,-h*.1,10,0,-h*.1,h*.8); gl.addColorStop(0,rage?`rgba(255,40,20,${.5+Math.sin(G.el*10)*.15})`:'rgba(140,0,40,.45)'); gl.addColorStop(1,'rgba(140,0,40,0)'); cx.fillStyle=gl; cx.beginPath(); cx.arc(0,-h*.1,h*.8,0,6.283); cx.fill();
+  if(b.wind>0){ const [hx,hy]=bossHand(); const r=10+Math.min(1,b.wind/.6)*26+Math.sin(G.el*30)*3; const fg=cx.createRadialGradient(hx-X,hy-Y,2,hx-X,hy-Y,r*2); fg.addColorStop(0,'#fff6b0'); fg.addColorStop(.4,'#ff9a2e'); fg.addColorStop(1,'rgba(255,60,0,0)'); cx.fillStyle=fg; cx.beginPath(); cx.arc(hx-X,hy-Y,r*2,0,6.283); cx.fill() }
+  cx.scale(sc,sc); cx.drawImage(NARAKA,-w/2,-h*.6,w,h); cx.filter='none'; cx.restore();
+  if(!d){ const bw=260, x0=W-bw-40, y0=portrait?90:70; rr(x0,y0,bw,26,13); cx.fillStyle='rgba(0,0,0,.55)'; cx.fill(); const n=b.max; for(let i=0;i<n;i++){ rr(x0+6+i*(bw-12)/n,y0+5,(bw-12)/n-5,16,8); cx.fillStyle=i<b.hp?'#ff4d4d':'rgba(255,255,255,.15)'; cx.fill() }
+    cx.font='800 18px "Baloo 2",sans-serif'; cx.fillStyle='#ffe9a8'; cx.textAlign='right'; cx.fillText('👑 Narakasura',x0+bw,y0-8) } }
+function drawFire(){ for(const f of G.fb){ const g=cx.createRadialGradient(f.x,f.y,2,f.x,f.y,f.r*2.2); g.addColorStop(0,'#fffbe0'); g.addColorStop(.35,'#ffb030'); g.addColorStop(.7,'rgba(255,70,10,.8)'); g.addColorStop(1,'rgba(255,40,0,0)'); cx.fillStyle=g; cx.beginPath(); cx.arc(f.x,f.y,f.r*2.2,0,6.283); cx.fill() } }
+function drawHearts(){ if(!G.boss||G.boss.dead) return; for(let i=0;i<3;i++){ const x=30+i*44, y=portrait?110:96, on=i<G.hearts; cx.save(); cx.translate(x,y); cx.scale(1.4,1.4); cx.fillStyle=on?'#ff4d6d':'rgba(255,255,255,.2)'; cx.beginPath(); cx.moveTo(0,6); cx.bezierCurveTo(-14,-4,-8,-14,0,-6); cx.bezierCurveTo(8,-14,14,-4,0,6); cx.fill(); cx.restore() } }
+function drawDoors(){ const tr=G.tr; if(!tr) return; const k=tr.k; let p=k<.9?Math.min(1,k/.8):(k<1.5?1:Math.max(0,1-(k-1.5)/.8)); if(p<=0) return; p=p*p*(3-2*p);
+  const hw=W/2*p; for(const side of [0,1]){ const x0=side?W-hw:0; const g=cx.createLinearGradient(x0,0,x0+hw,0); g.addColorStop(0,side?'#3a2210':'#5a3418'); g.addColorStop(1,side?'#5a3418':'#3a2210'); cx.fillStyle=g; cx.fillRect(x0,0,hw,H);
+    cx.strokeStyle='#e0a83a'; cx.lineWidth=6; cx.strokeRect(x0+10,12,hw-20,H-24); for(let r=0;r<4;r++){ for(let c=0;c<3;c++){ const sx=x0+30+c*(hw-60)/3, sy=40+r*(H-80)/4; cx.strokeStyle='rgba(224,168,58,.6)'; cx.lineWidth=3; cx.strokeRect(sx,sy,(hw-60)/3-12,(H-80)/4-12); cx.fillStyle='#e0a83a'; cx.beginPath(); cx.arc(sx+((hw-60)/3-12)/2,sy+((H-80)/4-12)/2,5,0,6.283); cx.fill() } } }
+  if(p>.95){ const st=Math.min(G.stage,STAGES); cx.fillStyle='rgba(20,10,4,.6)'; rr(W/2-260,H/2-70,520,140,30); cx.fill(); cx.strokeStyle='#ffd35a'; cx.lineWidth=4; cx.stroke(); cx.textAlign='center'; cx.textBaseline='middle'; cx.fillStyle='#ffd35a'; cx.font='800 24px "Baloo 2","Baloo Tamma 2",sans-serif'; cx.fillText(t('stage')(st,STAGES),W/2,H/2-28); cx.fillStyle='#fff6e0'; cx.font='900 44px "Baloo 2","Baloo Tamma 2",sans-serif'; cx.fillText(t('S')[st-1],W/2,H/2+18,480) } }
+function drawLamps(){ if(!G.lampsLit) return; const n=9; for(let i=0;i<n;i++){ const x=W*(.1+.8*i/(n-1)), y=H-70; cx.fillStyle='#b8622a'; cx.beginPath(); cx.ellipse(x,y,22,10,0,0,Math.PI); cx.fill(); cx.fillStyle='#8a3f16'; cx.beginPath(); cx.ellipse(x,y,22,6,0,0,6.283); cx.fill();
+  if(i<G.lampsLit){ const f=14+Math.sin(G.el*9+i)*2; const g=cx.createRadialGradient(x,y-f*.6,1,x,y-f*.5,f*2.2); g.addColorStop(0,'#fffbe0'); g.addColorStop(.4,'#ffc83a'); g.addColorStop(1,'rgba(255,90,20,0)'); cx.fillStyle=g; cx.beginPath(); cx.arc(x,y-f*.6,f*2.2,0,6.283); cx.fill() } } }
+function drawArcher(){ const A=archer(); const walking=G.phase==='walk'||G.tr; const img=walking?WALK:SATYA; if(!img.complete||!img.naturalWidth)return;
+  const bob=walking?-Math.abs(Math.sin(G.el*9))*10:Math.sin(G.el*2)*3; cx.save();
+  const gl=cx.createRadialGradient(A.cxm,A.cym,10,A.cxm,A.cym,A.h*.6); gl.addColorStop(0,'rgba(255,200,120,.3)'); gl.addColorStop(1,'rgba(255,200,120,0)'); cx.fillStyle=gl; cx.fillRect(A.x-150,A.y-80,A.w+300,A.h+160);
+  cx.fillStyle='rgba(0,0,0,.35)'; cx.beginPath(); cx.ellipse(A.pX,A.pY,A.w*.3,A.h*.035,0,0,6.283); cx.fill();
+  let pull=0; if(G.drag) pull=launch(G.drag).pw;
+  if(G.hurt>0){ cx.translate(Math.sin(G.el*70)*10*G.hurt,0); cx.filter=`brightness(${1+G.hurt}) sepia(${G.hurt}) hue-rotate(-30deg)` }
+  if(walking){ const wh=A.h, ww=wh*WALK.naturalWidth/WALK.naturalHeight; cx.translate(0,bob); cx.rotate(Math.sin(G.el*9)*.02); cx.drawImage(WALK,A.pX-ww*.5,A.y,ww,wh) }
+  else { cx.translate(A.pX,A.pY+bob); cx.rotate(A.ang); cx.translate(-A.pX,-A.pY); cx.drawImage(SATYA,A.x,A.y,A.w,A.h);
+    if(pull>0){ cx.globalAlpha=.25+pull*.5; const tx=A.x+SPR.tx*A.sc, ty=A.y+SPR.ty*A.sc; const g2=cx.createRadialGradient(tx,ty,2,tx,ty,30+pull*30); g2.addColorStop(0,'rgba(255,240,170,.9)'); g2.addColorStop(1,'rgba(255,200,90,0)'); cx.fillStyle=g2; cx.beginPath(); cx.arc(tx,ty,30+pull*30,0,6.283); cx.fill(); cx.globalAlpha=1 } }
+  cx.filter='none'; cx.restore();
+  if(G.drag&&G.phase==='aim'){ const v=launch(G.drag), bx=A.bx, by=A.by;
+    const n=Math.round(8+v.pw*10); cx.fillStyle='rgba(255,240,200,.9)';
+    for(let k=1;k<=n;k++){ const tt=k*.035, x=bx+v.vx*tt+.5*G.wind*(W/1280)*tt*tt, y=by+v.vy*tt+.5*GRAV*(W/1280)*tt*tt; cx.globalAlpha=1-k/n*.85; cx.beginPath(); cx.arc(x,y,4,0,6.283); cx.fill() } cx.globalAlpha=1;
+    cx.strokeStyle=`hsl(${50-v.pw*50},100%,60%)`; cx.lineWidth=6; cx.beginPath(); cx.arc(G.drag.x,G.drag.y,40,-Math.PI/2,-Math.PI/2+v.pw*6.283); cx.stroke() }
+  else if(G.phase==='aim'&&!G.arrow&&G.arrows>0&&!(G.boss&&G.boss.dead)){ cx.font=`${portrait?40:46}px serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText('👆',A.bx+30+Math.sin(G.el*5)*10,A.by+90) } }
+function drawArrowShape(x,y,len,a){ cx.globalAlpha=a; cx.strokeStyle='#ffe9b0'; cx.lineWidth=4; cx.beginPath(); cx.moveTo(x,y); cx.lineTo(x+len,y); cx.stroke();
+  cx.fillStyle='#fff3c0'; cx.beginPath(); cx.moveTo(x+len+16,y); cx.lineTo(x+len-4,y-8); cx.lineTo(x+len-4,y+8); cx.closePath(); cx.fill();
+  cx.fillStyle='#ff7a3d'; cx.beginPath(); cx.moveTo(x,y); cx.lineTo(x-12,y-9); cx.lineTo(x+6,y); cx.lineTo(x-12,y+9); cx.closePath(); cx.fill(); cx.globalAlpha=1 }
+function draw(){ cx.save(); if(G.shake>0)cx.translate(Math.sin(G.el*70)*12*G.shake,Math.cos(G.el*53)*7*G.shake);
+  const BG=BGS[Math.min(G.stage,STAGES)-1]; if(BG.complete&&BG.naturalWidth) cx.drawImage(BG,OX()-(portrait?IW*S()*.12:0),OY(),IW*S(),IH*S()); else { cx.fillStyle='#141a33'; cx.fillRect(-20,-20,W+40,H+40) }
+  // flickering fire-ring glow
+  if(G.stage===2){ const [fx,fy]=P(600,560); const g=cx.createRadialGradient(fx,fy,20,fx,fy,420*S()); g.addColorStop(0,`rgba(255,150,50,${.18+Math.sin(G.el*7)*.05})`); g.addColorStop(1,'rgba(255,120,30,0)'); cx.fillStyle=g; cx.fillRect(0,0,W,H) }
+  for(const o of G.tg) if(o.alive) drawTarget(o);
+  if(G.boss) drawBoss();
+  drawFire();
+  drawArcher();
+  const a=G.arrow; if(a){ for(let k=0;k<a.trail.length;k++){ const [x,y]=a.trail[k]; cx.globalAlpha=k/a.trail.length*.6; cx.fillStyle='#ffd35a'; cx.beginPath(); cx.arc(x,y,3+k*.4,0,6.283); cx.fill() } cx.globalAlpha=1;
+    cx.save(); cx.translate(a.x,a.y); cx.rotate(Math.atan2(a.vy,a.vx)); const gl=cx.createRadialGradient(0,0,2,0,0,40); gl.addColorStop(0,'rgba(255,230,140,.8)'); gl.addColorStop(1,'rgba(255,230,140,0)'); cx.fillStyle=gl; cx.beginPath(); cx.arc(0,0,40,0,6.283); cx.fill(); drawArrowShape(-70,0,70,1); cx.restore() }
+  // HUD: arrows left + wind
+  if((G.phase==='aim'||G.arrow)&&!G.lampsLit){ const y0=H-30, x0=portrait?W-20:W-30; cx.save(); cx.textAlign='right'; for(let i=0;i<G.arrows;i++){ cx.save(); cx.translate(x0-i*22,y0); cx.rotate(-Math.PI/2); drawArrowShape(-18,0,30,.95); cx.restore() } cx.restore() }
+  if(G.wind){ const x=portrait?W/2:W/2, y=portrait?H-40:H-34, len=Math.min(120,Math.abs(G.wind)); rr(x-110,y-20,220,40,20); cx.fillStyle='rgba(28,20,66,.75)'; cx.fill(); cx.fillStyle='#bfe8ff'; cx.font='800 18px "Baloo 2",sans-serif'; cx.textAlign='left'; cx.textBaseline='middle'; cx.fillText('💨 '+t('wind'),x-98,y+1);
+    const sx=x+30, dir=Math.sign(G.wind); cx.strokeStyle='#bfe8ff'; cx.lineWidth=5; cx.beginPath(); cx.moveTo(sx+(dir<0?len*.6:0),y); cx.lineTo(sx+(dir<0?0:len*.6),y); cx.stroke(); const hx=sx+(dir<0?0:len*.6); cx.beginPath(); cx.moveTo(hx+dir*12,y); cx.lineTo(hx-dir*2,y-9); cx.lineTo(hx-dir*2,y+9); cx.closePath(); cx.fillStyle='#bfe8ff'; cx.fill() }
+  for(const p of G.parts){ cx.globalAlpha=Math.max(0,Math.min(1,p.l)); cx.fillStyle=p.c; cx.beginPath(); cx.arc(p.x,p.y,p.r||4,0,6.283); cx.fill() } cx.globalAlpha=1;
+  for(const p of G.pops){ const a=1-Math.max(0,p.k-.7)/.5; cx.globalAlpha=Math.max(0,a); cx.font=`900 ${34+10*Math.min(1,p.k*6)}px "Baloo 2",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=7; cx.strokeStyle='#2a0d3a'; cx.strokeText(p.txt,p.x,p.y-p.k*70); cx.fillStyle=p.c; cx.fillText(p.txt,p.x,p.y-p.k*70) } cx.globalAlpha=1;
+  if(G.big){ const k=G.big.k, s2=k<.2?k/.2*1.3:(k<.35?1.3-(k-.2)/.15*.3:1), a=k>1.2?1-(k-1.2)/.4:1; cx.save(); cx.globalAlpha=Math.max(0,a); cx.translate(W/2,H*.3); cx.scale(s2,s2); cx.rotate(-.04);
+    cx.font=`900 ${portrait?54:76}px "Baloo 2","Baloo Tamma 2",sans-serif`; cx.textAlign='center'; cx.textBaseline='middle'; cx.lineWidth=12; cx.strokeStyle='#3a0a4a'; cx.strokeText(G.big.txt,0,0,W*.9); const gg=cx.createLinearGradient(0,-40,0,40); gg.addColorStop(0,'#fff6b0'); gg.addColorStop(1,'#ff9a2e'); cx.fillStyle=gg; cx.fillText(G.big.txt,0,0,W*.9); cx.restore() }
+  drawLamps(); drawHearts();
+  if(G.flash>0){ cx.fillStyle=`rgba(255,240,200,${G.flash*.45})`; cx.fillRect(0,0,W,H) }
+  drawDoors();
+  if(G.msg){ cx.font=`800 30px "Baloo 2","Baloo Tamma 2",sans-serif`; const tw=Math.min(W*.9,cx.measureText(G.msg).width+50), bh=50, by2=portrait?H*.08:H*.06;
+    rr((W-tw)/2,by2,tw,bh,25); cx.fillStyle='rgba(28,20,66,.86)'; cx.fill(); cx.strokeStyle='#f6a723'; cx.lineWidth=3; cx.stroke(); cx.fillStyle='#ffe9a8'; cx.textAlign='center'; cx.textBaseline='middle'; cx.fillText(G.msg,W/2,by2+bh/2+2,W*.86) }
+  cx.restore() }
+let last=0; function loop(now){ const dt=Math.min(.05,(now-last)/1000||0); last=now; if(G){ update(dt); draw() } requestAnimationFrame(loop) }
+/* ---------- screens ---------- */
+function renderScore(){ if(!G){$('#score').innerHTML='';return} $('#score').innerHTML=Array.from({length:G.players},(_,i)=>`<span class="pl ${i===G.cur?'on':''}">${G.players===1?t('you'):t('p')(i+1)} <b>${G.scores[i]}</b></span>`).join('')+`<span class="pl">${t('stage')(Math.min(G.stage,STAGES),STAGES)}</span>` }
+function start(){ newGame(); G.over=true; G.msg=null; $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep4_fort.jpg" alt=""><h3>${t('howT')}</h3><div class="how">${t('how').map(([i,s])=>`<div><b>${i}</b><span>${s}</span></div>`).join('')}</div>
+  <div class="modes"><button class="mode" data-m="solo" aria-pressed="${mode==='solo'}">🧑 ${t('solo')}</button><button class="mode" data-m="duo" aria-pressed="${mode==='duo'}">👫 ${t('duo')}</button></div><button class="go" id="go">${t('start')}</button></div></div>`;
+  document.querySelectorAll('.mode').forEach(b=>b.onclick=()=>{ mode=b.dataset.m; document.querySelectorAll('.mode').forEach(x=>x.setAttribute('aria-pressed',x===b)) });
+  $('#go').onclick=()=>{ ac(); $('#overlay').innerHTML=''; newGame() } }
+function finish(){ G.over=true; const best=Math.max(...G.scores.slice(0,G.players)); try{const pr=JSON.parse(localStorage.getItem('storyquest')||'{}'); pr.dv4=1; localStorage.setItem('storyquest',JSON.stringify(pr))}catch(e){}
+  const stars=best>=330?3:best>=200?2:1; const who=G.players===2?(G.scores[0]===G.scores[1]?'🤝':(G.scores[0]>G.scores[1]?'🏆 '+t('p')(1):'🏆 '+t('p')(2))):'';
+  $('#overlay').innerHTML=`<div class="ov"><div class="card"><img class="hero" src="img/ep4_satya_hero.jpg" alt=""><h3>${t('winT')}</h3><div class="stars">${'⭐'.repeat(stars)}${'☆'.repeat(3-stars)}</div><p>${t('winP')}</p>
+  <p><b>${t('total')}:</b> ${G.scores.slice(0,G.players).map((s,i)=>(G.players===2?t('p')(i+1)+' ':'')+s).join(' · ')} ${who}</p><button class="go" id="again">${t('again')}</button><a class="go alt" href="index.html#dv4">${t('story')}</a></div></div>`; $('#again').onclick=start }
+function applyLang(){ document.documentElement.lang=lang; $('#t-eyebrow').textContent=t('eyebrow'); $('#t-title').textContent=t('title'); $('#back').textContent=t('back'); document.title=t('title')+' · World of Wonders';
+  document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===lang)); renderScore() }
+document.querySelectorAll('[data-lang]').forEach(b=>b.onclick=()=>{ lang=b.dataset.lang; try{localStorage.setItem('sq_lang',lang)}catch(e){} applyLang(); if(!G||G.over)start() });
+$('#sound').onclick=()=>{ soundOn=!soundOn; $('#sound').setAttribute('aria-pressed',soundOn); $('#sound').textContent=soundOn?'🔊':'🔇' };
+$('#newgame').onclick=start;
+layout(); applyLang(); start(); requestAnimationFrame(loop);
+</script>
+<script src="next.js?v=20261107"></script>
+<footer class="wow-foot"><div class="wf-in">
+<a class="wf-brand" href="index.html"><img src="img/wow_logo.png" alt=""><span><b>World of Wonders Studio</b><small>Music · Stories · Creation · Inspiration</small></span></a>
+<nav class="wf-links"><a href="index.html">Home</a> · <a href="index.html#deepavali">Deepavali</a> · <a href="vedic-maths/">Vedic Maths</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
+<div class="wf-sis">Sister sites: <a href="https://ourschoolhouse.in" target="_blank" rel="noopener">OurSchoolHouse</a> · <a href="https://quadacademy.org" target="_blank" rel="noopener">QUAD Academy</a></div>
+<div class="wf-c">© 2026 World of Wonders Studio · Watch the story, play the game, learn together.</div>
+</div></footer>
+<script src="join.js?v=6" defer></script>
+<script src="game-info.js?v=7" data-game="archery" defer></script>
+</body>
+</html>

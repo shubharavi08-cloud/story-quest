@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sabarimala Yatra · World of Wonders</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Sabarimala Yatra: a free Ayyappa season game by World of Wonders Studio. Walk the old forest path from Erumeli to the 18 holy steps: pick a pebble at Azhutha, climb Karimala, bathe in the Pamba, leave an arrow at Sharamkuthi. English, Kannada, Tamil and Telugu.">
+<meta property="og:title" content="Sabarimala Yatra · free Ayyappa game">
+<meta property="og:description" content="Walk the forest path to Sabarimala, collect lamps, dodge thorns and climb the 18 holy steps. Swamiye Sharanam Ayyappa!">
+<meta property="og:image" content="https://worldofwondersstudio.com/img/games/sabari-yatra.jpg">
+<link rel="canonical" href="https://worldofwondersstudio.com/sabari-yatra.html">
+<link rel="icon" href="img/wow_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Baloo+Tamma+2:wght@600;800&family=Baloo+Thambi+2:wght@600;800&family=Baloo+Tammudu+2:wght@600;800&family=Mukta:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="dasara.css?v=1">
+<link rel="stylesheet" href="family.css?v=20261105c">
+<style>
+:root{--display:"Baloo 2","Baloo Tamma 2","Baloo Thambi 2","Baloo Tammudu 2",system-ui,sans-serif}
+.stage{margin:0 auto;width:100%}
+canvas.st{cursor:pointer}
+.ctl{display:flex;gap:10px;justify-content:center}
+.ctl button{flex:1;max-width:200px;font:800 22px var(--display);background:var(--night-2);color:var(--ink);border:2px solid var(--line);border-radius:16px;padding:10px;cursor:pointer;touch-action:manipulation}
+</style>
+<script src="dasara-kit.js?v=6"></script>
+<script src="ayy-kit.js?v=7"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Sabarimala Yatra","url":"https://worldofwondersstudio.com/sabari-yatra.html","genre":["Educational","Runner"],"gamePlatform":"Web browser","inLanguage":["en","kn","ta","te"],"isAccessibleForFree":true,"audience":{"@type":"Audience","audienceType":"Children and families"},"isPartOf":{"@type":"CreativeWorkSeries","name":"Ayyappa season games"},"publisher":{"@id":"https://worldofwondersstudio.com/#org"}}</script>
+<script>window.WOW_REG_LATER=1</script><script src="reg.js?v=3"></script>
+<link rel="stylesheet" href="/cursor-wow.css?v=6"></head>
+<body>
+<a class="wow-top" href="index.html" aria-label="World of Wonders home"><img src="img/wow_banner.jpg?v=2" alt="World of Wonders · Music · Stories · Creation · Inspiration"></a>
+<header class="top">
+  <a class="back" href="ayyappa.html#games" id="back">← Ayyappa</a>
+  <h1><small id="t-eyebrow">Ayyappa season game</small><span id="t-title">Sabarimala Yatra</span></h1>
+  <div class="langs" role="group" aria-label="Language" id="langs"></div>
+  <button class="pill" id="sound" aria-pressed="true" aria-label="Sound and music">🔊</button>
+  <button class="pill" id="newgame" aria-label="New game">↻</button>
+</header>
+<main class="wrap">
+  <div class="stage" id="stage"><canvas class="st" id="st" aria-label="A forest path seen from above. Our swami walks up the path to Sabarimala. Tap the left or right side, or swipe, to move between three lanes. Collect lamps and bells, and keep away from thorns, rocks and logs."></canvas></div>
+  <div class="ctl"><button id="bl" aria-label="Move left">◀</button><button id="br" aria-label="Move right">▶</button></div>
+</main>
+<p class="by">A game by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> Studio · for the Sabarimala season · Swamiye Sharanam Ayyappa</p>
+<div id="overlay"></div>
+<script>
+const T=DK.t,$=s=>document.querySelector(s);
+const L={
+ eyebrow:{en:'Ayyappa season game',kn:'ಅಯ್ಯಪ್ಪ ಸೀಸನ್ ಆಟ',ta:'ஐயப்பன் சீசன் விளையாட்டு',te:'అయ్యప్ప సీజన్ ఆట'},
+ title:{en:'Sabarimala Yatra',kn:'ಶಬರಿಮಲೆ ಯಾತ್ರೆ',ta:'சபரிமலை யாத்திரை',te:'శబరిమల యాత్ర'},
+ storyT:{en:'The old forest path',kn:'ಹಳೆಯ ಕಾಡು ದಾರಿ',ta:'பழைய காட்டுப் பாதை',te:'పాత అడవి దారి'},
+ story:{en:['After the vratham, the swami ties his <b>Irumudi</b>, puts it on his head and sets out for <b>Sabarimala</b>.','The old path, the <b>Peruvazhi</b>, goes from Erumeli through deep forest, over rivers and hills, to the <b>18 holy steps</b>. Walk it with him!'],
+  kn:['ವ್ರತ ಮುಗಿಸಿ ಸ್ವಾಮಿ <b>ಇರುಮುಡಿ</b> ಕಟ್ಟಿ, ತಲೆಯ ಮೇಲೆ ಹೊತ್ತು <b>ಶಬರಿಮಲೆ</b>ಗೆ ಹೊರಡುತ್ತಾನೆ.','ಹಳೆಯ ದಾರಿ <b>ಪೆರುವಳಿ</b> ಎರುಮೇಲಿಯಿಂದ ದಟ್ಟ ಕಾಡು, ನದಿ, ಬೆಟ್ಟಗಳನ್ನು ದಾಟಿ <b>ಹದಿನೆಂಟು ಮೆಟ್ಟಿಲು</b>ಗಳವರೆಗೆ ಹೋಗುತ್ತದೆ. ಅವನ ಜೊತೆ ನಡೆಯಿರಿ!'],
+  ta:['விரதம் முடிந்ததும் சாமி <b>இருமுடி</b> கட்டி, தலையில் சுமந்து <b>சபரிமலை</b>க்குப் புறப்படுகிறார்.','பழைய பாதையான <b>பெருவழி</b> எருமேலியிலிருந்து அடர்ந்த காடு, ஆறுகள், மலைகளைக் கடந்து <b>பதினெட்டாம் படி</b> வரை செல்கிறது. அவருடன் நடந்து செல்லுங்கள்!'],
+  te:['వ్రతం పూర్తయ్యాక స్వామి <b>ఇరుముడి</b> కట్టి, తలపై పెట్టుకుని <b>శబరిమల</b>కు బయలుదేరుతాడు.','పాత దారి <b>పెరువళి</b> ఎరుమేలి నుండి దట్టమైన అడవి, నదులు, కొండలు దాటి <b>పద్దెనిమిది పవిత్ర మెట్ల</b> వరకు వెళ్తుంది. అతనితో కలిసి నడవండి!']},
+ how:{en:[['👆','Tap the left or right side (or swipe) to change lanes.'],['🪔','Collect lamps. Catch 3 bells in a row for a Sharanam bonus.'],['🌿','Keep away from thorns, rocks and logs. Bathe in the Pamba to get your strength back.']],
+  kn:[['👆','ದಾರಿ ಬದಲಿಸಲು ಎಡ ಅಥವಾ ಬಲ ಭಾಗ ಮುಟ್ಟಿ (ಅಥವಾ ಸರಿಸಿ).'],['🪔','ದೀಪಗಳನ್ನು ಸಂಗ್ರಹಿಸಿ. ಸತತ ಮೂರು ಗಂಟೆ ಹಿಡಿದರೆ ಶರಣಂ ಬಹುಮಾನ.'],['🌿','ಮುಳ್ಳು, ಕಲ್ಲು, ಮರದ ದಿಮ್ಮಿಗಳಿಂದ ದೂರವಿರಿ. ಪಂಪಾದಲ್ಲಿ ಸ್ನಾನ ಮಾಡಿದರೆ ಶಕ್ತಿ ಮರಳುತ್ತದೆ.']],
+  ta:[['👆','பாதை மாற இடது அல்லது வலது பக்கம் தட்டுங்கள் (அல்லது தேய்யுங்கள்).'],['🪔','விளக்குகளைச் சேகரியுங்கள். தொடர்ந்து 3 மணிகள் பிடித்தால் சரணம் பரிசு.'],['🌿','முள், கல், மரக்கட்டைகளைத் தவிருங்கள். பம்பையில் நீராடினால் சக்தி திரும்பும்.']],
+  te:[['👆','దారి మారడానికి ఎడమ లేదా కుడి వైపు తాకండి (లేదా స్వైప్ చేయండి).'],['🪔','దీపాలు సేకరించండి. వరుసగా 3 గంటలు పడితే శరణం బహుమతి.'],['🌿','ముళ్ళు, రాళ్ళు, దుంగలకు దూరంగా ఉండండి. పంబలో స్నానం చేస్తే శక్తి తిరిగి వస్తుంది.']]},
+ go:{en:'Start the yatra 🙏',kn:'ಯಾತ್ರೆ ಶುರು 🙏',ta:'யாத்திரை தொடங்கு 🙏',te:'యాత్ర ప్రారంభం 🙏'},
+ restT:{en:'Rest at the camp',kn:'ಶಿಬಿರದಲ್ಲಿ ವಿಶ್ರಾಂತಿ',ta:'முகாமில் ஓய்வு',te:'శిబిరంలో విశ్రాంతి'},
+ rest:{en:'The path is hard, so the swamis rest, share food and chant together. Your strength is back. Start this part of the path again.',kn:'ದಾರಿ ಕಷ್ಟ, ಅದಕ್ಕೇ ಸ್ವಾಮಿಗಳು ವಿಶ್ರಮಿಸಿ, ಊಟ ಹಂಚಿಕೊಂಡು ಒಟ್ಟಿಗೆ ಭಜನೆ ಮಾಡುತ್ತಾರೆ. ನಿಮ್ಮ ಶಕ್ತಿ ಮರಳಿದೆ. ಈ ಭಾಗವನ್ನು ಮತ್ತೆ ಶುರು ಮಾಡಿ.',ta:'பாதை கடினம், அதனால் சாமிகள் ஓய்வெடுத்து, உணவைப் பகிர்ந்து, சேர்ந்து பஜனை பாடுகிறார்கள். உங்கள் சக்தி திரும்பியது. இந்தப் பகுதியை மீண்டும் தொடங்குங்கள்.',te:'దారి కష్టం, అందుకే స్వాములు విశ్రమించి, ఆహారం పంచుకుని, కలిసి భజన చేస్తారు. మీ శక్తి తిరిగి వచ్చింది. ఈ భాగాన్ని మళ్ళీ మొదలుపెట్టండి.'},
+ cont:{en:'Walk on 🙏',kn:'ಮುಂದೆ ನಡೆ 🙏',ta:'தொடர்ந்து நட 🙏',te:'ముందుకు నడువు 🙏'},
+ tapClimb:{en:'Tap to climb!',kn:'ಹತ್ತಲು ಮುಟ್ಟಿ!',ta:'ஏற தட்டுங்கள்!',te:'ఎక్కడానికి తాకండి!'},
+ step:{en:'Step',kn:'ಮೆಟ್ಟಿಲು',ta:'படி',te:'మెట్టు'},
+ sharanam:{en:'Swamiye Sharanam!',kn:'ಸ್ವಾಮಿಯೇ ಶರಣಂ!',ta:'சுவாமியே சரணம்!',te:'స్వామియే శరణం!'},
+ pebble:{en:'Pebble picked up!',kn:'ಕಲ್ಲು ಸಿಕ್ಕಿತು!',ta:'கல் எடுத்தாயிற்று!',te:'రాయి దొరికింది!'},
+ pebbleMiss:{en:'Pick up the glowing pebble!',kn:'ಹೊಳೆಯುವ ಕಲ್ಲನ್ನು ಎತ್ತಿಕೊಳ್ಳಿ!',ta:'ஒளிரும் கல்லை எடுங்கள்!',te:'మెరిసే రాయిని తీసుకోండి!'},
+ arrow:{en:'Arrow caught!',kn:'ಬಾಣ ಸಿಕ್ಕಿತು!',ta:'அம்பு கிடைத்தது!',te:'బాణం దొరికింది!'},
+ dip:{en:'Holy dip! Strength back',kn:'ಪವಿತ್ರ ಸ್ನಾನ! ಶಕ್ತಿ ಮರಳಿತು',ta:'புனித நீராடல்! சக்தி திரும்பியது',te:'పవిత్ర స్నానం! శక్తి తిరిగింది'},
+ endT:{en:'You reached Sannidhanam!',kn:'ನೀವು ಸನ್ನಿಧಾನ ತಲುಪಿದಿರಿ!',ta:'நீங்கள் சன்னிதானம் அடைந்தீர்கள்!',te:'మీరు సన్నిధానం చేరుకున్నారు!'},
+ lampsGot:{en:'Lamps collected',kn:'ಸಂಗ್ರಹಿಸಿದ ದೀಪಗಳು',ta:'சேகரித்த விளக்குகள்',te:'సేకరించిన దీపాలు'},
+ endP:{en:'From Erumeli to the 18 steps, you walked the whole forest path. Tat Tvam Asi: "You are That," say the words above Swami\'s shrine.',kn:'ಎರುಮೇಲಿಯಿಂದ ಹದಿನೆಂಟು ಮೆಟ್ಟಿಲುಗಳವರೆಗೆ ಇಡೀ ಕಾಡು ದಾರಿ ನಡೆದಿರಿ. ಸ್ವಾಮಿಯ ಗುಡಿಯ ಮೇಲೆ ಬರೆದಿದೆ: ತತ್ ತ್ವಮ್ ಅಸಿ, "ಅದೇ ನೀನು".',ta:'எருமேலியிலிருந்து பதினெட்டாம் படி வரை முழு காட்டுப் பாதையையும் நடந்தீர்கள். சுவாமியின் சன்னதி மேல் எழுதியிருப்பது: தத் த்வம் அஸி, "அது நீயே".',te:'ఎరుమేలి నుండి పద్దెనిమిది మెట్ల వరకు మొత్తం అడవి దారి నడిచారు. స్వామి సన్నిధి పైన రాసి ఉంది: తత్ త్వమ్ అసి, "అది నీవే".'},
+ shareText:{en:'I walked the forest path to Sabarimala and climbed the 18 steps! Try it, Swamiye Sharanam:',kn:'ನಾನು ಶಬರಿಮಲೆಯ ಕಾಡು ದಾರಿ ನಡೆದು ಹದಿನೆಂಟು ಮೆಟ್ಟಿಲು ಹತ್ತಿದೆ! ನೀವೂ ಆಡಿ, ಸ್ವಾಮಿಯೇ ಶರಣಂ:',ta:'நான் சபரிமலை காட்டுப் பாதையில் நடந்து பதினெட்டாம் படி ஏறினேன்! நீங்களும் விளையாடுங்கள், சுவாமியே சரணம்:',te:'నేను శబరిమల అడవి దారి నడిచి పద్దెనిమిది మెట్లు ఎక్కాను! మీరూ ఆడండి, స్వామియే శరణం:'}
+};
+/* the stops of the old forest path, in order (facts kept to what every pilgrim guide agrees on) */
+const STOPS=[
+ {k:'erumeli',bg:'img/ayyappa/forest_walk.jpg',name:{en:'Erumeli',kn:'ಎರುಮೇಲಿ',ta:'எருமேலி',te:'ఎరుమేలి'},len:2300,spd:235,gap:230,obs:.45,pal:'morning',
+  fact:{en:'Erumeli: the yatra begins. Pilgrims dance the Petta Thullal with colours and bow at the shrine of Vavar, Swami\'s friend.',kn:'ಎರುಮೇಲಿ: ಯಾತ್ರೆ ಇಲ್ಲಿಂದ ಶುರು. ಭಕ್ತರು ಬಣ್ಣ ಹಚ್ಚಿ ಪೇಟ್ಟ ತುಳ್ಳಲ್ ಕುಣಿಯುತ್ತಾರೆ, ಸ್ವಾಮಿಯ ಗೆಳೆಯ ವಾವರನ ಗುಡಿಗೆ ನಮಿಸುತ್ತಾರೆ.',ta:'எருமேலி: யாத்திரை இங்கே தொடங்குகிறது. பக்தர்கள் வண்ணம் பூசி பேட்டை துள்ளல் ஆடி, சுவாமியின் நண்பர் வாவர் சன்னதியில் வணங்குகிறார்கள்.',te:'ఎరుమేలి: యాత్ర ఇక్కడ మొదలవుతుంది. భక్తులు రంగులు పూసుకుని పేట్ట తుళ్ళల్ ఆడి, స్వామి స్నేహితుడు వావర్ మందిరంలో నమస్కరిస్తారు.'}},
+ {k:'azhutha',bg:'img/ayyappa/stream.jpg',name:{en:'Azhutha river',kn:'ಅಳುತಾ ನದಿ',ta:'அழுதா நதி',te:'అళుతా నది'},len:2200,spd:240,gap:215,obs:.5,pal:'day',river:[.25,.4],pebble:.6,
+  fact:{en:'Azhutha river: take a dip and pick up one small pebble. You will carry it to Kallidumkunnu.',kn:'ಅಳುತಾ ನದಿ: ಸ್ನಾನ ಮಾಡಿ ಒಂದು ಸಣ್ಣ ಕಲ್ಲು ಎತ್ತಿಕೊಳ್ಳಿ. ಅದನ್ನು ಕಲ್ಲಿಡುಂಕುನ್ನಿಗೆ ಒಯ್ಯಬೇಕು.',ta:'அழுதா நதி: நீராடி ஒரு சிறிய கல்லை எடுங்கள். அதை கல்லிடும்குன்றுக்கு கொண்டு செல்ல வேண்டும்.',te:'అళుతా నది: స్నానం చేసి ఒక చిన్న రాయి తీసుకోండి. దాన్ని కల్లిడుంకున్నుకు తీసుకెళ్ళాలి.'}},
+ {k:'karimala',bg:'img/ayyappa/forest_crowd.jpg',name:{en:'Karimala',kn:'ಕರಿಮಲೆ',ta:'கரிமலை',te:'కరిమల'},len:2700,spd:200,gap:200,obs:.62,pal:'noon',drop:220,
+  fact:{en:'Kallidumkunnu: the pebble is laid on the hill of stones. Then comes Karimala, the steepest climb of the forest path. Slowly, chanting, keep going!',kn:'ಕಲ್ಲಿಡುಂಕುನ್ನು: ಕಲ್ಲನ್ನು ಕಲ್ಲುಗಳ ಗುಡ್ಡದ ಮೇಲೆ ಇಡುತ್ತಾರೆ. ಆಮೇಲೆ ಕರಿಮಲೆ, ಕಾಡು ದಾರಿಯ ಅತ್ಯಂತ ಕಡಿದಾದ ಏರು. ನಿಧಾನವಾಗಿ, ಶರಣು ಹೇಳುತ್ತಾ ಮುಂದೆ ಸಾಗಿ!',ta:'கல்லிடும்குன்று: கல்லை கற்குவியலில் வைக்கிறார்கள். பிறகு கரிமலை, காட்டுப் பாதையின் மிகச் செங்குத்தான ஏற்றம். மெதுவாக, சரணம் சொல்லி முன்னேறுங்கள்!',te:'కల్లిడుంకున్ను: రాయిని రాళ్ల గుట్టపై పెడతారు. తర్వాత కరిమల, అడవి దారిలో అత్యంత నిటారైన ఎక్కుడు. నెమ్మదిగా, శరణం చెబుతూ ముందుకు సాగండి!'}},
+ {k:'pamba',bg:'img/ayyappa/river_bath.jpg',name:{en:'Pamba',kn:'ಪಂಪಾ',ta:'பம்பை',te:'పంబ'},len:2100,spd:240,gap:215,obs:.5,pal:'afternoon',river:[.3,.5],dip:true,
+  fact:{en:'Pamba: a holy dip in the river washes away the tiredness of the road. Bathe to get your strength back!',kn:'ಪಂಪಾ: ನದಿಯಲ್ಲಿ ಪವಿತ್ರ ಸ್ನಾನ ದಾರಿಯ ಆಯಾಸವನ್ನು ತೊಳೆಯುತ್ತದೆ. ಸ್ನಾನ ಮಾಡಿ ಶಕ್ತಿ ಪಡೆಯಿರಿ!',ta:'பம்பை: நதியில் புனித நீராடல் பயணக் களைப்பைக் கழுவுகிறது. நீராடி சக்தி பெறுங்கள்!',te:'పంబ: నదిలో పవిత్ర స్నానం దారి అలసటను కడిగేస్తుంది. స్నానం చేసి శక్తి పొందండి!'}},
+ {k:'neelimala',bg:'img/ayyappa/hill_climb.jpg',name:{en:'Neelimala',kn:'ನೀಲಿಮಲೆ',ta:'நீலிமலை',te:'నీలిమల'},len:2500,spd:210,gap:190,obs:.66,pal:'dusk',
+  fact:{en:'Neelimala: the last big climb. The temple lamps are getting close.',kn:'ನೀಲಿಮಲೆ: ಕೊನೆಯ ದೊಡ್ಡ ಏರು. ದೇವಸ್ಥಾನದ ದೀಪಗಳು ಹತ್ತಿರವಾಗುತ್ತಿವೆ.',ta:'நீலிமலை: கடைசி பெரிய ஏற்றம். கோவில் விளக்குகள் அருகில் வருகின்றன.',te:'నీలిమల: చివరి పెద్ద ఎక్కుడు. ఆలయ దీపాలు దగ్గరవుతున్నాయి.'}},
+ {k:'sharamkuthi',bg:'img/ayyappa/night_river.jpg',name:{en:'Sharamkuthi',kn:'ಶರಂಕುತ್ತಿ',ta:'சரம்குத்தி',te:'శరంకుత్తి'},len:1900,spd:230,gap:205,obs:.55,pal:'night',arrow:.55,
+  fact:{en:'Sharamkuthi: pilgrims on their first yatra, the Kanni Swamis, leave an arrow here. Catch the golden arrow!',kn:'ಶರಂಕುತ್ತಿ: ಮೊದಲ ಬಾರಿ ಬರುವ ಕನ್ನಿ ಸ್ವಾಮಿಗಳು ಇಲ್ಲಿ ಒಂದು ಬಾಣ ಇಡುತ್ತಾರೆ. ಚಿನ್ನದ ಬಾಣವನ್ನು ಹಿಡಿಯಿರಿ!',ta:'சரம்குத்தி: முதல் யாத்திரை வரும் கன்னி சாமிகள் இங்கே ஒரு அம்பை வைக்கிறார்கள். தங்க அம்பைப் பிடியுங்கள்!',te:'శరంకుత్తి: మొదటిసారి వచ్చే కన్నె స్వాములు ఇక్కడ ఒక బాణం ఉంచుతారు. బంగారు బాణాన్ని పట్టుకోండి!'}},
+ {k:'sannidhanam',name:{en:'18 steps',kn:'೧೮ ಮೆಟ್ಟಿಲು',ta:'18 படி',te:'18 మెట్లు'},steps:true,
+  fact:{en:'Sannidhanam! Only pilgrims carrying the Irumudi climb the 18 holy steps. Tap to climb, one step at a time.',kn:'ಸನ್ನಿಧಾನ! ಇರುಮುಡಿ ಹೊತ್ತವರು ಮಾತ್ರ ಹದಿನೆಂಟು ಪವಿತ್ರ ಮೆಟ್ಟಿಲು ಹತ್ತುತ್ತಾರೆ. ಒಂದೊಂದೇ ಮೆಟ್ಟಿಲು ಹತ್ತಲು ಮುಟ್ಟಿ.',ta:'சன்னிதானம்! இருமுடி சுமந்தவர்கள் மட்டுமே பதினெட்டாம் படி ஏறுவார்கள். ஒவ்வொரு படியாக ஏற தட்டுங்கள்.',te:'సన్నిధానం! ఇరుముడి మోసినవారే పద్దెనిమిది పవిత్ర మెట్లు ఎక్కుతారు. ఒక్కో మెట్టు ఎక్కడానికి తాకండి.'}}
+];
+/* colours of the forest through the day */
+const PAL={
+ morning:{g1:'#2f6b3a',g2:'#3f8247',tr:['#1f5a2c','#2e7a3a','#4f9a4a'],path:'#b98a55',pd:'#9c6f3f',tint:'rgba(255,220,170,.10)'},
+ day:{g1:'#2c6a36',g2:'#3b7f42',tr:['#1b5426','#2a7034','#468f42'],path:'#bf9258',pd:'#a07440',tint:'rgba(0,0,0,0)'},
+ noon:{g1:'#3c6a2e',g2:'#4f7d36',tr:['#27521f','#386c2a','#5b8a3a'],path:'#c29256',pd:'#9b6c3a',tint:'rgba(255,200,120,.06)'},
+ afternoon:{g1:'#3a6233',g2:'#4a733b',tr:['#244c22','#335f2c','#567c40'],path:'#b88650',pd:'#94673a',tint:'rgba(255,170,90,.12)'},
+ dusk:{g1:'#2d3f3a',g2:'#3a4d44',tr:['#1b2b29','#263a35','#3d5248'],path:'#8f6a4d',pd:'#6e503a',tint:'rgba(120,70,140,.22)'},
+ night:{g1:'#1c2c36',g2:'#243642',tr:['#0f1b22','#173039','#25424c'],path:'#74604f',pd:'#5a4a3e',tint:'rgba(20,20,60,.18)'}
+};
+const W=480,H=760,PY=H*.86,LW=104,HY=H*.42,FOC=230,VIEW=1150;
+/* perspective: z = distance ahead of the swami */
+function proj(z,lane){const s=FOC/(FOC+Math.max(-60,z));return{x:W/2+(lane-1)*LW*s,y:HY+(PY-HY)*s,s}}
+const cv=$('#st'),cx=cv.getContext('2d');let dpr=1;
+function layout(){const st=$('#stage'),maxW=Math.min(st.parentElement.clientWidth,(innerHeight-150)*W/H);const w=Math.max(260,Math.min(maxW,560));
+ st.style.maxWidth=w+'px';dpr=Math.min(2,devicePixelRatio||1);cv.width=W*dpr;cv.height=H*dpr;cv.style.width=w+'px';cv.style.height=(w*H/W)+'px';cx.setTransform(dpr,0,0,dpr,0,0)}
+addEventListener('resize',layout);
+const FONT='"Baloo 2","Baloo Tamma 2","Baloo Thambi 2","Baloo Tammudu 2",sans-serif';
+function rnd(n){const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)}
+let G=null;
+function newGame(){G={si:0,dist:0,scroll:0,lane:1,lp:1,objs:[],lamps:0,total:0,hearts:3,inv:0,hits:0,bells:[],pops:[],t:0,over:false,run:false,pebble:false,pebbleDone:false,arrow:false,dipped:false,shake:0,steps:0,stepT:0,splash:0,nextRow:0,fade:0};startStop(0,true)}
+function S(){return STOPS[G.si]}
+function startStop(i,silent){G.si=i;G.dist=0;G.objs=[];G.nextRow=320;G.dipped=false;G.hearts=Math.max(G.hearts,1);
+ const s=S();if(s.steps){G.phase='steps';G.steps=0;G.stepT=0}else G.phase='run';
+ if(!silent){DK.beat(T(s.fact),s.steps?'ayy-steps':'ayy-hero',T(s.name));DK.bell(660,.1,1.8)}
+ if(s.pebble&&!G.pebble)G.pebbleAt=s.len*s.pebble;else G.pebbleAt=null;
+ if(s.arrow&&!G.arrow)G.arrowAt=s.len*s.arrow;else G.arrowAt=null;
+}
+/* path centre (world distance w) */
+function off(w){return Math.sin(w*.0034)*34+Math.sin(w*.0012+1.3)*22}
+function worldAt(sy){return G.scroll+(PY-sy)}
+function laneX(lane,sy){return W/2+off(worldAt(sy))+(lane-1)*LW}
+/* spawn a row of things at world distance wy */
+function spawnRow(wy){const s=S();const n=G.si*1000+Math.floor(wy);
+ const inRiver=s.river&&(G.dist+(wy-G.scroll))>s.len*s.river[0]&&(G.dist+(wy-G.scroll))<s.len*s.river[1];
+ const blocked=[false,false,false];
+ if(!inRiver&&rnd(n)<s.obs){const a=Math.floor(rnd(n+1)*3);blocked[a]=true;if(rnd(n+2)<s.obs*.55){const b=(a+1+Math.floor(rnd(n+3)*2))%3;blocked[b]=true}}
+ const kinds=G.si<=1?['thorn','rock']:G.si===2?['rock','rock','thorn','log']:['thorn','rock','log'];
+ for(let l=0;l<3;l++)if(blocked[l])G.objs.push({ty:kinds[Math.floor(rnd(n+5+l)*kinds.length)],lane:l,wy:wy});
+ const free=[0,1,2].filter(l=>!blocked[l]);const fl=free[Math.floor(rnd(n+9)*free.length)];
+ if(rnd(n+11)<.16)G.objs.push({ty:'bell',lane:fl,wy:wy});
+ else if(rnd(n+12)<.88){const c=rnd(n+13)<.35?3:1;for(let j=0;j<c;j++){G.objs.push({ty:'lamp',lane:fl,wy:wy+j*55});G.total++}}
+}
+function clearObsNear(sp){G.objs=G.objs.filter(o=>!(Math.abs(o.wy-sp.wy)<70&&o!==sp&&['thorn','rock','log'].includes(o.ty)&&o.lane===sp.lane))}
+function pop(txt,x,y,c,big){G.pops.push({txt,x,y,c:c||'#ffe08a',k:0,big:big||1})}
+function move(d){if(!G||G.phase!=='run'||!G.run)return;const n=Math.max(0,Math.min(2,G.lane+d));if(n!==G.lane){G.lane=n;DK.tone(520+n*60,.06,'triangle',.04)}}
+function update(dt){if(!G)return;G.t+=dt;
+ for(const p of G.pops)p.k+=dt;G.pops=G.pops.filter(p=>p.k<1.4);
+ if(G.shake>0)G.shake-=dt;if(G.splash>0)G.splash-=dt;
+ if(!G.run)return;
+ if(G.phase==='steps'){G.stepT+=dt;if(G.fade>0)G.fade=Math.max(0,G.fade-dt);return}
+ if(G.phase==='walkoff'){G.fade+=dt*1.3;G.scroll+=dt*S().spd;if(G.fade>=1){G.fade=1;startStop(G.si+1)}return}
+ if(G.fade>0)G.fade=Math.max(0,G.fade-dt*1.6);
+ const s=S(),v=s.spd*(1+G.dist/s.len*.12);
+ G.scroll+=v*dt;G.dist+=v*dt;G.lp+=(G.lane-G.lp)*Math.min(1,dt*14);
+ if(G.inv>0)G.inv-=dt;
+ /* rows ahead */
+ while(G.nextRow<G.dist+VIEW&&G.nextRow<s.len-260){spawnRow(G.scroll+(G.nextRow-G.dist));G.nextRow+=s.gap*(.85+rnd(G.nextRow)*.3)}
+ if(G.pebbleAt!=null&&G.dist+VIEW*.85>=G.pebbleAt){G.objs.push({ty:'pebble',lane:Math.floor(rnd(G.t)*3),wy:G.scroll+Math.max(G.pebbleAt-G.dist,VIEW*.8)});clearObsNear(G.objs[G.objs.length-1]);G.pebbleAt=null}
+ if(G.arrowAt!=null&&G.dist+VIEW*.85>=G.arrowAt){G.objs.push({ty:'arrow',lane:Math.floor(rnd(G.t+3)*3),wy:G.scroll+Math.max(G.arrowAt-G.dist,VIEW*.8)});clearObsNear(G.objs[G.objs.length-1]);G.arrowAt=null}
+ /* Kallidumkunnu: lay the pebble down */
+ if(s.drop&&G.pebble&&!G.pebbleDone&&G.dist>s.drop){G.pebbleDone=true;pop('🪨 ✓',W/2,PY-120,'#ffe08a',1.3);DK.bell(520,.12,2)}
+ /* river: Pamba dip refills strength */
+ if(s.river){const r0=s.len*s.river[0],r1=s.len*s.river[1];if(G.dist>r0&&G.dist<r1){if(G.splash<=0&&rnd(Math.floor(G.dist/40))<.5){G.splash=.25;DK.noise(.12,.05,700)}
+   if(s.dip&&!G.dipped&&G.dist>(r0+r1)/2){G.dipped=true;G.hearts=3;pop(T(L.dip),W/2,PY-130,'#9fe7ff',1.1);DK.bell(880,.1,2.2)}}}
+ /* collisions */
+ const px=G.lp;
+ for(const o of G.objs){if(o.done)continue;const z=o.wy-G.scroll,pp=proj(z,o.lane),sy=pp.y;if(Math.abs(z)<24&&Math.abs(o.lane-px)<.5){
+   if(o.ty==='lamp'){o.done=true;G.lamps++;DK.chime(G.lamps%8);pop('+1',pp.x,sy-60)}
+   else if(o.ty==='bell'){o.done=true;DK.bell(700+G.bells.length*90,.1,1.4);G.bells.push(G.t);G.bells=G.bells.filter(t=>G.t-t<9);
+     if(G.bells.length>=3){G.bells=[];G.lamps+=5;pop(T(L.sharanam),W/2,PY-150,'#ffd35a',1.25);AY.chant()}else pop('🔔',pp.x,sy-60)}
+   else if(o.ty==='pebble'){o.done=true;G.pebble=true;pop(T(L.pebble),W/2,PY-140,'#fff3c4',1.1);DK.bell(560,.12,1.6)}
+   else if(o.ty==='arrow'){o.done=true;G.arrow=true;pop(T(L.arrow),W/2,PY-140,'#ffd35a',1.1);DK.bell(760,.12,1.6)}
+   else if(G.inv<=0){o.done=true;G.hearts--;G.hits++;G.inv=1.3;G.shake=.35;DK.oops();DK.noise(.15,.12,300);DK.vib(80);
+     if(G.hearts<=0){G.run=false;setTimeout(()=>DK.card({art:'img/ayyappa_lamps.jpg',title:T(L.restT),paras:[T(L.rest)],buttons:[{label:T(L.cont),on:()=>{G.hearts=3;G.inv=1;startStop(G.si,true);G.run=true}}]}),500)}}
+ }}
+ /* missed a special: bring it back */
+ for(const o of G.objs){if(!o.done&&(o.ty==='pebble'||o.ty==='arrow')&&o.wy<G.scroll-40){o.done=true;if(o.ty==='pebble')G.pebbleAt=G.dist+420;else G.arrowAt=G.dist+420;DK.beat(o.ty==='pebble'?T(L.pebbleMiss):T(S().fact),'ayy-hero',T(S().name))}}
+ G.objs=G.objs.filter(o=>o.wy>G.scroll-80);
+ if(G.dist>=s.len&&G.pebbleAt==null&&G.arrowAt==null&&!G.objs.some(o=>!o.done&&(o.ty==='pebble'||o.ty==='arrow'))){G.phase='walkoff';G.fade=0}
+}
+/* ---------- drawing ---------- */
+function drawWorld(p){
+ const s=S();
+ /* the painting of this part of the path, as the far view */
+ if(!AY.cover(cx,s.bg,0,0,W,H,.35)){cx.fillStyle=p.g1;cx.fillRect(0,0,W,H)}
+ /* ground: soft earthy path in perspective, the painting still showing at the sides */
+ const far=proj(VIEW,1),half=LW*1.5+34;
+ const gg=cx.createLinearGradient(0,far.y,0,H);gg.addColorStop(0,'rgba(0,0,0,0)');gg.addColorStop(.35,'rgba(10,8,20,.25)');gg.addColorStop(1,'rgba(10,8,20,.55)');cx.fillStyle=gg;cx.fillRect(0,far.y,W,H-far.y);
+ const pg=cx.createLinearGradient(0,far.y,0,H);pg.addColorStop(0,p.path+'00');pg.addColorStop(.18,p.path+'cc');pg.addColorStop(1,p.path+'f2');
+ cx.fillStyle=pg;cx.beginPath();cx.moveTo(W/2-half*far.s,far.y);cx.lineTo(W/2+half*far.s,far.y);cx.lineTo(W/2+half*1.25,H);cx.lineTo(W/2-half*1.25,H);cx.closePath();cx.fill();
+ /* stones and soil marks rushing towards us */
+ for(let k=Math.floor(G.scroll/70);k<(G.scroll+VIEW)/70;k++){const z=k*70-G.scroll;if(z<-40)continue;const a=proj(z,1);cx.globalAlpha=Math.min(1,(1-z/VIEW)*1.5)*.55;cx.fillStyle=p.pd;
+  for(let j=0;j<3;j++){const lx=(rnd(k*5+j)-.5)*2.6;cx.beginPath();cx.ellipse(W/2+lx*LW*a.s,a.y+rnd(k+j)*6*a.s,(3+rnd(k*3+j)*5)*a.s,(2+rnd(k+j*7)*2)*a.s,0,0,6.283);cx.fill()}}
+ cx.globalAlpha=1;
+ /* path edges */
+ cx.strokeStyle='rgba(255,236,190,.22)';cx.lineWidth=2;for(const sg of [-1,1]){cx.beginPath();cx.moveTo(W/2+sg*half*far.s,far.y);cx.lineTo(W/2+sg*half*1.25,H);cx.stroke()}
+ /* a stream across the path */
+ if(s.river){const z0=s.len*s.river[0]-G.dist,z1=s.len*s.river[1]-G.dist;if(z1>-80&&z0<VIEW){const a=proj(Math.max(-60,z0),1),b=proj(Math.min(VIEW,z1),1);
+   const wg=cx.createLinearGradient(0,b.y,0,a.y);wg.addColorStop(0,'rgba(80,160,190,.55)');wg.addColorStop(1,'rgba(110,190,215,.85)');cx.fillStyle=wg;cx.fillRect(0,b.y,W,a.y-b.y);
+   cx.strokeStyle='rgba(255,255,255,.45)';cx.lineWidth=2;for(let k=0;k<12;k++){const z=z0+(z1-z0)*k/12;if(z<-60||z>VIEW)continue;const q=proj(z,1);cx.beginPath();for(let x=0;x<=W;x+=20)cx.lineTo(x,q.y+Math.sin(x*.05+G.t*3+k)*2*q.s);cx.stroke()}
+   for(let k=0;k<6;k++){const z=z0+(z1-z0)*(k+.5)/6;if(z<-60||z>VIEW)continue;for(let l=0;l<3;l++){const q=proj(z,l);cx.fillStyle='rgba(120,110,100,.95)';cx.beginPath();cx.ellipse(q.x,q.y,24*q.s,9*q.s,0,0,6.283);cx.fill()}}}}
+ /* evening and night: lamps along both edges */
+ if(s.pal==='night'||s.pal==='dusk'){for(let k=Math.floor(G.scroll/160);k<(G.scroll+VIEW)/160;k++){const z=k*160-G.scroll;if(z<-40)continue;for(const sg of [-1,1]){const q=proj(z,1);AY.deepam(cx,W/2+sg*half*1.1*q.s,q.y,12*q.s,G.t+k,true)}}}
+ cx.fillStyle=p.tint;cx.fillRect(0,0,W,H);
+}
+function drawObj(o){const z=o.wy-G.scroll;if(z<-60||z>VIEW||o.done)return;const q=proj(z,o.lane),x=q.x,sy=q.y,t=G.t,k=q.s*1.35;
+ cx.save();cx.globalAlpha=Math.min(1,(1-z/VIEW)*2.2);cx.translate(x,sy);cx.scale(k,k);
+ if(o.ty==='lamp')AY.deepam(cx,0,4,12,t+o.wy,true);
+ else if(o.ty==='bell')AY.bellIcon(cx,0,-14,16,t);
+ else if(o.ty==='thorn'){cx.fillStyle='rgba(0,0,0,.3)';cx.beginPath();cx.ellipse(4,8,30,9,0,0,6.283);cx.fill();cx.fillStyle='#2f5a22';cx.beginPath();cx.arc(0,-10,24,0,6.283);cx.fill();cx.strokeStyle='#e7dfb0';cx.lineWidth=2.4;for(let a=0;a<14;a++){const an=a/14*6.283;cx.beginPath();cx.moveTo(Math.cos(an)*14,-10+Math.sin(an)*14);cx.lineTo(Math.cos(an)*31,-10+Math.sin(an)*31);cx.stroke()}cx.fillStyle='#4a8a34';cx.beginPath();cx.arc(-6,-16,11,0,6.283);cx.fill()}
+ else if(o.ty==='rock'){cx.fillStyle='rgba(0,0,0,.3)';cx.beginPath();cx.ellipse(6,6,32,10,0,0,6.283);cx.fill();const g=cx.createLinearGradient(-24,-36,24,4);g.addColorStop(0,'#b9b2a6');g.addColorStop(1,'#5d5850');cx.fillStyle=g;cx.beginPath();cx.moveTo(-28,4);cx.lineTo(-20,-26);cx.lineTo(2,-38);cx.lineTo(26,-18);cx.lineTo(24,4);cx.closePath();cx.fill()}
+ else if(o.ty==='log'){cx.fillStyle='rgba(0,0,0,.3)';cx.beginPath();cx.ellipse(0,8,48,8,0,0,6.283);cx.fill();const g=cx.createLinearGradient(0,-20,0,4);g.addColorStop(0,'#a2723f');g.addColorStop(1,'#5a3a1c');cx.fillStyle=g;cx.beginPath();cx.roundRect(-46,-20,92,24,12);cx.fill();cx.fillStyle='#d2a46c';cx.beginPath();cx.ellipse(44,-8,7,12,0,0,6.283);cx.fill()}
+ else if(o.ty==='pebble'||o.ty==='arrow'){const gl=cx.createRadialGradient(0,-12,2,0,-12,44);gl.addColorStop(0,'rgba(255,240,160,.95)');gl.addColorStop(1,'rgba(255,240,160,0)');cx.fillStyle=gl;cx.beginPath();cx.arc(0,-12,44+Math.sin(t*6)*5,0,6.283);cx.fill();
+   if(o.ty==='pebble'){cx.fillStyle='#e2dacb';cx.beginPath();cx.ellipse(0,-10,13,9,.3,0,6.283);cx.fill();cx.fillStyle='#fff';cx.beginPath();cx.ellipse(-4,-13,5,3,.3,0,6.283);cx.fill()}
+   else{cx.translate(0,-12);cx.rotate(-.7);cx.strokeStyle='#ffd35a';cx.lineWidth=4;cx.beginPath();cx.moveTo(-22,0);cx.lineTo(20,0);cx.stroke();cx.fillStyle='#ffd35a';cx.beginPath();cx.moveTo(28,0);cx.lineTo(16,-7);cx.lineTo(16,7);cx.fill();cx.fillStyle='#e0405a';cx.beginPath();cx.moveTo(-22,0);cx.lineTo(-30,-7);cx.lineTo(-26,0);cx.lineTo(-30,7);cx.fill()}}
+ cx.restore()}
+function drawHUD(){
+ /* stop strip */
+ cx.fillStyle='rgba(15,10,40,.72)';cx.beginPath();cx.roundRect(10,10,W-20,62,16);cx.fill();
+ const n=STOPS.length,x0=34,x1=W-34;cx.strokeStyle='rgba(255,255,255,.25)';cx.lineWidth=4;cx.beginPath();cx.moveTo(x0,30);cx.lineTo(x1,30);cx.stroke();
+ const prog=G.si+(S().steps?G.steps/18:Math.min(1,G.dist/(S().len||1)));
+ cx.strokeStyle='#ffd35a';cx.beginPath();cx.moveTo(x0,30);cx.lineTo(x0+(x1-x0)*Math.min(1,prog/(n-1)),30);cx.stroke();
+ for(let i=0;i<n;i++){const x=x0+(x1-x0)*i/(n-1);cx.fillStyle=i<G.si?'#ffd35a':i===G.si?'#fff':'rgba(255,255,255,.35)';cx.beginPath();cx.arc(x,30,i===G.si?7:5,0,6.283);cx.fill()}
+ cx.font=`800 16px ${FONT}`;cx.textAlign='left';cx.textBaseline='middle';cx.fillStyle='#fff';cx.fillText(T(S().name),20,55);
+ cx.textAlign='right';cx.fillStyle='#ffd35a';cx.fillText('🪔 '+G.lamps,W-20,55);
+ for(let i=0;i<3;i++)AY.deepam(cx,W/2-24+i*24,62,6,G.t+i,i<G.hearts);
+ if(G.pebble&&!G.pebbleDone){cx.fillStyle='#e9e2d4';cx.beginPath();cx.ellipse(W/2+70,58,6,4.5,.3,0,6.283);cx.fill()}
+ if(G.arrow){cx.strokeStyle='#ffd35a';cx.lineWidth=2.5;cx.beginPath();cx.moveTo(W/2+86,62);cx.lineTo(W/2+102,52);cx.stroke()}
+}
+function drawSteps(){
+ const pos=AY.stepsBg(cx,W,H,G.steps,G.t);const n=18;G.vis=(G.vis==null?G.steps:G.vis);G.vis+=(Math.min(G.steps,n)-G.vis)*.1;if(Math.abs(G.vis-G.steps)<.01)G.vis=Math.min(G.steps,n);const a=AY.footAt(pos,G.vis);
+ AY.pilgrim(cx,a.x,a.y,a.w*.95,{t:0,still:true,climb:a.climb,glow:G.steps>=n});
+ cx.textAlign='center';cx.font=`800 22px ${FONT}`;cx.lineWidth=6;cx.strokeStyle='#1c1442';
+ const txt=G.steps<n?`${T(L.step)} ${G.steps}/18 · ${T(L.tapClimb)}`:T(L.sharanam);cx.strokeText(txt,W/2,H*.9);cx.fillStyle='#ffe08a';cx.fillText(txt,W/2,H*.9);
+ if(G.steps>=n){for(let i=0;i<46;i++){const x=rnd(i)*W,y=(rnd(i+9)*H+G.stepT*90*(0.5+rnd(i+3)))%H;cx.fillStyle=['#ffd35a','#f6a723','#ffffff','#e0405a'][i%4];cx.beginPath();cx.ellipse(x+Math.sin(G.stepT*2+i)*12,y,4,2.5,i,0,6.283);cx.fill()}}
+}
+function draw(){if(!G)return;cx.save();
+ if(G.shake>0)cx.translate((Math.random()-.5)*8,(Math.random()-.5)*8);
+ if(G.phase==='steps'){drawSteps()}else{
+  drawWorld(PAL[S().pal]);
+  [...G.objs].sort((a,b)=>b.wy-a.wy).forEach(drawObj);
+  const px=W/2+(G.lp-1)*LW;const blink=G.inv>0&&Math.floor(G.t*12)%2;
+  if(S().river){const r0=S().len*S().river[0],r1=S().len*S().river[1];if(G.dist>r0&&G.dist<r1){cx.fillStyle='rgba(255,255,255,.55)';cx.beginPath();cx.ellipse(px,PY+4,36+Math.sin(G.t*8)*3,10,0,0,6.283);cx.fill()}}
+  if(!blink)AY.pilgrim(cx,px,PY+6,138,{t:G.run?G.t:0,still:!G.run});
+ }
+ drawHUD();
+ for(const q of G.pops){cx.globalAlpha=Math.max(0,1-q.k/1.4);cx.font=`900 ${Math.round(26*q.big)}px ${FONT}`;cx.textAlign='center';cx.textBaseline='middle';cx.lineWidth=6;cx.strokeStyle='#1c1442';cx.strokeText(q.txt,q.x,q.y-q.k*40);cx.fillStyle=q.c;cx.fillText(q.txt,q.x,q.y-q.k*40)}cx.globalAlpha=1;
+ if(G.fade>0&&G.phase!=='steps'){cx.fillStyle=`rgba(10,6,30,${G.fade})`;cx.fillRect(0,0,W,H)}
+ if(G.phase==='steps'&&G.fade>0){cx.fillStyle=`rgba(10,6,30,${G.fade})`;cx.fillRect(0,0,W,H)}
+ cx.restore()}
+function climb(){if(G.phase!=='steps'||G.steps>=18||!G.run)return;G.steps++;DK.tone(293.66*Math.pow(2,(G.steps-1)/12),.35,'triangle',.08);DK.vib(15);
+ if(G.steps%6===0)DK.bell(587+G.steps*10,.1,1.6);
+ if(G.steps>=18){G.stepT=0;AY.chant();DK.win();setTimeout(finish,2600)}}
+function finish(){G.over=true;G.run=false;const pct=G.total?G.lamps/G.total:0,stars=pct>=.7&&G.hits<=3?3:pct>=.45?2:1;
+ AY.end({key:'sabari-yatra',stars,title:T(L.endT),art:'img/ayyappa_hero.jpg',paras:[`🪔 ${T(L.lampsGot)}: <b>${G.lamps}</b>`,T(L.endP)],shareText:L.shareText,again:()=>{newGame();intro()}})}
+let last=0;function loop(now){const dt=Math.min(.05,(now-last)/1000||0);last=now;update(dt);draw();requestAnimationFrame(loop)}
+/* input: tap sides, swipe, keys */
+let sx=null,sy0=null;
+cv.addEventListener('pointerdown',e=>{e.preventDefault();sx=e.clientX;sy0=e.clientY;if(G&&G.phase==='steps'){climb();return}});
+cv.addEventListener('pointerup',e=>{if(sx==null||!G||G.phase!=='run')return;const dx=e.clientX-sx;const r=cv.getBoundingClientRect();
+ if(Math.abs(dx)>28)move(dx>0?1:-1);else move(e.clientX-r.left<r.width/2?-1:1);sx=null});
+addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='a'){move(-1);e.preventDefault()}if(e.key==='ArrowRight'||e.key==='d'){move(1);e.preventDefault()}if((e.key===' '||e.key==='ArrowUp'||e.key==='Enter')&&G&&G.phase==='steps'){climb();e.preventDefault()}});
+$('#bl').onclick=()=>{if(G.phase==='steps')climb();else move(-1)};$('#br').onclick=()=>{if(G.phase==='steps')climb();else move(1)};
+const SONG={en:'1Zo3yL76uYg',ta:'1Zo3yL76uYg',kn:'hfIpmrnAiIk',te:'1Zo3yL76uYg'};
+function demo(x,w,h,t){/* swami changes lane to dodge a rock and pick a lamp */
+ if(!AY.cover(x,'img/ayyappa/forest_walk.jpg',0,0,w,h,.6)){x.fillStyle='#2c4a2a';x.fillRect(0,0,w,h)}x.fillStyle='rgba(10,8,20,.35)';x.fillRect(0,0,w,h);
+ const ph=(t%4)/4,lane=ph<.45?1:0,lx=[w*.32,w*.5,w*.68];const cur=ph<.4?lx[1]:ph<.5?lx[1]+(lx[0]-lx[1])*((ph-.4)/.1):lx[0];
+ x.fillStyle='rgba(185,138,85,.8)';x.beginPath();x.moveTo(w*.45,h*.2);x.lineTo(w*.55,h*.2);x.lineTo(w*.85,h);x.lineTo(w*.15,h);x.fill();
+ const ry=h*.25+ph*h*.7;x.save();x.translate(lx[1],ry);x.scale(.5+ph,.5+ph);x.fillStyle='#8f8a80';x.beginPath();x.moveTo(-22,6);x.lineTo(-14,-18);x.lineTo(4,-24);x.lineTo(20,-8);x.lineTo(18,8);x.fill();x.restore();
+ if(ph<.85)AY.deepam(x,lx[0],h*.3+ph*h*.62,6+ph*8,t,true);
+ AY.pilgrim(x,cur,h*.97,h*.48,{t});
+ AY.finger(x,w*.14,h*.55,ph>.38&&ph<.5);x.font='800 22px sans-serif';x.fillStyle='#ffe08a';x.textAlign='center';if(ph>.36&&ph<.6)x.fillText('◀',w*.14,h*.3)}
+function intro(){G.run=false;AY.how({art:'img/ayyappa/forest_walk.jpg',label:T(L.eyebrow),title:T(L.storyT),paras:T(L.story).slice(0,1),steps:T(L.how).map(x=>x[1]),demo,go:T(L.go),video:SONG,on:()=>{G.run=true;startStop(0)}})}
+function applyLang(){$('#t-eyebrow').textContent=T(L.eyebrow);$('#t-title').textContent=T(L.title);$('#back').textContent=T(AY.ui.back);document.title=T(L.title)+' · World of Wonders'}
+DK.onLang(()=>{applyLang();if(DK.isOpen()&&G&&!G.run&&!G.over&&G.si===0&&G.dist===0)intro()});
+$('#newgame').onclick=()=>{newGame();intro()};
+DK.music('sabari-yatra',{sa:146.83,scale:[0,2,4,7,9,12,14,16],tempo:.75});
+AY.pills($('#langs'));layout();applyLang();newGame();requestAnimationFrame(loop);
+DK.whenUngated(()=>{layout();intro()});
+window.__G=()=>G;
+</script>
+<footer class="wow-foot"><div class="wf-in">
+<a class="wf-brand" href="index.html"><img src="img/wow_logo.png" alt=""><span><b>World of Wonders Studio</b><small>Music · Stories · Creation · Inspiration</small></span></a>
+<nav class="wf-links"><a href="index.html">Home</a> · <a href="ayyappa.html">Ayyappa songs and games</a> · <a href="index.html#games">All games</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
+<div class="wf-c">© 2026 World of Wonders Studio · Play, learn and share. By OurSchoolHouse.</div>
+</div></footer>
+<script src="join.js?v=6" defer></script>
+<script src="game-info.js?v=7" data-game="sabari-yatra" defer></script>
+</body>
+</html>

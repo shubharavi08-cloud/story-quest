@@ -1,0 +1,15 @@
+# Keeps the Kitty Party app's free online storage awake (free projects sleep after 7 quiet days).
+name: Kitty app keep-alive
+on:
+  schedule:
+    - cron: '17 3 */3 * *'
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wake the storage
+        run: |
+          curl -sf -X POST "https://ugqorbrtltzhqkesidls.supabase.co/rest/v1/rpc/ping" \
+            -H "apikey: sb_publishable__a6A1fXedPo8eK-c3kqchw__YPbbCp7" \
+            -H "Content-Type: application/json" -d '{}'

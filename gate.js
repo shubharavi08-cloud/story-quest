@@ -1,0 +1,112 @@
+/* World of Wonders: "watch first, then play".
+   A game page includes:  <script src="gate.js" data-key="lagori" data-yt='{"en":"ID","hi":"ID"}' data-back="index.html#dv3"></script>
+   The game stays covered until the visitor presses play on the story video (a YouTube embed, so the view counts on YouTube); it unlocks at play and opens by itself when the video ends. Once unlocked, never asked again in that browser.
+   Episode pages can call WOWGate.track(iframe, key) on their own YouTube iframe so a watch there unlocks the game too.
+   Remembered per browser (localStorage); a convenience gate, not a security wall. */
+(function(){
+  var ME=document.currentScript;
+  var KEYP='wow-watched-';
+  function has(k){try{return localStorage.getItem(KEYP+k)==='1'}catch(e){return false}}
+  function mark(k){try{if(!localStorage.getItem(KEYP+k)&&window.WOWHit){WOWHit('video-starts');WOWHit('video-start-'+k)}localStorage.setItem(KEYP+k,'1')}catch(e){}}
+  function lang(){var l='en';try{l=localStorage.getItem('jb_lang')||localStorage.getItem('wow-lang')||'en'}catch(e){}return /^(en|hi|kn)$/.test(l)?l:'en'}
+  var T={
+    en:{h:'First, watch the story',p:'Press play on the story to unlock the game. When the video ends, the game opens by itself. You only need to do this once.',bar:'Story',go:'▶ Play the game',done:'Unlocked! Your game is ready.',yt:'Watch on YouTube ↗',back:'← Back'},
+    hi:{h:'पहले कहानी देखिए',p:'कहानी चलाइए, गेम खुल जाएगा। वीडियो ख़त्म होते ही गेम अपने-आप शुरू होगा। यह बस एक बार करना है।',bar:'कहानी',go:'▶ गेम खेलिए',done:'गेम खुल गया!',yt:'YouTube पर देखें ↗',back:'← वापस'},
+    kn:{h:'ಮೊದಲು ಕಥೆ ನೋಡಿ',p:'ಕಥೆಯನ್ನು ಪ್ಲೇ ಮಾಡಿ, ಆಟ ತೆರೆಯುತ್ತದೆ. ವಿಡಿಯೋ ಮುಗಿದ ಕೂಡಲೇ ಆಟ ತಾನಾಗಿಯೇ ಶುರುವಾಗುತ್ತದೆ. ಇದು ಒಮ್ಮೆ ಮಾತ್ರ.',bar:'ಕಥೆ',go:'▶ ಆಟ ಆಡಿ',done:'ಆಟ ತೆರೆಯಿತು!',yt:'YouTube ನಲ್ಲಿ ನೋಡಿ ↗',back:'← ಹಿಂದೆ'}
+  };
+
+  /* load the YouTube IFrame API once */
+  var apiReady=null;
+  function api(){
+    if(apiReady)return apiReady;
+    apiReady=new Promise(function(res,rej){
+      if(window.YT&&window.YT.Player)return res(window.YT);
+      var prev=window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady=function(){if(prev)try{prev()}catch(e){};res(window.YT)};
+      var s=document.createElement('script');s.src='https://www.youtube.com/iframe_api';
+      s.onerror=function(){rej(new Error('yt-api'))};
+      document.head.appendChild(s);
+      /* another script may have loaded the API and taken the ready callback: poll for it */
+      var n=0,iv=setInterval(function(){if(window.YT&&window.YT.Player){clearInterval(iv);res(window.YT)}else if(++n>40)clearInterval(iv)},250);
+    });
+    return apiReady;
+  }
+
+  /* watch an existing or new player; call onPct(fraction) and onDone() */
+  function watch(target,opts){
+    return api().then(function(YT){
+      var timer=null,fired=false,started=false;
+      var p=new YT.Player(target,Object.assign({events:{
+        onReady:function(){opts.onReady&&opts.onReady()},
+        onError:function(e){opts.onError&&opts.onError(e&&e.data)},
+        onStateChange:function(e){
+          if(e.data===YT.PlayerState.ENDED){finish();return}
+          if(e.data===YT.PlayerState.PLAYING){if(!started){started=true;opts.onStart&&opts.onStart()}if(!timer)timer=setInterval(tick,1000)}
+          if(e.data!==YT.PlayerState.PLAYING&&timer){clearInterval(timer);timer=null}
+        }}},opts.player||{}));
+      function tick(){try{var d=p.getDuration(),t=p.getCurrentTime();if(d>0){opts.onPct&&opts.onPct(Math.min(1,t/d))}}catch(e){}}
+      function finish(){if(fired)return;fired=true;if(timer){clearInterval(timer);timer=null}opts.onPct&&opts.onPct(1);opts.onDone&&opts.onDone()}
+      return p;
+    });
+  }
+
+  window.WOWGate={
+    watched:has,
+    /* for episode pages: iframe src must include enablejsapi=1 */
+    track:function(iframe,key){if(!iframe||!key||has(key))return;watch(iframe,{onStart:function(){mark(key)}})}
+  };
+
+  /* game-page mode */
+  if(!ME||!ME.dataset.key)return;
+  var key=ME.dataset.key; if(has(key))return;
+  /* arriving from a finished story video (Scam Alert guided flow) counts as watched */
+  if(/[?&]flow=1(&|$)/.test(location.search)){mark(key);return}
+  /* visitors who came from our ads already watched the story in the ad: games open straight away */
+  try{if(/[?&](gclid|gbraid|wbraid|gad_source|utm_source)=/.test(location.search)||/googleads|doubleclick|googlesyndication/.test(document.referrer||''))sessionStorage.setItem('wow-ad','1');if(sessionStorage.getItem('wow-ad')==='1')return}catch(e){}
+  var ids={};try{ids=JSON.parse(ME.dataset.yt||'{}')}catch(e){}
+  var L=lang(), t=T[L], vid=ids[L]||ids.en||ids[Object.keys(ids)[0]];
+  if(!vid)return; /* no video yet for this game: leave it open */
+  var back=ME.dataset.back||'index.html';
+
+  var css=document.createElement('style');
+  css.textContent='#wowGate{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at 50% 0,#2a1f5c,#120c2e 70%);color:#fdf3dc;overflow:auto;font-family:Mukta,"Noto Sans Kannada","Segoe UI",system-ui,sans-serif;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 40px max(16px,env(safe-area-inset-left,0px))}'+
+   '#wowGate .in{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:14px}'+
+   '#wowGate h2{font:800 clamp(26px,5vw,40px)/1.1 "Baloo 2","Baloo Tamma 2",system-ui,sans-serif;margin:8px 0 0}'+
+   '#wowGate p{margin:0;color:#c7bce6}'+
+   '#wowGate .v{position:relative;width:100%;aspect-ratio:16/9;max-height:62vh;border-radius:18px;overflow:hidden;background:#000;border:1px solid rgba(253,243,220,.14)}'+
+   '#wowGate .v iframe,#wowGate .v>div{position:absolute;inset:0;width:100%;height:100%;border:0}'+
+   '#wowGate .bar{height:12px;border-radius:999px;background:rgba(253,243,220,.12);overflow:hidden}#wowGate .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#f6a723,#ffd35a);transition:width .6s}'+
+   '#wowGate .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}'+
+   '#wowGate .btn{font:700 17px Mukta,system-ui,sans-serif;background:#f6a723;color:#1c1442;border:0;border-radius:999px;padding:12px 24px;cursor:pointer;text-decoration:none}'+
+   '#wowGate .btn[disabled]{opacity:.45;cursor:not-allowed}#wowGate a.lnk{color:#ffd35a}'+
+   'html.wow-gated,html.wow-gated body{overflow:hidden}';
+  document.head.appendChild(css);
+  var g=document.createElement('div'); g.id='wowGate'; g.setAttribute('role','dialog'); g.setAttribute('aria-modal','true');
+  g.innerHTML='<div class="in"><a class="lnk" href="'+back+'">'+t.back+'</a><h2>🎬 '+t.h+'</h2><p>'+t.p+'</p>'+
+   '<div class="v"><div id="wowGateP"></div></div>'+
+   '<div class="row"><span style="flex:1;min-width:180px"><small style="color:#c7bce6">'+t.bar+'</small><div class="bar"><i id="wowGateB"></i></div></span>'+
+   '<button class="btn" id="wowGateGo" disabled>'+t.go+'</button></div>'+
+   '<a class="lnk" target="_blank" rel="noopener" href="https://youtu.be/'+vid+'">'+t.yt+'</a></div>';
+  function mount(){document.body.appendChild(g);document.documentElement.classList.add('wow-gated');
+    function unlock(){var b=document.getElementById('wowGateGo');if(b)b.disabled=false}
+    var ready=false,fell=false;
+    /* if the YouTube player can't start (script blocked, slow network, video error), never trap the player:
+       show a plain YouTube embed instead and let them into the game */
+    function fallback(){if(ready||fell)return;fell=true;
+      var box=g.querySelector('.v');
+      if(box)box.innerHTML='<iframe src="https://www.youtube.com/embed/'+vid+'?rel=0&playsinline=1&modestbranding=1" title="Story" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+      unlock()}
+    var guard=setTimeout(fallback,6000);
+    watch('wowGateP',{player:{videoId:vid,playerVars:{rel:0,playsinline:1,modestbranding:1,origin:location.origin}},
+      onReady:function(){ready=true;clearTimeout(guard)},
+      onError:function(){ready=false;clearTimeout(guard);fallback()},
+      onPct:function(f){var b=document.getElementById('wowGateB');if(b)b.style.width=Math.round(f*100)+'%'},
+      onStart:function(){mark(key);unlock()},
+      onDone:function(){open()}}).catch(function(){clearTimeout(guard);fallback()});
+    function open(){if(!g.isConnected)return;g.remove();document.documentElement.classList.remove('wow-gated');try{window.dispatchEvent(new Event('resize'))}catch(e){}}
+    document.getElementById('wowGateGo').onclick=open;
+    /* watching on YouTube itself counts too */
+    var yl=g.querySelector('a.lnk[target]');if(yl)yl.addEventListener('click',function(){mark(key);unlock()});
+  }
+  if(document.body)mount();else document.addEventListener('DOMContentLoaded',mount);
+})();

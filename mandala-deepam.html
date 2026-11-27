@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Mandala Deepam · 41 lamps · World of Wonders</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Mandala Deepam: light one lamp for Swami Ayyappa every day of the 41-day Mandala season (17 November to 27 December 2026). Answer three small questions each day and complete the ring of 41 lamps. English, Kannada, Tamil and Telugu.">
+<meta property="og:title" content="Mandala Deepam · light 41 lamps for Swami Ayyappa">
+<meta property="og:description" content="One lamp a day for the 41 days of the Mandala season. Swamiye Sharanam Ayyappa!">
+<meta property="og:image" content="https://worldofwondersstudio.com/img/games/mandala-deepam.jpg">
+<link rel="canonical" href="https://worldofwondersstudio.com/mandala-deepam.html">
+<link rel="icon" href="img/wow_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Baloo+Tamma+2:wght@600;800&family=Baloo+Thambi+2:wght@600;800&family=Baloo+Tammudu+2:wght@600;800&family=Mukta:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="dasara.css?v=1">
+<link rel="stylesheet" href="family.css?v=20261105c">
+<style>
+:root{--display:"Baloo 2","Baloo Tamma 2","Baloo Thambi 2","Baloo Tammudu 2",system-ui,sans-serif}
+body{background:linear-gradient(rgba(18,10,40,.78),rgba(18,10,40,.92)),url(img/ayyappa/lamps_river.jpg) center/cover fixed}
+.how3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;font-weight:700;font-size:14px;text-align:center}.how3 span{background:rgba(255,255,255,.08);border:1px solid var(--line);border-radius:12px;padding:6px 4px}.how3 b{display:block;font-size:20px}
+.md{max-width:560px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:12px}
+.day{text-align:center}
+.day b{display:block;font:800 clamp(26px,6vw,34px)/1.1 var(--display);color:#ffd35a}
+.day span{color:var(--muted);font-weight:600}
+.ring{position:relative;width:100%;aspect-ratio:1;border-radius:50%;}
+.ring canvas{width:100%;height:100%;display:block;touch-action:none}
+.panel{background:#f7e7c4;color:#3a1d0c;border:4px solid #f6a723;border-radius:22px;padding:14px 16px;box-shadow:0 20px 50px -20px #000}
+.panel h3{font:800 21px/1.2 var(--display);margin:0 0 10px}
+.panel .q small{display:block;color:#7a5a3a;font-weight:700;letter-spacing:.06em;margin-bottom:4px}
+.opts{display:grid;gap:8px}
+.opts button{font:700 17px var(--body);text-align:left;background:#fffaf0;border:3px solid #e8d2a6;border-radius:14px;padding:10px 14px;color:#3a1d0c;cursor:pointer}
+.opts button.ok{border-color:#2e9b4a;background:#dff5e3}.opts button.no{border-color:#d2283a;background:#fde2e2}
+.opts button:disabled{cursor:default}
+.fact{margin:10px 0 0;font-size:15px;color:#5a3a1c}
+.hold{display:block;width:100%;margin-top:12px;font:800 21px var(--display);color:#2b1700;background:linear-gradient(#ffd35a,#f6a723);border:0;border-radius:16px;padding:14px;cursor:pointer;position:relative;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.hold i{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(255,255,255,.55)}
+.hold span{position:relative}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.row a,.row button{flex:1;min-width:150px;text-align:center;font:800 16px var(--display);text-decoration:none;border-radius:14px;padding:10px;cursor:pointer;border:2px solid #b8643a;background:transparent;color:#3a1d0c}
+.row .solid{background:#3a1d0c;color:#f7e7c4;border-color:#3a1d0c}
+</style>
+<script src="dasara-kit.js?v=6"></script>
+<script src="ayy-kit.js?v=7"></script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"VideoGame","name":"Mandala Deepam","url":"https://worldofwondersstudio.com/mandala-deepam.html","genre":["Educational","Quiz"],"gamePlatform":"Web browser","inLanguage":["en","kn","ta","te"],"isAccessibleForFree":true,"audience":{"@type":"Audience","audienceType":"Children and families"},"isPartOf":{"@type":"CreativeWorkSeries","name":"Ayyappa season games"},"publisher":{"@id":"https://worldofwondersstudio.com/#org"}}</script>
+<script>window.WOW_REG_LATER=1</script><script src="reg.js?v=3"></script>
+<link rel="stylesheet" href="/cursor-wow.css?v=6"></head>
+<body>
+<a class="wow-top" href="index.html" aria-label="World of Wonders home"><img src="img/wow_banner.jpg?v=2" alt="World of Wonders · Music · Stories · Creation · Inspiration"></a>
+<header class="top">
+  <a class="back" href="ayyappa.html#games" id="back">← Ayyappa</a>
+  <h1><small id="t-eyebrow">Ayyappa season game</small><span id="t-title">Mandala Deepam</span></h1>
+  <div class="langs" role="group" aria-label="Language" id="langs"></div>
+  <button class="pill" id="sound" aria-pressed="true" aria-label="Sound and music">🔊</button>
+</header>
+<main class="wrap"><div class="md">
+  <div class="day" id="day" aria-live="polite"></div>
+  <div class="how3" id="how3"></div>
+  <div class="ring"><canvas id="rc" width="1000" height="1000" aria-label="A ring of 41 lamps around Swami Ayyappa, one lamp for each day of the Mandala season. Lit lamps are the days you have lit."></canvas></div>
+  <div class="panel" id="panel"></div>
+</div></main>
+<p class="by">A game by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> Studio · Mandala season 17 Nov – 27 Dec 2026 · Swamiye Sharanam Ayyappa</p>
+<div id="overlay"></div>
+<script>
+const T=DK.t,$=s=>document.querySelector(s),E=DK.esc;
+/* Mandala season 2026: Vrischikam 1 = 17 Nov 2026, Mandala Pooja on day 41 = 27 Dec 2026 */
+const START=new Date(2026,10,17),DAYS=41;
+const L={
+ eyebrow:{en:'Ayyappa season game',kn:'ಅಯ್ಯಪ್ಪ ಸೀಸನ್ ಆಟ',ta:'ஐயப்பன் சீசன் விளையாட்டு',te:'అయ్యప్ప సీజన్ ఆట'},
+ title:{en:'Mandala Deepam',kn:'ಮಂಡಲ ದೀಪ',ta:'மண்டல தீபம்',te:'మండల దీపం'},
+ dayN:{en:'Day {n} of 41',kn:'41ರಲ್ಲಿ {n}ನೇ ದಿನ',ta:'41 நாட்களில் {n}ஆம் நாள்',te:'41లో {n}వ రోజు'},
+ before:{en:'The Mandala season begins on 17 November',kn:'ಮಂಡಲ ಕಾಲ ನವೆಂಬರ್ 17ರಂದು ಶುರು',ta:'மண்டல காலம் நவம்பர் 17 அன்று தொடங்குகிறது',te:'మండల కాలం నవంబర్ 17న మొదలవుతుంది'},
+ after:{en:'The 41 days are complete. Makaravilakku: 14 January',kn:'41 ದಿನ ಪೂರ್ಣ. ಮಕರವಿಳಕ್ಕು: ಜನವರಿ 14',ta:'41 நாட்கள் நிறைவு. மகரவிளக்கு: ஜனவரி 14',te:'41 రోజులు పూర్తి. మకరవిళక్కు: జనవరి 14'},
+ h1:{en:'Answer 3 small questions',kn:'3 ಪುಟ್ಟ ಪ್ರಶ್ನೆಗೆ ಉತ್ತರಿಸಿ',ta:'3 சிறு கேள்விகளுக்குப் பதில்',te:'3 చిన్న ప్రశ్నలకు జవాబు'},
+ h2:{en:'Press and hold to light your lamp',kn:'ಒತ್ತಿ ಹಿಡಿದು ದೀಪ ಹಚ್ಚಿ',ta:'அழுத்திப் பிடித்து விளக்கேற்று',te:'నొక్కి పట్టి దీపం వెలిగించు'},
+ h3:{en:'Come back tomorrow for the next',kn:'ಮುಂದಿನದಕ್ಕೆ ನಾಳೆ ಬನ್ನಿ',ta:'அடுத்ததற்கு நாளை வா',te:'తర్వాతి దానికి రేపు రండి'},
+ lit:{en:'{n} of 41 lamps lit',kn:'41ರಲ್ಲಿ {n} ದೀಪ ಬೆಳಗಿದೆ',ta:'41இல் {n} விளக்குகள் ஏற்றப்பட்டன',te:'41లో {n} దీపాలు వెలిగాయి'},
+ streak:{en:'🔥 {n}-day streak',kn:'🔥 ಸತತ {n} ದಿನ',ta:'🔥 தொடர்ந்து {n} நாள்',te:'🔥 వరుసగా {n} రోజులు'},
+ today:{en:"Today's offering: 3 small questions",kn:'ಇಂದಿನ ಅರ್ಪಣೆ: 3 ಪುಟ್ಟ ಪ್ರಶ್ನೆಗಳು',ta:'இன்றைய காணிக்கை: 3 சிறு கேள்விகள்',te:'నేటి సమర్పణ: 3 చిన్న ప్రశ్నలు'},
+ practice:{en:'Practice lamp: 3 small questions',kn:'ಅಭ್ಯಾಸದ ದೀಪ: 3 ಪುಟ್ಟ ಪ್ರಶ್ನೆಗಳು',ta:'பயிற்சி விளக்கு: 3 சிறு கேள்விகள்',te:'సాధన దీపం: 3 చిన్న ప్రశ్నలు'},
+ catchup:{en:'Missed a day? Light one more lamp',kn:'ಒಂದು ದಿನ ತಪ್ಪಿತೇ? ಇನ್ನೊಂದು ದೀಪ ಹಚ್ಚಿ',ta:'ஒரு நாள் தவறியதா? இன்னொரு விளக்கு ஏற்றுங்கள்',te:'ఒక రోజు తప్పిందా? ఇంకో దీపం వెలిగించండి'},
+ qn:{en:'Question {n} of 3',kn:'ಪ್ರಶ್ನೆ {n}/3',ta:'கேள்வி {n}/3',te:'ప్రశ్న {n}/3'},
+ next:{en:'Next →',kn:'ಮುಂದೆ →',ta:'அடுத்து →',te:'తర్వాత →'},
+ hold:{en:'🪔 Press and hold to light the lamp',kn:'🪔 ದೀಪ ಹಚ್ಚಲು ಒತ್ತಿ ಹಿಡಿಯಿರಿ',ta:'🪔 விளக்கை ஏற்ற அழுத்திப் பிடியுங்கள்',te:'🪔 దీపం వెలిగించడానికి నొక్కి పట్టుకోండి'},
+ doneT:{en:'Your lamp is lit 🙏',kn:'ನಿಮ್ಮ ದೀಪ ಬೆಳಗಿದೆ 🙏',ta:'உங்கள் விளக்கு ஏற்றப்பட்டது 🙏',te:'మీ దీపం వెలిగింది 🙏'},
+ doneP:{en:'Come back tomorrow for the next lamp. One lamp a day, 41 days: the ring is complete on Mandala Pooja day.',kn:'ಮುಂದಿನ ದೀಪಕ್ಕೆ ನಾಳೆ ಬನ್ನಿ. ದಿನಕ್ಕೊಂದು ದೀಪ, 41 ದಿನ: ಮಂಡಲ ಪೂಜೆಯ ದಿನ ಉಂಗುರ ಪೂರ್ಣ.',ta:'அடுத்த விளக்குக்கு நாளை வாருங்கள். நாளுக்கு ஒரு விளக்கு, 41 நாட்கள்: மண்டல பூஜை நாளில் வளையம் நிறைவு.',te:'తర్వాతి దీపానికి రేపు రండి. రోజుకో దీపం, 41 రోజులు: మండల పూజ రోజున వలయం పూర్తి.'},
+ doneAll:{en:'All 41 lamps are lit. Swamiye Sharanam Ayyappa!',kn:'41 ದೀಪಗಳೂ ಬೆಳಗಿವೆ. ಸ್ವಾಮಿಯೇ ಶರಣಂ ಅಯ್ಯಪ್ಪ!',ta:'41 விளக்குகளும் ஏற்றப்பட்டன. சுவாமியே சரணம் ஐயப்பா!',te:'41 దీపాలూ వెలిగాయి. స్వామియే శరణం అయ్యప్ప!'},
+ remind:{en:'🔔 Follow on WhatsApp for a daily reminder',kn:'🔔 ದಿನದ ನೆನಪಿಗೆ ವಾಟ್ಸಾಪ್‌ನಲ್ಲಿ ಹಿಂಬಾಲಿಸಿ',ta:'🔔 தினசரி நினைவூட்டலுக்கு வாட்ஸ்அப்பில் பின்தொடருங்கள்',te:'🔔 రోజువారీ గుర్తుకు వాట్సాప్‌లో ఫాలో అవ్వండి'},
+ games:{en:'More Ayyappa games',kn:'ಇನ್ನಷ್ಟು ಅಯ್ಯಪ್ಪ ಆಟಗಳು',ta:'மேலும் ஐயப்பன் விளையாட்டுகள்',te:'మరిన్ని అయ్యప్ప ఆటలు'},
+ again:{en:'Answer again',kn:'ಮತ್ತೆ ಉತ್ತರಿಸಿ',ta:'மீண்டும் பதில் சொல்லுங்கள்',te:'మళ్ళీ జవాబివ్వండి'},
+ tryAgain:{en:'Not quite. The right answer is lit in green.',kn:'ಸ್ವಲ್ಪ ತಪ್ಪಿತು. ಸರಿಯಾದ ಉತ್ತರ ಹಸಿರಿನಲ್ಲಿದೆ.',ta:'சற்று தவறு. சரியான பதில் பச்சையில் உள்ளது.',te:'కొంచెం తప్పింది. సరైన జవాబు ఆకుపచ్చలో ఉంది.'},
+ right:{en:'Right! A drop of ghee for the lamp.',kn:'ಸರಿ! ದೀಪಕ್ಕೆ ಒಂದು ಹನಿ ತುಪ್ಪ.',ta:'சரி! விளக்குக்கு ஒரு துளி நெய்.',te:'సరైనది! దీపానికి ఒక చుక్క నెయ్యి.'},
+ shareText:{en:'I lit Day {n} of the 41 Mandala lamps for Swami Ayyappa. Light yours, Swamiye Sharanam:',kn:'ಸ್ವಾಮಿ ಅಯ್ಯಪ್ಪನಿಗೆ 41 ಮಂಡಲ ದೀಪಗಳಲ್ಲಿ {n}ನೇ ದೀಪ ಹಚ್ಚಿದೆ. ನೀವೂ ಹಚ್ಚಿ, ಸ್ವಾಮಿಯೇ ಶರಣಂ:',ta:'சுவாமி ஐயப்பனுக்கு 41 மண்டல விளக்குகளில் {n}ஆம் விளக்கை ஏற்றினேன். நீங்களும் ஏற்றுங்கள், சுவாமியே சரணம்:',te:'స్వామి అయ్యప్పకు 41 మండల దీపాల్లో {n}వ దీపం వెలిగించాను. మీరూ వెలిగించండి, స్వామియే శరణం:'}
+};
+const nm=(o,n)=>T(o).replace('{n}',n);
+const Q=[
+ {q:{en:'How many days long is the Mandala vratham?',kn:'ಮಂಡಲ ವ್ರತ ಎಷ್ಟು ದಿನಗಳದ್ದು?',ta:'மண்டல விரதம் எத்தனை நாட்கள்?',te:'మండల వ్రతం ఎన్ని రోజులు?'},o:['41','18','7']},
+ {q:{en:"How many holy steps lead to Swami's shrine?",kn:'ಸ್ವಾಮಿಯ ಗುಡಿಗೆ ಎಷ್ಟು ಪವಿತ್ರ ಮೆಟ್ಟಿಲುಗಳು?',ta:'சுவாமியின் சன்னதிக்கு எத்தனை புனிதப் படிகள்?',te:'స్వామి సన్నిధికి ఎన్ని పవిత్ర మెట్లు?'},o:['18','41','12']},
+ {q:{en:'Where does the old forest path begin?',kn:'ಹಳೆಯ ಕಾಡು ದಾರಿ ಎಲ್ಲಿಂದ ಶುರುವಾಗುತ್ತದೆ?',ta:'பழைய காட்டுப் பாதை எங்கே தொடங்குகிறது?',te:'పాత అడవి దారి ఎక్కడ మొదలవుతుంది?'},o:[{en:'Erumeli',kn:'ಎರುಮೇಲಿ',ta:'எருமேலி',te:'ఎరుమేలి'},{en:'Pamba',kn:'ಪಂಪಾ',ta:'பம்பை',te:'పంబ'},{en:'Neelimala',kn:'ನೀಲಿಮಲೆ',ta:'நீலிமலை',te:'నీలిమల'}]},
+ {q:{en:'Where do pilgrims pick up a small pebble to carry?',kn:'ಭಕ್ತರು ಹೊತ್ತೊಯ್ಯಲು ಸಣ್ಣ ಕಲ್ಲನ್ನು ಎಲ್ಲಿ ಎತ್ತಿಕೊಳ್ಳುತ್ತಾರೆ?',ta:'பக்தர்கள் கொண்டு செல்ல சிறிய கல்லை எங்கே எடுக்கிறார்கள்?',te:'భక్తులు తీసుకెళ్ళడానికి చిన్న రాయిని ఎక్కడ తీసుకుంటారు?'},o:[{en:'Azhutha river',kn:'ಅಳುತಾ ನದಿ',ta:'அழுதா நதி',te:'అళుతా నది'},{en:'Karimala',kn:'ಕರಿಮಲೆ',ta:'கரிமலை',te:'కరిమల'},{en:'Sharamkuthi',kn:'ಶರಂಕುತ್ತಿ',ta:'சரம்குத்தி',te:'శరంకుత్తి'}]},
+ {q:{en:'Which is the steepest climb of the forest path?',kn:'ಕಾಡು ದಾರಿಯ ಅತ್ಯಂತ ಕಡಿದಾದ ಏರು ಯಾವುದು?',ta:'காட்டுப் பாதையின் மிகச் செங்குத்தான ஏற்றம் எது?',te:'అడవి దారిలో అత్యంత నిటారైన ఎక్కుడు ఏది?'},o:[{en:'Karimala',kn:'ಕರಿಮಲೆ',ta:'கரிமலை',te:'కరిమల'},{en:'Erumeli',kn:'ಎರುಮೇಲಿ',ta:'எருமேலி',te:'ఎరుమేలి'},{en:'Pamba',kn:'ಪಂಪಾ',ta:'பம்பை',te:'పంబ'}]},
+ {q:{en:'Where do Kanni Swamis, on their first yatra, leave an arrow?',kn:'ಮೊದಲ ಯಾತ್ರೆಯ ಕನ್ನಿ ಸ್ವಾಮಿಗಳು ಬಾಣವನ್ನು ಎಲ್ಲಿ ಇಡುತ್ತಾರೆ?',ta:'முதல் யாத்திரை வரும் கன்னி சாமிகள் அம்பை எங்கே வைக்கிறார்கள்?',te:'మొదటి యాత్రలోని కన్నె స్వాములు బాణాన్ని ఎక్కడ ఉంచుతారు?'},o:[{en:'Sharamkuthi',kn:'ಶರಂಕುತ್ತಿ',ta:'சரம்குத்தி',te:'శరంకుత్తి'},{en:'Azhutha river',kn:'ಅಳುತಾ ನದಿ',ta:'அழுதா நதி',te:'అళుతా నది'},{en:'Erumeli',kn:'ಎರುಮೇಲಿ',ta:'எருமேலி',te:'ఎరుమేలి'}]},
+ {q:{en:'In which river do pilgrims bathe before the last climb?',kn:'ಕೊನೆಯ ಏರಿನ ಮೊದಲು ಭಕ್ತರು ಯಾವ ನದಿಯಲ್ಲಿ ಸ್ನಾನ ಮಾಡುತ್ತಾರೆ?',ta:'கடைசி ஏற்றத்துக்கு முன் பக்தர்கள் எந்த நதியில் நீராடுகிறார்கள்?',te:'చివరి ఎక్కుడుకు ముందు భక్తులు ఏ నదిలో స్నానం చేస్తారు?'},o:[{en:'Pamba',kn:'ಪಂಪಾ',ta:'பம்பை',te:'పంబ'},{en:'Kaveri',kn:'ಕಾವೇರಿ',ta:'காவேரி',te:'కావేరి'},{en:'Ganga',kn:'ಗಂಗಾ',ta:'கங்கை',te:'గంగ'}]},
+ {q:{en:"At Erumeli, pilgrims bow at the shrine of Swami's friend. Who is he?",kn:'ಎರುಮೇಲಿಯಲ್ಲಿ ಭಕ್ತರು ಸ್ವಾಮಿಯ ಗೆಳೆಯನ ಗುಡಿಗೆ ನಮಿಸುತ್ತಾರೆ. ಆತ ಯಾರು?',ta:'எருமேலியில் பக்தர்கள் சுவாமியின் நண்பரின் சன்னதியில் வணங்குகிறார்கள். அவர் யார்?',te:'ఎరుమేలిలో భక్తులు స్వామి స్నేహితుడి మందిరంలో నమస్కరిస్తారు. అతను ఎవరు?'},o:[{en:'Vavar',kn:'ವಾವರ್',ta:'வாவர்',te:'వావర్'},{en:'Malikappurathamma',kn:'ಮಾಳಿಕಪ್ಪುರತ್ತಮ್ಮ',ta:'மாளிகப்புறத்தம்மன்',te:'మాళికప్పురత్తమ్మ'},{en:'Ganapathi',kn:'ಗಣಪತಿ',ta:'கணபதி',te:'గణపతి'}]},
+ {q:{en:'What fills the special coconut in the Irumudi?',kn:'ಇರುಮುಡಿಯ ವಿಶೇಷ ತೆಂಗಿನಕಾಯಿಯಲ್ಲಿ ಏನು ತುಂಬುತ್ತಾರೆ?',ta:'இருமுடியின் சிறப்புத் தேங்காயில் என்ன நிரப்புகிறார்கள்?',te:'ఇరుముడిలోని ప్రత్యేక కొబ్బరికాయలో ఏమి నింపుతారు?'},o:[{en:'Ghee',kn:'ತುಪ್ಪ',ta:'நெய்',te:'నెయ్యి'},{en:'Water',kn:'ನೀರು',ta:'தண்ணீர்',te:'నీళ్ళు'},{en:'Milk',kn:'ಹಾಲು',ta:'பால்',te:'పాలు'}]},
+ {q:{en:'What does "Tat Tvam Asi" mean?',kn:'"ತತ್ ತ್ವಮ್ ಅಸಿ" ಎಂದರೆ ಏನು?',ta:'"தத் த்வம் அஸி" என்றால் என்ன?',te:'"తత్ త్వమ్ అసి" అంటే ఏమిటి?'},o:[{en:'You are That',kn:'ಅದೇ ನೀನು',ta:'அது நீயே',te:'అది నీవే'},{en:'Walk slowly',kn:'ನಿಧಾನವಾಗಿ ನಡೆ',ta:'மெதுவாக நட',te:'నెమ్మదిగా నడువు'},{en:'Light the lamp',kn:'ದೀಪ ಹಚ್ಚು',ta:'விளக்கை ஏற்று',te:'దీపం వెలిగించు'}]},
+ {q:{en:'Which colour do swamis usually wear during the vratham?',kn:'ವ್ರತದ ಸಮಯದಲ್ಲಿ ಸ್ವಾಮಿಗಳು ಸಾಮಾನ್ಯವಾಗಿ ಯಾವ ಬಣ್ಣದ ಬಟ್ಟೆ ಧರಿಸುತ್ತಾರೆ?',ta:'விரத காலத்தில் சாமிகள் பொதுவாக எந்த நிற உடை அணிவார்கள்?',te:'వ్రత సమయంలో స్వాములు సాధారణంగా ఏ రంగు బట్టలు ధరిస్తారు?'},o:[{en:'Black',kn:'ಕಪ್ಪು',ta:'கருப்பு',te:'నలుపు'},{en:'Red',kn:'ಕೆಂಪು',ta:'சிவப்பு',te:'ఎరుపు'},{en:'Green',kn:'ಹಸಿರು',ta:'பச்சை',te:'ఆకుపచ్చ'}]},
+ {q:{en:'Ayyappa is called Hariharaputra, son of Hari and Hara. Who is Hara?',kn:'ಅಯ್ಯಪ್ಪನನ್ನು ಹರಿಹರಪುತ್ರ ಎನ್ನುತ್ತಾರೆ. ಹರ ಯಾರು?',ta:'ஐயப்பனை ஹரிஹரபுத்திரன் என்கிறார்கள். ஹரன் யார்?',te:'అయ్యప్పను హరిహరపుత్రుడు అంటారు. హరుడు ఎవరు?'},o:[{en:'Shiva',kn:'ಶಿವ',ta:'சிவன்',te:'శివుడు'},{en:'Brahma',kn:'ಬ್ರಹ್ಮ',ta:'பிரம்மா',te:'బ్రహ్మ'},{en:'Indra',kn:'ಇಂದ್ರ',ta:'இந்திரன்',te:'ఇంద్రుడు'}]},
+ {q:{en:'The name Manikanta means one with a … around his neck.',kn:'ಮಣಿಕಂಠ ಎಂದರೆ ಕೊರಳಲ್ಲಿ … ಇರುವವನು.',ta:'மணிகண்டன் என்றால் கழுத்தில் … உள்ளவன்.',te:'మణికంఠుడు అంటే మెడలో … ఉన్నవాడు.'},o:[{en:'bell',kn:'ಗಂಟೆ',ta:'மணி',te:'గంట'},{en:'snake',kn:'ಹಾವು',ta:'பாம்பு',te:'పాము'},{en:'flower garland',kn:'ಹೂಮಾಲೆ',ta:'பூமாலை',te:'పూలమాల'}]},
+ {q:{en:'What does "Irumudi" mean?',kn:'"ಇರುಮುಡಿ" ಎಂದರೆ ಏನು?',ta:'"இருமுடி" என்றால் என்ன?',te:'"ఇరుముడి" అంటే ఏమిటి?'},o:[{en:'Two bundles',kn:'ಎರಡು ಗಂಟು',ta:'இரண்டு முடிச்சு',te:'రెండు మూటలు'},{en:'Two steps',kn:'ಎರಡು ಮೆಟ್ಟಿಲು',ta:'இரண்டு படி',te:'రెండు మెట్లు'},{en:'Two lamps',kn:'ಎರಡು ದೀಪ',ta:'இரண்டு விளக்கு',te:'రెండు దీపాలు'}]},
+ {q:{en:'Young Manikanta came back from the forest riding which animal?',kn:'ಬಾಲಕ ಮಣಿಕಂಠ ಕಾಡಿನಿಂದ ಯಾವ ಪ್ರಾಣಿಯ ಮೇಲೆ ಕುಳಿತು ಮರಳಿದ?',ta:'சிறுவன் மணிகண்டன் காட்டிலிருந்து எந்த விலங்கின் மீது ஏறி திரும்பினான்?',te:'బాలుడు మణికంఠుడు అడవి నుండి ఏ జంతువుపై ఎక్కి తిరిగి వచ్చాడు?'},o:[{en:'Tiger',kn:'ಹುಲಿ',ta:'புலி',te:'పులి'},{en:'Elephant',kn:'ಆನೆ',ta:'யானை',te:'ఏనుగు'},{en:'Horse',kn:'ಕುದುರೆ',ta:'குதிரை',te:'గుర్రం'}]},
+ {q:{en:'Makaravilakku falls on Makara Sankranti. In which month?',kn:'ಮಕರವಿಳಕ್ಕು ಮಕರ ಸಂಕ್ರಾಂತಿಯಂದು. ಯಾವ ತಿಂಗಳು?',ta:'மகரவிளக்கு மகர சங்கராந்தி அன்று. எந்த மாதம்?',te:'మకరవిళక్కు మకర సంక్రాంతి రోజు. ఏ నెల?'},o:[{en:'January',kn:'ಜನವರಿ',ta:'ஜனவரி',te:'జనవరి'},{en:'March',kn:'ಮಾರ್ಚ್',ta:'மார்ச்',te:'మార్చి'},{en:'August',kn:'ಆಗಸ್ಟ್',ta:'ஆகஸ்ட்',te:'ఆగస్టు'}]}
+];
+/* Irumudi questions: same items as the Pack the Irumudi game */
+const POUCH={front:{en:'Front pouch, for Swami',kn:'ಮುಂದಿನ ಮುಡಿ, ಸ್ವಾಮಿಗೆ',ta:'முன்முடி, சுவாமிக்கு',te:'ముందు ముడి, స్వామికి'},back:{en:'Back pouch, for the journey',kn:'ಹಿಂದಿನ ಮುಡಿ, ಪ್ರಯಾಣಕ್ಕೆ',ta:'பின்முடி, பயணத்துக்கு',te:'వెనుక ముడి, ప్రయాణానికి'},home:{en:'Leave it at home',kn:'ಮನೆಯಲ್ಲೇ ಬಿಡಿ',ta:'வீட்டிலேயே விடுங்கள்',te:'ఇంట్లోనే వదిలేయండి'}};
+const IRQ={en:'In the Irumudi, where does this go: {x}?',kn:'ಇರುಮುಡಿಯಲ್ಲಿ ಇದು ಎಲ್ಲಿಗೆ: {x}?',ta:'இருமுடியில் இது எங்கே: {x}?',te:'ఇరుముడిలో ఇది ఎక్కడికి: {x}?'};
+[['front',{en:'the ghee coconut',kn:'ತುಪ್ಪದ ತೆಂಗಿನಕಾಯಿ',ta:'நெய்த் தேங்காய்',te:'నెయ్యి కొబ్బరికాయ'}],['front',{en:'camphor',kn:'ಕರ್ಪೂರ',ta:'கற்பூரம்',te:'కర్పూరం'}],['front',{en:'turmeric',kn:'ಅರಿಶಿನ',ta:'மஞ்சள்',te:'పసుపు'}],
+ ['back',{en:'rice for meals',kn:'ಊಟಕ್ಕೆ ಅಕ್ಕಿ',ta:'சமையலுக்கு அரிசி',te:'వంటకు బియ్యం'}],['back',{en:'a towel for the Pamba dip',kn:'ಪಂಪಾ ಸ್ನಾನಕ್ಕೆ ಟವೆಲ್',ta:'பம்பை நீராடலுக்குத் துண்டு',te:'పంబ స్నానానికి తువ్వాలు'}],['home',{en:'a plastic bag',kn:'ಪ್ಲಾಸ್ಟಿಕ್ ಚೀಲ',ta:'பிளாஸ்டிக் பை',te:'ప్లాస్టిక్ సంచి'}]]
+ .forEach(([z,x])=>{const q={},o=['front','back','home'].sort((a,b)=>(a===z?-1:b===z?1:0));for(const l of ['en','kn','ta','te'])q[l]=IRQ[l].replace('{x}',x[l]);Q.push({q,o:o.map(k=>POUCH[k])})});
+/* ---------- days ---------- */
+function dayIdx(d){const a=new Date(d.getFullYear(),d.getMonth(),d.getDate());return Math.round((a-START)/864e5)+1}
+const TODAY=dayIdx(new Date());
+let S={lit:[],practice:false};try{S=Object.assign(S,JSON.parse(localStorage.getItem('ayy-mandala')||'{}'))}catch(e){}
+function save(){try{localStorage.setItem('ayy-mandala',JSON.stringify(S))}catch(e){}}
+function streak(){let n=0,d=Math.min(TODAY,DAYS);while(d>=1&&S.lit.includes(d)){n++;d--}return n}
+function rnd(n){const x=Math.sin(n*127.1+311.7)*43758.5453;return x-Math.floor(x)}
+function pick3(seed){const idx=Q.map((_,i)=>i).sort((a,b)=>rnd(seed*31+a)-rnd(seed*31+b));return idx.slice(0,3)}
+/* ---------- the ring ---------- */
+const rc=$('#rc'),rx=rc.getContext('2d');let t=0,heroI=new Image();heroI.src='img/ayyappa_hero.jpg';let target=null,glowT=0;
+function ring(){const W=1000,C=500;rx.clearRect(0,0,W,W);
+ const g=rx.createRadialGradient(C,C,60,C,C,500);g.addColorStop(0,'#3b1f63');g.addColorStop(1,'#1c1442');rx.fillStyle=g;rx.beginPath();rx.arc(C,C,498,0,6.283);rx.fill();
+ /* kolam-like petals */
+ rx.strokeStyle='rgba(255,211,90,.18)';rx.lineWidth=3;for(let i=0;i<16;i++){rx.save();rx.translate(C,C);rx.rotate(i/16*6.283+t*.02);rx.beginPath();rx.ellipse(0,-245,40,120,0,0,6.283);rx.stroke();rx.restore()}
+ /* Swami in the centre */
+ rx.save();rx.beginPath();rx.arc(C,C,235,0,6.283);rx.clip();if(heroI.complete&&heroI.naturalWidth){const iw=heroI.naturalWidth,ih=heroI.naturalHeight,s=ih*.86;rx.drawImage(heroI,iw*.5-s*.5*1.02,ih*.02,s,s,C-235,C-235,470,470)}rx.restore();
+ rx.strokeStyle='#ffd35a';rx.lineWidth=8;rx.beginPath();rx.arc(C,C,238,0,6.283);rx.stroke();
+ if(glowT>0){const gg=rx.createRadialGradient(C,C,200,C,C,480);gg.addColorStop(0,`rgba(255,214,110,${.35*glowT})`);gg.addColorStop(1,'rgba(255,214,110,0)');rx.fillStyle=gg;rx.beginPath();rx.arc(C,C,480,0,6.283);rx.fill()}
+ /* 41 lamps */
+ for(let d=1;d<=DAYS;d++){const a=-Math.PI/2+(d-1)/DAYS*6.283,R=385,x=C+Math.cos(a)*R,y=C+Math.sin(a)*R+10;const isLit=S.lit.includes(d),isT=d===target;
+  if(isT&&!isLit){rx.strokeStyle=`rgba(255,211,90,${.5+.4*Math.sin(t*5)})`;rx.lineWidth=5;rx.beginPath();rx.arc(x,y-10,34,0,6.283);rx.stroke()}
+  rx.fillStyle=isLit?'rgba(255,211,90,.22)':'rgba(255,240,200,.08)';rx.beginPath();rx.arc(x,y-8,30,0,6.283);rx.fill();rx.globalAlpha=isLit||isT?1:.8;AY.deepam(rx,x,y,isT&&lighting?22+holdP*8:22,t+d,isLit||(isT&&holdP>.05));rx.globalAlpha=1;
+  if(d===1||d===DAYS||d%10===0){rx.fillStyle='rgba(253,243,220,.65)';rx.font='700 22px Mukta,sans-serif';rx.textAlign='center';rx.fillText(d,C+Math.cos(a)*462,C+Math.sin(a)*462+8)}}
+}
+let lighting=false,holdP=0;
+function loop(){t+=1/60;if(glowT>0)glowT=Math.max(0,glowT-.006);ring();requestAnimationFrame(loop)}
+/* ---------- the day's panel ---------- */
+let cur=null;
+function header(){$('#how3').innerHTML=[['1️⃣',L.h1],['2️⃣',L.h2],['3️⃣',L.h3]].map(([i,o])=>`<span><b>${i}</b>${E(T(o))}</span>`).join('');const lit=S.lit.length;let top;
+ if(TODAY<1)top=`<b>${T(L.before)}</b>`;else if(TODAY>DAYS)top=`<b>${T(L.after)}</b>`;else top=`<b>${nm(L.dayN,TODAY)}</b>`;
+ $('#day').innerHTML=top+`<span>${nm(L.lit,lit)}${streak()>1?' · '+nm(L.streak,streak()):''}</span>`}
+function openDay(){header();
+ /* which lamp: today's; else the earliest missed day; before the season, a practice lamp */
+ let d=null,kind='today';
+ if(TODAY>=1&&TODAY<=DAYS&&!S.lit.includes(TODAY))d=TODAY;
+ else if(TODAY>=1){for(let k=1;k<=Math.min(TODAY,DAYS);k++)if(!S.lit.includes(k)){d=k;kind='catchup';break}}
+ if(TODAY<1&&!S.practice){d=0;kind='practice'}
+ target=d;
+ if(d==null){donePanel();return}
+ cur={d,kind,qs:pick3(d===0?99:d),i:0,right:0};askQ()}
+function askQ(){const q=Q[cur.qs[cur.i]];const order=[0,1,2].sort((a,b)=>rnd(cur.d*7+cur.i*3+a)-rnd(cur.d*7+cur.i*3+b));
+ const title=cur.kind==='today'?T(L.today):cur.kind==='practice'?T(L.practice):T(L.catchup);
+ $('#panel').innerHTML=`<h3>${E(title)}</h3><div class="q"><small>${E(nm(L.qn,cur.i+1))}</small><h3>${E(T(q.q))}</h3><div class="opts">${order.map(k=>`<button data-k="${k}">${E(T(q.o[k]))}</button>`).join('')}</div><p class="fact" id="fb"></p></div>`;
+ $('#panel').querySelectorAll('.opts button').forEach(b=>b.onclick=()=>{DK.ac();AY.mini({en:'UOGXzfLW8vc',kn:'UOGXzfLW8vc',ta:'rn5pubakWH8',te:'UOGXzfLW8vc'});const k=+b.dataset.k,all=$('#panel').querySelectorAll('.opts button');all.forEach(x=>{x.disabled=true;if(+x.dataset.k===0)x.classList.add('ok')});
+  if(k===0){cur.right++;DK.chime(cur.i+2);$('#fb').textContent=T(L.right)}else{b.classList.add('no');DK.oops();$('#fb').textContent=T(L.tryAgain)}
+  const nx=document.createElement('button');nx.className='hold';nx.style.marginTop='10px';nx.innerHTML=`<span>${E(T(L.next))}</span>`;nx.onclick=()=>{cur.i++;cur.i<3?askQ():holdPanel()};$('#panel').appendChild(nx)})}
+function holdPanel(){$('#panel').innerHTML=`<h3>${E(T(AY.ui.sharanam))}</h3><button class="hold" id="hold"><i></i><span>${E(T(L.hold))}</span></button>`;
+ const h=$('#hold'),bar=h.querySelector('i');let raf=null,t0=0;
+ const tick=()=>{holdP=Math.min(1,(performance.now()-t0)/1400);bar.style.width=(holdP*100)+'%';if(holdP>=1){stop(true);return}raf=requestAnimationFrame(tick)};
+ const stop=(ok)=>{cancelAnimationFrame(raf);lighting=false;if(!ok){holdP=0;bar.style.width='0'}else lightIt()};
+ h.addEventListener('pointerdown',e=>{e.preventDefault();DK.ac();DK.startMusic();lighting=true;t0=performance.now();DK.tone(220,1.4,'sine',.04,2);tick()});
+ ['pointerup','pointerleave','pointercancel'].forEach(ev=>h.addEventListener(ev,()=>{if(lighting&&holdP<1)stop(false)}));}
+function lightIt(){holdP=0;glowT=1;if(cur.d===0)S.practice=true;else if(!S.lit.includes(cur.d))S.lit.push(cur.d);save();AY.chant();DK.vib([30,40,30]);DK.done('mandala-deepam',Math.min(3,1+Math.floor(S.lit.length/14)));
+ const litDay=cur.d;target=null;header();AY.askJoin();
+ if(cur.kind!=='today'&&cur.kind!=='practice'){setTimeout(openDay,1600)}
+ donePanel(litDay)}
+function donePanel(litDay){const all=S.lit.length>=DAYS;const n=litDay||TODAY;
+ $('#panel').innerHTML=`<h3>${E(all?T(L.doneAll):T(L.doneT))}</h3><p style="margin:0">${E(T(L.doneP))}</p>
+ <div class="row"><button class="solid" id="shr">${E(T(AY.ui.share))}</button><a href="https://whatsapp.com/channel/0029VbDbyex4o7qNAsIg0H21" target="_blank" rel="noopener">${E(T(L.remind))}</a></div>
+ <div class="row"><a href="ayyappa.html#games">${E(T(L.games))}</a><a href="ayyappa.html#songs">${E(T(AY.ui.songs))}</a></div>`;
+ $('#shr').onclick=()=>{const tx={};for(const l of ['en','kn','ta','te'])tx[l]=L.shareText[l].replace('{n}',Math.max(1,n));AY.share(tx)}}
+function applyLang(){$('#t-eyebrow').textContent=T(L.eyebrow);$('#t-title').textContent=T(L.title);$('#back').textContent=T(AY.ui.back);document.title=T(L.title)+' · World of Wonders';header();
+ if(cur&&target!=null&&!lighting){cur.i<3?askQ():holdPanel()}else if(target==null)donePanel()}
+DK.onLang(applyLang);
+DK.music('mandala-deepam',{sa:146.83,scale:[0,2,4,7,9,12,14,16],tempo:.55});
+AY.pills($('#langs'));applyLang();openDay();loop();
+window.__S=()=>S;
+</script>
+<footer class="wow-foot"><div class="wf-in">
+<a class="wf-brand" href="index.html"><img src="img/wow_logo.png" alt=""><span><b>World of Wonders Studio</b><small>Music · Stories · Creation · Inspiration</small></span></a>
+<nav class="wf-links"><a href="index.html">Home</a> · <a href="ayyappa.html">Ayyappa songs and games</a> · <a href="index.html#games">All games</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
+<div class="wf-c">© 2026 World of Wonders Studio · Play, learn and share. By OurSchoolHouse.</div>
+</div></footer>
+<script src="join.js?v=6" defer></script>
+<script src="game-info.js?v=7" data-game="mandala-deepam" defer></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+{
+ "name": "Diya's Bharat Yatra: Match Journey",
+ "short_name": "Diya's Yatra",
+ "description": "A tile-matching journey across India with Diya: folk art, places, food and stories from every state.",
+ "start_url": "./",
+ "scope": "./",
+ "display": "standalone",
+ "orientation": "portrait",
+ "background_color": "#1c1640",
+ "theme_color": "#2a1f5c",
+ "lang": "en-IN",
+ "categories": [
+  "games",
+  "education",
+  "kids"
+ ],
+ "icons": [
+  {
+   "src": "icons/icon-192.png",
+   "sizes": "192x192",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-512.png",
+   "sizes": "512x512",
+   "type": "image/png"
+  },
+  {
+   "src": "icons/icon-maskable-512.png",
+   "sizes": "512x512",
+   "type": "image/png",
+   "purpose": "maskable"
+  }
+ ]
+}

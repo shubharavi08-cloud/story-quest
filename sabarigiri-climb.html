@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sabarigiri Climb · World of Wonders</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Sabarigiri Climb: a free Ayyappa season jumping game by World of Wonders Studio. Bounce from rock to rock up the hill of Sabari, ring the golden bells and reach the temple at the top. English, Kannada, Tamil and Telugu.">
+<meta property="og:title" content="Sabarigiri Climb · free Ayyappa game">
+<meta property="og:description" content="Bounce up the rocks of Sabarigiri to the temple. Swamiye Sharanam!">
+<meta property="og:image" content="https://worldofwondersstudio.com/img/games/sabarigiri-climb.jpg">
+<link rel="canonical" href="https://worldofwondersstudio.com/sabarigiri-climb.html">
+<link rel="icon" href="img/wow_logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Baloo+Tamma+2:wght@600;800&family=Baloo+Thambi+2:wght@600;800&family=Baloo+Tammudu+2:wght@600;800&family=Mukta:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="dasara.css?v=1">
+<link rel="stylesheet" href="family.css?v=20261105c">
+<style>
+:root{--display:"Baloo 2","Baloo Tamma 2","Baloo Thambi 2","Baloo Tammudu 2",system-ui,sans-serif}
+body{background:linear-gradient(rgba(18,10,40,.8),rgba(18,10,40,.94)),url(img/ayyappa/hill_climb.jpg) center/cover fixed}
+.stage{position:relative;max-width:480px;margin:0 auto;width:100%;border-radius:26px;overflow:hidden;border:1px solid rgba(255,211,90,.28);box-shadow:0 34px 70px -30px #000;background:#120a22;user-select:none;-webkit-user-select:none}
+#cv{position:relative;display:block;width:100%;height:auto;touch-action:none}
+.toast2{position:relative;max-width:456px;margin:10px auto 0;min-height:44px;padding:10px 14px;border-radius:16px;background:rgba(24,12,4,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,211,90,.3);color:#fdf3dc;font:600 14.5px/1.35 Mukta,system-ui,sans-serif;transform:translateY(8px);opacity:0;transition:transform .35s cubic-bezier(.2,1.3,.4,1),opacity .25s;pointer-events:none}
+.toast2.on{transform:none;opacity:1}.toast2 b{color:#ffd35a}.toast2.good{border-color:rgba(140,230,140,.55)}.toast2.bad{border-color:rgba(255,120,110,.6)}
+#hud{margin-bottom:10px}
+</style>
+<script src="dasara-kit.js?v=6"></script><script src="ayy-kit.js?v=7"></script><script src="ayy-game.js?v=1"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "VideoGame", "name": "Sabarigiri Climb", "url": "https://worldofwondersstudio.com/sabarigiri-climb.html", "genre": ["Action", "Casual"], "gamePlatform": "Web browser", "inLanguage": ["en", "kn", "ta", "te"], "isAccessibleForFree": true, "audience": {"@type": "Audience", "audienceType": "Children and families"}, "isPartOf": {"@type": "CreativeWorkSeries", "name": "Ayyappa season games"}, "publisher": {"@id": "https://worldofwondersstudio.com/#org"}}</script>
+<script>window.WOW_REG_LATER=1</script><script src="reg.js?v=3"></script>
+<link rel="stylesheet" href="/cursor-wow.css?v=6"></head>
+<body>
+<a class="wow-top" href="index.html" aria-label="World of Wonders home"><img src="img/wow_banner.jpg?v=2" alt="World of Wonders · Music · Stories · Creation · Inspiration"></a>
+<header class="top">
+  <a class="back" href="ayyappa.html#steps" id="back">← Ayyappa</a>
+  <h1><small id="t-eyebrow">Ayyappa season game</small><span id="t-title">Sabarigiri Climb</span></h1>
+  <div class="langs" role="group" aria-label="Language" id="langs"></div>
+  <button class="pill" id="sound" aria-pressed="true" aria-label="Sound and music">🔊</button>
+  <button class="pill" id="newgame" aria-label="New game">↻</button>
+</header>
+<main class="wrap">
+ <div class="hud" id="hud"></div>
+ <div class="stage"><canvas id="cv" width="480" height="760" aria-label="Sabarigiri Climb"></canvas></div>
+ <div class="toast2" id="tip" aria-live="polite"></div>
+</main>
+<p class="by">A game by <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">World of Wonders</a> Studio · for the Sabarimala season · Swamiye Sharanam Ayyappa</p>
+<div id="overlay"></div>
+<script>
+const T=DK.t;
+const L={
+ title:{en:'Sabarigiri Climb',kn:'ಶಬರಿಗಿರಿ ಏರು',ta:'சபரிகிரி ஏற்றம்',te:'శబరిగిరి ఎక్కుదల'},
+ storyT:{en:'The hill calls: Sabarigiri',kn:'ಬೆಟ್ಟ ಕರೆಯುತ್ತಿದೆ: ಶಬರಿಗಿರಿ',ta:'மலை அழைக்கிறது: சபரிகிரி',te:'కొండ పిలుస్తోంది: శబరిగిరి'},
+ story:{en:['Sabarimala is named after <b>Sabari</b>, the old forest devotee who waited for Lord Rama and offered him berries she had tasted first, so only sweet ones reached him.','Climb Sabari\'s hill, rock by rock, all the way to the temple!'],
+  kn:['ಶಬರಿಮಲೆಗೆ ರಾಮನಿಗಾಗಿ ಕಾದ ಕಾಡಿನ ಹಿರಿಯ ಭಕ್ತೆ <b>ಶಬರಿ</b>ಯ ಹೆಸರು. ಸಿಹಿ ಹಣ್ಣು ಮಾತ್ರ ರಾಮನಿಗೆ ಸಿಗಲೆಂದು ಆಕೆ ರುಚಿ ನೋಡಿ ಕೊಟ್ಟಳು.','ಶಬರಿಯ ಬೆಟ್ಟವನ್ನು ಕಲ್ಲಿನಿಂದ ಕಲ್ಲಿಗೆ ಹಾರಿ ದೇವಸ್ಥಾನದವರೆಗೆ ಏರಿ!'],
+  ta:['சபரிமலைக்கு ராமருக்காகக் காத்திருந்த வயதான காட்டுப் பக்தை <b>சபரி</b>யின் பெயர். இனிய பழங்கள் மட்டுமே ராமருக்குச் சேர அவள் சுவைத்துப் பார்த்துக் கொடுத்தாள்.','சபரியின் மலையில் பாறையிலிருந்து பாறைக்குத் தாவி கோயில் வரை ஏறுங்கள்!'],
+  te:['శబరిమలకు రాముని కోసం ఎదురుచూసిన వృద్ధ అడవి భక్తురాలు <b>శబరి</b> పేరు వచ్చింది. తియ్యని పళ్ళే రాముడికి చేరాలని ఆమె రుచి చూసి ఇచ్చింది.','శబరి కొండను రాయి నుండి రాయికి దూకుతూ ఆలయం వరకు ఎక్కండి!']},
+ how:{en:['The swami jumps by himself each time he lands on a rock.','Hold the left or right side of the screen to move him.','Ring the golden bells 🔔. Fall and you start again from the last lamp. Reach the temple!'],
+  kn:['ಸ್ವಾಮಿ ಕಲ್ಲಿನ ಮೇಲೆ ಇಳಿದಾಗಲೆಲ್ಲ ತಾನೇ ಜಿಗಿಯುತ್ತಾನೆ.','ಅವನನ್ನು ಸರಿಸಲು ಪರದೆಯ ಎಡ ಅಥವಾ ಬಲ ಬದಿ ಒತ್ತಿ ಹಿಡಿಯಿರಿ.','ಚಿನ್ನದ ಗಂಟೆ 🔔 ಬಾರಿಸಿ. ಬಿದ್ದರೆ ಕೊನೆಯ ದೀಪದಿಂದ ಮತ್ತೆ. ದೇವಸ್ಥಾನ ತಲುಪಿ!'],
+  ta:['சாமி ஒவ்வொரு முறை பாறையில் இறங்கும்போதும் தானே தாவுவார்.','அவரை நகர்த்த திரையின் இடது அல்லது வலது பக்கத்தை அழுத்திப் பிடியுங்கள்.','பொன் மணிகளை 🔔 அடியுங்கள். விழுந்தால் கடைசி விளக்கிலிருந்து மீண்டும். கோயிலை அடையுங்கள்!'],
+  te:['స్వామి రాయి మీద దిగిన ప్రతిసారీ తానే దూకుతాడు.','అతన్ని జరపడానికి తెర ఎడమ లేదా కుడి వైపు నొక్కి పట్టండి.','బంగారు గంటలు 🔔 మోగించండి. పడితే చివరి దీపం నుండి మళ్ళీ. ఆలయం చేరండి!']},
+ go:{en:'Climb! 🧗',kn:'ಏರಿ! 🧗',ta:'ஏறுங்கள்! 🧗',te:'ఎక్కండి! 🧗'},
+ h:{en:'Height',kn:'ಎತ್ತರ',ta:'உயரம்',te:'ఎత్తు'},bells:{en:'Bells',kn:'ಗಂಟೆ',ta:'மணிகள்',te:'గంటలు'},
+ fall:{en:'Oops! Back to the last lamp',kn:'ಅಯ್ಯೋ! ಕೊನೆಯ ದೀಪಕ್ಕೆ ಹಿಂದೆ',ta:'ஐயோ! கடைசி விளக்குக்குத் திரும்ப',te:'అయ్యో! చివరి దీపానికి తిరిగి'},
+ lamp:{en:'Lamp lit: safe point',kn:'ದೀಪ ಬೆಳಗಿತು: ಸುರಕ್ಷಿತ ತಾಣ',ta:'விளக்கு ஏற்றப்பட்டது: பாதுகாப்பு இடம்',te:'దీపం వెలిగింది: సురక్షిత స్థానం'},
+ endT:{en:'You reached the top of Sabarigiri!',kn:'ಶಬರಿಗಿರಿಯ ತುದಿ ತಲುಪಿದಿರಿ!',ta:'சபரிகிரியின் உச்சியை அடைந்தீர்கள்!',te:'శబరిగిరి శిఖరం చేరారు!'},
+ endP:{en:'Sabarimala stands about 914 m (3,000 ft) above sea level, among 18 hills of the Periyar Tiger Reserve.',kn:'ಶಬರಿಮಲೆ ಸಮುದ್ರಮಟ್ಟದಿಂದ ಸುಮಾರು 914 ಮೀ (3,000 ಅಡಿ) ಎತ್ತರದಲ್ಲಿ, ಪೆರಿಯಾರ್ ಹುಲಿ ಮೀಸಲು ಪ್ರದೇಶದ 18 ಬೆಟ್ಟಗಳ ನಡುವೆ ಇದೆ.',ta:'சபரிமலை கடல் மட்டத்திலிருந்து சுமார் 914 மீ (3,000 அடி) உயரத்தில், பெரியார் புலிகள் காப்பகத்தின் 18 மலைகளுக்கு இடையே உள்ளது.',te:'శబరిమల సముద్ర మట్టానికి సుమారు 914 మీ (3,000 అడుగులు) ఎత్తులో, పెరియార్ టైగర్ రిజర్వ్‌లోని 18 కొండల మధ్య ఉంది.'},
+ shareText:{en:'I climbed Sabarigiri all the way to the temple! Try it, Swamiye Sharanam:',kn:'ನಾನು ಶಬರಿಗಿರಿಯನ್ನು ದೇವಸ್ಥಾನದವರೆಗೆ ಏರಿದೆ! ನೀವೂ ಆಡಿ, ಸ್ವಾಮಿಯೇ ಶರಣಂ:',ta:'நான் சபரிகிரியில் கோயில் வரை ஏறினேன்! நீங்களும் விளையாடுங்கள், சுவாமியே சரணம்:',te:'నేను శబరిగిరి ఆలయం వరకు ఎక్కాను! మీరూ ఆడండి, స్వామియే శరణం:'}
+};
+const W=480,H=760,GOAL=9000,G=1500,JV=-860;
+function gen(S,from,to){let y=from;while(y>to){const lvl=Math.min(1,-y/GOAL),gap=AG.rnd(90,120)+lvl*50,w=AG.rnd(70,100)-lvl*20;y-=gap;
+ const p={x:AG.rnd(30,W-30-w),y,w,mv:lvl>.35&&Math.random()<.3?AG.rnd(40,90):0,ph:Math.random()*6,brk:lvl>.5&&Math.random()<.12};S.plats.push(p);
+ if(Math.random()<.22)S.bells.push({x:p.x+p.w/2,y:p.y-60});if(-y-S.lastLamp>1500){S.lastLamp=-y;p.lamp=true;p.brk=false;p.mv=0}}S.genTo=to}
+function rockDraw(cx,p,t){const x=p.x+(p.mv?Math.sin(t*1.4+p.ph)*p.mv:0);p.cx=x;cx.save();cx.translate(x,p.y);
+ const g=cx.createLinearGradient(0,-6,0,22);g.addColorStop(0,p.brk?'#a8865a':'#9a9488');g.addColorStop(1,p.brk?'#5a3a1a':'#3a3634');cx.fillStyle=g;cx.beginPath();cx.moveTo(0,4);cx.quadraticCurveTo(-4,-8,10,-8);cx.lineTo(p.w-10,-8);cx.quadraticCurveTo(p.w+4,-6,p.w,4);cx.quadraticCurveTo(p.w*.6,26,p.w*.3,20);cx.quadraticCurveTo(4,22,0,4);cx.fill();
+ cx.fillStyle=p.brk?'rgba(0,0,0,.25)':'#4a8a3a';cx.fillRect(6,-10,p.w-12,4);if(p.brk){cx.strokeStyle='rgba(30,15,5,.6)';cx.lineWidth=2;cx.beginPath();cx.moveTo(p.w*.4,-8);cx.lineTo(p.w*.5,6);cx.lineTo(p.w*.42,16);cx.stroke()}
+ if(p.lamp)AY.deepam(cx,p.w/2,-10,10,t,true);cx.restore()}
+function demo(x,w,h,t){x.fillStyle='#24183e';x.fillRect(0,0,w,h);const P=[[.2,.85],[.55,.6],[.3,.35]];P.forEach(p=>rockDraw(x,{x:p[0]*w,y:p[1]*h,w:90},t));const c=t%1.6,u=c/1.6,i=Math.floor(t/1.6)%2;const a=P[i],b=P[i+1];
+ const px=(a[0]+(b[0]-a[0])*u)*w+45,py=(a[1]+(b[1]-a[1])*u)*h-Math.sin(u*Math.PI)*60-8;AY.pilgrim(x,px,py,60,{t:0,still:true});AY.finger(x,b[0]>a[0]?w*.85:w*.15,h*.5,true)}
+const api=AG.game({key:'sabarigiri-climb',art:'img/ayyappa/hill_climb.jpg',L,W,H,demo,demoH:280,video:{en:'1Zo3yL76uYg',kn:'1Zo3yL76uYg',ta:'1Zo3yL76uYg',te:'1Zo3yL76uYg'},music:{sa:155.56,scale:[0,2,4,7,9,12,14,16],tempo:.8},
+ init(S,a){S.H0=S.H0||AG.silhouette(51,'#5a4a7a',400,120,'hill');S.H1=S.H1||AG.silhouette(53,'#2e2444',520,140,'trees');
+  Object.assign(S,{x:W/2,y:620,vx:0,vy:JV,cam:0,best:0,dir:0,plats:[{x:W/2-80,y:660,w:160}],bells:[],nb:0,falls:0,lastLamp:0,safe:{x:W/2,y:620},face:1});gen(S,660,-1200);hud(S)},
+ down(p,S){S.dir=p.x<W/2?-1:1},move(p,S){if(S.dir)S.dir=p.x<W/2?-1:1},up(p,S){S.dir=0},
+ key_(e,S){if(e.key==='ArrowLeft')S.dir=-1;if(e.key==='ArrowRight')S.dir=1;addEventListener('keyup',()=>S.dir=0,{once:true})},
+ update(dt,S,a){S.vx+=(S.dir*330-S.vx)*Math.min(1,dt*8);S.x+=S.vx*dt;if(S.x<-20)S.x=W+20;if(S.x>W+20)S.x=-20;if(S.dir)S.face=S.dir;
+  const py=S.y;S.vy+=G*dt;S.y+=S.vy*dt;
+  if(S.vy>0)for(const p of S.plats){if(p.gone)continue;const px=p.cx!=null?p.cx:p.x;if(py<=p.y-6&&S.y>=p.y-8&&S.x>px-6&&S.x<px+p.w+6){S.y=p.y-8;S.vy=JV;DK.tone(330+Math.min(400,-p.y*.04),.07,'triangle',.05);a.burst(S.x,p.y-4,'#cbb490',5,.4);
+    if(p.brk){p.gone=1;a.burst(px+p.w/2,p.y,'#8a6a3a',14,.7)}if(p.lamp&&!p.litOn){p.litOn=1;S.safe={x:px+p.w/2,y:p.y-8};a.tip('🪔 '+T(L.lamp),'good');DK.chime(5)}break}}
+  S.bells.forEach(b=>{if(!b.got&&Math.hypot(b.x-S.x,b.y-(S.y-40))<40){b.got=1;S.nb++;DK.bell(880,.1,1.6);a.burst(b.x,b.y,'#ffd35a',12,.6);a.float('🔔',b.x,b.y-20)}});
+  const target=S.y-H*.55;if(target<S.cam)S.cam+=(target-S.cam)*Math.min(1,dt*6);
+  S.best=Math.max(S.best,-(S.y-620));if(S.genTo>S.cam-900)gen(S,S.genTo,S.cam-1600);
+  S.plats=S.plats.filter(p=>p.y<S.cam+H+200);S.bells=S.bells.filter(b=>b.y<S.cam+H+100);
+  if(S.y>S.cam+H+60){S.falls++;a.bad();a.tip(T(L.fall),'bad');S.x=S.safe.x;S.y=S.safe.y;S.vy=JV;S.cam=S.y-H*.55;
+   if(!S.plats.some(p=>Math.abs(p.y-(S.safe.y+8))<2))S.plats.push({x:S.safe.x-50,y:S.safe.y+8,w:100,lamp:true,litOn:1})}
+  if(S.best>=GOAL&&!S.done){S.done=true;DK.win();a.burst(S.x,S.y-H*0+(-S.cam)*0,'#ffd35a',50);a.finish(S.falls===0?3:S.falls<=2?2:1,[`🔔 ${S.nb} ${T(L.bells)}`])}
+  hud(S)},
+ draw(cx,t,S,a){const k=Math.min(1,S.best/GOAL);
+  AG.sky(cx,W,H,t,{sx:W*.3,sy:140,stops:[[0,k>.6?'#0e0c2a':'#2a3a7a'],[.6,k>.6?'#4a2a5a':'#8a7aa8'],[1,k>.6?'#e0805a':'#f0c08a']],stars:k>.5?40:0});
+  cx.save();cx.translate(0,((-S.cam)*.05)%200);AG.tile(cx,S.H0,0);cx.restore();cx.save();cx.translate(0,Math.min(300,(-S.cam)*.12));AG.tile(cx,S.H1,140);cx.restore();
+  cx.save();cx.translate(0,-S.cam);
+  /* the temple at the top */
+  const ty=-GOAL+600;if(S.cam<ty+H){cx.save();cx.translate(W/2,ty);cx.fillStyle='#ffd35a';cx.beginPath();cx.moveTo(-90,0);cx.lineTo(-60,-60);cx.lineTo(60,-60);cx.lineTo(90,0);cx.fill();cx.fillStyle='#e9c46a';cx.fillRect(-60,0,120,70);cx.fillStyle='#ffe9a0';cx.beginPath();cx.moveTo(0,-110);cx.lineTo(-12,-60);cx.lineTo(12,-60);cx.fill();for(let i=0;i<5;i++)AY.deepam(cx,-80+i*40,80,9,t+i,true);cx.restore()}
+  S.plats.forEach(p=>{if(!p.gone)rockDraw(cx,p,t)});S.bells.forEach(b=>{if(!b.got)AY.bellIcon(cx,b.x,b.y,15,t)});
+  cx.save();cx.translate(S.x,S.y);cx.scale(S.face,1);AY.pilgrim(cx,0,0,64,{t:0,still:true,climb:S.vy<0?.5:0,glow:S.best>=GOAL});cx.restore();
+  cx.restore();
+  /* height meter */
+  AG.panel(cx,W-44,90,24,H-200,12);const hh=(H-210)*Math.min(1,S.best/GOAL);const gg=cx.createLinearGradient(0,H-115,0,95);gg.addColorStop(0,'#f6a723');gg.addColorStop(1,'#ffe08a');cx.fillStyle=gg;cx.beginPath();cx.roundRect(W-39,H-115-hh,14,hh,7);cx.fill();AG.text(cx,'🛕',W-32,82,20,'#fff',{lw:0});
+  AG.text(cx,`${Math.round(S.best/10)} m`,70,50,24,'#ffe08a')}});
+function hud(S){api.hud([['⛰ '+T(L.h),Math.round(S.best/10)+' / '+GOAL/10+' m'],['🔔 '+T(L.bells),S.nb]])}
+</script>
+<footer class="wow-foot"><div class="wf-in">
+<a class="wf-brand" href="index.html"><img src="img/wow_logo.png" alt=""><span><b>World of Wonders Studio</b><small>Music · Stories · Creation · Inspiration</small></span></a>
+<nav class="wf-links"><a href="index.html">Home</a> · <a href="ayyappa.html">Ayyappa songs and games</a> · <a href="index.html#games">All games</a> · <a href="privacy.html">Privacy</a> · <a href="contact.html">Contact</a> · <a href="https://www.youtube.com/@WorldofWondersstudio" target="_blank" rel="noopener">YouTube</a></nav>
+<div class="wf-c">© 2026 World of Wonders Studio · Play, learn and share. By OurSchoolHouse.</div>
+</div></footer>
+<script src="join.js?v=6" defer></script>
+<script src="game-info.js?v=7" data-game="sabarigiri-climb" defer></script>
+</body>
+</html>
