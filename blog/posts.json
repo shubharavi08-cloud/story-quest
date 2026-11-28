@@ -1,6 +1,12 @@
 {
  "posts": [
   {
+   "title": "Hanuman Chalisa Meaning for Children, Part 1: The Opening Dohas and Chaupais 1 to 10, Line by Line",
+   "url": "https://worldofwondersstudio.com/blog/hanuman-chalisa-meaning-for-children-part-1/",
+   "date": "2026-11-28",
+   "description": "A simple, line-by-line meaning of the Hanuman Chalisa for children, Part 1: the two opening dohas and chaupais 1 to 10, with our Kannada sing-along video, the stories behind the lines and why many families pray to Hanuman on Saturdays."
+  },
+  {
    "title": "Why Is Friday Lakshmi's Day? A Kannada Mahalakshmi Song and 8 Kinds of Wealth, Explained for Children",
    "url": "https://worldofwondersstudio.com/blog/friday-lakshmi-song-for-children/",
    "date": "2026-11-27",
@@ -119,6 +125,10 @@
   {
    "path": "blog/index.html",
    "priority": 0.7
+  },
+  {
+   "path": "blog/hanuman-chalisa-meaning-for-children-part-1/index.html",
+   "priority": 0.6
   },
   {
    "path": "blog/friday-lakshmi-song-for-children/index.html",
